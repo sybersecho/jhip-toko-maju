@@ -88,7 +88,6 @@
         "tslint-loader": "3.6.0",
         "typescript": "3.2.2",
         "postcss-loader": "3.0.0",
-        "xml2js": "0.4.19",
         "webpack": "4.29.0",
         "webpack-cli": "3.2.1",
         "webpack-dev-server": "3.1.14",
@@ -112,8 +111,8 @@
         "lint": "tslint --project tsconfig.json -e 'node_modules/**'",
         "lint:fix": "npm run lint -- --fix",
         "ngc": "ngc -p tsconfig-aot.json",
-        "cleanup": "rimraf target/{aot,www}",
-        "clean-www": "rimraf target//www/app/{src,target/}",
+        "cleanup": "rimraf build/{aot,www}",
+        "clean-www": "rimraf build//www/app/{src,build/}",
         "e2e": "protractor src/test/javascript/protractor.conf.js",
         "postinstall": "webdriver-manager update --gecko false",
         "start": "npm run webpack:dev",
@@ -133,7 +132,7 @@
         "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js"
     },
     "jestSonar": {
-        "reportPath": "target/test-results/jest",
+        "reportPath": "build/test-results/jest",
         "reportFile": "TESTS-results-sonar.xml"
     }
 }

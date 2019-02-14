@@ -2,7 +2,7 @@
     "generator-jhipster": {
         "promptValues": {
             "packageName": "com.toko.maju",
-            "nativeLanguage": "id"
+            "nativeLanguage": "en"
         },
         "jhipsterVersion": "5.8.1",
         "applicationType": "monolith",
@@ -33,6 +33,7 @@
         "otherModules": [],
         "enableTranslation": true,
         "nativeLanguage": "id",
-        "languages": ["id", "en"]
+        "languages": ["en", "id"],
+        "skipServer": true
     }
 }
