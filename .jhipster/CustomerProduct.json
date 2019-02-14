@@ -1,0 +1,32 @@
+{
+    "name": "CustomerProduct",
+    "fields": [
+        {
+            "fieldName": "specialPrice",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "customerProduct",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "customerProduct"
+        },
+        {
+            "relationshipName": "customer",
+            "otherEntityName": "customer",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190214165016",
+    "entityTableName": "customer_product",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,24 @@
+{
+    "jhiptokomajuApp": {
+        "customerProduct": {
+            "home": {
+                "title": "Customer Products",
+                "createLabel": "Buat Customer Product baru",
+                "createOrEditLabel": "Buat atau edit Customer Product",
+                "search": "Cari Customer Product"
+            },
+            "created": "Customer Product dengan id {{ param }} telah dibuat",
+            "updated": "Customer Product dengan id {{ param }} telah diperbaharui",
+            "deleted": "Customer Product dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Customer Product {{ id }}?"
+            },
+            "detail": {
+                "title": "Customer Product"
+            },
+            "specialPrice": "Special Price",
+            "customerProduct": "Customer Product",
+            "customer": "Customer"
+        }
+    }
+}

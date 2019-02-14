@@ -1,24 +1,24 @@
 
-// entity CustomerProduct{
-// 	customer String,
-//     specialPrice BigDecimal
-// }
+entity CustomerProduct{
+	// customer String,
+    specialPrice BigDecimal
+}
 entity Customer{
-	code String,
-    name String,
+	code String required,
+    name String required,
     address String,
     noTelp String
 }
 
-// entity Product{
-// 	barcode String,
-//     name String,
-//     unit String,
-//     warehousePrices BigDecimal,
-//     unitPrices BigDecimal,
-//     sellingPrices BigDecimal
-//     stock Integer
-// }
+entity Product{
+	barcode String required,
+    name String required,
+    unit String required,
+    warehousePrices BigDecimal,
+    unitPrices BigDecimal,
+    sellingPrices BigDecimal
+    stock Integer
+}
 
 // entity Branch{
 // 	code String,
@@ -34,19 +34,19 @@ entity Customer{
 //     loginDate Instant
 // }
 
-// // entity Supplier{
-// // 	name String,
-// //     code String,
-// //     address String,
-// //     noTelp String,
-// //     bankAccount String,
-// //     bankName String
-// // }
+entity Supplier{
+	name String required,
+    code String required,
+    address String,
+    noTelp String,
+    bankAccount String,
+    bankName String
+}
 
-// entity Project{
-// 	name String,
-//     address String
-// }
+entity Project{
+	name String required,
+    address String
+}
 
 // entity SalesTransactions{
 // 	fraktur String,
@@ -82,29 +82,32 @@ entity Customer{
 //     createdDate Instant
 // }
 
-// relationship OneToMany{
-// 	Customer{customer} to Project
-//     // Supplier{supplier} to Product
-//     Project{project} to Product
-//     Customer{customer} to SalesTransactions
-//     Customer{customer} to CustomerProduct
-//     Branch{branch} to UserA
-//     UserA{user} to SalesTransactions
-//     UserA{user} to ProductChange
-//     UserA{user} to StockOrder
-//     SalesTransactions{salesTransactions} to SettlementPayment
-// }
+relationship OneToMany{
+	Customer{customer} to Project
+    Customer{customer} to CustomerProduct
+    CustomerProduct{customerProduct} to Product
+    Product{product} to Supplier
+    // Supplier{supplier} to Product
+    // Project{project} to Product
+    // Customer{customer} to SalesTransactions
+    // Customer{customer} to CustomerProduct
+    // Branch{branch} to UserA
+    // UserA{user} to SalesTransactions
+    // UserA{user} to ProductChange
+    // UserA{user} to StockOrder
+    // SalesTransactions{salesTransactions} to SettlementPayment
+}
 
 // relationship ManyToOne{
 // 	SalesTransactions{transaction} to Product
 // }
 
 // Set pagination options
-//paginate Customer, SalesTransactions with infinite-scroll
-//paginate Customer with pagination
+paginate Customer, Project with infinite-scroll
+paginate Product with pagination
 
 // Use Data Transfert Objects (DTO)
-dto * with mapstruct
+// dto * with mapstruct
 
 // Set service options to all except few
 service all with serviceImpl

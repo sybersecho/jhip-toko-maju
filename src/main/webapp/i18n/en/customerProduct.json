@@ -1,0 +1,24 @@
+{
+    "jhiptokomajuApp": {
+        "customerProduct": {
+            "home": {
+                "title": "Customer Products",
+                "createLabel": "Create a new Customer Product",
+                "createOrEditLabel": "Create or edit a Customer Product",
+                "search": "Search for Customer Product"
+            },
+            "created": "A new Customer Product is created with identifier {{ param }}",
+            "updated": "A Customer Product is updated with identifier {{ param }}",
+            "deleted": "A Customer Product is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Customer Product {{ id }}?"
+            },
+            "detail": {
+                "title": "Customer Product"
+            },
+            "specialPrice": "Special Price",
+            "customerProduct": "Customer Product",
+            "customer": "Customer"
+        }
+    }
+}

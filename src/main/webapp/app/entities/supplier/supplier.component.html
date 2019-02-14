@@ -1,0 +1,85 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.supplier.home.title">Suppliers</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supplier" [routerLink]="['/supplier/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down"  jhiTranslate="jhiptokomajuApp.supplier.home.createLabel">
+            Create new Supplier
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jhiptokomajuApp.supplier.home.search' | translate }}">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="suppliers">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jhiptokomajuApp.supplier.name">Name</span></th>
+            <th><span jhiTranslate="jhiptokomajuApp.supplier.code">Code</span></th>
+            <th><span jhiTranslate="jhiptokomajuApp.supplier.address">Address</span></th>
+            <th><span jhiTranslate="jhiptokomajuApp.supplier.noTelp">No Telp</span></th>
+            <th><span jhiTranslate="jhiptokomajuApp.supplier.bankAccount">Bank Account</span></th>
+            <th><span jhiTranslate="jhiptokomajuApp.supplier.bankName">Bank Name</span></th>
+            <th><span jhiTranslate="jhiptokomajuApp.supplier.product">Product</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let supplier of suppliers ;trackBy: trackId">
+                <td><a [routerLink]="['/supplier', supplier.id, 'view' ]">{{supplier.id}}</a></td>
+                <td>{{supplier.name}}</td>
+                <td>{{supplier.code}}</td>
+                <td>{{supplier.address}}</td>
+                <td>{{supplier.noTelp}}</td>
+                <td>{{supplier.bankAccount}}</td>
+                <td>{{supplier.bankName}}</td>
+                <td>
+                    <div *ngIf="supplier.product">
+                        <a [routerLink]="['../product', supplier.product?.id, 'view' ]" >{{supplier.product?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/supplier', supplier.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/supplier', supplier.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'supplier', { outlets: { popup: supplier.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

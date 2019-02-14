@@ -1,0 +1,65 @@
+{
+    "name": "Product",
+    "fields": [
+        {
+            "fieldName": "barcode",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "unit",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "warehousePrices",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "unitPrices",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "sellingPrices",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "stock",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "customerProduct",
+            "otherEntityName": "customerProduct",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "product",
+            "otherEntityName": "supplier",
+            "otherEntityRelationshipName": "product"
+        }
+    ],
+    "changelogDate": "20190214165018",
+    "entityTableName": "product",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

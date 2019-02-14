@@ -1,0 +1,84 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-product-heading" jhiTranslate="jhiptokomajuApp.product.home.createOrEditLabel">Create or edit a Product</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!product.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="product.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.barcode" for="field_barcode">Barcode</label>
+                    <input type="text" class="form-control" name="barcode" id="field_barcode"
+                        [(ngModel)]="product.barcode" required/>
+                    <div [hidden]="!(editForm.controls.barcode?.dirty && editForm.controls.barcode?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.barcode?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="product.name" required/>
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.unit" for="field_unit">Unit</label>
+                    <input type="text" class="form-control" name="unit" id="field_unit"
+                        [(ngModel)]="product.unit" required/>
+                    <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.unit?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.warehousePrices" for="field_warehousePrices">Warehouse Prices</label>
+                    <input type="number" class="form-control" name="warehousePrices" id="field_warehousePrices"
+                        [(ngModel)]="product.warehousePrices" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.unitPrices" for="field_unitPrices">Unit Prices</label>
+                    <input type="number" class="form-control" name="unitPrices" id="field_unitPrices"
+                        [(ngModel)]="product.unitPrices" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.sellingPrices" for="field_sellingPrices">Selling Prices</label>
+                    <input type="number" class="form-control" name="sellingPrices" id="field_sellingPrices"
+                        [(ngModel)]="product.sellingPrices" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.stock" for="field_stock">Stock</label>
+                    <input type="number" class="form-control" name="stock" id="field_stock"
+                        [(ngModel)]="product.stock" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.customerProduct" for="field_customerProduct">Customer Product</label>
+                    <select class="form-control" id="field_customerProduct" name="customerProduct" [(ngModel)]="product.customerProduct" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="customerProductOption.id === product.customerProduct?.id ? product.customerProduct : customerProductOption" *ngFor="let customerProductOption of customerproducts; trackBy: trackCustomerProductById">{{customerProductOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
