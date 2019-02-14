@@ -1,0 +1,38 @@
+{
+    "generator-jhipster": {
+        "promptValues": {
+            "packageName": "com.toko.maju",
+            "nativeLanguage": "id"
+        },
+        "jhipsterVersion": "5.8.1",
+        "applicationType": "monolith",
+        "baseName": "jhiptokomaju",
+        "packageName": "com.toko.maju",
+        "packageFolder": "com/toko/maju",
+        "serverPort": "8080",
+        "authenticationType": "jwt",
+        "cacheProvider": "ehcache",
+        "enableHibernateCache": true,
+        "websocket": false,
+        "databaseType": "sql",
+        "devDatabaseType": "h2Memory",
+        "prodDatabaseType": "mysql",
+        "searchEngine": "elasticsearch",
+        "messageBroker": false,
+        "serviceDiscoveryType": false,
+        "buildTool": "maven",
+        "enableSwaggerCodegen": false,
+        "jwtSecretKey": "ZjQ1MDc3MTU3ZDFkM2ZiMWJlYWI4NDRkMWQxODczYWM5MjFhMTk2OTJmZTYxYmMxMzQ1Y2NmZTMxMmJjNjIzNTNkM2U4YzQ2NjMyY2MzMTljZmVkOGEwMzc4NGJmMDM1MzE1YzdlZmUxYWM0YmJkZDc1NmNmNTE1ZDcyMTdkMDI=",
+        "clientFramework": "angularX",
+        "useSass": false,
+        "clientPackageManager": "npm",
+        "testFrameworks": ["cucumber", "protractor"],
+        "jhiPrefix": "jhi",
+        "entitySuffix": "",
+        "dtoSuffix": "DTO",
+        "otherModules": [],
+        "enableTranslation": true,
+        "nativeLanguage": "id",
+        "languages": ["id", "en"]
+    }
+}
