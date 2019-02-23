@@ -1,13 +1,25 @@
-import { IProduct } from 'app/shared/model/product.model';
-import { ICustomer } from 'app/shared/model/customer.model';
-
 export interface ICustomerProduct {
     id?: number;
     specialPrice?: number;
-    customerProducts?: IProduct[];
-    customer?: ICustomer;
+    productName?: string;
+    productId?: number;
+    customerCode?: string;
+    customerId?: number;
+    barcode?: String;
+    unitPrices?: number;
+    sellingPrices?: number;
 }
 
 export class CustomerProduct implements ICustomerProduct {
-    constructor(public id?: number, public specialPrice?: number, public customerProducts?: IProduct[], public customer?: ICustomer) {}
+    constructor(
+        public id?: number,
+        public specialPrice?: number,
+        public productName?: string,
+        public productId?: number,
+        public customerCode?: string,
+        public customerId?: number,
+        public barcode?: String,
+        public unitPrices?: number,
+        public sellingPrices?: number
+    ) {}
 }

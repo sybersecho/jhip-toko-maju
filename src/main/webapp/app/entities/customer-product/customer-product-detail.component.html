@@ -5,14 +5,32 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="jhiptokomajuApp.customerProduct.barcode">Barcode</span></dt>
+                <dd>
+                        <span>{{customerProduct.barcode}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.customerProduct.product">Product</span></dt>
+                <dd>
+                    <div *ngIf="customerProduct.productId">
+                        <a [routerLink]="['/product', customerProduct.productId, 'view']">{{customerProduct.productName}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.customerProduct.unitPrices">Unit Price</span></dt>
+                <dd>
+                        <span>{{customerProduct.unitPrices}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.customerProduct.sellingPrices">Seling Price</span></dt>
+                <dd>
+                        <span>{{customerProduct.sellingPrices}}</span>
+                </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.customerProduct.specialPrice">Special Price</span></dt>
                 <dd>
                     <span>{{customerProduct.specialPrice}}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.customerProduct.customer">Customer</span></dt>
                 <dd>
-                    <div *ngIf="customerProduct.customer">
-                        <a [routerLink]="['/customer', customerProduct.customer?.id, 'view']">{{customerProduct.customer?.id}}</a>
+                    <div *ngIf="customerProduct.customerId">
+                        <a [routerLink]="['/customer', customerProduct.customerId, 'view']">{{customerProduct.customerCode}}</a>
                     </div>
                 </dd>
             </dl>

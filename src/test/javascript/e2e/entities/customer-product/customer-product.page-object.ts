@@ -27,6 +27,7 @@ export class CustomerProductUpdatePage {
     saveButton = element(by.id('save-entity'));
     cancelButton = element(by.id('cancel-save'));
     specialPriceInput = element(by.id('field_specialPrice'));
+    productSelect = element(by.id('field_product'));
     customerSelect = element(by.id('field_customer'));
 
     async getPageTitle() {
@@ -39,6 +40,25 @@ export class CustomerProductUpdatePage {
 
     async getSpecialPriceInput() {
         return this.specialPriceInput.getAttribute('value');
+    }
+
+    async productSelectLastOption() {
+        await this.productSelect
+            .all(by.tagName('option'))
+            .last()
+            .click();
+    }
+
+    async productSelectOption(option) {
+        await this.productSelect.sendKeys(option);
+    }
+
+    getProductSelect(): ElementFinder {
+        return this.productSelect;
+    }
+
+    async getProductSelectedOption() {
+        return this.productSelect.element(by.css('option:checked')).getText();
     }
 
     async customerSelectLastOption() {

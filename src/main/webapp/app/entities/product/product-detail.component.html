@@ -15,7 +15,7 @@
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></dt>
                 <dd>
-                    <span>{{product.unit}}</span>
+                    <span jhiTranslate="{{'jhiptokomajuApp.UnitMeasure.' + product.unit}}">{{product.unit}}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.product.warehousePrices">Warehouse Prices</span></dt>
                 <dd>
@@ -32,12 +32,6 @@
                 <dt><span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span></dt>
                 <dd>
                     <span>{{product.stock}}</span>
-                </dd>
-                <dt><span jhiTranslate="jhiptokomajuApp.product.customerProduct">Customer Product</span></dt>
-                <dd>
-                    <div *ngIf="product.customerProduct">
-                        <a [routerLink]="['/customer-product', product.customerProduct?.id, 'view']">{{product.customerProduct?.id}}</a>
-                    </div>
                 </dd>
             </dl>
 

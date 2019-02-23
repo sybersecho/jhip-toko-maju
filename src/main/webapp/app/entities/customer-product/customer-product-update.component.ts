@@ -6,6 +6,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICustomerProduct } from 'app/shared/model/customer-product.model';
 import { CustomerProductService } from './customer-product.service';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer';
 
@@ -17,11 +19,14 @@ export class CustomerProductUpdateComponent implements OnInit {
     customerProduct: ICustomerProduct;
     isSaving: boolean;
 
+    products: IProduct[];
+
     customers: ICustomer[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected customerProductService: CustomerProductService,
+        protected productService: ProductService,
         protected customerService: CustomerService,
         protected activatedRoute: ActivatedRoute
     ) {}
@@ -31,6 +36,13 @@ export class CustomerProductUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ customerProduct }) => {
             this.customerProduct = customerProduct;
         });
+        this.productService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
+            )
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.customerService
             .query()
             .pipe(
@@ -68,6 +80,10 @@ export class CustomerProductUpdateComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackProductById(index: number, item: IProduct) {
+        return item.id;
     }
 
     trackCustomerById(index: number, item: ICustomer) {

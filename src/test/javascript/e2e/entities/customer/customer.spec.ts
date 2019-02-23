@@ -41,14 +41,17 @@ describe('Customer e2e test', () => {
         await customerComponentsPage.clickOnCreateButton();
         await promise.all([
             customerUpdatePage.setCodeInput('code'),
-            customerUpdatePage.setNameInput('name'),
-            customerUpdatePage.setAddressInput('address'),
-            customerUpdatePage.setNoTelpInput('noTelp')
+            customerUpdatePage.setFirstNameInput('firstName'),
+            customerUpdatePage.setLastNameInput('lastName'),
+            customerUpdatePage.genderSelectLastOption(),
+            customerUpdatePage.setPhoneNumberInput('phoneNumber'),
+            customerUpdatePage.setAddressInput('address')
         ]);
         expect(await customerUpdatePage.getCodeInput()).to.eq('code');
-        expect(await customerUpdatePage.getNameInput()).to.eq('name');
+        expect(await customerUpdatePage.getFirstNameInput()).to.eq('firstName');
+        expect(await customerUpdatePage.getLastNameInput()).to.eq('lastName');
+        expect(await customerUpdatePage.getPhoneNumberInput()).to.eq('phoneNumber');
         expect(await customerUpdatePage.getAddressInput()).to.eq('address');
-        expect(await customerUpdatePage.getNoTelpInput()).to.eq('noTelp');
         await customerUpdatePage.save();
         expect(await customerUpdatePage.getSaveButton().isPresent()).to.be.false;
 

@@ -71,7 +71,22 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    searchByCustomer() {
+        console.log('searchByCustomer');
+        this.customerProductService
+        .findByCustomer()
+        .pipe(
+            filter((res: HttpResponse<ICustomerProduct[]>) => res.ok),
+            map((res: HttpResponse<ICustomerProduct[]>) => res.body)
+        )
+        .subscribe(
+            (res: ICustomerProduct[]) => (this.customerProducts = res),
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
+
     clear() {
+        console.log('clear');
         this.currentSearch = '';
         this.loadAll();
     }

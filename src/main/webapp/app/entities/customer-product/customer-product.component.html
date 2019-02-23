@@ -14,7 +14,8 @@
             <form name="searchForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
                     <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jhiptokomajuApp.customerProduct.home.search' | translate }}">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <!-- <button class="input-group-append btn btn-info" (click)="search(currentSearch)"> -->
+                    <button class="input-group-append btn btn-info" (click)="searchByCustomer()">
                         <fa-icon [icon]="'search'"></fa-icon>
                     </button>
                     <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
@@ -31,6 +32,7 @@
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="jhiptokomajuApp.customerProduct.specialPrice">Special Price</span></th>
+            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.product">Product</span></th>
             <th><span jhiTranslate="jhiptokomajuApp.customerProduct.customer">Customer</span></th>
             <th></th>
             </tr>
@@ -40,8 +42,13 @@
                 <td><a [routerLink]="['/customer-product', customerProduct.id, 'view' ]">{{customerProduct.id}}</a></td>
                 <td>{{customerProduct.specialPrice}}</td>
                 <td>
-                    <div *ngIf="customerProduct.customer">
-                        <a [routerLink]="['../customer', customerProduct.customer?.id, 'view' ]" >{{customerProduct.customer?.id}}</a>
+                    <div *ngIf="customerProduct.productId">
+                        <a [routerLink]="['../product', customerProduct.productId , 'view' ]" >{{customerProduct.productName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="customerProduct.customerId">
+                        <a [routerLink]="['../customer', customerProduct.customerId , 'view' ]" >{{customerProduct.customerCode}}</a>
                     </div>
                 </td>
                 <td class="text-right">

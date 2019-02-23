@@ -42,16 +42,14 @@ describe('Product e2e test', () => {
         await promise.all([
             productUpdatePage.setBarcodeInput('barcode'),
             productUpdatePage.setNameInput('name'),
-            productUpdatePage.setUnitInput('unit'),
+            productUpdatePage.unitSelectLastOption(),
             productUpdatePage.setWarehousePricesInput('5'),
             productUpdatePage.setUnitPricesInput('5'),
             productUpdatePage.setSellingPricesInput('5'),
-            productUpdatePage.setStockInput('5'),
-            productUpdatePage.customerProductSelectLastOption()
+            productUpdatePage.setStockInput('5')
         ]);
         expect(await productUpdatePage.getBarcodeInput()).to.eq('barcode');
         expect(await productUpdatePage.getNameInput()).to.eq('name');
-        expect(await productUpdatePage.getUnitInput()).to.eq('unit');
         expect(await productUpdatePage.getWarehousePricesInput()).to.eq('5');
         expect(await productUpdatePage.getUnitPricesInput()).to.eq('5');
         expect(await productUpdatePage.getSellingPricesInput()).to.eq('5');

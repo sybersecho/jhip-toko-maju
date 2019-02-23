@@ -5,7 +5,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { CustomerService } from 'app/entities/customer/customer.service';
-import { ICustomer, Customer } from 'app/shared/model/customer.model';
+import { ICustomer, Customer, Gender } from 'app/shared/model/customer.model';
 
 describe('Service Tests', () => {
     describe('Customer Service', () => {
@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(CustomerService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new Customer(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+            elemDefault = new Customer(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', Gender.MALE, 'AAAAAAA', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -56,9 +56,11 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         code: 'BBBBBB',
-                        name: 'BBBBBB',
-                        address: 'BBBBBB',
-                        noTelp: 'BBBBBB'
+                        firstName: 'BBBBBB',
+                        lastName: 'BBBBBB',
+                        gender: 'BBBBBB',
+                        phoneNumber: 'BBBBBB',
+                        address: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -76,9 +78,11 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         code: 'BBBBBB',
-                        name: 'BBBBBB',
-                        address: 'BBBBBB',
-                        noTelp: 'BBBBBB'
+                        firstName: 'BBBBBB',
+                        lastName: 'BBBBBB',
+                        gender: 'BBBBBB',
+                        phoneNumber: 'BBBBBB',
+                        address: 'BBBBBB'
                     },
                     elemDefault
                 );

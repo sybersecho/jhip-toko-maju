@@ -39,7 +39,11 @@ describe('CustomerProduct e2e test', () => {
         const nbButtonsBeforeCreate = await customerProductComponentsPage.countDeleteButtons();
 
         await customerProductComponentsPage.clickOnCreateButton();
-        await promise.all([customerProductUpdatePage.setSpecialPriceInput('5'), customerProductUpdatePage.customerSelectLastOption()]);
+        await promise.all([
+            customerProductUpdatePage.setSpecialPriceInput('5'),
+            customerProductUpdatePage.productSelectLastOption(),
+            customerProductUpdatePage.customerSelectLastOption()
+        ]);
         expect(await customerProductUpdatePage.getSpecialPriceInput()).to.eq('5');
         await customerProductUpdatePage.save();
         expect(await customerProductUpdatePage.getSaveButton().isPresent()).to.be.false;

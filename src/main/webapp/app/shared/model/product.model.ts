@@ -1,17 +1,18 @@
-import { ICustomerProduct } from 'app/shared/model/customer-product.model';
-import { ISupplier } from 'app/shared/model/supplier.model';
+export const enum UnitMeasure {
+    KG = 'KG',
+    SAK = 'SAK',
+    M = 'M'
+}
 
 export interface IProduct {
     id?: number;
     barcode?: string;
     name?: string;
-    unit?: string;
+    unit?: UnitMeasure;
     warehousePrices?: number;
     unitPrices?: number;
     sellingPrices?: number;
     stock?: number;
-    customerProduct?: ICustomerProduct;
-    products?: ISupplier[];
 }
 
 export class Product implements IProduct {
@@ -19,12 +20,10 @@ export class Product implements IProduct {
         public id?: number,
         public barcode?: string,
         public name?: string,
-        public unit?: string,
+        public unit?: UnitMeasure,
         public warehousePrices?: number,
         public unitPrices?: number,
         public sellingPrices?: number,
-        public stock?: number,
-        public customerProduct?: ICustomerProduct,
-        public products?: ISupplier[]
+        public stock?: number
     ) {}
 }

@@ -17,45 +17,51 @@
         },
         {
             "fieldName": "unit",
-            "fieldType": "String",
+            "fieldType": "UnitMeasure",
+            "fieldValues": "KG,SAK,M",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "warehousePrices",
-            "fieldType": "BigDecimal"
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "unitPrices",
-            "fieldType": "BigDecimal"
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "sellingPrices",
-            "fieldType": "BigDecimal"
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "stock",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
-    "relationships": [
-        {
-            "relationshipName": "customerProduct",
-            "otherEntityName": "customerProduct",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "product",
-            "otherEntityName": "supplier",
-            "otherEntityRelationshipName": "product"
-        }
-    ],
-    "changelogDate": "20190214165018",
+    "relationships": [],
+    "changelogDate": "20190216044339",
     "entityTableName": "product",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,

@@ -17,8 +17,11 @@
                 "title": "Customer Product"
             },
             "specialPrice": "Special Price",
-            "customerProduct": "Customer Product",
-            "customer": "Customer"
+            "product": "Product",
+            "customer": "Customer",
+            "barcode": "Barcode",
+            "unitPrices": "Unit Price",
+            "sellingPrices": "Sell Price"
         }
     }
 }

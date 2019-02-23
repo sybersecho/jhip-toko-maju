@@ -37,7 +37,6 @@
             <th jhiSortBy="unitPrices"><span jhiTranslate="jhiptokomajuApp.product.unitPrices">Unit Prices</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="sellingPrices"><span jhiTranslate="jhiptokomajuApp.product.sellingPrices">Selling Prices</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stock"><span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="customerProduct.id"><span jhiTranslate="jhiptokomajuApp.product.customerProduct">Customer Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -46,16 +45,11 @@
                 <td><a [routerLink]="['/product', product.id, 'view' ]">{{product.id}}</a></td>
                 <td>{{product.barcode}}</td>
                 <td>{{product.name}}</td>
-                <td>{{product.unit}}</td>
+                <td jhiTranslate="{{'jhiptokomajuApp.UnitMeasure.' + product.unit}}">{{product.unit}}</td>
                 <td>{{product.warehousePrices}}</td>
                 <td>{{product.unitPrices}}</td>
                 <td>{{product.sellingPrices}}</td>
                 <td>{{product.stock}}</td>
-                <td>
-                    <div *ngIf="product.customerProduct">
-                        <a [routerLink]="['../customer-product', product.customerProduct?.id, 'view' ]" >{{product.customerProduct?.id}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

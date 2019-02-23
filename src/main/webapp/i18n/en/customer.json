@@ -17,11 +17,12 @@
                 "title": "Customer"
             },
             "code": "Code",
-            "name": "Name",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "gender": "Gender",
+            "phoneNumber": "Phone Number",
             "address": "Address",
-            "noTelp": "No Telp",
-            "customer": "Customer",
-            "customer": "Customer"
+            "product": "Product"
         }
     }
 }

@@ -28,12 +28,11 @@ export class ProductUpdatePage {
     cancelButton = element(by.id('cancel-save'));
     barcodeInput = element(by.id('field_barcode'));
     nameInput = element(by.id('field_name'));
-    unitInput = element(by.id('field_unit'));
+    unitSelect = element(by.id('field_unit'));
     warehousePricesInput = element(by.id('field_warehousePrices'));
     unitPricesInput = element(by.id('field_unitPrices'));
     sellingPricesInput = element(by.id('field_sellingPrices'));
     stockInput = element(by.id('field_stock'));
-    customerProductSelect = element(by.id('field_customerProduct'));
 
     async getPageTitle() {
         return this.pageTitle.getAttribute('jhiTranslate');
@@ -55,12 +54,19 @@ export class ProductUpdatePage {
         return this.nameInput.getAttribute('value');
     }
 
-    async setUnitInput(unit) {
-        await this.unitInput.sendKeys(unit);
+    async setUnitSelect(unit) {
+        await this.unitSelect.sendKeys(unit);
     }
 
-    async getUnitInput() {
-        return this.unitInput.getAttribute('value');
+    async getUnitSelect() {
+        return this.unitSelect.element(by.css('option:checked')).getText();
+    }
+
+    async unitSelectLastOption() {
+        await this.unitSelect
+            .all(by.tagName('option'))
+            .last()
+            .click();
     }
 
     async setWarehousePricesInput(warehousePrices) {
@@ -93,25 +99,6 @@ export class ProductUpdatePage {
 
     async getStockInput() {
         return this.stockInput.getAttribute('value');
-    }
-
-    async customerProductSelectLastOption() {
-        await this.customerProductSelect
-            .all(by.tagName('option'))
-            .last()
-            .click();
-    }
-
-    async customerProductSelectOption(option) {
-        await this.customerProductSelect.sendKeys(option);
-    }
-
-    getCustomerProductSelect(): ElementFinder {
-        return this.customerProductSelect;
-    }
-
-    async getCustomerProductSelectedOption() {
-        return this.customerProductSelect.element(by.css('option:checked')).getText();
     }
 
     async save() {

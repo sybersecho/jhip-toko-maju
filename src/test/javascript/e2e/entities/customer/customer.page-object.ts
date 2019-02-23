@@ -27,9 +27,11 @@ export class CustomerUpdatePage {
     saveButton = element(by.id('save-entity'));
     cancelButton = element(by.id('cancel-save'));
     codeInput = element(by.id('field_code'));
-    nameInput = element(by.id('field_name'));
+    firstNameInput = element(by.id('field_firstName'));
+    lastNameInput = element(by.id('field_lastName'));
+    genderSelect = element(by.id('field_gender'));
+    phoneNumberInput = element(by.id('field_phoneNumber'));
     addressInput = element(by.id('field_address'));
-    noTelpInput = element(by.id('field_noTelp'));
 
     async getPageTitle() {
         return this.pageTitle.getAttribute('jhiTranslate');
@@ -43,12 +45,43 @@ export class CustomerUpdatePage {
         return this.codeInput.getAttribute('value');
     }
 
-    async setNameInput(name) {
-        await this.nameInput.sendKeys(name);
+    async setFirstNameInput(firstName) {
+        await this.firstNameInput.sendKeys(firstName);
     }
 
-    async getNameInput() {
-        return this.nameInput.getAttribute('value');
+    async getFirstNameInput() {
+        return this.firstNameInput.getAttribute('value');
+    }
+
+    async setLastNameInput(lastName) {
+        await this.lastNameInput.sendKeys(lastName);
+    }
+
+    async getLastNameInput() {
+        return this.lastNameInput.getAttribute('value');
+    }
+
+    async setGenderSelect(gender) {
+        await this.genderSelect.sendKeys(gender);
+    }
+
+    async getGenderSelect() {
+        return this.genderSelect.element(by.css('option:checked')).getText();
+    }
+
+    async genderSelectLastOption() {
+        await this.genderSelect
+            .all(by.tagName('option'))
+            .last()
+            .click();
+    }
+
+    async setPhoneNumberInput(phoneNumber) {
+        await this.phoneNumberInput.sendKeys(phoneNumber);
+    }
+
+    async getPhoneNumberInput() {
+        return this.phoneNumberInput.getAttribute('value');
     }
 
     async setAddressInput(address) {
@@ -57,14 +90,6 @@ export class CustomerUpdatePage {
 
     async getAddressInput() {
         return this.addressInput.getAttribute('value');
-    }
-
-    async setNoTelpInput(noTelp) {
-        await this.noTelpInput.sendKeys(noTelp);
-    }
-
-    async getNoTelpInput() {
-        return this.noTelpInput.getAttribute('value');
     }
 
     async save() {

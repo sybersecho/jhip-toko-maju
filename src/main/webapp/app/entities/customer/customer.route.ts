@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+<<<<<<< HEAD
+=======
+import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
+>>>>>>> a512f2e
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -32,8 +36,17 @@ export const customerRoute: Routes = [
     {
         path: '',
         component: CustomerComponent,
+<<<<<<< HEAD
         data: {
             authorities: ['ROLE_USER'],
+=======
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+>>>>>>> a512f2e
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
         canActivate: [UserRouteAccessService]

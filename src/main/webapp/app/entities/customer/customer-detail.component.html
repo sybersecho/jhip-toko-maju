@@ -1,25 +1,33 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="customer">
-            <h2><span jhiTranslate="jhiptokomajuApp.customer.detail.title">Customer</span> {{customer.id}}</h2>
+            <h2><span jhiTranslate="jhiptokomajuApp.customer.detail.title">Customer</span> {{customer.code}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="jhiptokomajuApp.customer.code">Code</span></dt>
+                <!-- <dt><span jhiTranslate="jhiptokomajuApp.customer.code">Code</span></dt>
                 <dd>
                     <span>{{customer.code}}</span>
-                </dd>
-                <dt><span jhiTranslate="jhiptokomajuApp.customer.name">Name</span></dt>
+                </dd> -->
+                <dt><span jhiTranslate="jhiptokomajuApp.customer.firstName">First Name</span></dt>
                 <dd>
-                    <span>{{customer.name}}</span>
+                    <span>{{customer.firstName}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.customer.lastName">Last Name</span></dt>
+                <dd>
+                    <span>{{customer.lastName}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.customer.gender">Gender</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'jhiptokomajuApp.Gender.' + customer.gender}}">{{customer.gender}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.customer.phoneNumber">Phone Number</span></dt>
+                <dd>
+                    <span>{{customer.phoneNumber}}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.customer.address">Address</span></dt>
                 <dd>
                     <span>{{customer.address}}</span>
-                </dd>
-                <dt><span jhiTranslate="jhiptokomajuApp.customer.noTelp">No Telp</span></dt>
-                <dd>
-                    <span>{{customer.noTelp}}</span>
                 </dd>
             </dl>
 

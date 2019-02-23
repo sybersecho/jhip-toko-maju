@@ -9,39 +9,48 @@
             ]
         },
         {
-            "fieldName": "name",
+            "fieldName": "firstName",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "address",
+            "fieldName": "lastName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "gender",
+            "fieldType": "Gender",
+            "fieldValues": "MALE,FEMALE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "phoneNumber",
             "fieldType": "String"
         },
         {
-            "fieldName": "noTelp",
+            "fieldName": "address",
             "fieldType": "String"
         }
     ],
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "customer",
-            "otherEntityName": "project",
-            "otherEntityRelationshipName": "customer"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "customer",
+            "relationshipName": "product",
             "otherEntityName": "customerProduct",
             "otherEntityRelationshipName": "customer"
         }
     ],
-    "changelogDate": "20190214165017",
+    "changelogDate": "20190216044338",
     "entityTableName": "customer",
-    "dto": "no",
-    "pagination": "infinite-scroll",
+    "dto": "mapstruct",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

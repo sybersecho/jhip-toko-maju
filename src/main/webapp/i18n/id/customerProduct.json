@@ -17,8 +17,11 @@
                 "title": "Customer Product"
             },
             "specialPrice": "Special Price",
-            "customerProduct": "Customer Product",
-            "customer": "Customer"
+            "product": "Nama Barang",
+            "customer": "Customer Name",
+            "barcode": "Barcode",
+            "unitPrices": "Harga Satuan",
+            "sellingPrices": "Harga Jual"
         }
     }
 }
