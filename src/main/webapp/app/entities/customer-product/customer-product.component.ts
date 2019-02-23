@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
@@ -48,19 +48,26 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
                 );
             return;
         }
-        this.customerProductService
-            .query()
-            .pipe(
-                filter((res: HttpResponse<ICustomerProduct[]>) => res.ok),
-                map((res: HttpResponse<ICustomerProduct[]>) => res.body)
-            )
-            .subscribe(
-                (res: ICustomerProduct[]) => {
-                    this.customerProducts = res;
-                    this.currentSearch = '';
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        // this.customerProductService
+        //     .query()
+        //     .pipe(
+        //         filter((res: HttpResponse<ICustomerProduct[]>) => res.ok),
+        //         map((res: HttpResponse<ICustomerProduct[]>) => res.body)
+        //     )
+        //     .subscribe(
+        //         (res: ICustomerProduct[]) => {
+        //             this.customerProducts = res;
+        //             this.currentSearch = '';
+        //         },
+        //         (res: HttpErrorResponse) => this.onError(res.message)
+        //     );
+        this.activatedRoute.data.subscribe(
+            (data: Data) => {
+                console.log('activated route call');
+                this.customerProducts = data['customerProducts'];
+                console.log(this.customerProducts);
+            }
+        );
     }
 
     search(query) {
@@ -72,17 +79,17 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     }
 
     searchByCustomer() {
-        console.log('searchByCustomer');
-        this.customerProductService
-        .findByCustomer()
-        .pipe(
-            filter((res: HttpResponse<ICustomerProduct[]>) => res.ok),
-            map((res: HttpResponse<ICustomerProduct[]>) => res.body)
-        )
-        .subscribe(
-            (res: ICustomerProduct[]) => (this.customerProducts = res),
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        // console.log('searchByCustomer');
+        // this.customerProductService
+        // .findByCustomer()
+        // .pipe(
+        //     filter((res: HttpResponse<ICustomerProduct[]>) => res.ok),
+        //     map((res: HttpResponse<ICustomerProduct[]>) => res.body)
+        // )
+        // .subscribe(
+        //     (res: ICustomerProduct[]) => (this.customerProducts = res),
+        //     (res: HttpErrorResponse) => this.onError(res.message)
+        // );
     }
 
     clear() {

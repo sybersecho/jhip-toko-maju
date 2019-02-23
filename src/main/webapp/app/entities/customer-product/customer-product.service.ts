@@ -15,6 +15,7 @@ export class CustomerProductService {
     public resourceUrl = SERVER_API_URL + 'api/customer-products';
     public resourceCustomerUrl = SERVER_API_URL + 'api/customer-products/customers';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/customer-products';
+    private products: ICustomerProduct[] = [];
 
     public customer: ICustomer;
     constructor(protected http: HttpClient) {
@@ -34,6 +35,12 @@ export class CustomerProductService {
     }
 
     find(id: number): Observable<EntityResponseType> {
+        this.http.get<ICustomerProduct[]>(`${this.resourceCustomerUrl}/${id}`, { observe: 'response' })
+            .subscribe((res: HttpResponse<ICustomerProduct[]>) => {
+                this.products = res.body;
+                console.log('**********');
+                console.log(this.products);
+            });
         return this.http.get<ICustomerProduct>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
@@ -51,9 +58,8 @@ export class CustomerProductService {
         return this.http.get<ICustomerProduct[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
     }
 
-    findByCustomer(): Observable<EntityArrayResponseType> {
-        console.log('call find by customer');
-        const options = createRequestOption(this.customer);
-        return this.http.get<ICustomerProduct[]>(this.resourceCustomerUrl, { params: options, observe: 'response' });
+    findByCustomer(id: number): Observable<EntityArrayResponseType> {
+        console.log('call by customer');
+        return this.http.get<ICustomerProduct[]>(`${this.resourceCustomerUrl}/${id}`, { observe: 'response' });
     }
 }

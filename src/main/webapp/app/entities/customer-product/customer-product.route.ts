@@ -13,36 +13,43 @@ import { CustomerProductDeletePopupComponent } from './customer-product-delete-d
 import { ICustomerProduct } from 'app/shared/model/customer-product.model';
 
 @Injectable({ providedIn: 'root' })
-export class CustomerProductResolve implements Resolve<ICustomerProduct> {
+export class CustomerProductResolve implements Resolve<ICustomerProduct[]> {
+    private products: CustomerProduct[] = [];
     constructor(private service: CustomerProductService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ICustomerProduct> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ICustomerProduct[]> {
         const id = route.params['id'] ? route.params['id'] : null;
+        // if (id) {
+        //     return this.service.find(id).pipe(
+        //         filter((response: HttpResponse<CustomerProduct>) => response.ok),
+        //         map((customerProduct: HttpResponse<CustomerProduct>) => customerProduct.body)
+        //     );
+        // }
         if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<CustomerProduct>) => response.ok),
-                map((customerProduct: HttpResponse<CustomerProduct>) => customerProduct.body)
+            return this.service.findByCustomer(id).pipe(
+                filter((response: HttpResponse<CustomerProduct[]>) => response.ok),
+                map((customerProducts: HttpResponse<CustomerProduct[]>) => customerProducts.body)
             );
         }
-        return of(new CustomerProduct());
+        return of(this.products);
     }
 }
 
 export const customerProductRoute: Routes = [
-    {
-        path: '',
-        component: CustomerProductComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'jhiptokomajuApp.customerProduct.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    },
+    // {
+    //     path: '',
+    //     component: CustomerProductComponent,
+    //     data: {
+    //         authorities: ['ROLE_USER'],
+    //         pageTitle: 'jhiptokomajuApp.customerProduct.home.title'
+    //     },
+    //     canActivate: [UserRouteAccessService]
+    // },
     {
         path: ':id/view',
-        component: CustomerProductDetailComponent,
+        component: CustomerProductComponent,
         resolve: {
-            customerProduct: CustomerProductResolve
+            customerProducts: CustomerProductResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,9 +60,9 @@ export const customerProductRoute: Routes = [
     {
         path: 'new',
         component: CustomerProductUpdateComponent,
-        resolve: {
-            customerProduct: CustomerProductResolve
-        },
+        // resolve: {
+        //     customerProduct: CustomerProductResolve
+        // },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'jhiptokomajuApp.customerProduct.home.title'
