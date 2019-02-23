@@ -1,0 +1,29 @@
+{
+    "jhiptokomajuApp": {
+        "customer": {
+            "home": {
+                "title": "Customers",
+                "createLabel": "Buat Customer baru",
+                "createOrEditLabel": "Buat atau edit Customer",
+                "search": "Cari Customer",
+                "createProductLabel": "Product"
+            },
+            "created": "Customer dengan id {{ param }} telah dibuat",
+            "updated": "Customer dengan id {{ param }} telah diperbaharui",
+            "deleted": "Customer dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Customer {{ id }}?"
+            },
+            "detail": {
+                "title": "Customer"
+            },
+            "code": "Code",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "gender": "Gender",
+            "phoneNumber": "Phone Number",
+            "address": "Address",
+            "product": "Product"
+        }
+    }
+}

@@ -1,113 +1,54 @@
-
-entity CustomerProduct{
-	customer String,
-    specialPrice BigDecimal
-}
 entity Customer{
-	code String,
-    name String,
-    address String,
-    noTelp String
+	code String required
+	firstName String required,
+    lastName String required,
+    gender Gender required
+    phoneNumber String,
+    address String
+}
+
+enum Gender{
+	MALE,
+    FEMALE
+}
+
+enum UnitMeasure{
+	KG,
+    SAK,
+    M
 }
 
 entity Product{
-	barcode String,
-    name String,
-    unit String,
-    warehousePrices BigDecimal,
-    unitPrices BigDecimal,
-    sellingPrices BigDecimal
-    stock Integer
+	barcode String required,
+    name String required,
+    unit UnitMeasure required,
+    warehousePrices BigDecimal required min(0),
+    unitPrices BigDecimal required min(0),
+    sellingPrices BigDecimal required min(0),
+    stock Integer required
 }
 
-entity Branch{
-	code String,
-    name String,
-    address String
-}
-
-entity UserA{
-	name String,
-    username String,
-    password String,
-    createdDate Instant,
-    loginDate Instant
-}
-
-// entity Supplier{
-// 	name String,
-//     code String,
-//     address String,
-//     noTelp String,
-//     bankAccount String,
-//     bankName String
-// }
-
-entity Project{
-	name String,
-    address String
-}
-
-entity SalesTransactions{
-	fraktur String,
-    discounts BigDecimal,
-    totalPayment BigDecimal,
-    remainingPayment BigDecimal
-    paid BigDecimal,
-    isSettled Boolean,
-    transactionDate Instant
-    createdBy String
-}
-
-entity StockOrder{
-	quantity Integer,
-    price BigDecimal,
-    totalOrder BigDecimal
-    dateOrder Instant
-}
-
-entity ProductChange{
-	quantity Integer,
-    price BigDecimal,
-    status String,
-    createdDate Instant,
-    createdBy String
-}
-
-entity SettlementPayment{
-	totalPayment BigDecimal,
-    remainingPayment BigDecimal,
-    paid BigDecimal,
-    isSettled Boolean,
-    createdDate Instant
+entity CustomerProduct{
+	specialPrice BigDecimal required min(0)
 }
 
 relationship OneToMany{
-	Customer{customer} to Project
-    // Supplier{supplier} to Product
-    Project{project} to Product
-    Customer{customer} to SalesTransactions
-    Customer{customer} to CustomerProduct
-    Branch{branch} to UserA
-    UserA{user} to SalesTransactions
-    UserA{user} to ProductChange
-    UserA{user} to StockOrder
-    SalesTransactions{salesTransactions} to SettlementPayment
+	Customer{product} to CustomerProduct{customer(code)}
 }
 
 relationship ManyToOne{
-	SalesTransactions{transaction} to Product
+	CustomerProduct{product(name)} to Product
 }
 
 // Set pagination options
-paginate Customer, SalesTransactions with infinite-scroll
-paginate Customer with pagination
+//paginate JobHistory, Employee with infinite-scroll
+paginate * with pagination except CustomerProduct
 
 // Use Data Transfert Objects (DTO)
- dto * with mapstruct
+dto * with mapstruct
 
 // Set service options to all except few
 service all with serviceImpl
 
 // Set an angular suffix
-// angularSuffix * with mySuffix
+//angularSuffix * with ti
