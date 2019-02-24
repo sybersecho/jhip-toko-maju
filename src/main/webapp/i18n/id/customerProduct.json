@@ -20,6 +20,7 @@
             "product": "Nama Barang",
             "customer": "Customer Name",
             "barcode": "Barcode",
+            "unit": "Satuan",
             "unitPrices": "Harga Satuan",
             "sellingPrices": "Harga Jual"
         }

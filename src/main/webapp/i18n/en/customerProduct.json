@@ -21,7 +21,8 @@
             "customer": "Customer",
             "barcode": "Barcode",
             "unitPrices": "Unit Price",
-            "sellingPrices": "Sell Price"
+            "sellingPrices": "Sell Price",
+            "unit": "Unit"
         }
     }
 }

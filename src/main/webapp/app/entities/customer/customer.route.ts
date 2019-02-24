@@ -12,6 +12,8 @@ import { CustomerDetailComponent } from './customer-detail.component';
 import { CustomerUpdateComponent } from './customer-update.component';
 import { CustomerDeletePopupComponent } from './customer-delete-dialog.component';
 import { ICustomer } from 'app/shared/model/customer.model';
+import { CustomerProductComponent } from './customer-product/customer-product.component';
+import { CustomerProductResolve } from './customer-product/customer-product.route';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerResolve implements Resolve<ICustomer> {
@@ -46,6 +48,15 @@ export const customerRoute: Routes = [
     {
         path: ':id/view',
         component: CustomerDetailComponent,
+        children: [
+            {
+                path: '',
+                component: CustomerProductComponent,
+                resolve: {
+                    customerProducts: CustomerProductResolve
+                }
+            }
+        ],
         resolve: {
             customer: CustomerResolve
         },
