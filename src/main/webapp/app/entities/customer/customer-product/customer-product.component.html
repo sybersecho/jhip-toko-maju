@@ -45,14 +45,8 @@
                 <td>{{customerProduct.id}}</td>
                 <td>{{customerProduct.barcode}}</td>
                 <td>{{customerProduct.productName}}
-                    <!-- <div *ngIf="customerProduct.productId">
-                        <a [routerLink]="['../product', customerProduct.productId , 'view' ]" >{{customerProduct.productName}}</a>
-                    </div> -->
                 </td>
-                <td>Satuan
-                    <!-- <div *ngIf="customerProduct.customerId">
-                        <a [routerLink]="['../customer', customerProduct.customerId , 'view' ]" >{{customerProduct.customerCode}}</a>
-                    </div> -->
+                <td>{{customerProduct.unit}}
                 </td>
                 <td>{{customerProduct.unitPrices}}</td>
                 <td>{{customerProduct.sellingPrices}}</td>

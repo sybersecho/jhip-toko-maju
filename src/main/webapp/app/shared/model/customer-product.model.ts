@@ -8,6 +8,7 @@ export interface ICustomerProduct {
     barcode?: String;
     unitPrices?: number;
     sellingPrices?: number;
+    unit?: String;
 }
 
 export class CustomerProduct implements ICustomerProduct {
@@ -20,6 +21,7 @@ export class CustomerProduct implements ICustomerProduct {
         public customerId?: number,
         public barcode?: String,
         public unitPrices?: number,
-        public sellingPrices?: number
+        public sellingPrices?: number,
+        public unit?: String
     ) {}
 }

@@ -18,6 +18,7 @@ public interface CustomerProductMapper extends EntityMapper<CustomerProductDTO, 
     @Mapping(source = "product.unitPrices", target = "unitPrices")
     @Mapping(source = "product.sellingPrices", target = "sellingPrices")
     @Mapping(source = "product.barcode", target = "barcode")
+    @Mapping(source = "product.unit", target = "unit")
 //    @Mapping(source = "product.supplier.code", target = "supplierCode")
 //    @Mapping(source = "product.supplier.name", target = "supplierName")
     CustomerProductDTO toDto(CustomerProduct customerProduct);

@@ -31,6 +31,8 @@ public class CustomerProductDTO implements Serializable {
 //    @NotNull
     @DecimalMin(value = "0")
     private BigDecimal sellingPrices;
+    
+    private String unit;
 
     @NotNull
     @DecimalMin(value = "0")
@@ -106,6 +108,14 @@ public class CustomerProductDTO implements Serializable {
 
 	public void setSellingPrices(BigDecimal sellingPrices) {
 		this.sellingPrices = sellingPrices;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
 	@Override
