@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { JhiptokomajuTestModule } from '../../../test.module';
-import { CustomerProductDeleteDialogComponent } from 'app/entities/customer-product/customer-product-delete-dialog.component';
-import { CustomerProductService } from 'app/entities/customer-product/customer-product.service';
+import { CustomerProductDeleteDialogComponent, CustomerProductService } from 'app/entities/customer/customer-product';
+
 
 describe('Component Tests', () => {
     describe('CustomerProduct Management Delete Component', () => {

@@ -4,9 +4,8 @@ import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { JhiptokomajuTestModule } from '../../../test.module';
-import { CustomerProductComponent } from 'app/entities/customer-product/customer-product.component';
-import { CustomerProductService } from 'app/entities/customer-product/customer-product.service';
 import { CustomerProduct } from 'app/shared/model/customer-product.model';
+import { CustomerProductComponent, CustomerProductService } from 'app/entities/customer/customer-product';
 
 describe('Component Tests', () => {
     describe('CustomerProduct Management Component', () => {

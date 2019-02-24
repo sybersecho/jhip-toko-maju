@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { JhiptokomajuTestModule } from '../../../test.module';
-import { CustomerProductDetailComponent } from 'app/entities/customer-product/customer-product-detail.component';
 import { CustomerProduct } from 'app/shared/model/customer-product.model';
+import { CustomerProductDetailComponent } from 'app/entities/customer/customer-product';
 
 describe('Component Tests', () => {
     describe('CustomerProduct Management Detail Component', () => {
