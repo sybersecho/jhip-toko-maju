@@ -9,6 +9,8 @@ import com.toko.maju.service.ProductService;
 import com.toko.maju.service.dto.ProductDTO;
 import com.toko.maju.service.mapper.ProductMapper;
 import com.toko.maju.web.rest.errors.ExceptionTranslator;
+import com.toko.maju.service.dto.ProductCriteria;
+import com.toko.maju.service.ProductQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -90,6 +92,9 @@ public class ProductResourceIntTest {
     private ProductSearchRepository mockProductSearchRepository;
 
     @Autowired
+    private ProductQueryService productQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -111,7 +116,7 @@ public class ProductResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ProductResource productResource = new ProductResource(productService);
+        final ProductResource productResource = new ProductResource(productService, productQueryService);
         this.restProductMockMvc = MockMvcBuilders.standaloneSetup(productResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -366,6 +371,346 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.sellingPrices").value(DEFAULT_SELLING_PRICES.intValue()))
             .andExpect(jsonPath("$.stock").value(DEFAULT_STOCK));
     }
+
+    @Test
+    @Transactional
+    public void getAllProductsByBarcodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where barcode equals to DEFAULT_BARCODE
+        defaultProductShouldBeFound("barcode.equals=" + DEFAULT_BARCODE);
+
+        // Get all the productList where barcode equals to UPDATED_BARCODE
+        defaultProductShouldNotBeFound("barcode.equals=" + UPDATED_BARCODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByBarcodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where barcode in DEFAULT_BARCODE or UPDATED_BARCODE
+        defaultProductShouldBeFound("barcode.in=" + DEFAULT_BARCODE + "," + UPDATED_BARCODE);
+
+        // Get all the productList where barcode equals to UPDATED_BARCODE
+        defaultProductShouldNotBeFound("barcode.in=" + UPDATED_BARCODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByBarcodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where barcode is not null
+        defaultProductShouldBeFound("barcode.specified=true");
+
+        // Get all the productList where barcode is null
+        defaultProductShouldNotBeFound("barcode.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where name equals to DEFAULT_NAME
+        defaultProductShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the productList where name equals to UPDATED_NAME
+        defaultProductShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultProductShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the productList where name equals to UPDATED_NAME
+        defaultProductShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where name is not null
+        defaultProductShouldBeFound("name.specified=true");
+
+        // Get all the productList where name is null
+        defaultProductShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByUnitIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where unit equals to DEFAULT_UNIT
+        defaultProductShouldBeFound("unit.equals=" + DEFAULT_UNIT);
+
+        // Get all the productList where unit equals to UPDATED_UNIT
+        defaultProductShouldNotBeFound("unit.equals=" + UPDATED_UNIT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByUnitIsInShouldWork() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where unit in DEFAULT_UNIT or UPDATED_UNIT
+        defaultProductShouldBeFound("unit.in=" + DEFAULT_UNIT + "," + UPDATED_UNIT);
+
+        // Get all the productList where unit equals to UPDATED_UNIT
+        defaultProductShouldNotBeFound("unit.in=" + UPDATED_UNIT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByUnitIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where unit is not null
+        defaultProductShouldBeFound("unit.specified=true");
+
+        // Get all the productList where unit is null
+        defaultProductShouldNotBeFound("unit.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByWarehousePricesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where warehousePrices equals to DEFAULT_WAREHOUSE_PRICES
+        defaultProductShouldBeFound("warehousePrices.equals=" + DEFAULT_WAREHOUSE_PRICES);
+
+        // Get all the productList where warehousePrices equals to UPDATED_WAREHOUSE_PRICES
+        defaultProductShouldNotBeFound("warehousePrices.equals=" + UPDATED_WAREHOUSE_PRICES);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByWarehousePricesIsInShouldWork() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where warehousePrices in DEFAULT_WAREHOUSE_PRICES or UPDATED_WAREHOUSE_PRICES
+        defaultProductShouldBeFound("warehousePrices.in=" + DEFAULT_WAREHOUSE_PRICES + "," + UPDATED_WAREHOUSE_PRICES);
+
+        // Get all the productList where warehousePrices equals to UPDATED_WAREHOUSE_PRICES
+        defaultProductShouldNotBeFound("warehousePrices.in=" + UPDATED_WAREHOUSE_PRICES);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByWarehousePricesIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where warehousePrices is not null
+        defaultProductShouldBeFound("warehousePrices.specified=true");
+
+        // Get all the productList where warehousePrices is null
+        defaultProductShouldNotBeFound("warehousePrices.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByUnitPricesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where unitPrices equals to DEFAULT_UNIT_PRICES
+        defaultProductShouldBeFound("unitPrices.equals=" + DEFAULT_UNIT_PRICES);
+
+        // Get all the productList where unitPrices equals to UPDATED_UNIT_PRICES
+        defaultProductShouldNotBeFound("unitPrices.equals=" + UPDATED_UNIT_PRICES);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByUnitPricesIsInShouldWork() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where unitPrices in DEFAULT_UNIT_PRICES or UPDATED_UNIT_PRICES
+        defaultProductShouldBeFound("unitPrices.in=" + DEFAULT_UNIT_PRICES + "," + UPDATED_UNIT_PRICES);
+
+        // Get all the productList where unitPrices equals to UPDATED_UNIT_PRICES
+        defaultProductShouldNotBeFound("unitPrices.in=" + UPDATED_UNIT_PRICES);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByUnitPricesIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where unitPrices is not null
+        defaultProductShouldBeFound("unitPrices.specified=true");
+
+        // Get all the productList where unitPrices is null
+        defaultProductShouldNotBeFound("unitPrices.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsBySellingPricesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where sellingPrices equals to DEFAULT_SELLING_PRICES
+        defaultProductShouldBeFound("sellingPrices.equals=" + DEFAULT_SELLING_PRICES);
+
+        // Get all the productList where sellingPrices equals to UPDATED_SELLING_PRICES
+        defaultProductShouldNotBeFound("sellingPrices.equals=" + UPDATED_SELLING_PRICES);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsBySellingPricesIsInShouldWork() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where sellingPrices in DEFAULT_SELLING_PRICES or UPDATED_SELLING_PRICES
+        defaultProductShouldBeFound("sellingPrices.in=" + DEFAULT_SELLING_PRICES + "," + UPDATED_SELLING_PRICES);
+
+        // Get all the productList where sellingPrices equals to UPDATED_SELLING_PRICES
+        defaultProductShouldNotBeFound("sellingPrices.in=" + UPDATED_SELLING_PRICES);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsBySellingPricesIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where sellingPrices is not null
+        defaultProductShouldBeFound("sellingPrices.specified=true");
+
+        // Get all the productList where sellingPrices is null
+        defaultProductShouldNotBeFound("sellingPrices.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByStockIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where stock equals to DEFAULT_STOCK
+        defaultProductShouldBeFound("stock.equals=" + DEFAULT_STOCK);
+
+        // Get all the productList where stock equals to UPDATED_STOCK
+        defaultProductShouldNotBeFound("stock.equals=" + UPDATED_STOCK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByStockIsInShouldWork() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where stock in DEFAULT_STOCK or UPDATED_STOCK
+        defaultProductShouldBeFound("stock.in=" + DEFAULT_STOCK + "," + UPDATED_STOCK);
+
+        // Get all the productList where stock equals to UPDATED_STOCK
+        defaultProductShouldNotBeFound("stock.in=" + UPDATED_STOCK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByStockIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where stock is not null
+        defaultProductShouldBeFound("stock.specified=true");
+
+        // Get all the productList where stock is null
+        defaultProductShouldNotBeFound("stock.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByStockIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where stock greater than or equals to DEFAULT_STOCK
+        defaultProductShouldBeFound("stock.greaterOrEqualThan=" + DEFAULT_STOCK);
+
+        // Get all the productList where stock greater than or equals to UPDATED_STOCK
+        defaultProductShouldNotBeFound("stock.greaterOrEqualThan=" + UPDATED_STOCK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsByStockIsLessThanSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where stock less than or equals to DEFAULT_STOCK
+        defaultProductShouldNotBeFound("stock.lessThan=" + DEFAULT_STOCK);
+
+        // Get all the productList where stock less than or equals to UPDATED_STOCK
+        defaultProductShouldBeFound("stock.lessThan=" + UPDATED_STOCK);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultProductShouldBeFound(String filter) throws Exception {
+        restProductMockMvc.perform(get("/api/products?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(product.getId().intValue())))
+            .andExpect(jsonPath("$.[*].barcode").value(hasItem(DEFAULT_BARCODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
+            .andExpect(jsonPath("$.[*].warehousePrices").value(hasItem(DEFAULT_WAREHOUSE_PRICES.intValue())))
+            .andExpect(jsonPath("$.[*].unitPrices").value(hasItem(DEFAULT_UNIT_PRICES.intValue())))
+            .andExpect(jsonPath("$.[*].sellingPrices").value(hasItem(DEFAULT_SELLING_PRICES.intValue())))
+            .andExpect(jsonPath("$.[*].stock").value(hasItem(DEFAULT_STOCK)));
+
+        // Check, that the count call also returns 1
+        restProductMockMvc.perform(get("/api/products/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultProductShouldNotBeFound(String filter) throws Exception {
+        restProductMockMvc.perform(get("/api/products?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restProductMockMvc.perform(get("/api/products/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

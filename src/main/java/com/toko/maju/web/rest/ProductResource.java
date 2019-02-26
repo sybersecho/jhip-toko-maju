@@ -4,6 +4,8 @@ import com.toko.maju.web.rest.errors.BadRequestAlertException;
 import com.toko.maju.web.rest.util.HeaderUtil;
 import com.toko.maju.web.rest.util.PaginationUtil;
 import com.toko.maju.service.dto.ProductDTO;
+import com.toko.maju.service.dto.ProductCriteria;
+import com.toko.maju.service.ProductQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +39,11 @@ public class ProductResource {
 
     private final ProductService productService;
 
-    public ProductResource(ProductService productService) {
+    private final ProductQueryService productQueryService;
+
+    public ProductResource(ProductService productService, ProductQueryService productQueryService) {
         this.productService = productService;
+        this.productQueryService = productQueryService;
     }
 
     /**
@@ -85,14 +90,27 @@ public class ProductResource {
      * GET  /products : get all the products.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of products in body
      */
     @GetMapping("/products")
-    public ResponseEntity<List<ProductDTO>> getAllProducts(Pageable pageable) {
-        log.debug("REST request to get a page of Products");
-        Page<ProductDTO> page = productService.findAll(pageable);
+    public ResponseEntity<List<ProductDTO>> getAllProducts(ProductCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Products by criteria: {}", criteria);
+        Page<ProductDTO> page = productQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /products/count : count all the products.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/products/count")
+    public ResponseEntity<Long> countProducts(ProductCriteria criteria) {
+        log.debug("REST request to count Products by criteria: {}", criteria);
+        return ResponseEntity.ok().body(productQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -25,14 +25,8 @@ const ENTITY_STATES = [...productRoute, ...productPopupRoute];
         ProductDeleteDialogComponent,
         ProductDeletePopupComponent
     ],
-    entryComponents: [
-        ProductComponent,
-        ProductUpdateComponent,
-        ProductDeleteDialogComponent,
-        ProductDeletePopupComponent
-    ],
+    entryComponents: [ProductComponent, ProductUpdateComponent, ProductDeleteDialogComponent, ProductDeletePopupComponent],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
-    exports: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhiptokomajuProductModule {
