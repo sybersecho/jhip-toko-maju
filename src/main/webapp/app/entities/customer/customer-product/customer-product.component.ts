@@ -8,6 +8,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { ICustomerProduct } from 'app/shared/model/customer-product.model';
 import { AccountService } from 'app/core';
 import { CustomerProductService } from './customer-product.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'jhi-customer-product',
@@ -117,6 +118,20 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     }
 
     protected onError(errorMessage: string) {
-        // this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    onSaveAll() {
+        this.customerProductService.saveOrUpdate(this.customerProducts)
+            .subscribe(
+                (res: HttpResponse<ICustomerProduct>) => {
+                    console.log(res);
+                },
+                (res: HttpErrorResponse) => {
+                    console.log(res);
+                }
+            );
+        // console.log(this.customerProducts);
+        // this.customerProductService.
     }
 }

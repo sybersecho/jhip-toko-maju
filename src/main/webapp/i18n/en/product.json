@@ -7,6 +7,10 @@
                 "createOrEditLabel": "Create or edit a Product",
                 "search": "Search for Product"
             },
+            "filter": {
+                "product": "Filter By Product",
+                "supplier": "Filter By Supplier"
+            },
             "created": "A new Product is created with identifier {{ param }}",
             "updated": "A Product is updated with identifier {{ param }}",
             "deleted": "A Product is deleted with identifier {{ param }}",

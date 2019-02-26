@@ -14,6 +14,7 @@ import { CustomerDeletePopupComponent } from './customer-delete-dialog.component
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerProductComponent } from './customer-product/customer-product.component';
 import { CustomerProductResolve } from './customer-product/customer-product.route';
+import { SearchProductComponent } from './search-product';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerResolve implements Resolve<ICustomer> {
@@ -41,7 +42,7 @@ export const customerRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'jhiptokomajuApp.customer.home.title'
+            pageTitle: 'jhiptokomajuApp.customer.home.search'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -55,6 +56,15 @@ export const customerRoute: Routes = [
                 resolve: {
                     customerProducts: CustomerProductResolve
                 }
+            },
+            {
+                path: 'search',
+                component: SearchProductComponent,
+                data: {
+                    authorities: ['ROLE_USER'],
+                    pageTitle: 'jhiptokomajuApp.customer.home.title'
+                },
+                canActivate: [UserRouteAccessService]
             }
         ],
         resolve: {

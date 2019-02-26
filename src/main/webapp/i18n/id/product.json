@@ -7,6 +7,10 @@
                 "createOrEditLabel": "Buat atau edit Product",
                 "search": "Cari Product"
             },
+            "filter": {
+                "product": "Filter berdasarkan Product",
+                "supplier": "Filter berdasarkan Pemasok"
+            },
             "created": "Product dengan id {{ param }} telah dibuat",
             "updated": "Product dengan id {{ param }} telah diperbaharui",
             "deleted": "Product dengan id {{ param }} telah dihapus",

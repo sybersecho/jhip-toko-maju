@@ -62,13 +62,13 @@ public class CustomerProductResource {
     }
     
     /**
-     * POST  /customer-products : Create a new customerProduct.
+     * PUT  /customer-products : Create a new customerProduct.
      *
      * @param customerProductDTOs the customerProductDTO to create
      * @return the ResponseEntity with status 201 (Created) and with body the new customerProductDTO, or with status 400 (Bad Request) if the customerProduct has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/customer-products/products")
+    @PutMapping("/customer-products/products")
     public ResponseEntity<CustomerProductDTO> createCustomerProducts(@RequestBody List<CustomerProductDTO> customerProductDTOs) throws URISyntaxException {
         log.debug("REST request to save CustomerProducts");
         if (customerProductDTOs.size() < 0) {

@@ -5,6 +5,11 @@ import { JhiptokomajuSharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponen
 @NgModule({
     imports: [JhiptokomajuSharedLibsModule],
     declarations: [FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent],
-    exports: [JhiptokomajuSharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent]
+    exports: [
+        JhiptokomajuSharedLibsModule,
+        FindLanguageFromKeyPipe,
+        JhiAlertComponent,
+        JhiAlertErrorComponent
+    ]
 })
 export class JhiptokomajuSharedCommonModule {}

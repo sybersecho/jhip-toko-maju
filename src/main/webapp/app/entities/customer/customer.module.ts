@@ -13,7 +13,9 @@ import {
     customerRoute,
     customerPopupRoute
 } from './';
-import { CustomerProductComponent } from './customer-product/customer-product.component';
+
+import { CustomerProductComponent } from './customer-product';
+import { SearchProductComponent } from './search-product';
 
 const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
 
@@ -25,14 +27,15 @@ const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
         CustomerUpdateComponent,
         CustomerDeleteDialogComponent,
         CustomerDeletePopupComponent,
-        CustomerProductComponent
+        CustomerProductComponent,
+        SearchProductComponent
     ],
     entryComponents: [
         CustomerComponent,
         CustomerUpdateComponent,
         CustomerDeleteDialogComponent,
         CustomerDeletePopupComponent,
-        CustomerProductComponent
+        SearchProductComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

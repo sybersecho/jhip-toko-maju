@@ -14,6 +14,7 @@ type EntityArrayResponseType = HttpResponse<ICustomerProduct[]>;
 export class CustomerProductService {
     public resourceUrl = SERVER_API_URL + 'api/customer-products';
     public resourceCustomerUrl = SERVER_API_URL + 'api/customer-products/customers';
+    public resourceProductUrl = SERVER_API_URL + 'api/customer-products/products';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/customer-products';
     private products: ICustomerProduct[] = [];
 
@@ -62,5 +63,9 @@ export class CustomerProductService {
     findByCustomer(id: number): Observable<EntityArrayResponseType> {
         console.log('call by customer');
         return this.http.get<ICustomerProduct[]>(`${this.resourceCustomerUrl}/${id}`, { observe: 'response' });
+    }
+
+    saveOrUpdate(customerProducts: ICustomerProduct[]): Observable<EntityResponseType> {
+        return this.http.put<ICustomerProduct>(this.resourceProductUrl, customerProducts, { observe: 'response' });
     }
 }

@@ -201,7 +201,7 @@ public class CustomerProductResourceIntTest {
         customerProductDTOs.forEach(dto -> {
         	System.out.println(dto.getSpecialPrice() == null ? "special price is null" : dto.getSpecialPrice() + "");
         });
-        restCustomerProductMockMvc.perform(post("/api/customer-products/products")
+        restCustomerProductMockMvc.perform(put("/api/customer-products/products")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(customerProductDTOs)))
             .andExpect(status().isCreated());

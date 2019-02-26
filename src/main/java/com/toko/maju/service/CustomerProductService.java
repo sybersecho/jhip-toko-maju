@@ -52,8 +52,22 @@ public interface CustomerProductService {
      * @return the list of entities
      */
     List<CustomerProductDTO> search(String query);
-
+    
+    /**
+     * Save Customer Product for a Customer.
+     *
+     * @param productDTOs the entity to save
+     * 
+     * @return the persisted entity
+     */
 	CustomerProductDTO saveCustomerProducts(List<CustomerProductDTO> productDTOs);
 
+	/**
+     * Search for the customerProduct corresponding to the query.
+     *
+     * @param customerDTO query the query of the search
+     * 
+     * @return the list of entities
+     */
 	List<CustomerProductDTO> findByCustomer(CustomerDTO customerDTO);
 }

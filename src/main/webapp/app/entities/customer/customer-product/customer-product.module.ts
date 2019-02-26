@@ -17,7 +17,7 @@ import {
 const ENTITY_STATES = [...customerProductRoute, ...customerProductPopupRoute];
 
 @NgModule({
-    imports: [JhiptokomajuSharedModule],
+    imports: [JhiptokomajuSharedModule, RouterModule],
     //imports: [JhiptokomajuSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         CustomerProductComponent,
