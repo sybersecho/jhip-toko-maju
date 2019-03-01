@@ -42,9 +42,6 @@
         </div>
     </div>
     <jhi-alert></jhi-alert>
-    <!-- <div class="row">
-        <div class="col-sm-12"></div>
-    </div> -->
     <br />
     <div class="table-responsive" *ngIf="customers">
         <table class="table table-striped">
@@ -87,7 +84,7 @@
                     <!-- <td>{{ customer.address }}</td> -->
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
-                            <button type="submit" [routerLink]="['/customer', customer.id, 'view']" class="btn btn-info btn-sm">
+                            <button type="submit" [routerLink]="['/customer', customer.id, 'products']" class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                             </button>

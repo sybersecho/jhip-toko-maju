@@ -7,7 +7,7 @@
                 "createOrEditLabel": "Buat atau edit Customer Product",
                 "search": "Cari Customer Product"
             },
-            "created": "Customer Product dengan id {{ param }} telah dibuat",
+            "created": "Customer Product untuk {{ param }} telah dibuat",
             "updated": "Customer Product dengan id {{ param }} telah diperbaharui",
             "deleted": "Customer Product dengan id {{ param }} telah dihapus",
             "delete": {

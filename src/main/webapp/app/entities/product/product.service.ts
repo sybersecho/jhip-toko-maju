@@ -13,6 +13,7 @@ type EntityArrayResponseType = HttpResponse<IProduct[]>;
 export class ProductService {
     public resourceUrl = SERVER_API_URL + 'api/products';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/products';
+    public resourceSearchByNameOrBarcode = SERVER_API_URL + 'api/products-by-name-barcode';
 
     constructor(protected http: HttpClient) {}
 
@@ -40,5 +41,12 @@ export class ProductService {
     search(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IProduct[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
+    }
+
+    searchByNameOrBarcode(req?: any): Observable<EntityArrayResponseType> {
+        console.log('this is req ' + req);
+        const options = createRequestOption(req);
+        console.log('this is options ' + options);
+        return this.http.get<IProduct[]>(this.resourceSearchByNameOrBarcode, { params: options, observe: 'response' });
     }
 }

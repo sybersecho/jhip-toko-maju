@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Data } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Data, Router } from '@angular/router';
+import { Subscription, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
@@ -9,6 +9,7 @@ import { ICustomerProduct } from 'app/shared/model/customer-product.model';
 import { AccountService } from 'app/core';
 import { CustomerProductService } from './customer-product.service';
 import { NgForm } from '@angular/forms';
+import { ICustomer } from 'app/shared/model/customer.model';
 
 @Component({
     selector: 'jhi-customer-product',
@@ -19,53 +20,21 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
+    customer: ICustomer;
 
     constructor(
         protected customerProductService: CustomerProductService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
+        protected router: Router,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
-    ) {
-        // this.currentSearch =
-        //     this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-        //         ? this.activatedRoute.snapshot.params['search']
-        //         : '';
-    }
+    ) {}
 
     loadAll() {
-        // if (this.currentSearch) {
-        //     this.customerProductService
-        //         .search({
-        //             query: this.currentSearch
-        //         })
-        //         .pipe(
-        //             filter((res: HttpResponse<ICustomerProduct[]>) => res.ok),
-        //             map((res: HttpResponse<ICustomerProduct[]>) => res.body)
-        //         )
-        //         .subscribe(
-        //             (res: ICustomerProduct[]) => (this.customerProducts = res),
-        //             (res: HttpErrorResponse) => this.onError(res.message)
-        //         );
-        //     return;
-        // }
-        // this.customerProductService
-        //     .query()
-        //     .pipe(
-        //         filter((res: HttpResponse<ICustomerProduct[]>) => res.ok),
-        //         map((res: HttpResponse<ICustomerProduct[]>) => res.body)
-        //     )
-        //     .subscribe(
-        //         (res: ICustomerProduct[]) => {
-        //             this.customerProducts = res;
-        //             this.currentSearch = '';
-        //         },
-        //         (res: HttpErrorResponse) => this.onError(res.message)
-        //     );
         this.activatedRoute.data.subscribe((data: Data) => {
-            console.log('activated route call');
             this.customerProducts = data['customerProducts'];
-            console.log(this.customerProducts);
+            this.customer = data['customer'];
         });
     }
 
@@ -77,20 +46,6 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    searchByCustomer() {
-        // console.log('searchByCustomer');
-        // this.customerProductService
-        // .findByCustomer()
-        // .pipe(
-        //     filter((res: HttpResponse<ICustomerProduct[]>) => res.ok),
-        //     map((res: HttpResponse<ICustomerProduct[]>) => res.body)
-        // )
-        // .subscribe(
-        //     (res: ICustomerProduct[]) => (this.customerProducts = res),
-        //     (res: HttpErrorResponse) => this.onError(res.message)
-        // );
-    }
-
     clear() {
         console.log('clear');
         this.currentSearch = '';
@@ -99,10 +54,6 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        // this.accountService.identity().then(account => {
-        //     this.currentAccount = account;
-        // });
-        // this.registerChangeInCustomerProducts();
     }
 
     ngOnDestroy() {
@@ -122,16 +73,21 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     }
 
     onSaveAll() {
-        this.customerProductService.saveOrUpdate(this.customerProducts)
-            .subscribe(
-                (res: HttpResponse<ICustomerProduct>) => {
-                    console.log(res);
-                },
-                (res: HttpErrorResponse) => {
-                    console.log(res);
-                }
-            );
-        // console.log(this.customerProducts);
-        // this.customerProductService.
+        this.subscribeToSaveResponse(this.customerProductService.saveOrUpdate(this.customerProducts));
+    }
+
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<ICustomerProduct>>) {
+        result.subscribe((res: HttpResponse<ICustomerProduct>) => this.onSaveSuccess(res), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    protected onSaveSuccess(res: HttpResponse<ICustomerProduct>) {
+        // console.log(res);
+        this.previousState();
+    }
+
+    protected onSaveError() {}
+
+    previousState() {
+        this.router.navigate(['/customer']);
     }
 }

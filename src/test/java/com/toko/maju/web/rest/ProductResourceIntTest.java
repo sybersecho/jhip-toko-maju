@@ -652,7 +652,7 @@ public class ProductResourceIntTest {
         productRepository.saveAndFlush(product);
 
         // Get all the productList where stock greater than or equals to DEFAULT_STOCK
-        defaultProductShouldBeFound("stock.greaterOrEqualThan=" + DEFAULT_STOCK);
+        defaultProductShouldBeFound("stock.greaterOrEqualThan=" + 3);
 
         // Get all the productList where stock greater than or equals to UPDATED_STOCK
         defaultProductShouldNotBeFound("stock.greaterOrEqualThan=" + UPDATED_STOCK);

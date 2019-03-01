@@ -11,7 +11,7 @@
                 class="btn btn-primary float-right jh-create-entity create-customer-product"
                 [ngbTooltip]="addTooltip"
                 placement="bottom"
-                [routerLink]="['search']"
+                [routerLink]="['/customer', customer.id, 'add-products']"
             >
                 <fa-icon [icon]="'plus'"></fa-icon>
                 <ng-template #addTooltip>
@@ -59,12 +59,18 @@
                     <th><span jhiTranslate="jhiptokomajuApp.customerProduct.unitPrices">Unit Price</span></th>
                     <th><span jhiTranslate="jhiptokomajuApp.customerProduct.sellingPrices">Selling Price</span></th>
                     <th><span jhiTranslate="jhiptokomajuApp.customerProduct.specialPrice">Special Price</span></th>
-                    <th></th>
+                    <th>
+                        <div>
+                            <button type="button" id="save-entity" class="btn btn-primary btn-sm float-right" (click)="onSaveAll()">
+                                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.saveAll">Save All</span>
+                            </button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let customerProduct of customerProducts; trackBy: trackId">
-                    <td>{{ customerProduct.id }}</td>
+                <tr *ngFor="let customerProduct of customerProducts; trackBy: trackId; let i = index">
+                    <td>{{ i + 1 }}</td>
                     <td>{{ customerProduct.barcode }}</td>
                     <td>{{ customerProduct.productName }}</td>
                     <td>{{ customerProduct.unit }}</td>
@@ -81,44 +87,15 @@
                             min="0"
                             jhiMin="0"
                         />
-                        <!-- {{ customerProduct.specialPrice }} -->
                     </td>
                     <td class="text-right">
                         <button type="button" class="btn btn-info btn-sm" (click)="onSaveAll()">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.save">Save</span>
                         </button>
-                        <!-- <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/customer-product', customerProduct.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/customer-product', customerProduct.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'customer-product', { outlets: { popup: customerProduct.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div> -->
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div>
-            <button type="submit" id="save-entity" class="btn btn-primary float-right">
-                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-            </button>
-        </div>
-        <!-- </form> -->
     </div>
 </div>

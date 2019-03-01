@@ -102,7 +102,9 @@
             "edit": "Ubah",
             "open": "Buka",
             "save": "Simpan",
-            "view": "Lihat"
+            "view": "Lihat",
+            "add": "Tambah",
+            "saveAll": "Simpan Semua"
         },
         "detail": {
             "field": "Inputan",

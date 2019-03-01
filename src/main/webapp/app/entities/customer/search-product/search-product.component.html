@@ -11,15 +11,15 @@
                         <input
                             type="text"
                             class="form-control"
-                            [(ngModel)]="currentSearch"
-                            id="currentSearch"
-                            name="currentSearch"
+                            [(ngModel)]="searchByProduct"
+                            id="searchByProduct"
+                            name="searchByProduct"
                             placeholder="{{ 'jhiptokomajuApp.product.filter.product' | translate }}"
                         />
-                        <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <button class="input-group-append btn btn-info" (click)="searchByProductQuery(searchByProduct)">
                             <fa-icon [icon]="'search'"></fa-icon>
                         </button>
-                        <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <button class="input-group-append btn btn-danger" (click)="clearProductSearch()" *ngIf="searchByProduct">
                             <fa-icon [icon]="'trash-alt'"></fa-icon>
                         </button>
                     </div>
@@ -37,16 +37,75 @@
                         <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
                             <fa-icon [icon]="'search'"></fa-icon>
                         </button>
-                        <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <button class="input-group-append btn btn-danger" (click)="clearSupplierSearch()" *ngIf="currentSearch">
                             <fa-icon [icon]="'trash-alt'"></fa-icon>
                         </button>
                     </div>
                 </div>
             </form>
         </div>
-        <br />
-        <div class="table-responsive"><!-- *ngIf="products" -->
+    </div>
+    <br />
 
+    <!-- <div class="row"> -->
+    <div class="form-group">
+        <div class="table-responsive" *ngIf="products">
+            <table class="table table-striped">
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse">
+                        <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+                        <th></th>
+                        <th jhiSortBy="barcode">
+                            <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th jhiSortBy="name">
+                            <span jhiTranslate="jhiptokomajuApp.product.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th jhiSortBy="unit">
+                            <span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th jhiSortBy="warehousePrices">
+                            <span jhiTranslate="jhiptokomajuApp.product.warehousePrices">Warehouse Prices</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th jhiSortBy="unitPrices">
+                            <span jhiTranslate="jhiptokomajuApp.product.unitPrices">Unit Prices</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th jhiSortBy="sellingPrices">
+                            <span jhiTranslate="jhiptokomajuApp.product.sellingPrices">Selling Prices</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th jhiSortBy="stock">
+                            <span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of products; trackBy: trackId">
+                        <td>
+                            <input type="checkbox" class="custom-control" />
+                        </td>
+                        <td>{{ product.barcode }}</td>
+                        <td>{{ product.name }}</td>
+                        <td jhiTranslate="{{ 'jhiptokomajuApp.UnitMeasure.' + product.unit }}">{{ product.unit }}</td>
+                        <td>{{ product.warehousePrices }}</td>
+                        <td>{{ product.unitPrices }}</td>
+                        <td>{{ product.sellingPrices }}</td>
+                        <td>{{ product.stock }}</td>
+                        <td class="text-right">
+                            <!-- <button class="input-group-append btn btn-info" (click)="onAddCustomerProduct(product.id)">
+                                <fa-icon [icon]="'search'"></fa-icon>
+                            </button> -->
+                            <button type="button" (click)="onAddCustomerProduct(product)" class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'plus'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.add">Add</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+    <!-- </div> -->
 </div>

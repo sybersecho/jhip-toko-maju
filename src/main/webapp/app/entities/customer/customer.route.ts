@@ -23,11 +23,13 @@ export class CustomerResolve implements Resolve<ICustomer> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ICustomer> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
+            console.log('Resolve ' + id);
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Customer>) => response.ok),
                 map((customer: HttpResponse<Customer>) => customer.body)
             );
         }
+        console.log('Resolve ' + id);
         return of(new Customer());
     }
 }
@@ -47,21 +49,44 @@ export const customerRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/view',
+        // path: ':id/view',
+        path: ':id/products',
         component: CustomerDetailComponent,
         children: [
             {
                 path: '',
                 component: CustomerProductComponent,
                 resolve: {
+                    customer: CustomerResolve,
                     customerProducts: CustomerProductResolve
-                }
-            },
+                },
+                canActivate: [UserRouteAccessService]
+            }
+        ],
+        resolve: {
+            customer: CustomerResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhiptokomajuApp.customer.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        // path: ':id/view',
+        path: ':id/add-products',
+        component: CustomerDetailComponent,
+        children: [
             {
-                path: 'search',
+                path: '',
                 component: SearchProductComponent,
+                resolve: {
+                    pagingParams: JhiResolvePagingParams,
+                    customer: CustomerResolve
+                },
                 data: {
                     authorities: ['ROLE_USER'],
+                    defaultSort: 'id,asc',
                     pageTitle: 'jhiptokomajuApp.customer.home.title'
                 },
                 canActivate: [UserRouteAccessService]
