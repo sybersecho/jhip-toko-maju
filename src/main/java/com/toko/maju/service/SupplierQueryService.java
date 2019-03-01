@@ -111,6 +111,10 @@ public class SupplierQueryService extends QueryService<Supplier> {
             if (criteria.getBankName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBankName(), Supplier_.bankName));
             }
+            if (criteria.getProductId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductId(),
+                    root -> root.join(Supplier_.products, JoinType.LEFT).get(Product_.id)));
+            }
         }
         return specification;
     }

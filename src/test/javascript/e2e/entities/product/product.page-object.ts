@@ -33,6 +33,7 @@ export class ProductUpdatePage {
     unitPriceInput = element(by.id('field_unitPrice'));
     sellingPriceInput = element(by.id('field_sellingPrice'));
     stockInput = element(by.id('field_stock'));
+    supplierSelect = element(by.id('field_supplier'));
 
     async getPageTitle() {
         return this.pageTitle.getAttribute('jhiTranslate');
@@ -99,6 +100,25 @@ export class ProductUpdatePage {
 
     async getStockInput() {
         return this.stockInput.getAttribute('value');
+    }
+
+    async supplierSelectLastOption() {
+        await this.supplierSelect
+            .all(by.tagName('option'))
+            .last()
+            .click();
+    }
+
+    async supplierSelectOption(option) {
+        await this.supplierSelect.sendKeys(option);
+    }
+
+    getSupplierSelect(): ElementFinder {
+        return this.supplierSelect;
+    }
+
+    async getSupplierSelectedOption() {
+        return this.supplierSelect.element(by.css('option:checked')).getText();
     }
 
     async save() {

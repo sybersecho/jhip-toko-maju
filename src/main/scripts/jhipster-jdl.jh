@@ -43,9 +43,10 @@ entity Project{
 // relationship OneToOne{
 //     CustomerProduct{product(barcode)} to Product
 // }
-// relationship OneToMany{
-// 	        //Customer{product} to CustomerProduct{customer(name)}
-// }
+relationship OneToMany{
+    // Customer{product} to CustomerProduct{customer(name)}
+    Supplier to Product{supplier(name)}
+}
 // relationship ManyToOne{
 //     CustomerProduct{customer(name)} to Customer
 // }

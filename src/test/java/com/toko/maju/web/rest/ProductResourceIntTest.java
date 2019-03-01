@@ -3,6 +3,7 @@ package com.toko.maju.web.rest;
 import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.Product;
+import com.toko.maju.domain.Supplier;
 import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.service.ProductService;
@@ -669,6 +670,25 @@ public class ProductResourceIntTest {
 
         // Get all the productList where stock less than or equals to UPDATED_STOCK
         defaultProductShouldBeFound("stock.lessThan=" + UPDATED_STOCK);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProductsBySupplierIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Supplier supplier = SupplierResourceIntTest.createEntity(em);
+        em.persist(supplier);
+        em.flush();
+        product.setSupplier(supplier);
+        productRepository.saveAndFlush(product);
+        Long supplierId = supplier.getId();
+
+        // Get all the productList where supplier equals to supplierId
+        defaultProductShouldBeFound("supplierId.equals=" + supplierId);
+
+        // Get all the productList where supplier equals to supplierId + 1
+        defaultProductShouldNotBeFound("supplierId.equals=" + (supplierId + 1));
     }
 
     /**

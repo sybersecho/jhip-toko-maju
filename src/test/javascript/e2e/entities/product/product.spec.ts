@@ -46,7 +46,8 @@ describe('Product e2e test', () => {
             productUpdatePage.setWarehousePriceInput('5'),
             productUpdatePage.setUnitPriceInput('5'),
             productUpdatePage.setSellingPriceInput('5'),
-            productUpdatePage.setStockInput('5')
+            productUpdatePage.setStockInput('5'),
+            productUpdatePage.supplierSelectLastOption()
         ]);
         expect(await productUpdatePage.getBarcodeInput()).to.eq('barcode');
         expect(await productUpdatePage.getNameInput()).to.eq('name');

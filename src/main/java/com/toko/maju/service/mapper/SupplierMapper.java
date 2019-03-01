@@ -12,6 +12,8 @@ import org.mapstruct.*;
 public interface SupplierMapper extends EntityMapper<SupplierDTO, Supplier> {
 
 
+    @Mapping(target = "products", ignore = true)
+    Supplier toEntity(SupplierDTO supplierDTO);
 
     default Supplier fromId(Long id) {
         if (id == null) {

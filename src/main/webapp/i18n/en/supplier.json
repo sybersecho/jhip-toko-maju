@@ -21,7 +21,8 @@
             "address": "Address",
             "noTelp": "No Telp",
             "bankAccount": "Bank Account",
-            "bankName": "Bank Name"
+            "bankName": "Bank Name",
+            "product": "Product"
         }
     }
 }

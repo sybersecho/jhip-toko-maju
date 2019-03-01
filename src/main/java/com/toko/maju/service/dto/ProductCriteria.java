@@ -45,6 +45,8 @@ public class ProductCriteria implements Serializable {
 
     private IntegerFilter stock;
 
+    private LongFilter supplierId;
+
     public LongFilter getId() {
         return id;
     }
@@ -109,6 +111,14 @@ public class ProductCriteria implements Serializable {
         this.stock = stock;
     }
 
+    public LongFilter getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(LongFilter supplierId) {
+        this.supplierId = supplierId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -127,7 +137,8 @@ public class ProductCriteria implements Serializable {
             Objects.equals(warehousePrice, that.warehousePrice) &&
             Objects.equals(unitPrice, that.unitPrice) &&
             Objects.equals(sellingPrice, that.sellingPrice) &&
-            Objects.equals(stock, that.stock);
+            Objects.equals(stock, that.stock) &&
+            Objects.equals(supplierId, that.supplierId);
     }
 
     @Override
@@ -140,7 +151,8 @@ public class ProductCriteria implements Serializable {
         warehousePrice,
         unitPrice,
         sellingPrice,
-        stock
+        stock,
+        supplierId
         );
     }
 
@@ -155,6 +167,7 @@ public class ProductCriteria implements Serializable {
                 (unitPrice != null ? "unitPrice=" + unitPrice + ", " : "") +
                 (sellingPrice != null ? "sellingPrice=" + sellingPrice + ", " : "") +
                 (stock != null ? "stock=" + stock + ", " : "") +
+                (supplierId != null ? "supplierId=" + supplierId + ", " : "") +
             "}";
     }
 

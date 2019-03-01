@@ -37,6 +37,7 @@
             <th jhiSortBy="unitPrice"><span jhiTranslate="jhiptokomajuApp.product.unitPrice">Unit Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="sellingPrice"><span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stock"><span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplierName"><span jhiTranslate="jhiptokomajuApp.product.supplier">Supplier</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -50,6 +51,11 @@
                 <td>{{product.unitPrice}}</td>
                 <td>{{product.sellingPrice}}</td>
                 <td>{{product.stock}}</td>
+                <td>
+                    <div *ngIf="product.supplierId">
+                        <a [routerLink]="['../supplier', product.supplierId , 'view' ]" >{{product.supplierName}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

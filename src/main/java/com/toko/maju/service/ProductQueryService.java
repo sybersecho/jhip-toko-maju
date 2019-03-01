@@ -114,6 +114,10 @@ public class ProductQueryService extends QueryService<Product> {
             if (criteria.getStock() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getStock(), Product_.stock));
             }
+            if (criteria.getSupplierId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplierId(),
+                    root -> root.join(Product_.supplier, JoinType.LEFT).get(Supplier_.id)));
+            }
         }
         return specification;
     }

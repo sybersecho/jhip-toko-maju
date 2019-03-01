@@ -37,6 +37,10 @@ public class ProductDTO implements Serializable {
     private Integer stock;
 
 
+    private Long supplierId;
+
+    private String supplierName;
+
     public Long getId() {
         return id;
     }
@@ -101,6 +105,22 @@ public class ProductDTO implements Serializable {
         this.stock = stock;
     }
 
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -133,6 +153,8 @@ public class ProductDTO implements Serializable {
             ", unitPrice=" + getUnitPrice() +
             ", sellingPrice=" + getSellingPrice() +
             ", stock=" + getStock() +
+            ", supplier=" + getSupplierId() +
+            ", supplier='" + getSupplierName() + "'" +
             "}";
     }
 }

@@ -38,7 +38,14 @@
             "fieldType": "String"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "supplier"
+        }
+    ],
     "changelogDate": "20190301200343",
     "entityTableName": "supplier",
     "dto": "mapstruct",

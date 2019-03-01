@@ -36,6 +36,8 @@ public class SupplierCriteria implements Serializable {
 
     private StringFilter bankName;
 
+    private LongFilter productId;
+
     public LongFilter getId() {
         return id;
     }
@@ -92,6 +94,14 @@ public class SupplierCriteria implements Serializable {
         this.bankName = bankName;
     }
 
+    public LongFilter getProductId() {
+        return productId;
+    }
+
+    public void setProductId(LongFilter productId) {
+        this.productId = productId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -109,7 +119,8 @@ public class SupplierCriteria implements Serializable {
             Objects.equals(address, that.address) &&
             Objects.equals(noTelp, that.noTelp) &&
             Objects.equals(bankAccount, that.bankAccount) &&
-            Objects.equals(bankName, that.bankName);
+            Objects.equals(bankName, that.bankName) &&
+            Objects.equals(productId, that.productId);
     }
 
     @Override
@@ -121,7 +132,8 @@ public class SupplierCriteria implements Serializable {
         address,
         noTelp,
         bankAccount,
-        bankName
+        bankName,
+        productId
         );
     }
 
@@ -135,6 +147,7 @@ public class SupplierCriteria implements Serializable {
                 (noTelp != null ? "noTelp=" + noTelp + ", " : "") +
                 (bankAccount != null ? "bankAccount=" + bankAccount + ", " : "") +
                 (bankName != null ? "bankName=" + bankName + ", " : "") +
+                (productId != null ? "productId=" + productId + ", " : "") +
             "}";
     }
 

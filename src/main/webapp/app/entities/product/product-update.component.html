@@ -118,6 +118,13 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.supplier" for="field_supplier">Supplier</label>
+                    <select class="form-control" id="field_supplier" name="supplier" [(ngModel)]="product.supplierId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplierOption.id" *ngFor="let supplierOption of suppliers; trackBy: trackSupplierById">{{supplierOption.name}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

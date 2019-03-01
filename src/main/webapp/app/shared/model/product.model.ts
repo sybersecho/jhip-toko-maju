@@ -13,6 +13,8 @@ export interface IProduct {
     unitPrice?: number;
     sellingPrice?: number;
     stock?: number;
+    supplierName?: string;
+    supplierId?: number;
 }
 
 export class Product implements IProduct {
@@ -24,6 +26,8 @@ export class Product implements IProduct {
         public warehousePrice?: number,
         public unitPrice?: number,
         public sellingPrice?: number,
-        public stock?: number
+        public stock?: number,
+        public supplierName?: string,
+        public supplierId?: number
     ) {}
 }

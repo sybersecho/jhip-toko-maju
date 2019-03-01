@@ -22,7 +22,8 @@
             "warehousePrice": "Warehouse Price",
             "unitPrice": "Unit Price",
             "sellingPrice": "Selling Price",
-            "stock": "Stock"
+            "stock": "Stock",
+            "supplier": "Supplier"
         }
     }
 }

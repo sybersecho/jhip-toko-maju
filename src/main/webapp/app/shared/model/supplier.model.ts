@@ -1,3 +1,5 @@
+import { IProduct } from 'app/shared/model/product.model';
+
 export interface ISupplier {
     id?: number;
     name?: string;
@@ -6,6 +8,7 @@ export interface ISupplier {
     noTelp?: string;
     bankAccount?: string;
     bankName?: string;
+    products?: IProduct[];
 }
 
 export class Supplier implements ISupplier {
@@ -16,6 +19,7 @@ export class Supplier implements ISupplier {
         public address?: string,
         public noTelp?: string,
         public bankAccount?: string,
-        public bankName?: string
+        public bankName?: string,
+        public products?: IProduct[]
     ) {}
 }

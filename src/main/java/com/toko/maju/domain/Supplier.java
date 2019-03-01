@@ -1,6 +1,7 @@
 package com.toko.maju.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,6 +10,8 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -48,6 +51,9 @@ public class Supplier implements Serializable {
     @Column(name = "bank_name")
     private String bankName;
 
+    @OneToMany(mappedBy = "supplier")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Product> products = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -133,6 +139,31 @@ public class Supplier implements Serializable {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public Supplier products(Set<Product> products) {
+        this.products = products;
+        return this;
+    }
+
+    public Supplier addProduct(Product product) {
+        this.products.add(product);
+        product.setSupplier(this);
+        return this;
+    }
+
+    public Supplier removeProduct(Product product) {
+        this.products.remove(product);
+        product.setSupplier(null);
+        return this;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -3,6 +3,7 @@ package com.toko.maju.web.rest;
 import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.Supplier;
+import com.toko.maju.domain.Product;
 import com.toko.maju.repository.SupplierRepository;
 import com.toko.maju.repository.search.SupplierSearchRepository;
 import com.toko.maju.service.SupplierService;
@@ -539,6 +540,25 @@ public class SupplierResourceIntTest {
         // Get all the supplierList where bankName is null
         defaultSupplierShouldNotBeFound("bankName.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllSuppliersByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        supplier.addProduct(product);
+        supplierRepository.saveAndFlush(supplier);
+        Long productId = product.getId();
+
+        // Get all the supplierList where product equals to productId
+        defaultSupplierShouldBeFound("productId.equals=" + productId);
+
+        // Get all the supplierList where product equals to productId + 1
+        defaultSupplierShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */

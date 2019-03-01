@@ -1,6 +1,7 @@
 package com.toko.maju.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -60,6 +61,10 @@ public class Product implements Serializable {
     @NotNull
     @Column(name = "stock", nullable = false)
     private Integer stock;
+
+    @ManyToOne
+    @JsonIgnoreProperties("suppliers")
+    private Supplier supplier;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -159,6 +164,19 @@ public class Product implements Serializable {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public Product supplier(Supplier supplier) {
+        this.supplier = supplier;
+        return this;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
