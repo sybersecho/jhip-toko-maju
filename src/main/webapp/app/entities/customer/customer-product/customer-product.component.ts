@@ -49,7 +49,7 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     clear() {
         console.log('clear');
         this.currentSearch = '';
-        this.loadAll();
+        this.reload();
     }
 
     ngOnInit() {
@@ -65,7 +65,7 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInCustomerProducts() {
-        // this.eventSubscriber = this.eventManager.subscribe('customerProductListModification', response => this.loadAll());
+        // this.eventSubscriber = this.eventManager.subscribe('customerProductListModification', response => this.reload);
     }
 
     protected onError(errorMessage: string) {
@@ -81,7 +81,6 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     }
 
     protected onSaveSuccess(res: HttpResponse<ICustomerProduct>) {
-        // console.log(res);
         this.previousState();
     }
 
@@ -89,5 +88,33 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
 
     previousState() {
         this.router.navigate(['/customer']);
+    }
+
+    deleteCustomerProduct(id: number) {
+        this.customerProductService.delete(id).subscribe(
+            res => {
+                this.reload();
+            },
+            err => {
+                console.log('error');
+            }
+        );
+    }
+
+    saveCustomerProduct(customerProduct: ICustomerProduct) {
+        this.customerProductService.update(customerProduct).subscribe(
+            res => {
+                this.reload();
+            },
+            err => {
+                console.log(err);
+            }
+        );
+    }
+
+    protected reload() {
+        this.customerProductService
+            .findByCustomer(this.customer.id)
+            .subscribe((res: HttpResponse<ICustomerProduct[]>) => (this.customerProducts = res.body));
     }
 }

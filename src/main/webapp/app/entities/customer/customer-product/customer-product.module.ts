@@ -20,14 +20,14 @@ const ENTITY_STATES = [...customerProductRoute, ...customerProductPopupRoute];
     imports: [JhiptokomajuSharedModule, RouterModule],
     //imports: [JhiptokomajuSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
-        CustomerProductComponent,
+        // CustomerProductComponent,
         CustomerProductDetailComponent,
         CustomerProductUpdateComponent,
         CustomerProductDeleteDialogComponent,
         CustomerProductDeletePopupComponent
     ],
     entryComponents: [
-        CustomerProductComponent,
+        // CustomerProductComponent,
         CustomerProductUpdateComponent,
         CustomerProductDeleteDialogComponent,
         CustomerProductDeletePopupComponent

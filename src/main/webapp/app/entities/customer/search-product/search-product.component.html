@@ -39,15 +39,14 @@
                         <input
                             type="text"
                             class="form-control"
-                            [(ngModel)]="currentSearch"
                             id="currentSearch"
                             name="currentSearch"
                             placeholder="{{ 'jhiptokomajuApp.product.filter.supplier' | translate }}"
                         />
-                        <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <button class="input-group-append btn btn-info">
                             <fa-icon [icon]="'search'"></fa-icon>
                         </button>
-                        <button class="input-group-append btn btn-danger" (click)="clearSupplierSearch()" *ngIf="currentSearch">
+                        <button class="input-group-append btn btn-danger" (click)="clearSupplierSearch()">
                             <fa-icon [icon]="'trash-alt'"></fa-icon>
                         </button>
                     </div>
