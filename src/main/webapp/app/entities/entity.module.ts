@@ -19,6 +19,10 @@ import { RouterModule } from '@angular/router';
             {
                 path: 'product',
                 loadChildren: './product/product.module#JhiptokomajuProductModule'
+            },
+            {
+                path: 'supplier',
+                loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

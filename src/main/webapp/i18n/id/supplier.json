@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "supplier": {
+            "home": {
+                "title": "Suppliers",
+                "createLabel": "Buat Supplier baru",
+                "createOrEditLabel": "Buat atau edit Supplier",
+                "search": "Cari Supplier"
+            },
+            "created": "Supplier dengan id {{ param }} telah dibuat",
+            "updated": "Supplier dengan id {{ param }} telah diperbaharui",
+            "deleted": "Supplier dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Supplier {{ id }}?"
+            },
+            "detail": {
+                "title": "Supplier"
+            },
+            "name": "Name",
+            "code": "Code",
+            "address": "Address",
+            "noTelp": "No Telp",
+            "bankAccount": "Bank Account",
+            "bankName": "Bank Name"
+        }
+    }
+}

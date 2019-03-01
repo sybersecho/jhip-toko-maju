@@ -1,30 +1,23 @@
 entity Customer{
-	code String required
+    code String required
 	firstName String required,
     lastName String required,
     gender Gender required
     phoneNumber String,
     address String
 }
-
-enum Gender{
-	MALE,
-    FEMALE
+enum Gender {
+    MALE, FEMALE
 }
-
-enum UnitMeasure{
-	KG,
-    SAK,
-    M
+enum UnitMeasure {
+    KG, SAK, M
 }
-
 entity Project{
-	name String required,
+    name String required,
     address String required
 }
-
 entity Product{
-	barcode String required,
+    barcode String required,
     name String required,
     unit UnitMeasure required,
     warehousePrice BigDecimal required min(0),
@@ -32,35 +25,37 @@ entity Product{
     sellingPrice BigDecimal required min(0),
     stock Integer required
 }
-
+entity Supplier{
+    name String required,
+    code String required,
+    address String required,
+    noTelp String required,
+    bankAccount String,
+    bankName String
+}
 entity Project{
-	name String required,
+    name String required,
     address String required
 }
-
-//entity CustomerProduct{
-//	specialPrice BigDecimal required min(0)
-//}
-
+// entity CustomerProduct{
+//     specialPrice BigDecimal required min(0)
+// }
+// relationship OneToOne{
+//     CustomerProduct{product(barcode)} to Product
+// }
 // relationship OneToMany{
-// 	//Customer{product} to CustomerProduct{customer(name)}
+// 	        //Customer{product} to CustomerProduct{customer(name)}
 // }
-
 // relationship ManyToOne{
-// 	//CustomerProduct{product(name)} to Product
+//     CustomerProduct{customer(name)} to Customer
 // }
-
 // Set pagination options
-//paginate JobHistory, Employee with infinite-scroll
-paginate * with pagination
-
+// paginate CustomerProduct with infinite-scroll
+paginate * with pagination //except CustomerProduct
 // Use Data Transfert Objects (DTO)
 dto * with mapstruct
-
 // Set service options to all except few
 service all with serviceImpl
-
-filter Product, Customer, Project
-
+filter Product, Customer, Project, Supplier
 // Set an angular suffix
 //angularSuffix * with ti

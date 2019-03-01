@@ -10,6 +10,7 @@
                 "customer": "Customer",
                 "product": "Product",
                 "project": "Project",
+                "supplier": "Supplier",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
