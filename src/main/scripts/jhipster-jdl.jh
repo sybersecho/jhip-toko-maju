@@ -37,22 +37,22 @@ entity Project{
     name String required,
     address String required
 }
-// entity CustomerProduct{
-//     specialPrice BigDecimal required min(0)
-// }
-// relationship OneToOne{
-//     CustomerProduct{product(barcode)} to Product
-// }
+entity CustomerProduct{
+    specialPrice BigDecimal required min(0)
+}
+relationship OneToOne{
+    CustomerProduct{product(barcode)} to Product
+}
 relationship OneToMany{
     // Customer{product} to CustomerProduct{customer(name)}
     Supplier to Product{supplier(name)}
 }
-// relationship ManyToOne{
-//     CustomerProduct{customer(name)} to Customer
-// }
+relationship ManyToOne{
+    CustomerProduct{customer(name)} to Customer
+}
 // Set pagination options
-// paginate CustomerProduct with infinite-scroll
-paginate * with pagination //except CustomerProduct
+paginate CustomerProduct with infinite-scroll
+paginate * with pagination except CustomerProduct
 // Use Data Transfert Objects (DTO)
 dto * with mapstruct
 // Set service options to all except few

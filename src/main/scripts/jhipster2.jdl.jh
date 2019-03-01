@@ -1,0 +1,62 @@
+// JDL definition for application 'jhiptokomaju' generated with command 'jhipster export-jdl'
+
+entity Customer {
+  code String required,
+  firstName String required,
+  lastName String required,
+  gender Gender required,
+  phoneNumber String,
+  address String
+}
+entity Product {
+  barcode String required,
+  name String required,
+  unit UnitMeasure required,
+  warehousePrice BigDecimal required min(0),
+  unitPrice BigDecimal required min(0),
+  sellingPrice BigDecimal required min(0),
+  stock Integer required
+}
+entity Project {
+  name String required,
+  address String required
+}
+entity Supplier {
+  name String required,
+  code String required,
+  address String required,
+  noTelp String required,
+  bankAccount String,
+  bankName String
+}
+entity CustomerProduct {
+  specialPrice BigDecimal required min(0)
+}
+
+enum Gender {
+  MALE,
+  FEMALE
+}
+
+enum UnitMeasure {
+  KG,
+  SAK,
+  M
+}
+
+relationship OneToOne {
+  CustomerProduct{product(name) required} to Product
+}
+relationship OneToMany {
+  Supplier{product} to Product{supplier(name)}
+}
+relationship ManyToOne {
+  CustomerProduct{customer(firstName) required} to Customer
+}
+
+dto Customer, Product, Project, Supplier, CustomerProduct with mapstruct
+paginate Customer, Product, Project, Supplier with pagination
+paginate CustomerProduct with infinite-scroll
+service Customer, Product, Project, Supplier, CustomerProduct with serviceImpl
+filter Customer, Product, Project, Supplier, CustomerProduct
+search CustomerProduct with elasticsearch
