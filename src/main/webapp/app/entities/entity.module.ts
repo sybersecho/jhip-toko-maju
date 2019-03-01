@@ -17,18 +17,6 @@ import { RouterModule } from '@angular/router';
                 loadChildren: './project/project.module#JhiptokomajuProjectModule'
             },
             {
-                path: 'product',
-                loadChildren: './product/product.module#JhiptokomajuProductModule'
-            },
-            {
-                path: 'supplier',
-                loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
-            },
-            {
-                path: 'product',
-                loadChildren: './product/product.module#JhiptokomajuProductModule'
-            },
-            {
                 path: 'supplier',
                 loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
             }

@@ -29,9 +29,7 @@ entity Supplier {
   bankAccount String,
   bankName String
 }
-entity CustomerProduct {
-  specialPrice BigDecimal required min(0)
-}
+entity CustomerProduct
 
 enum Gender {
   MALE,
@@ -44,14 +42,8 @@ enum UnitMeasure {
   M
 }
 
-relationship OneToOne {
-  CustomerProduct{product(name) required} to Product
-}
 relationship OneToMany {
   Supplier{product} to Product{supplier(name)}
-}
-relationship ManyToOne {
-  CustomerProduct{customer(firstName) required} to Customer
 }
 
 dto Customer, Product, Project, Supplier, CustomerProduct with mapstruct
@@ -59,4 +51,4 @@ paginate Customer, Product, Project, Supplier with pagination
 paginate CustomerProduct with infinite-scroll
 service Customer, Product, Project, Supplier, CustomerProduct with serviceImpl
 filter Customer, Product, Project, Supplier, CustomerProduct
-search CustomerProduct with elasticsearch
+search * with elasticsearch

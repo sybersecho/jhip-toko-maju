@@ -16,12 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
@@ -55,13 +53,10 @@ public class CustomerProductResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/customer-products")
-    public ResponseEntity<CustomerProductDTO> createCustomerProduct(@Valid @RequestBody CustomerProductDTO customerProductDTO) throws URISyntaxException {
+    public ResponseEntity<CustomerProductDTO> createCustomerProduct(@RequestBody CustomerProductDTO customerProductDTO) throws URISyntaxException {
         log.debug("REST request to save CustomerProduct : {}", customerProductDTO);
         if (customerProductDTO.getId() != null) {
             throw new BadRequestAlertException("A new customerProduct cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        if (Objects.isNull(customerProductDTO.getProductId())) {
-            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
         }
         CustomerProductDTO result = customerProductService.save(customerProductDTO);
         return ResponseEntity.created(new URI("/api/customer-products/" + result.getId()))
@@ -79,7 +74,7 @@ public class CustomerProductResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/customer-products")
-    public ResponseEntity<CustomerProductDTO> updateCustomerProduct(@Valid @RequestBody CustomerProductDTO customerProductDTO) throws URISyntaxException {
+    public ResponseEntity<CustomerProductDTO> updateCustomerProduct(@RequestBody CustomerProductDTO customerProductDTO) throws URISyntaxException {
         log.debug("REST request to update CustomerProduct : {}", customerProductDTO);
         if (customerProductDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

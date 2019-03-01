@@ -64,7 +64,7 @@
             "relationshipName": "supplier",
             "otherEntityName": "supplier",
             "otherEntityField": "name",
-            "otherEntityRelationshipName": "supplier"
+            "otherEntityRelationshipName": "product"
         }
     ],
     "changelogDate": "20190301191147",
@@ -75,5 +75,6 @@
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

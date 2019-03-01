@@ -93,17 +93,6 @@ public class CustomerProductQueryService extends QueryService<CustomerProduct> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), CustomerProduct_.id));
             }
-            if (criteria.getSpecialPrice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getSpecialPrice(), CustomerProduct_.specialPrice));
-            }
-            if (criteria.getCustomerId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCustomerId(),
-                    root -> root.join(CustomerProduct_.customer, JoinType.LEFT).get(Customer_.id)));
-            }
-            if (criteria.getProductId() != null) {
-                specification = specification.and(buildSpecification(criteria.getProductId(),
-                    root -> root.join(CustomerProduct_.product, JoinType.LEFT).get(Product_.id)));
-            }
         }
         return specification;
     }

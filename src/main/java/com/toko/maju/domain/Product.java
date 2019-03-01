@@ -63,7 +63,7 @@ public class Product implements Serializable {
     private Integer stock;
 
     @ManyToOne
-    @JsonIgnoreProperties("suppliers")
+    @JsonIgnoreProperties("products")
     private Supplier supplier;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

@@ -1,40 +1,8 @@
 {
     "fluentMethods": true,
     "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "customer",
-            "otherEntityName": "customer",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "firstName"
-        },
-        {
-            "relationshipName": "product",
-            "otherEntityName": "product",
-            "relationshipType": "one-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name",
-            "ownerSide": true,
-            "useJPADerivedIdentifier": true,
-            "otherEntityRelationshipName": "customerProduct"
-        }
-    ],
-    "fields": [
-        {
-            "fieldName": "specialPrice",
-            "fieldType": "BigDecimal",
-            "fieldValidateRules": [
-                "required",
-                "min"
-            ],
-            "fieldValidateRulesMin": "0"
-        }
-    ],
+    "relationships": [],
+    "fields": [],
     "changelogDate": "20190301203105",
     "dto": "mapstruct",
     "searchEngine": "elasticsearch",

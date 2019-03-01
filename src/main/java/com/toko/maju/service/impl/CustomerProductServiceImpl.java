@@ -3,7 +3,6 @@ package com.toko.maju.service.impl;
 import com.toko.maju.service.CustomerProductService;
 import com.toko.maju.domain.CustomerProduct;
 import com.toko.maju.repository.CustomerProductRepository;
-import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.search.CustomerProductSearchRepository;
 import com.toko.maju.service.dto.CustomerProductDTO;
 import com.toko.maju.service.mapper.CustomerProductMapper;
@@ -34,13 +33,10 @@ public class CustomerProductServiceImpl implements CustomerProductService {
 
     private final CustomerProductSearchRepository customerProductSearchRepository;
 
-    private final ProductRepository productRepository;
-
-    public CustomerProductServiceImpl(CustomerProductRepository customerProductRepository, CustomerProductMapper customerProductMapper, CustomerProductSearchRepository customerProductSearchRepository, ProductRepository productRepository) {
+    public CustomerProductServiceImpl(CustomerProductRepository customerProductRepository, CustomerProductMapper customerProductMapper, CustomerProductSearchRepository customerProductSearchRepository) {
         this.customerProductRepository = customerProductRepository;
         this.customerProductMapper = customerProductMapper;
         this.customerProductSearchRepository = customerProductSearchRepository;
-        this.productRepository = productRepository;
     }
 
     /**
@@ -53,8 +49,6 @@ public class CustomerProductServiceImpl implements CustomerProductService {
     public CustomerProductDTO save(CustomerProductDTO customerProductDTO) {
         log.debug("Request to save CustomerProduct : {}", customerProductDTO);
         CustomerProduct customerProduct = customerProductMapper.toEntity(customerProductDTO);
-        long productId = customerProductDTO.getProductId();
-        productRepository.findById(productId).ifPresent(customerProduct::product);
         customerProduct = customerProductRepository.save(customerProduct);
         CustomerProductDTO result = customerProductMapper.toDto(customerProduct);
         customerProductSearchRepository.save(customerProduct);
