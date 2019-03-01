@@ -1,0 +1,66 @@
+entity Customer{
+	code String required
+	firstName String required,
+    lastName String required,
+    gender Gender required
+    phoneNumber String,
+    address String
+}
+
+enum Gender{
+	MALE,
+    FEMALE
+}
+
+enum UnitMeasure{
+	KG,
+    SAK,
+    M
+}
+
+entity Project{
+	name String required,
+    address String required
+}
+
+entity Product{
+	barcode String required,
+    name String required,
+    unit UnitMeasure required,
+    warehousePrice BigDecimal required min(0),
+    unitPrice BigDecimal required min(0),
+    sellingPrice BigDecimal required min(0),
+    stock Integer required
+}
+
+entity Project{
+	name String required,
+    address String required
+}
+
+//entity CustomerProduct{
+//	specialPrice BigDecimal required min(0)
+//}
+
+// relationship OneToMany{
+// 	//Customer{product} to CustomerProduct{customer(name)}
+// }
+
+// relationship ManyToOne{
+// 	//CustomerProduct{product(name)} to Product
+// }
+
+// Set pagination options
+//paginate JobHistory, Employee with infinite-scroll
+paginate * with pagination
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+filter Product, Customer, Project
+
+// Set an angular suffix
+//angularSuffix * with ti
