@@ -154,6 +154,10 @@ export class SearchProductComponent implements OnInit, OnDestroy {
         // this.loadAll();
     }
 
+    previousState() {
+        this.router.navigate(['customer', this.customerId, 'products']);
+    }
+
     onAddCustomerProduct(product: IProduct) {
         this.customerProduct.productId = product.id;
         this.customerProduct.specialPrice = product.sellingPrices;
