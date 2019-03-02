@@ -17,7 +17,8 @@
                 "title": "Project"
             },
             "name": "Name",
-            "address": "Address"
+            "address": "Address",
+            "product": "Product"
         }
     }
 }

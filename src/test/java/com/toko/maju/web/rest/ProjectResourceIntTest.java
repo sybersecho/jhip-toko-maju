@@ -3,6 +3,7 @@ package com.toko.maju.web.rest;
 import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.Project;
+import com.toko.maju.domain.ProjectProduct;
 import com.toko.maju.repository.ProjectRepository;
 import com.toko.maju.repository.search.ProjectSearchRepository;
 import com.toko.maju.service.ProjectService;
@@ -317,6 +318,25 @@ public class ProjectResourceIntTest {
         // Get all the projectList where address is null
         defaultProjectShouldNotBeFound("address.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        ProjectProduct product = ProjectProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        project.addProduct(product);
+        projectRepository.saveAndFlush(project);
+        Long productId = product.getId();
+
+        // Get all the projectList where product equals to productId
+        defaultProjectShouldBeFound("productId.equals=" + productId);
+
+        // Get all the projectList where product equals to productId + 1
+        defaultProjectShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */

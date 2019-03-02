@@ -1,5 +1,15 @@
 {
-    "name": "Project",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipName": "product",
+            "otherEntityName": "projectProduct",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "project",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
     "fields": [
         {
             "fieldName": "name",
@@ -16,15 +26,12 @@
             ]
         }
     ],
-    "relationships": [],
     "changelogDate": "20190301194022",
-    "entityTableName": "project",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
+    "entityTableName": "project",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "pagination": "pagination"
 }

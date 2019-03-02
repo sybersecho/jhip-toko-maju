@@ -12,6 +12,8 @@ import org.mapstruct.*;
 public interface ProjectMapper extends EntityMapper<ProjectDTO, Project> {
 
 
+    @Mapping(target = "products", ignore = true)
+    Project toEntity(ProjectDTO projectDTO);
 
     default Project fromId(Long id) {
         if (id == null) {

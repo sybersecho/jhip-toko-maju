@@ -99,6 +99,10 @@ public class ProjectQueryService extends QueryService<Project> {
             if (criteria.getAddress() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAddress(), Project_.address));
             }
+            if (criteria.getProductId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductId(),
+                    root -> root.join(Project_.products, JoinType.LEFT).get(ProjectProduct_.id)));
+            }
         }
         return specification;
     }

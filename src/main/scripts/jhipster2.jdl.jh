@@ -32,6 +32,9 @@ entity Supplier {
 entity CustomerProduct {
   specialPrice BigDecimal required min(0)
 }
+entity ProjectProduct {
+  specialPrice BigDecimal required min(0)
+}
 
 enum Gender {
   MALE,
@@ -46,12 +49,17 @@ enum UnitMeasure {
 
 relationship OneToMany {
   Supplier{product} to Product{supplier(name)},
-  Customer{product} to CustomerProduct{customer(firstName) required}
+  Customer{product} to CustomerProduct{customer(firstName) required},
+  Project{product} to ProjectProduct{project(name) required}
+}
+relationship ManyToOne {
+  CustomerProduct{product(name) required} to Product,
+  ProjectProduct{product(name) required} to Product
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct with mapstruct
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct with mapstruct
 paginate Customer, Product, Project, Supplier with pagination
-paginate CustomerProduct with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct
+paginate CustomerProduct, ProjectProduct with infinite-scroll
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct
