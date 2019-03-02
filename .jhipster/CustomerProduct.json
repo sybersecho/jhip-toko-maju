@@ -1,8 +1,30 @@
 {
     "fluentMethods": true,
     "clientRootFolder": "",
-    "relationships": [],
-    "fields": [],
+    "relationships": [
+        {
+            "relationshipName": "customer",
+            "otherEntityName": "customer",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "firstName",
+            "otherEntityRelationshipName": "customerProduct",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "specialPrice",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": "0"
+        }
+    ],
     "changelogDate": "20190301203105",
     "dto": "mapstruct",
     "searchEngine": "elasticsearch",

@@ -29,7 +29,9 @@ entity Supplier {
   bankAccount String,
   bankName String
 }
-entity CustomerProduct
+entity CustomerProduct {
+  specialPrice BigDecimal required min(0)
+}
 
 enum Gender {
   MALE,
@@ -43,7 +45,8 @@ enum UnitMeasure {
 }
 
 relationship OneToMany {
-  Supplier{product} to Product{supplier(name)}
+  Supplier{product} to Product{supplier(name)},
+  Customer{product} to CustomerProduct{customer(firstName) required}
 }
 
 dto Customer, Product, Project, Supplier, CustomerProduct with mapstruct

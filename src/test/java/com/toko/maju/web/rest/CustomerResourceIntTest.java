@@ -3,6 +3,7 @@ package com.toko.maju.web.rest;
 import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.Customer;
+import com.toko.maju.domain.CustomerProduct;
 import com.toko.maju.repository.CustomerRepository;
 import com.toko.maju.repository.search.CustomerSearchRepository;
 import com.toko.maju.service.CustomerService;
@@ -540,6 +541,25 @@ public class CustomerResourceIntTest {
         // Get all the customerList where address is null
         defaultCustomerShouldNotBeFound("address.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllCustomersByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        CustomerProduct product = CustomerProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        customer.addProduct(product);
+        customerRepository.saveAndFlush(customer);
+        Long productId = product.getId();
+
+        // Get all the customerList where product equals to productId
+        defaultCustomerShouldBeFound("productId.equals=" + productId);
+
+        // Get all the customerList where product equals to productId + 1
+        defaultCustomerShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */

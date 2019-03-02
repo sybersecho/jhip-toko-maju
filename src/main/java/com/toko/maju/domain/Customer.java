@@ -1,6 +1,7 @@
 package com.toko.maju.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,6 +10,8 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 import com.toko.maju.domain.enumeration.Gender;
@@ -51,6 +54,9 @@ public class Customer implements Serializable {
     @Column(name = "address")
     private String address;
 
+    @OneToMany(mappedBy = "customer")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<CustomerProduct> products = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -136,6 +142,31 @@ public class Customer implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Set<CustomerProduct> getProducts() {
+        return products;
+    }
+
+    public Customer products(Set<CustomerProduct> customerProducts) {
+        this.products = customerProducts;
+        return this;
+    }
+
+    public Customer addProduct(CustomerProduct customerProduct) {
+        this.products.add(customerProduct);
+        customerProduct.setCustomer(this);
+        return this;
+    }
+
+    public Customer removeProduct(CustomerProduct customerProduct) {
+        this.products.remove(customerProduct);
+        customerProduct.setCustomer(null);
+        return this;
+    }
+
+    public void setProducts(Set<CustomerProduct> customerProducts) {
+        this.products = customerProducts;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

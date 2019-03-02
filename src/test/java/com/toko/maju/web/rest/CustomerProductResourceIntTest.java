@@ -3,6 +3,7 @@ package com.toko.maju.web.rest;
 import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.CustomerProduct;
+import com.toko.maju.domain.Customer;
 import com.toko.maju.repository.CustomerProductRepository;
 import com.toko.maju.repository.search.CustomerProductSearchRepository;
 import com.toko.maju.service.CustomerProductService;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,6 +52,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JhiptokomajuApp.class)
 public class CustomerProductResourceIntTest {
+
+    private static final BigDecimal DEFAULT_SPECIAL_PRICE = new BigDecimal(0);
+    private static final BigDecimal UPDATED_SPECIAL_PRICE = new BigDecimal(1);
 
     @Autowired
     private CustomerProductRepository customerProductRepository;
@@ -109,7 +114,13 @@ public class CustomerProductResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static CustomerProduct createEntity(EntityManager em) {
-        CustomerProduct customerProduct = new CustomerProduct();
+        CustomerProduct customerProduct = new CustomerProduct()
+            .specialPrice(DEFAULT_SPECIAL_PRICE);
+        // Add required entity
+        Customer customer = CustomerResourceIntTest.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        customerProduct.setCustomer(customer);
         return customerProduct;
     }
 
@@ -134,6 +145,7 @@ public class CustomerProductResourceIntTest {
         List<CustomerProduct> customerProductList = customerProductRepository.findAll();
         assertThat(customerProductList).hasSize(databaseSizeBeforeCreate + 1);
         CustomerProduct testCustomerProduct = customerProductList.get(customerProductList.size() - 1);
+        assertThat(testCustomerProduct.getSpecialPrice()).isEqualTo(DEFAULT_SPECIAL_PRICE);
 
         // Validate the CustomerProduct in Elasticsearch
         verify(mockCustomerProductSearchRepository, times(1)).save(testCustomerProduct);
@@ -164,6 +176,25 @@ public class CustomerProductResourceIntTest {
 
     @Test
     @Transactional
+    public void checkSpecialPriceIsRequired() throws Exception {
+        int databaseSizeBeforeTest = customerProductRepository.findAll().size();
+        // set the field null
+        customerProduct.setSpecialPrice(null);
+
+        // Create the CustomerProduct, which fails.
+        CustomerProductDTO customerProductDTO = customerProductMapper.toDto(customerProduct);
+
+        restCustomerProductMockMvc.perform(post("/api/customer-products")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(customerProductDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<CustomerProduct> customerProductList = customerProductRepository.findAll();
+        assertThat(customerProductList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCustomerProducts() throws Exception {
         // Initialize the database
         customerProductRepository.saveAndFlush(customerProduct);
@@ -172,7 +203,8 @@ public class CustomerProductResourceIntTest {
         restCustomerProductMockMvc.perform(get("/api/customer-products?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(customerProduct.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(customerProduct.getId().intValue())))
+            .andExpect(jsonPath("$.[*].specialPrice").value(hasItem(DEFAULT_SPECIAL_PRICE.intValue())));
     }
     
     @Test
@@ -185,8 +217,67 @@ public class CustomerProductResourceIntTest {
         restCustomerProductMockMvc.perform(get("/api/customer-products/{id}", customerProduct.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(customerProduct.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(customerProduct.getId().intValue()))
+            .andExpect(jsonPath("$.specialPrice").value(DEFAULT_SPECIAL_PRICE.intValue()));
     }
+
+    @Test
+    @Transactional
+    public void getAllCustomerProductsBySpecialPriceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerProductRepository.saveAndFlush(customerProduct);
+
+        // Get all the customerProductList where specialPrice equals to DEFAULT_SPECIAL_PRICE
+        defaultCustomerProductShouldBeFound("specialPrice.equals=" + DEFAULT_SPECIAL_PRICE);
+
+        // Get all the customerProductList where specialPrice equals to UPDATED_SPECIAL_PRICE
+        defaultCustomerProductShouldNotBeFound("specialPrice.equals=" + UPDATED_SPECIAL_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCustomerProductsBySpecialPriceIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerProductRepository.saveAndFlush(customerProduct);
+
+        // Get all the customerProductList where specialPrice in DEFAULT_SPECIAL_PRICE or UPDATED_SPECIAL_PRICE
+        defaultCustomerProductShouldBeFound("specialPrice.in=" + DEFAULT_SPECIAL_PRICE + "," + UPDATED_SPECIAL_PRICE);
+
+        // Get all the customerProductList where specialPrice equals to UPDATED_SPECIAL_PRICE
+        defaultCustomerProductShouldNotBeFound("specialPrice.in=" + UPDATED_SPECIAL_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCustomerProductsBySpecialPriceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerProductRepository.saveAndFlush(customerProduct);
+
+        // Get all the customerProductList where specialPrice is not null
+        defaultCustomerProductShouldBeFound("specialPrice.specified=true");
+
+        // Get all the customerProductList where specialPrice is null
+        defaultCustomerProductShouldNotBeFound("specialPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCustomerProductsByCustomerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Customer customer = CustomerResourceIntTest.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        customerProduct.setCustomer(customer);
+        customerProductRepository.saveAndFlush(customerProduct);
+        Long customerId = customer.getId();
+
+        // Get all the customerProductList where customer equals to customerId
+        defaultCustomerProductShouldBeFound("customerId.equals=" + customerId);
+
+        // Get all the customerProductList where customer equals to customerId + 1
+        defaultCustomerProductShouldNotBeFound("customerId.equals=" + (customerId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -194,7 +285,8 @@ public class CustomerProductResourceIntTest {
         restCustomerProductMockMvc.perform(get("/api/customer-products?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(customerProduct.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(customerProduct.getId().intValue())))
+            .andExpect(jsonPath("$.[*].specialPrice").value(hasItem(DEFAULT_SPECIAL_PRICE.intValue())));
 
         // Check, that the count call also returns 1
         restCustomerProductMockMvc.perform(get("/api/customer-products/count?sort=id,desc&" + filter))
@@ -241,6 +333,8 @@ public class CustomerProductResourceIntTest {
         CustomerProduct updatedCustomerProduct = customerProductRepository.findById(customerProduct.getId()).get();
         // Disconnect from session so that the updates on updatedCustomerProduct are not directly saved in db
         em.detach(updatedCustomerProduct);
+        updatedCustomerProduct
+            .specialPrice(UPDATED_SPECIAL_PRICE);
         CustomerProductDTO customerProductDTO = customerProductMapper.toDto(updatedCustomerProduct);
 
         restCustomerProductMockMvc.perform(put("/api/customer-products")
@@ -252,6 +346,7 @@ public class CustomerProductResourceIntTest {
         List<CustomerProduct> customerProductList = customerProductRepository.findAll();
         assertThat(customerProductList).hasSize(databaseSizeBeforeUpdate);
         CustomerProduct testCustomerProduct = customerProductList.get(customerProductList.size() - 1);
+        assertThat(testCustomerProduct.getSpecialPrice()).isEqualTo(UPDATED_SPECIAL_PRICE);
 
         // Validate the CustomerProduct in Elasticsearch
         verify(mockCustomerProductSearchRepository, times(1)).save(testCustomerProduct);
@@ -311,7 +406,8 @@ public class CustomerProductResourceIntTest {
         restCustomerProductMockMvc.perform(get("/api/_search/customer-products?query=id:" + customerProduct.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(customerProduct.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(customerProduct.getId().intValue())))
+            .andExpect(jsonPath("$.[*].specialPrice").value(hasItem(DEFAULT_SPECIAL_PRICE.intValue())));
     }
 
     @Test

@@ -1,5 +1,15 @@
 {
-    "name": "Customer",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipName": "product",
+            "otherEntityName": "customerProduct",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "customer",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
     "fields": [
         {
             "fieldName": "code",
@@ -39,15 +49,12 @@
             "fieldType": "String"
         }
     ],
-    "relationships": [],
     "changelogDate": "20190301191146",
-    "entityTableName": "customer",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
+    "entityTableName": "customer",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "pagination": "pagination"
 }

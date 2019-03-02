@@ -9,6 +9,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 
 /**
  * Criteria class for the CustomerProduct entity. This class is used in CustomerProductResource to
@@ -24,12 +25,32 @@ public class CustomerProductCriteria implements Serializable {
 
     private LongFilter id;
 
+    private BigDecimalFilter specialPrice;
+
+    private LongFilter customerId;
+
     public LongFilter getId() {
         return id;
     }
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public BigDecimalFilter getSpecialPrice() {
+        return specialPrice;
+    }
+
+    public void setSpecialPrice(BigDecimalFilter specialPrice) {
+        this.specialPrice = specialPrice;
+    }
+
+    public LongFilter getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(LongFilter customerId) {
+        this.customerId = customerId;
     }
 
 
@@ -43,13 +64,17 @@ public class CustomerProductCriteria implements Serializable {
         }
         final CustomerProductCriteria that = (CustomerProductCriteria) o;
         return
-            Objects.equals(id, that.id);
+            Objects.equals(id, that.id) &&
+            Objects.equals(specialPrice, that.specialPrice) &&
+            Objects.equals(customerId, that.customerId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-        id
+        id,
+        specialPrice,
+        customerId
         );
     }
 
@@ -57,6 +82,8 @@ public class CustomerProductCriteria implements Serializable {
     public String toString() {
         return "CustomerProductCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (specialPrice != null ? "specialPrice=" + specialPrice + ", " : "") +
+                (customerId != null ? "customerId=" + customerId + ", " : "") +
             "}";
     }
 

@@ -21,7 +21,8 @@
             "lastName": "Last Name",
             "gender": "Gender",
             "phoneNumber": "Phone Number",
-            "address": "Address"
+            "address": "Address",
+            "product": "Product"
         }
     }
 }

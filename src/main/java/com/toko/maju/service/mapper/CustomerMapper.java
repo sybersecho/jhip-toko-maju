@@ -12,6 +12,8 @@ import org.mapstruct.*;
 public interface CustomerMapper extends EntityMapper<CustomerDTO, Customer> {
 
 
+    @Mapping(target = "products", ignore = true)
+    Customer toEntity(CustomerDTO customerDTO);
 
     default Customer fromId(Long id) {
         if (id == null) {

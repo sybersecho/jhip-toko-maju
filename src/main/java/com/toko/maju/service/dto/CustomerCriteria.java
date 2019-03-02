@@ -42,6 +42,8 @@ public class CustomerCriteria implements Serializable {
 
     private StringFilter address;
 
+    private LongFilter productId;
+
     public LongFilter getId() {
         return id;
     }
@@ -98,6 +100,14 @@ public class CustomerCriteria implements Serializable {
         this.address = address;
     }
 
+    public LongFilter getProductId() {
+        return productId;
+    }
+
+    public void setProductId(LongFilter productId) {
+        this.productId = productId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -115,7 +125,8 @@ public class CustomerCriteria implements Serializable {
             Objects.equals(lastName, that.lastName) &&
             Objects.equals(gender, that.gender) &&
             Objects.equals(phoneNumber, that.phoneNumber) &&
-            Objects.equals(address, that.address);
+            Objects.equals(address, that.address) &&
+            Objects.equals(productId, that.productId);
     }
 
     @Override
@@ -127,7 +138,8 @@ public class CustomerCriteria implements Serializable {
         lastName,
         gender,
         phoneNumber,
-        address
+        address,
+        productId
         );
     }
 
@@ -141,6 +153,7 @@ public class CustomerCriteria implements Serializable {
                 (gender != null ? "gender=" + gender + ", " : "") +
                 (phoneNumber != null ? "phoneNumber=" + phoneNumber + ", " : "") +
                 (address != null ? "address=" + address + ", " : "") +
+                (productId != null ? "productId=" + productId + ", " : "") +
             "}";
     }
 
