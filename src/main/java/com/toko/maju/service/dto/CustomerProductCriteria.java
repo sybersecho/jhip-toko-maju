@@ -29,6 +29,8 @@ public class CustomerProductCriteria implements Serializable {
 
     private LongFilter customerId;
 
+    private LongFilter productId;
+
     public LongFilter getId() {
         return id;
     }
@@ -53,6 +55,14 @@ public class CustomerProductCriteria implements Serializable {
         this.customerId = customerId;
     }
 
+    public LongFilter getProductId() {
+        return productId;
+    }
+
+    public void setProductId(LongFilter productId) {
+        this.productId = productId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -66,7 +76,8 @@ public class CustomerProductCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(specialPrice, that.specialPrice) &&
-            Objects.equals(customerId, that.customerId);
+            Objects.equals(customerId, that.customerId) &&
+            Objects.equals(productId, that.productId);
     }
 
     @Override
@@ -74,7 +85,8 @@ public class CustomerProductCriteria implements Serializable {
         return Objects.hash(
         id,
         specialPrice,
-        customerId
+        customerId,
+        productId
         );
     }
 
@@ -84,6 +96,7 @@ public class CustomerProductCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (specialPrice != null ? "specialPrice=" + specialPrice + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
+                (productId != null ? "productId=" + productId + ", " : "") +
             "}";
     }
 

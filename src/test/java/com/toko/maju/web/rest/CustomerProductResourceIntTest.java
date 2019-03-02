@@ -4,6 +4,7 @@ import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.CustomerProduct;
 import com.toko.maju.domain.Customer;
+import com.toko.maju.domain.Product;
 import com.toko.maju.repository.CustomerProductRepository;
 import com.toko.maju.repository.search.CustomerProductSearchRepository;
 import com.toko.maju.service.CustomerProductService;
@@ -121,6 +122,11 @@ public class CustomerProductResourceIntTest {
         em.persist(customer);
         em.flush();
         customerProduct.setCustomer(customer);
+        // Add required entity
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        customerProduct.setProduct(product);
         return customerProduct;
     }
 
@@ -276,6 +282,25 @@ public class CustomerProductResourceIntTest {
 
         // Get all the customerProductList where customer equals to customerId + 1
         defaultCustomerProductShouldNotBeFound("customerId.equals=" + (customerId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCustomerProductsByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        customerProduct.setProduct(product);
+        customerProductRepository.saveAndFlush(customerProduct);
+        Long productId = product.getId();
+
+        // Get all the customerProductList where product equals to productId
+        defaultCustomerProductShouldBeFound("productId.equals=" + productId);
+
+        // Get all the customerProductList where product equals to productId + 1
+        defaultCustomerProductShouldNotBeFound("productId.equals=" + (productId + 1));
     }
 
     /**

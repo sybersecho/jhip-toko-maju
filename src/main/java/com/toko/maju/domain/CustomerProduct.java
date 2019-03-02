@@ -38,6 +38,11 @@ public class CustomerProduct implements Serializable {
     @JsonIgnoreProperties("customerProducts")
     private Customer customer;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("customerProducts")
+    private Product product;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -71,6 +76,19 @@ public class CustomerProduct implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public CustomerProduct product(Product product) {
+        this.product = product;
+        return this;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

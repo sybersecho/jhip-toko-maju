@@ -12,6 +12,17 @@
             "otherEntityField": "firstName",
             "otherEntityRelationshipName": "customerProduct",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "customerProduct",
+            "otherEntityRelationshipNameUndefined": true
         }
     ],
     "fields": [

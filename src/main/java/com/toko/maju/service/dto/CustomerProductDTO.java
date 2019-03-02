@@ -20,6 +20,10 @@ public class CustomerProductDTO implements Serializable {
 
     private String customerFirstName;
 
+    private Long productId;
+
+    private String productName;
+
     public Long getId() {
         return id;
     }
@@ -52,6 +56,22 @@ public class CustomerProductDTO implements Serializable {
         this.customerFirstName = customerFirstName;
     }
 
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -80,6 +100,8 @@ public class CustomerProductDTO implements Serializable {
             ", specialPrice=" + getSpecialPrice() +
             ", customer=" + getCustomerId() +
             ", customer='" + getCustomerFirstName() + "'" +
+            ", product=" + getProductId() +
+            ", product='" + getProductName() + "'" +
             "}";
     }
 }
