@@ -125,6 +125,7 @@ public class ProjectResourceIntTest {
     @Before
     public void initTest() {
         project = createEntity(em);
+        this.projectRepository.deleteAll();
     }
 
     @Test

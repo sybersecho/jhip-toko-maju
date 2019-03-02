@@ -4,6 +4,7 @@ import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.Supplier;
 import com.toko.maju.domain.Product;
+import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.SupplierRepository;
 import com.toko.maju.repository.search.SupplierSearchRepository;
 import com.toko.maju.service.SupplierService;
@@ -72,6 +73,9 @@ public class SupplierResourceIntTest {
 
     @Autowired
     private SupplierRepository supplierRepository;
+    
+    @Autowired 
+    ProductRepository productRepository;
 
     @Autowired
     private SupplierMapper supplierMapper;
@@ -119,6 +123,8 @@ public class SupplierResourceIntTest {
             .setConversionService(createFormattingConversionService())
             .setMessageConverters(jacksonMessageConverter)
             .setValidator(validator).build();
+        
+        
     }
 
     /**
@@ -141,6 +147,8 @@ public class SupplierResourceIntTest {
     @Before
     public void initTest() {
         supplier = createEntity(em);
+        this.productRepository.deleteAll();
+        this.supplierRepository.deleteAll();
     }
 
     @Test

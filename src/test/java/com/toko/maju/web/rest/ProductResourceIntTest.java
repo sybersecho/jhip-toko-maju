@@ -124,6 +124,7 @@ public class ProductResourceIntTest {
             .setConversionService(createFormattingConversionService())
             .setMessageConverters(jacksonMessageConverter)
             .setValidator(validator).build();
+        this.productRepository.deleteAll();
     }
 
     /**

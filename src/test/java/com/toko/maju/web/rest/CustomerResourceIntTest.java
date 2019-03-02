@@ -142,6 +142,7 @@ public class CustomerResourceIntTest {
     @Before
     public void initTest() {
         customer = createEntity(em);
+        customerRepository.deleteAll();
     }
 
     @Test
