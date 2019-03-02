@@ -50,5 +50,5 @@ dto Customer, Product, Project, Supplier, CustomerProduct with mapstruct
 paginate Customer, Product, Project, Supplier with pagination
 paginate CustomerProduct with infinite-scroll
 service Customer, Product, Project, Supplier, CustomerProduct with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct with elasticsearch
 filter Customer, Product, Project, Supplier, CustomerProduct
-search * with elasticsearch
