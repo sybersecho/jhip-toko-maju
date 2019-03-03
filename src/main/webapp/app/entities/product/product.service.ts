@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
@@ -12,6 +12,7 @@ type EntityArrayResponseType = HttpResponse<IProduct[]>;
 @Injectable({ providedIn: 'root' })
 export class ProductService {
     public resourceUrl = SERVER_API_URL + 'api/products';
+    public resourceSearchUrlBy = SERVER_API_URL + 'api/products-by';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/products';
 
     constructor(protected http: HttpClient) {}
@@ -40,5 +41,25 @@ export class ProductService {
     search(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IProduct[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
+    }
+
+    searchBy(req?: any): Observable<EntityArrayResponseType> {
+        console.log(req);
+        const options = this.createParams(req);
+        console.log('options');
+        console.log(options);
+        return this.http.get<IProduct[]>(this.resourceSearchUrlBy, { params: options, observe: 'response' });
+    }
+
+    protected createParams(req?: any): HttpParams {
+        console.log(req);
+        return new HttpParams()
+            .set('barcode.contains', req.query)
+            .set('name.contains', req.query)
+            .set('supplierName.contains', req.query);
+        // params = createRequestOption(params);
+        // console.log('createRequestOption');
+        // console.log(createRequestOption(params));
+        // return params;
     }
 }

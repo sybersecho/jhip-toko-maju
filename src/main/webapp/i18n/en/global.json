@@ -85,7 +85,8 @@
             }
         },
         "field": {
-            "id": "ID"
+            "id": "ID",
+            "no": "No"
         },
         "ribbon": {
             "dev": "Development"
@@ -102,7 +103,9 @@
             "edit": "Edit",
             "open": "Open",
             "save": "Save",
-            "view": "View"
+            "view": "View",
+            "add": "Add",
+            "saveAll": "Save All"
         },
         "detail": {
             "field": "Field",

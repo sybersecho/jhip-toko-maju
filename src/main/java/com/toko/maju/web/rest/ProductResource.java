@@ -100,6 +100,21 @@ public class ProductResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+    
+    /**
+     * GET  /products : get all the products.
+     *
+     * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
+     * @return the ResponseEntity with status 200 (OK) and the list of products in body
+     */
+    @GetMapping("/products-by")
+    public ResponseEntity<List<ProductDTO>> getAllProductBy(ProductCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Products by criteria: {}", criteria);
+        Page<ProductDTO> page = productQueryService.findByFewCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/products-by");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 
     /**
     * GET  /products/count : count all the products.

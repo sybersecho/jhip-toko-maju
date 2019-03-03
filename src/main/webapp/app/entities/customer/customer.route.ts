@@ -12,6 +12,10 @@ import { CustomerDetailComponent } from './customer-detail.component';
 import { CustomerUpdateComponent } from './customer-update.component';
 import { CustomerDeletePopupComponent } from './customer-delete-dialog.component';
 import { ICustomer } from 'app/shared/model/customer.model';
+import { InfoProductComponent } from './info-product/info-product.component';
+import { CustomerProductComponent } from './customer-product/customer-product.component';
+import { CustomerProductResolve } from './customer-product/customer-product-resolve.service';
+import { SearchProductComponent } from './search-product/search-product.component';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerResolve implements Resolve<ICustomer> {
@@ -33,6 +37,41 @@ export const customerRoute: Routes = [
     {
         path: '',
         component: CustomerComponent,
+        children: [
+            {
+                path: '',
+                component: InfoProductComponent,
+                data: {
+                    authorities: ['ROLE_USER'],
+                    defaultSort: 'id,asc',
+                    pageTitle: 'jhiptokomajuApp.customer.home.title'
+                }
+            },
+            {
+                path: ':id/products',
+                component: CustomerProductComponent,
+                resolve: {
+                    customerProducts: CustomerProductResolve
+                },
+                data: {
+                    authorities: ['ROLE_USER'],
+                    pageTitle: 'jhiptokomajuApp.customer.home.title'
+                },
+                canActivateChild: [UserRouteAccessService]
+            },
+            {
+                path: ':id/search-product',
+                component: SearchProductComponent,
+                resolve: {
+                    customer: CustomerResolve
+                },
+                data: {
+                    authorities: ['ROLE_USER'],
+                    pageTitle: 'jhiptokomajuApp.customer.home.title'
+                },
+                canActivate: [UserRouteAccessService]
+            }
+        ],
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -41,7 +80,7 @@ export const customerRoute: Routes = [
             defaultSort: 'id,asc',
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
-        canActivate: [UserRouteAccessService]
+        canActivateChild: [UserRouteAccessService]
     },
     {
         path: ':id/view',

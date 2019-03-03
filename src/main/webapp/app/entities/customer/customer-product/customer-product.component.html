@@ -1,0 +1,89 @@
+<div>
+    <div class="row">
+        <div class="col-sm-12">
+            <button
+                type="submit"
+                class="btn btn-primary float-right jh-create-entity create-customer-product"
+                [routerLink]="['/customer', 1, 'search-product']"
+            >
+                <fa-icon [icon]="'plus'"></fa-icon>
+                <span jhiTranslate="jhiptokomajuApp.customerProduct.home.createLabel">Create new Customer Product</span>
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><span jhiTranslate="global.field.no">No</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.barcode">Barcode</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.product">Product Name</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.unit">Unit</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.unitPrices">Unit Price</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.sellingPrices">Selling Price</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.specialPrice">Special Price</span></th>
+                            <th>
+                                <div>
+                                    <button type="button" id="save-entity" class="btn btn-primary btn-sm float-right">
+                                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.saveAll">Save All</span>
+                                    </button>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let customerProduct of customerProducts; trackBy: trackId; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ customerProduct.barcode }}</td>
+                            <td>{{ customerProduct.productName }}</td>
+                            <td>{{ customerProduct.unit }}</td>
+                            <td>{{ customerProduct.unitPrice }}</td>
+                            <td>{{ customerProduct.sellingPrice }}</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    class="form-control form-control-sm"
+                                    name="specialPrice"
+                                    id="field_specialPrice"
+                                    [(ngModel)]="customerProduct.specialPrice"
+                                    required
+                                    min="0"
+                                    jhiMin="0"
+                                />
+                            </td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-primary btn-sm"
+                                        [ngbTooltip]="addTooltip"
+                                        placement="bottom"
+                                    >
+                                        <fa-icon [icon]="'plus'"></fa-icon>
+                                        <ng-template #addTooltip>
+                                            <span class="d-none d-md-inline" jhiTranslate="entity.action.save">Save</span>
+                                        </ng-template>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        [ngbTooltip]="deleteTooltip"
+                                        placement="bottom"
+                                    >
+                                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                                        <ng-template #deleteTooltip>
+                                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                        </ng-template>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

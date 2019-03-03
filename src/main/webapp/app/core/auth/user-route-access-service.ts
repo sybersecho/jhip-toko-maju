@@ -1,12 +1,12 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, CanActivateChild } from '@angular/router';
 
 import { AccountService } from '../';
 import { LoginModalService } from '../login/login-modal.service';
 import { StateStorageService } from './state-storage.service';
 
 @Injectable({ providedIn: 'root' })
-export class UserRouteAccessService implements CanActivate {
+export class UserRouteAccessService implements CanActivate, CanActivateChild {
     constructor(
         private router: Router,
         private loginModalService: LoginModalService,
@@ -48,5 +48,9 @@ export class UserRouteAccessService implements CanActivate {
             });
             return false;
         });
+    }
+
+    canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
+        return this.canActivate(route, state);
     }
 }

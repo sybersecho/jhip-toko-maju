@@ -1,3 +1,5 @@
+import { ICustomerProduct } from './customer-product.model';
+
 export const enum Gender {
     MALE = 'MALE',
     FEMALE = 'FEMALE'

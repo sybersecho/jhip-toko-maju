@@ -85,7 +85,8 @@
             }
         },
         "field": {
-            "id": "ID"
+            "id": "ID",
+            "no": "No"
         },
         "ribbon": {
             "dev": "Pengembangan"
@@ -102,7 +103,9 @@
             "edit": "Ubah",
             "open": "Buka",
             "save": "Simpan",
-            "view": "Lihat"
+            "view": "Lihat",
+            "add": "Tambah",
+            "saveAll": "Simpan Semua"
         },
         "detail": {
             "field": "Inputan",

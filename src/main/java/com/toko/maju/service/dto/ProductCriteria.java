@@ -34,6 +34,8 @@ public class ProductCriteria implements Serializable {
     private StringFilter barcode;
 
     private StringFilter name;
+    
+    private StringFilter supplierName;
 
     private UnitMeasureFilter unit;
 
@@ -120,7 +122,15 @@ public class ProductCriteria implements Serializable {
     }
 
 
-    @Override
+    public StringFilter getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(StringFilter supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -138,7 +148,8 @@ public class ProductCriteria implements Serializable {
             Objects.equals(unitPrice, that.unitPrice) &&
             Objects.equals(sellingPrice, that.sellingPrice) &&
             Objects.equals(stock, that.stock) &&
-            Objects.equals(supplierId, that.supplierId);
+            Objects.equals(supplierId, that.supplierId)&&
+            Objects.equals(supplierName, that.supplierName);
     }
 
     @Override
@@ -152,7 +163,8 @@ public class ProductCriteria implements Serializable {
         unitPrice,
         sellingPrice,
         stock,
-        supplierId
+        supplierId,
+        supplierName
         );
     }
 
@@ -168,6 +180,7 @@ public class ProductCriteria implements Serializable {
                 (sellingPrice != null ? "sellingPrice=" + sellingPrice + ", " : "") +
                 (stock != null ? "stock=" + stock + ", " : "") +
                 (supplierId != null ? "supplierId=" + supplierId + ", " : "") +
+                (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
             "}";
     }
 
