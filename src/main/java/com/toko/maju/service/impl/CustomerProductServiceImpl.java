@@ -4,6 +4,7 @@ import com.toko.maju.service.CustomerProductService;
 import com.toko.maju.domain.CustomerProduct;
 import com.toko.maju.repository.CustomerProductRepository;
 import com.toko.maju.repository.search.CustomerProductSearchRepository;
+import com.toko.maju.service.dto.CustomerDTO;
 import com.toko.maju.service.dto.CustomerProductDTO;
 import com.toko.maju.service.mapper.CustomerProductMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -109,4 +111,11 @@ public class CustomerProductServiceImpl implements CustomerProductService {
         return customerProductSearchRepository.search(queryStringQuery(query), pageable)
             .map(customerProductMapper::toDto);
     }
+
+	@Override
+	public CustomerProductDTO batchSaveCustomer(List<CustomerProductDTO> customerProductDTOs) {
+		log.debug("Request to save CustomerProducts :");
+		customerProductRepository.saveAll(customerProductMapper.toEntity(customerProductDTOs));
+		return customerProductDTOs.get(0);
+	}
 }

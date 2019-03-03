@@ -6,6 +6,10 @@ import { IProduct } from 'app/shared/model/product.model';
 import { JhiParseLinks, JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { AccountService } from 'app/core';
 import { HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { CustomerService } from '../customer.service';
+import { ICustomerProduct, CustomerProduct } from 'app/shared/model/customer-product.model';
+import { CustomerProductService } from '../customer-product/customer-product.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'jhi-search-product',
@@ -16,6 +20,7 @@ export class SearchProductComponent implements OnInit {
     currentAccount: any;
     customer: ICustomer;
     products: IProduct[];
+    save: ICustomerProduct;
     error: any;
     success: any;
     predicate: any;
@@ -24,6 +29,8 @@ export class SearchProductComponent implements OnInit {
 
     constructor(
         protected productService: ProductService,
+        protected customerSevice: CustomerService,
+        protected customerProductService: CustomerProductService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
@@ -98,6 +105,33 @@ export class SearchProductComponent implements OnInit {
         //     }
         // ]);
         this.loadAll();
+    }
+
+    addProduct(product: IProduct) {
+        console.log('save id: ' + product.id);
+        this.createCustomerProduct(product);
+        this.subscribeToSaveResponse(this.customerProductService.create(this.save));
+        // console.log(this.save);
+    }
+
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<ICustomerProduct>>) {
+        result.subscribe((res: HttpResponse<ICustomer>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    protected onSaveSuccess() {
+        // this.isSaving = false;
+        // this.previousState();
+    }
+
+    protected onSaveError() {
+        // this.isSaving = false;
+    }
+
+    protected createCustomerProduct(product: IProduct) {
+        this.save = new CustomerProduct();
+        this.save.productId = product.id;
+        this.save.specialPrice = product.sellingPrice;
+        this.save.customerId = this.customer.id;
     }
 
     protected paginateProducts(data: IProduct[], headers: HttpHeaders) {

@@ -36,6 +36,8 @@ public class CustomerProductResource {
     private final Logger log = LoggerFactory.getLogger(CustomerProductResource.class);
 
     private static final String ENTITY_NAME = "customerProduct";
+    
+    private static final String PARENT_ENTITY_NAME = "customer";
 
     private final CustomerProductService customerProductService;
 
@@ -83,6 +85,27 @@ public class CustomerProductResource {
         CustomerProductDTO result = customerProductService.save(customerProductDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, customerProductDTO.getId().toString()))
+            .body(result);
+    }
+    
+    /**
+     * PUT  /customer-products : Updates an existing customerProduct.
+     *
+     * @param customerProductDTO the customerProductDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated customerProductDTO,
+     * or with status 400 (Bad Request) if the customerProductDTO is not valid,
+     * or with status 500 (Internal Server Error) if the customerProductDTO couldn't be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PutMapping("/customer-products/products")
+    public ResponseEntity<CustomerProductDTO> updateCustomerProducts(@Valid @RequestBody List<CustomerProductDTO> customerProductDTOs) throws URISyntaxException {
+        log.debug("REST request to update CustomerProducts : {}", customerProductDTOs.size());
+        if (customerProductDTOs.size() <= 0) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        CustomerProductDTO result = customerProductService.batchSaveCustomer(customerProductDTOs);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(PARENT_ENTITY_NAME, result.getCustomerFirstName()))
             .body(result);
     }
 

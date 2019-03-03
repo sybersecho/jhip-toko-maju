@@ -51,7 +51,8 @@ export const customerRoute: Routes = [
                 path: ':id/products',
                 component: CustomerProductComponent,
                 resolve: {
-                    customerProducts: CustomerProductResolve
+                    customerProducts: CustomerProductResolve,
+                    customer: CustomerResolve
                 },
                 data: {
                     authorities: ['ROLE_USER'],
