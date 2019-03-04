@@ -90,5 +90,13 @@
                 </tr>
             </tbody>
         </table>
+        <div>
+            <button type="button" id="cancel-save" class="btn btn-secondary float-left" (click)="back()">
+                <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+            <button type="button" id="save-entity" class="btn btn-primary  float-right">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.addAll">Add All</span>
+            </button>
+        </div>
     </div>
 </div>

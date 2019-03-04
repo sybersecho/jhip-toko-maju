@@ -27,15 +27,7 @@
                                 <th><span jhiTranslate="jhiptokomajuApp.customerProduct.unitPrices">Unit Price</span></th>
                                 <th><span jhiTranslate="jhiptokomajuApp.customerProduct.sellingPrices">Selling Price</span></th>
                                 <th><span jhiTranslate="jhiptokomajuApp.customerProduct.specialPrice">Special Price</span></th>
-                                <th>
-                                    <div>
-                                        <button type="button" id="save-entity" class="btn btn-primary btn-sm float-right" (click)="saveAll()">
-                                            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.saveAll"
-                                                >Save All</span
-                                            >
-                                        </button>
-                                    </div>
-                                </th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,6 +81,11 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div>
+                        <button type="button" id="save-entity" class="btn btn-primary btn-sm float-right" (click)="saveAll()">
+                            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.saveAll">Save All</span>
+                        </button>
+                    </div>
                 </div>
             </ng-container>
             <ng-template #elseTemplate>
