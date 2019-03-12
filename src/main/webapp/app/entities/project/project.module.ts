@@ -13,11 +13,13 @@ import {
     projectRoute,
     projectPopupRoute
 } from './';
+import { JhiptokomajuCustomerModule } from '../customer/customer.module';
+// import { InfoProductComponent } from '../customer';
 
 const ENTITY_STATES = [...projectRoute, ...projectPopupRoute];
 
 @NgModule({
-    imports: [JhiptokomajuSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [RouterModule.forChild(ENTITY_STATES), JhiptokomajuSharedModule, JhiptokomajuCustomerModule],
     declarations: [
         ProjectComponent,
         ProjectDetailComponent,
@@ -27,6 +29,7 @@ const ENTITY_STATES = [...projectRoute, ...projectPopupRoute];
     ],
     entryComponents: [ProjectComponent, ProjectUpdateComponent, ProjectDeleteDialogComponent, ProjectDeletePopupComponent],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
+    exports: [RouterModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhiptokomajuProjectModule {

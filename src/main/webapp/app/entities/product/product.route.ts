@@ -31,7 +31,8 @@ export class ProductResolve implements Resolve<IProduct> {
 
 export const productRoute: Routes = [
     {
-        path: '',
+        path: 'product',
+        // loadChildren:
         component: ProductComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -44,7 +45,7 @@ export const productRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/view',
+        path: 'product/:id/view',
         component: ProductDetailComponent,
         resolve: {
             product: ProductResolve
@@ -56,7 +57,7 @@ export const productRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'new',
+        path: 'product/new',
         component: ProductUpdateComponent,
         resolve: {
             product: ProductResolve
@@ -68,7 +69,7 @@ export const productRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/edit',
+        path: 'product/:id/edit',
         component: ProductUpdateComponent,
         resolve: {
             product: ProductResolve

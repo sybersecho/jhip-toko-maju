@@ -12,6 +12,8 @@ import { ProjectDetailComponent } from './project-detail.component';
 import { ProjectUpdateComponent } from './project-update.component';
 import { ProjectDeletePopupComponent } from './project-delete-dialog.component';
 import { IProject } from 'app/shared/model/project.model';
+import { InfoProductComponent } from '../customer';
+import { SearchProductComponent } from '../product';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectResolve implements Resolve<IProject> {
@@ -31,8 +33,28 @@ export class ProjectResolve implements Resolve<IProject> {
 
 export const projectRoute: Routes = [
     {
-        path: '',
+        path: 'project',
         component: ProjectComponent,
+        children: [
+            {
+                path: '',
+                component: InfoProductComponent,
+                data: {
+                    authorities: ['ROLE_USER'],
+                    defaultSort: 'id,asc',
+                    pageTitle: 'jhiptokomajuApp.project.home.title'
+                }
+            },
+            {
+                path: ':id/products',
+                component: SearchProductComponent,
+                data: {
+                    authorities: ['ROLE_USER'],
+                    defaultSort: 'id,asc',
+                    pageTitle: 'jhiptokomajuApp.project.home.title'
+                }
+            }
+        ],
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -43,8 +65,24 @@ export const projectRoute: Routes = [
         },
         canActivate: [UserRouteAccessService]
     },
+    // {
+    //     path: ':id',
+    //     component: ProjectComponent,
+    //     children: [{
+    //         path: 'products',
+    //         component: InfoProductComponent
+    //     }],
+    //     resolve: {
+    //         project: ProjectResolve
+    //     },
+    //     data: {
+    //         authorities: ['ROLE_USER'],
+    //         pageTitle: 'jhiptokomajuApp.project.home.title'
+    //     },
+    //     canActivate: [UserRouteAccessService]
+    // },
     {
-        path: ':id/view',
+        path: 'project/:id/view',
         component: ProjectDetailComponent,
         resolve: {
             project: ProjectResolve
@@ -56,7 +94,7 @@ export const projectRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'new',
+        path: 'project/new',
         component: ProjectUpdateComponent,
         resolve: {
             project: ProjectResolve
@@ -68,7 +106,7 @@ export const projectRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/edit',
+        path: 'project/:id/edit',
         component: ProjectUpdateComponent,
         resolve: {
             project: ProjectResolve
@@ -83,7 +121,7 @@ export const projectRoute: Routes = [
 
 export const projectPopupRoute: Routes = [
     {
-        path: ':id/delete',
+        path: 'project/:id/delete',
         component: ProjectDeletePopupComponent,
         resolve: {
             project: ProjectResolve

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ICustomer } from 'app/shared/model/customer.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductService } from 'app/entities/product';
-import { IProduct } from 'app/shared/model/product.model';
+
 import { JhiParseLinks, JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { AccountService } from 'app/core';
 import { HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { CustomerService } from '../customer.service';
+import { CustomerService } from 'app/entities/customer/customer.service';
 import { ICustomerProduct, CustomerProduct } from 'app/shared/model/customer-product.model';
-import { CustomerProductService } from '../customer-product/customer-product.service';
+import { CustomerProductService } from 'app/entities/customer/customer-product/customer-product.service';
 import { Observable } from 'rxjs';
+import { ICustomer } from 'app/shared/model/customer.model';
+import { ProductService } from 'app/entities/product';
+import { IProduct } from 'app/shared/model/product.model';
 
 @Component({
     selector: 'jhi-search-product',
@@ -19,6 +20,7 @@ import { Observable } from 'rxjs';
 export class SearchProductComponent implements OnInit {
     currentAccount: any;
     customer: ICustomer;
+    entity: any;
     products: IProduct[];
     save: ICustomerProduct;
     error: any;
@@ -46,6 +48,7 @@ export class SearchProductComponent implements OnInit {
         });
         this.activatedRoute.data.subscribe(({ customer }) => {
             this.customer = customer;
+            this.entity = customer;
         });
     }
 
@@ -112,30 +115,15 @@ export class SearchProductComponent implements OnInit {
     }
 
     addProduct(product: IProduct) {
-        console.log('save id: ' + product.id);
-        this.createCustomerProduct(product);
-        this.subscribeToSaveResponse(this.customerProductService.create(this.save));
+        // console.log('save id: ' + product.id);
+        // this.createCustomerProduct(product);
+        // this.subscribeToSaveResponse(this.customerProductService.create(this.save));
+        this.eventManager.broadcast({ name: 'addProduct', content: product, entity: this.entity });
         // console.log(this.save);
-    }
-
-    protected subscribeToSaveResponse(result: Observable<HttpResponse<ICustomerProduct>>) {
-        result.subscribe((res: HttpResponse<ICustomer>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onError(res.message));
-    }
-
-    protected onSaveSuccess() {
-        // this.isSaving = false;
-        // this.previousState();
     }
 
     protected onSaveError() {
         // this.isSaving = false;
-    }
-
-    protected createCustomerProduct(product: IProduct) {
-        this.save = new CustomerProduct();
-        this.save.productId = product.id;
-        this.save.specialPrice = product.sellingPrice;
-        this.save.customerId = this.customer.id;
     }
 
     protected paginateProducts(data: IProduct[], headers: HttpHeaders) {

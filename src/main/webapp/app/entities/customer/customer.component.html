@@ -104,10 +104,7 @@
                                         </ng-template>
                                         <button
                                             type="submit"
-                                            [routerLink]="['/', 'customer', { outlets: { popup: customer.id + '/delete' } }]"
-                                            replaceUrl="true"
-                                            [ngbTooltip]="deleteTooltip"
-                                            queryParamsHandling="merge"
+                                            [routerLink]="['/', { outlets: { popup: 'customer/' + customer.id + '/delete' } }]"
                                             class="btn btn-danger btn-sm"
                                         >
                                             <fa-icon [icon]="'times'"></fa-icon>

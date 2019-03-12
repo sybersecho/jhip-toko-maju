@@ -1,15 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { ICustomer } from 'app/shared/model/customer.model';
+import { ICustomer, Customer } from 'app/shared/model/customer.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { CustomerService } from './customer.service';
+import { IProduct } from 'app/shared/model/product.model';
+import { ICustomerProduct, CustomerProduct } from 'app/shared/model/customer-product.model';
+import { CustomerProductService } from './customer-product/customer-product.service';
 
 @Component({
     selector: 'jhi-customer',
@@ -21,6 +24,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     error: any;
     success: any;
     eventSubscriber: Subscription;
+    addProductSubscriber: Subscription;
     currentSearch: string;
     routeData: any;
     links: any;
@@ -30,9 +34,11 @@ export class CustomerComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    customerID: number;
 
     constructor(
         protected customerService: CustomerService,
+        protected customerProductService: CustomerProductService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
@@ -135,10 +141,12 @@ export class CustomerComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
         });
         this.registerChangeInCustomers();
+        this.registerAddCustomerProduct();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+        this.eventManager.destroy(this.addProductSubscriber);
     }
 
     trackId(index: number, item: ICustomer) {
@@ -149,6 +157,16 @@ export class CustomerComponent implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('customerListModification', response => this.loadAll());
     }
 
+    registerAddCustomerProduct() {
+        this.addProductSubscriber = this.eventManager.subscribe('addProduct', response => {
+            const customer: ICustomer = response.entity;
+            this.customerID = customer.id;
+
+            const save: ICustomerProduct = this.createCustomerProduct(response.content);
+            this.subscribeToSaveResponse(this.customerProductService.create(save));
+        });
+    }
+
     sort() {
         const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
         if (this.predicate !== 'id') {
@@ -157,13 +175,31 @@ export class CustomerComponent implements OnInit, OnDestroy {
         return result;
     }
 
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<ICustomerProduct>>) {
+        result.subscribe((res: HttpResponse<ICustomer>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
     protected paginateCustomers(data: ICustomer[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.customers = data;
     }
 
+    protected onSaveSuccess() {
+        // this.isSaving = false;
+        // this.previousState();
+    }
+
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    protected createCustomerProduct(product: IProduct): ICustomerProduct {
+        const save = new CustomerProduct();
+        save.productId = product.id;
+        save.specialPrice = product.sellingPrice;
+        save.customerId = this.customerID;
+
+        return save;
     }
 }

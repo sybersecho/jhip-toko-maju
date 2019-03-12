@@ -6,16 +6,19 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Customer } from 'app/shared/model/customer.model';
-import { CustomerService } from './customer.service';
-import { CustomerComponent } from './customer.component';
-import { CustomerDetailComponent } from './customer-detail.component';
-import { CustomerUpdateComponent } from './customer-update.component';
-import { CustomerDeletePopupComponent } from './customer-delete-dialog.component';
 import { ICustomer } from 'app/shared/model/customer.model';
-import { InfoProductComponent } from './info-product/info-product.component';
+import { SearchProductComponent } from '../product';
+
+import {
+    CustomerComponent,
+    CustomerUpdateComponent,
+    CustomerDeletePopupComponent,
+    CustomerDetailComponent,
+    CustomerService
+} from '../customer';
 import { CustomerProductComponent } from './customer-product/customer-product.component';
 import { CustomerProductResolve } from './customer-product/customer-product-resolve.service';
-import { SearchProductComponent } from './search-product/search-product.component';
+import { InfoProductComponent } from './info-product/info-product.component';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerResolve implements Resolve<ICustomer> {
@@ -35,7 +38,7 @@ export class CustomerResolve implements Resolve<ICustomer> {
 
 export const customerRoute: Routes = [
     {
-        path: '',
+        path: 'customer',
         component: CustomerComponent,
         children: [
             {
@@ -84,7 +87,7 @@ export const customerRoute: Routes = [
         canActivateChild: [UserRouteAccessService]
     },
     {
-        path: ':id/view',
+        path: 'customer:id/view',
         component: CustomerDetailComponent,
         resolve: {
             customer: CustomerResolve
@@ -96,7 +99,7 @@ export const customerRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'new',
+        path: 'customer/new',
         component: CustomerUpdateComponent,
         resolve: {
             customer: CustomerResolve
@@ -108,7 +111,7 @@ export const customerRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/edit',
+        path: 'customer/:id/edit',
         component: CustomerUpdateComponent,
         resolve: {
             customer: CustomerResolve
@@ -123,7 +126,7 @@ export const customerRoute: Routes = [
 
 export const customerPopupRoute: Routes = [
     {
-        path: ':id/delete',
+        path: 'customer/:id/delete',
         component: CustomerDeletePopupComponent,
         resolve: {
             customer: CustomerResolve

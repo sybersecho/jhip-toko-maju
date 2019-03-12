@@ -21,6 +21,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     error: any;
     success: any;
     eventSubscriber: Subscription;
+    addProductEventSubscriber: Subscription;
     currentSearch: string;
     routeData: any;
     links: any;
@@ -135,10 +136,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
         });
         this.registerChangeInProjects();
+        this.registerAddProduct();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+        this.eventManager.destroy(this.addProductEventSubscriber);
     }
 
     trackId(index: number, item: IProject) {
@@ -147,6 +150,13 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
     registerChangeInProjects() {
         this.eventSubscriber = this.eventManager.subscribe('projectListModification', response => this.loadAll());
+    }
+
+    registerAddProduct() {
+        this.addProductEventSubscriber = this.eventManager.subscribe('addProduct', response => {
+            console.log('add product from project');
+            console.log(response);
+        });
     }
 
     sort() {
