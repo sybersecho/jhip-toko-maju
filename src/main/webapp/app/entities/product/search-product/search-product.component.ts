@@ -81,7 +81,7 @@ export class SearchProductComponent implements OnInit {
     }
 
     back() {
-        this.router.navigate(['customer', this.customer.id, 'products']);
+        // this.router.navigate(['customer', this.customer.id, 'products']);
     }
 
     clear() {
