@@ -1,0 +1,24 @@
+{
+    "jhiptokomajuApp": {
+        "projectProduct": {
+            "home": {
+                "title": "Project Products",
+                "createLabel": "Buat Project Product baru",
+                "createOrEditLabel": "Buat atau edit Project Product",
+                "search": "Cari Project Product"
+            },
+            "created": "Project Product dengan id {{ param }} telah dibuat",
+            "updated": "Project Product dengan id {{ param }} telah diperbaharui",
+            "deleted": "Project Product dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Project Product {{ id }}?"
+            },
+            "detail": {
+                "title": "Project Product"
+            },
+            "specialPrice": "Special Price",
+            "product": "Product",
+            "project": "Project"
+        }
+    }
+}

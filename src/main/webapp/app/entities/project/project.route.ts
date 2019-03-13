@@ -14,6 +14,8 @@ import { ProjectDeletePopupComponent } from './project-delete-dialog.component';
 import { IProject } from 'app/shared/model/project.model';
 import { InfoProductComponent } from '../customer';
 import { SearchProductComponent } from '../product';
+import { ProjectProductComponent } from './project-product/project-product.component';
+import { ProjectProductResolve } from './project-product/project-product.resolve';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectResolve implements Resolve<IProject> {
@@ -47,12 +49,28 @@ export const projectRoute: Routes = [
             },
             {
                 path: ':id/products',
-                component: SearchProductComponent,
+                component: ProjectProductComponent,
+                resolve: {
+                    projectProducts: ProjectProductResolve,
+                    project: ProjectResolve
+                },
                 data: {
                     authorities: ['ROLE_USER'],
                     defaultSort: 'id,asc',
                     pageTitle: 'jhiptokomajuApp.project.home.title'
                 }
+            },
+            {
+                path: ':id/search-product',
+                component: SearchProductComponent,
+                resolve: {
+                    entity: ProjectResolve
+                },
+                data: {
+                    authorities: ['ROLE_USER'],
+                    pageTitle: 'jhiptokomajuApp.project.home.title'
+                },
+                canActivate: [UserRouteAccessService]
             }
         ],
         resolve: {

@@ -14,7 +14,7 @@ import {
     projectPopupRoute
 } from './';
 import { JhiptokomajuCustomerModule } from '../customer/customer.module';
-// import { InfoProductComponent } from '../customer';
+import { ProjectProductComponent } from './project-product/project-product.component';
 
 const ENTITY_STATES = [...projectRoute, ...projectPopupRoute];
 
@@ -25,7 +25,8 @@ const ENTITY_STATES = [...projectRoute, ...projectPopupRoute];
         ProjectDetailComponent,
         ProjectUpdateComponent,
         ProjectDeleteDialogComponent,
-        ProjectDeletePopupComponent
+        ProjectDeletePopupComponent,
+        ProjectProductComponent
     ],
     entryComponents: [ProjectComponent, ProjectUpdateComponent, ProjectDeleteDialogComponent, ProjectDeletePopupComponent],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],

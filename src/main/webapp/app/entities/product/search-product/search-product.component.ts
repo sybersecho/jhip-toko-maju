@@ -46,9 +46,9 @@ export class SearchProductComponent implements OnInit {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
-        this.activatedRoute.data.subscribe(({ customer }) => {
-            this.customer = customer;
-            this.entity = customer;
+        this.activatedRoute.data.subscribe(({ entity }) => {
+            // this.customer = customer;
+            this.entity = entity;
         });
     }
 

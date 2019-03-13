@@ -1,0 +1,24 @@
+{
+    "jhiptokomajuApp": {
+        "projectProduct": {
+            "home": {
+                "title": "Project Products",
+                "createLabel": "Create a new Project Product",
+                "createOrEditLabel": "Create or edit a Project Product",
+                "search": "Search for Project Product"
+            },
+            "created": "A new Project Product is created with identifier {{ param }}",
+            "updated": "A Project Product is updated with identifier {{ param }}",
+            "deleted": "A Project Product is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Project Product {{ id }}?"
+            },
+            "detail": {
+                "title": "Project Product"
+            },
+            "specialPrice": "Special Price",
+            "product": "Product",
+            "project": "Project"
+        }
+    }
+}

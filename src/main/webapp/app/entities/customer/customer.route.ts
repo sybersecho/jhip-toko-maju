@@ -67,7 +67,7 @@ export const customerRoute: Routes = [
                 path: ':id/search-product',
                 component: SearchProductComponent,
                 resolve: {
-                    customer: CustomerResolve
+                    entity: CustomerResolve
                 },
                 data: {
                     authorities: ['ROLE_USER'],
