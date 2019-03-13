@@ -46,4 +46,8 @@ export class ProjectProductService {
         const options = createRequestOption(req);
         return this.http.get<IProjectProduct[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
     }
+
+    batchUpdate(projectProducts: IProjectProduct[]): any {
+        return this.http.put<IProjectProduct[]>(this.resourceUrl + '/products', projectProducts, { observe: 'response' });
+    }
 }

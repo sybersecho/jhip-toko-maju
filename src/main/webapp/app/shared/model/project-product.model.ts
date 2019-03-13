@@ -5,6 +5,10 @@ export interface IProjectProduct {
     productId?: number;
     projectName?: string;
     projectId?: number;
+    barcode?: String;
+    unitPrice?: number;
+    sellingPrice?: number;
+    unit?: String;
 }
 
 export class ProjectProduct implements IProjectProduct {
@@ -14,6 +18,10 @@ export class ProjectProduct implements IProjectProduct {
         public productName?: string,
         public productId?: number,
         public projectName?: string,
-        public projectId?: number
+        public projectId?: number,
+        public barcode?: String,
+        public unitPrice?: number,
+        public sellingPrice?: number,
+        public unit?: String
     ) {}
 }

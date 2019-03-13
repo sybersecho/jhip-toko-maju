@@ -1,4 +1,5 @@
 package com.toko.maju.service.dto;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,99 +10,155 @@ import java.util.Objects;
  */
 public class ProjectProductDTO implements Serializable {
 
-    private Long id;
+	private Long id;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    private BigDecimal specialPrice;
+	@NotNull
+	@DecimalMin(value = "0")
+	private BigDecimal specialPrice;
 
+	private Long productId;
 
-    private Long productId;
+	private String productName;
 
-    private String productName;
+	private Long projectId;
 
-    private Long projectId;
+	private String projectName;
 
-    private String projectName;
+	private String barcode;
 
-    public Long getId() {
-        return id;
-    }
+	@DecimalMin(value = "0")
+	private BigDecimal unitPrice;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@DecimalMin(value = "0")
+	private BigDecimal sellingPrice;
 
-    public BigDecimal getSpecialPrice() {
-        return specialPrice;
-    }
+	private String unit;
 
-    public void setSpecialPrice(BigDecimal specialPrice) {
-        this.specialPrice = specialPrice;
-    }
+	private String supplierCode;
 
-    public Long getProductId() {
-        return productId;
-    }
+	private String supplierName;
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getProductName() {
-        return productName;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+	public BigDecimal getSpecialPrice() {
+		return specialPrice;
+	}
 
-    public Long getProjectId() {
-        return projectId;
-    }
+	public void setSpecialPrice(BigDecimal specialPrice) {
+		this.specialPrice = specialPrice;
+	}
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
+	public Long getProductId() {
+		return productId;
+	}
 
-    public String getProjectName() {
-        return projectName;
-    }
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
+	public String getProductName() {
+		return productName;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 
-        ProjectProductDTO projectProductDTO = (ProjectProductDTO) o;
-        if (projectProductDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), projectProductDTO.getId());
-    }
+	public Long getProjectId() {
+		return projectId;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
 
-    @Override
-    public String toString() {
-        return "ProjectProductDTO{" +
-            "id=" + getId() +
-            ", specialPrice=" + getSpecialPrice() +
-            ", product=" + getProductId() +
-            ", product='" + getProductName() + "'" +
-            ", project=" + getProjectId() +
-            ", project='" + getProjectName() + "'" +
-            "}";
-    }
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(BigDecimal unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public BigDecimal getSellingPrice() {
+		return sellingPrice;
+	}
+
+	public void setSellingPrice(BigDecimal sellingPrice) {
+		this.sellingPrice = sellingPrice;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getSupplierCode() {
+		return supplierCode;
+	}
+
+	public void setSupplierCode(String supplierCode) {
+		this.supplierCode = supplierCode;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		ProjectProductDTO projectProductDTO = (ProjectProductDTO) o;
+		if (projectProductDTO.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), projectProductDTO.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "ProjectProductDTO{" + "id=" + getId() + ", specialPrice=" + getSpecialPrice() + ", product="
+				+ getProductId() + ", product='" + getProductName() + "'" + ", project=" + getProjectId()
+				+ ", project='" + getProjectName() + "'" + "}";
+	}
 }

@@ -36,6 +36,8 @@ public class ProjectProductResource {
     private final Logger log = LoggerFactory.getLogger(ProjectProductResource.class);
 
     private static final String ENTITY_NAME = "projectProduct";
+    
+    private static final String PARENT_ENTITY_NAME = "project";
 
     private final ProjectProductService projectProductService;
 
@@ -83,6 +85,27 @@ public class ProjectProductResource {
         ProjectProductDTO result = projectProductService.save(projectProductDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, projectProductDTO.getId().toString()))
+            .body(result);
+    }
+    
+    /**
+     * PUT  /project-products : Updates an existing projectProduct.
+     *
+     * @param projectProductDTO the projectProductDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated projectProductDTO,
+     * or with status 400 (Bad Request) if the projectProductDTO is not valid,
+     * or with status 500 (Internal Server Error) if the projectProductDTO couldn't be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PutMapping("/project-products/products")
+    public ResponseEntity<ProjectProductDTO> updateProjectProducts(@Valid @RequestBody List<ProjectProductDTO> projectProductDTOs) throws URISyntaxException {
+        log.debug("REST request to update ProjectProduct : {}", projectProductDTOs.size());
+        if (projectProductDTOs.size() <= 0) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        ProjectProductDTO result = projectProductService.batchSave(projectProductDTOs);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(PARENT_ENTITY_NAME, result.getProjectName()))
             .body(result);
     }
 

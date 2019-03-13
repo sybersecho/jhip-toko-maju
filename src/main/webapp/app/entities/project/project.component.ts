@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
@@ -10,6 +10,9 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ProjectService } from './project.service';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProjectProduct, IProjectProduct } from 'app/shared/model/project-product.model';
+import { ProjectProductService } from '../project-product';
 
 @Component({
     selector: 'jhi-project',
@@ -31,9 +34,11 @@ export class ProjectComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    projectId: number;
 
     constructor(
         protected projectService: ProjectService,
+        protected projectProductService: ProjectProductService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
@@ -155,7 +160,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
     registerAddProduct() {
         this.addProductEventSubscriber = this.eventManager.subscribe('addProduct', response => {
             console.log('add product from project');
-            console.log(response);
+            const project: IProject = response.entity;
+            this.projectId = project.id;
+
+            const save: IProject = this.createProjectProduct(response.content);
+
+            this.subscribeToSaveResponse(this.projectProductService.create(save));
         });
     }
 
@@ -165,6 +175,26 @@ export class ProjectComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
+    }
+
+    protected createProjectProduct(product: IProduct): IProject {
+        const aProjectProduct = new ProjectProduct();
+        aProjectProduct.productId = product.id;
+        aProjectProduct.specialPrice = product.sellingPrice;
+        aProjectProduct.projectId = this.projectId;
+
+        return aProjectProduct;
+    }
+
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IProjectProduct>>) {
+        result.subscribe(
+            (res: HttpResponse<IProjectProduct>) => this.onSaveSuccess(),
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
+
+    protected onSaveSuccess(): void {
+        // throw new Error("Method not implemented.");
     }
 
     protected paginateProjects(data: IProject[], headers: HttpHeaders) {

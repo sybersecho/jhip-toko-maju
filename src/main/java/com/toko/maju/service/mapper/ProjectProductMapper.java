@@ -15,6 +15,12 @@ public interface ProjectProductMapper extends EntityMapper<ProjectProductDTO, Pr
     @Mapping(source = "product.name", target = "productName")
     @Mapping(source = "project.id", target = "projectId")
     @Mapping(source = "project.name", target = "projectName")
+    @Mapping(source = "product.unitPrice", target = "unitPrice")
+    @Mapping(source = "product.sellingPrice", target = "sellingPrice")
+    @Mapping(source = "product.barcode", target = "barcode")
+    @Mapping(source = "product.unit", target = "unit")
+	@Mapping(source = "product.supplier.code", target = "supplierCode")
+	@Mapping(source = "product.supplier.name", target = "supplierName")
     ProjectProductDTO toDto(ProjectProduct projectProduct);
 
     @Mapping(source = "productId", target = "product")

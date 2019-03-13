@@ -5,7 +5,10 @@ import com.toko.maju.service.dto.ProjectProductDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 /**
  * Service Interface for managing ProjectProduct.
@@ -53,4 +56,6 @@ public interface ProjectProductService {
      * @return the list of entities
      */
     Page<ProjectProductDTO> search(String query, Pageable pageable);
+
+	ProjectProductDTO batchSave(List<ProjectProductDTO> projectProductDTOs);
 }
