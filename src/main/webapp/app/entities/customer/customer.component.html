@@ -106,6 +106,7 @@
                                             type="submit"
                                             [routerLink]="['/', { outlets: { popup: 'customer/' + customer.id + '/delete' } }]"
                                             class="btn btn-danger btn-sm"
+                                            [ngbTooltip]="deleteTooltip"
                                         >
                                             <fa-icon [icon]="'times'"></fa-icon>
                                             <ng-template #deleteTooltip>

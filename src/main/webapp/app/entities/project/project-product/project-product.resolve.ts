@@ -18,6 +18,7 @@ export class ProjectProductResolve implements Resolve<IProjectProduct[]> {
         state: RouterStateSnapshot
     ): IProjectProduct[] | Observable<IProjectProduct[]> | Promise<IProjectProduct[]> {
         const id = route.params['id'] ? route.params['id'] : null;
+        console.log('ProjectProductResolve -: ID: ', id);
         if (id) {
             console.log('id is not null');
             return this.service.findByProject(id).pipe(

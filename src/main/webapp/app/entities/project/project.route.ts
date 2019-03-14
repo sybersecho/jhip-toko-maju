@@ -84,17 +84,50 @@ export const projectRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     // {
-    //     path: ':id',
+    //     path: 'project/:id',
     //     component: ProjectComponent,
-    //     children: [{
-    //         path: 'products',
-    //         component: InfoProductComponent
-    //     }],
+    //     children: [
+    //         // {
+    //         //     path: '',
+    //         //     component: InfoProductComponent,
+    //         //     data: {
+    //         //         authorities: ['ROLE_USER'],
+    //         //         defaultSort: 'id,asc',
+    //         //         pageTitle: 'jhiptokomajuApp.project.home.title'
+    //         //     }
+    //         // },
+    //         {
+    //             path: '',
+    //             component: ProjectProductComponent,
+    //             resolve: {
+    //                 projectProducts: ProjectProductResolve,
+    //                 project: ProjectResolve
+    //             },
+    //             data: {
+    //                 authorities: ['ROLE_USER'],
+    //                 defaultSort: 'id,asc',
+    //                 pageTitle: 'jhiptokomajuApp.project.home.title'
+    //             }
+    //         },
+    //         {
+    //             path: 'search-product',
+    //             component: SearchProductComponent,
+    //             resolve: {
+    //                 entity: ProjectResolve
+    //             },
+    //             data: {
+    //                 authorities: ['ROLE_USER'],
+    //                 pageTitle: 'jhiptokomajuApp.project.home.title'
+    //             },
+    //             canActivate: [UserRouteAccessService]
+    //         }
+    //     ],
     //     resolve: {
-    //         project: ProjectResolve
+    //         pagingParams: JhiResolvePagingParams
     //     },
     //     data: {
     //         authorities: ['ROLE_USER'],
+    //         defaultSort: 'id,asc',
     //         pageTitle: 'jhiptokomajuApp.project.home.title'
     //     },
     //     canActivate: [UserRouteAccessService]

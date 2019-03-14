@@ -47,11 +47,13 @@ export class ProjectDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.project = project;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate(['/project', { outlets: { popup: null } }]);
+                        console.log('result');
+                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate(['/project', { outlets: { popup: null } }]);
+                        console.log('reason');
+                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
                         this.ngbModalRef = null;
                     }
                 );

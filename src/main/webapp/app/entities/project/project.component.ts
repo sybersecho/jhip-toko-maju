@@ -177,6 +177,16 @@ export class ProjectComponent implements OnInit, OnDestroy {
         return result;
     }
 
+    onDelete(event: any) {
+        console.log(event);
+        event.stopPropagation();
+        this.router.navigate(['/', { outlets: { popup: 'project/' + 6 + '/delete' } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+
+        // this.navigate
+        // onDelete
+        // [routerLink]="['/', { outlets: { popup: 'project/' + project.id + '/delete' } }]"
+    }
+
     protected createProjectProduct(product: IProduct): IProject {
         const aProjectProduct = new ProjectProduct();
         aProjectProduct.productId = product.id;
