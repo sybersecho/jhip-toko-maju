@@ -20,7 +20,6 @@ export class SaleTransactions implements ISaleTransactions {
         public totalPayment?: number,
         public remainingPayment?: number,
         public paid?: number,
-        public saleDate?: Moment
-    ) // public items?: ISaleItem[]
-    {}
+        public saleDate?: Moment // public items?: ISaleItem[]
+    ) {}
 }
