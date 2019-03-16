@@ -31,6 +31,10 @@ public class SaleTransactionsDTO implements Serializable {
     private Instant saleDate;
 
 
+    private Long customerId;
+
+    private String customerFirstName;
+
     public Long getId() {
         return id;
     }
@@ -87,6 +91,22 @@ public class SaleTransactionsDTO implements Serializable {
         this.saleDate = saleDate;
     }
 
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerFirstName() {
+        return customerFirstName;
+    }
+
+    public void setCustomerFirstName(String customerFirstName) {
+        this.customerFirstName = customerFirstName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -118,6 +138,8 @@ public class SaleTransactionsDTO implements Serializable {
             ", remainingPayment=" + getRemainingPayment() +
             ", paid=" + getPaid() +
             ", saleDate='" + getSaleDate() + "'" +
+            ", customer=" + getCustomerId() +
+            ", customer='" + getCustomerFirstName() + "'" +
             "}";
     }
 }

@@ -4,6 +4,7 @@ import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.SaleTransactions;
 import com.toko.maju.domain.SaleItem;
+import com.toko.maju.domain.Customer;
 import com.toko.maju.repository.SaleTransactionsRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
 import com.toko.maju.service.SaleTransactionsService;
@@ -138,6 +139,11 @@ public class SaleTransactionsResourceIntTest {
             .remainingPayment(DEFAULT_REMAINING_PAYMENT)
             .paid(DEFAULT_PAID)
             .saleDate(DEFAULT_SALE_DATE);
+        // Add required entity
+        Customer customer = CustomerResourceIntTest.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        saleTransactions.setCustomer(customer);
         return saleTransactions;
     }
 
@@ -522,6 +528,25 @@ public class SaleTransactionsResourceIntTest {
 
         // Get all the saleTransactionsList where items equals to itemsId + 1
         defaultSaleTransactionsShouldNotBeFound("itemsId.equals=" + (itemsId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSaleTransactionsByCustomerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Customer customer = CustomerResourceIntTest.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        saleTransactions.setCustomer(customer);
+        saleTransactionsRepository.saveAndFlush(saleTransactions);
+        Long customerId = customer.getId();
+
+        // Get all the saleTransactionsList where customer equals to customerId
+        defaultSaleTransactionsShouldBeFound("customerId.equals=" + customerId);
+
+        // Get all the saleTransactionsList where customer equals to customerId + 1
+        defaultSaleTransactionsShouldNotBeFound("customerId.equals=" + (customerId + 1));
     }
 
     /**

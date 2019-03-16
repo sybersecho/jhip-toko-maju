@@ -22,7 +22,8 @@
             "remainingPayment": "Remaining Payment",
             "paid": "Paid",
             "saleDate": "Sale Date",
-            "items": "Items"
+            "items": "Items",
+            "customer": "Customer"
         }
     }
 }

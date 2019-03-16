@@ -115,6 +115,10 @@ public class SaleTransactionsQueryService extends QueryService<SaleTransactions>
                 specification = specification.and(buildSpecification(criteria.getItemsId(),
                     root -> root.join(SaleTransactions_.items, JoinType.LEFT).get(SaleItem_.id)));
             }
+            if (criteria.getCustomerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCustomerId(),
+                    root -> root.join(SaleTransactions_.customer, JoinType.LEFT).get(Customer_.id)));
+            }
         }
         return specification;
     }

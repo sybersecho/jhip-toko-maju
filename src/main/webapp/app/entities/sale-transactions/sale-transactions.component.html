@@ -36,6 +36,7 @@
             <th jhiSortBy="remainingPayment"><span jhiTranslate="jhiptokomajuApp.saleTransactions.remainingPayment">Remaining Payment</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="paid"><span jhiTranslate="jhiptokomajuApp.saleTransactions.paid">Paid</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="saleDate"><span jhiTranslate="jhiptokomajuApp.saleTransactions.saleDate">Sale Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="customerFirstName"><span jhiTranslate="jhiptokomajuApp.saleTransactions.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -48,6 +49,11 @@
                 <td>{{saleTransactions.remainingPayment}}</td>
                 <td>{{saleTransactions.paid}}</td>
                 <td>{{saleTransactions.saleDate | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="saleTransactions.customerId">
+                        <a [routerLink]="['../customer', saleTransactions.customerId , 'view' ]" >{{saleTransactions.customerFirstName}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

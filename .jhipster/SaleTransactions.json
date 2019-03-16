@@ -8,6 +8,17 @@
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "sale",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "customer",
+            "otherEntityName": "customer",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "firstName",
+            "otherEntityRelationshipName": "saleTransactions",
+            "otherEntityRelationshipNameUndefined": true
         }
     ],
     "fields": [

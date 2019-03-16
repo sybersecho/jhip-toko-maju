@@ -29,6 +29,12 @@
                 <dd>
                     <span>{{saleTransactions.saleDate}}</span>
                 </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.customer">Customer</span></dt>
+                <dd>
+                    <div *ngIf="saleTransactions.customerId">
+                        <a [routerLink]="['/customer', saleTransactions.customerId, 'view']">{{saleTransactions.customerFirstName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"
@@ -38,7 +44,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/sale-transactions', saleTransactions.id, 'edit']"
+                    [routerLink]="['/sale', saleTransactions.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>

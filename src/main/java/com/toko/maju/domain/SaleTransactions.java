@@ -2,6 +2,7 @@ package com.toko.maju.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -58,6 +59,11 @@ public class SaleTransactions implements Serializable {
     @OneToMany(mappedBy = "sale")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<SaleItem> items = new HashSet<>();
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("saleTransactions")
+    private Customer customer;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -168,6 +174,19 @@ public class SaleTransactions implements Serializable {
 
     public void setItems(Set<SaleItem> saleItems) {
         this.items = saleItems;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public SaleTransactions customer(Customer customer) {
+        this.customer = customer;
+        return this;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

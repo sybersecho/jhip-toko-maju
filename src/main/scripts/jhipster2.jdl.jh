@@ -70,7 +70,8 @@ relationship OneToMany {
 }
 relationship ManyToOne {
   CustomerProduct{product(name) required} to Product,
-  ProjectProduct{product(name) required} to Product
+  ProjectProduct{product(name) required} to Product,
+  SaleTransactions{customer(firstName) required} to Customer
 }
 
 dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with mapstruct

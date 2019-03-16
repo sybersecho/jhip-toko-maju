@@ -1,5 +1,4 @@
 import { Moment } from 'moment';
-// import { ISaleItem } from 'app/shared/model/sale-item.model';
 
 export interface ISaleTransactions {
     id?: number;
@@ -10,6 +9,8 @@ export interface ISaleTransactions {
     paid?: number;
     saleDate?: Moment;
     // items?: ISaleItem[];
+    customerFirstName?: string;
+    customerId?: number;
 }
 
 export class SaleTransactions implements ISaleTransactions {
@@ -20,6 +21,9 @@ export class SaleTransactions implements ISaleTransactions {
         public totalPayment?: number,
         public remainingPayment?: number,
         public paid?: number,
-        public saleDate?: Moment // public items?: ISaleItem[]
+        public saleDate?: Moment,
+        // public items?: ISaleItem[],
+        public customerFirstName?: string,
+        public customerId?: number
     ) {}
 }

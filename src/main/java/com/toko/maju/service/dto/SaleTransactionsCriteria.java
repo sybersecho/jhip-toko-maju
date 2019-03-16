@@ -40,6 +40,8 @@ public class SaleTransactionsCriteria implements Serializable {
 
     private LongFilter itemsId;
 
+    private LongFilter customerId;
+
     public LongFilter getId() {
         return id;
     }
@@ -104,6 +106,14 @@ public class SaleTransactionsCriteria implements Serializable {
         this.itemsId = itemsId;
     }
 
+    public LongFilter getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(LongFilter customerId) {
+        this.customerId = customerId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -122,7 +132,8 @@ public class SaleTransactionsCriteria implements Serializable {
             Objects.equals(remainingPayment, that.remainingPayment) &&
             Objects.equals(paid, that.paid) &&
             Objects.equals(saleDate, that.saleDate) &&
-            Objects.equals(itemsId, that.itemsId);
+            Objects.equals(itemsId, that.itemsId) &&
+            Objects.equals(customerId, that.customerId);
     }
 
     @Override
@@ -135,7 +146,8 @@ public class SaleTransactionsCriteria implements Serializable {
         remainingPayment,
         paid,
         saleDate,
-        itemsId
+        itemsId,
+        customerId
         );
     }
 
@@ -150,6 +162,7 @@ public class SaleTransactionsCriteria implements Serializable {
                 (paid != null ? "paid=" + paid + ", " : "") +
                 (saleDate != null ? "saleDate=" + saleDate + ", " : "") +
                 (itemsId != null ? "itemsId=" + itemsId + ", " : "") +
+                (customerId != null ? "customerId=" + customerId + ", " : "") +
             "}";
     }
 
