@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="saleTransactions">
+            <h2><span jhiTranslate="jhiptokomajuApp.saleTransactions.detail.title">Sale Transactions</span> {{saleTransactions.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.noInvoice">No Invoice</span></dt>
+                <dd>
+                    <span>{{saleTransactions.noInvoice}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.discount">Discount</span></dt>
+                <dd>
+                    <span>{{saleTransactions.discount}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.totalPayment">Total Payment</span></dt>
+                <dd>
+                    <span>{{saleTransactions.totalPayment}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.remainingPayment">Remaining Payment</span></dt>
+                <dd>
+                    <span>{{saleTransactions.remainingPayment}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.paid">Paid</span></dt>
+                <dd>
+                    <span>{{saleTransactions.paid}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.saleDate">Sale Date</span></dt>
+                <dd>
+                    <span>{{saleTransactions.saleDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/sale-transactions', saleTransactions.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

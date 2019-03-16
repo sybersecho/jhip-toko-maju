@@ -47,6 +47,9 @@ public class CacheConfiguration {
             cm.createCache(com.toko.maju.domain.Customer.class.getName() + ".products", jcacheConfiguration);
             cm.createCache(com.toko.maju.domain.ProjectProduct.class.getName(), jcacheConfiguration);
             cm.createCache(com.toko.maju.domain.Project.class.getName() + ".products", jcacheConfiguration);
+            cm.createCache(com.toko.maju.domain.SaleTransactions.class.getName(), jcacheConfiguration);
+            cm.createCache(com.toko.maju.domain.SaleItem.class.getName(), jcacheConfiguration);
+            cm.createCache(com.toko.maju.domain.SaleTransactions.class.getName() + ".items", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -4,13 +4,15 @@ import { JhiptokomajuCustomerModule } from './customer/customer.module';
 import { JhiptokomajuProductModule } from './product/product.module';
 import { JhiptokomajuProjectModule } from './project/project.module';
 import { JhiptokomajuSupplierModule } from './supplier/supplier.module';
+import { JhiptokomajuSaleTransactionsModule } from './sale-transactions/sale-transactions.module';
 
 @NgModule({
     imports: [
         JhiptokomajuCustomerModule,
         JhiptokomajuProductModule,
         JhiptokomajuProjectModule,
-        JhiptokomajuSupplierModule
+        JhiptokomajuSupplierModule,
+        JhiptokomajuSaleTransactionsModule
         // RouterModule.forChild([
         //     {
         //         path: 'customer',
@@ -28,7 +30,11 @@ import { JhiptokomajuSupplierModule } from './supplier/supplier.module';
         //         path: 'supplier',
         //         loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
         //     }
-        // //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+        // {
+        //     path: 'sale-transactions',
+        //     loadChildren: './sale-transactions/sale-transactions.module#JhiptokomajuSaleTransactionsModule'
+        // }
+        //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         // ])
     ],
     declarations: [],

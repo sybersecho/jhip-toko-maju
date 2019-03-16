@@ -11,6 +11,7 @@
                 "product": "Product",
                 "project": "Project",
                 "supplier": "Supplier",
+                "saleTransactions": "Sale Transactions",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

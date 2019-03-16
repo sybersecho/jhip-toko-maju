@@ -1,0 +1,28 @@
+{
+    "jhiptokomajuApp": {
+        "saleTransactions": {
+            "home": {
+                "title": "Sale Transactions",
+                "createLabel": "Create a new Sale Transactions",
+                "createOrEditLabel": "Create or edit a Sale Transactions",
+                "search": "Search for Sale Transactions"
+            },
+            "created": "A new Sale Transactions is created with identifier {{ param }}",
+            "updated": "A Sale Transactions is updated with identifier {{ param }}",
+            "deleted": "A Sale Transactions is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Sale Transactions {{ id }}?"
+            },
+            "detail": {
+                "title": "Sale Transactions"
+            },
+            "noInvoice": "No Invoice",
+            "discount": "Discount",
+            "totalPayment": "Total Payment",
+            "remainingPayment": "Remaining Payment",
+            "paid": "Paid",
+            "saleDate": "Sale Date",
+            "items": "Items"
+        }
+    }
+}

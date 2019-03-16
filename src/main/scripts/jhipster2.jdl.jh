@@ -35,6 +35,18 @@ entity CustomerProduct {
 entity ProjectProduct {
   specialPrice BigDecimal required min(0)
 }
+entity SaleTransactions {
+  noInvoice String,
+  discount BigDecimal min(0),
+  totalPayment BigDecimal required min(0),
+  remainingPayment BigDecimal min(0),
+  paid BigDecimal required min(0),
+  saleDate Instant
+}
+entity SaleItem {
+  quantity Integer min(0),
+  totalPrice BigDecimal min(0)
+}
 
 enum Gender {
   MALE,
@@ -47,19 +59,23 @@ enum UnitMeasure {
   M
 }
 
+relationship OneToOne {
+  SaleItem{product(name) required} to Product
+}
 relationship OneToMany {
   Supplier{product} to Product{supplier(name)},
   Customer{product} to CustomerProduct{customer(firstName) required},
-  Project{product} to ProjectProduct{project(name) required}
+  Project{product} to ProjectProduct{project(name) required},
+  SaleTransactions{items} to SaleItem{sale(noInvoice) required}
 }
 relationship ManyToOne {
   CustomerProduct{product(name) required} to Product,
   ProjectProduct{product(name) required} to Product
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct with mapstruct
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with mapstruct
 paginate Customer, Product, Project, Supplier with pagination
-paginate CustomerProduct, ProjectProduct with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct
+paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with infinite-scroll
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem
