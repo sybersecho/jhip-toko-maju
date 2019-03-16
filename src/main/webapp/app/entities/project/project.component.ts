@@ -12,7 +12,7 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 import { ProjectService } from './project.service';
 import { IProduct } from 'app/shared/model/product.model';
 import { ProjectProduct, IProjectProduct } from 'app/shared/model/project-product.model';
-import { ProjectProductService } from '../project-product';
+import { ProjectProductService } from './project-product/project-product.service';
 
 @Component({
     selector: 'jhi-project',
