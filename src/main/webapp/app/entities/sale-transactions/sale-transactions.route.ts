@@ -11,6 +11,9 @@ import { SaleTransactionsDetailComponent } from './sale-transactions-detail.comp
 import { SaleTransactionsUpdateComponent } from './sale-transactions-update.component';
 import { SaleTransactionsDeletePopupComponent } from './sale-transactions-delete-dialog.component';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
+import { MainCashierComponent } from './main-cashier.component';
+import { ICustomer, Customer } from 'app/shared/model/customer.model';
+import { CustomerService } from '../customer';
 
 @Injectable({ providedIn: 'root' })
 export class SaleTransactionsResolve implements Resolve<ISaleTransactions> {
@@ -28,13 +31,28 @@ export class SaleTransactionsResolve implements Resolve<ISaleTransactions> {
     }
 }
 
+@Injectable({ providedIn: 'root' })
+export class DefaultCustomerResolve implements Resolve<ICustomer> {
+    constructor(private service: CustomerService) {}
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ICustomer> {
+        return this.service.find(1).pipe(
+            filter((response: HttpResponse<Customer>) => response.ok),
+            map((customer: HttpResponse<Customer>) => customer.body)
+        );
+    }
+}
+
 export const saleTransactionsRoute: Routes = [
     {
         path: 'sale',
-        component: SaleTransactionsComponent,
+        // component: SaleTransactionsComponent,
+        component: MainCashierComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
+        },
+        resolve: {
+            customer: DefaultCustomerResolve
         },
         canActivate: [UserRouteAccessService]
     },

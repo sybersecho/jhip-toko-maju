@@ -13,6 +13,8 @@ import {
     saleTransactionsRoute,
     saleTransactionsPopupRoute
 } from './';
+import { MainCashierComponent } from './main-cashier.component';
+import { ProductBoxComponent } from './product-box/product-box.component';
 
 const ENTITY_STATES = [...saleTransactionsRoute, ...saleTransactionsPopupRoute];
 
@@ -23,7 +25,9 @@ const ENTITY_STATES = [...saleTransactionsRoute, ...saleTransactionsPopupRoute];
         SaleTransactionsDetailComponent,
         SaleTransactionsUpdateComponent,
         SaleTransactionsDeleteDialogComponent,
-        SaleTransactionsDeletePopupComponent
+        SaleTransactionsDeletePopupComponent,
+        MainCashierComponent,
+        ProductBoxComponent
     ],
     entryComponents: [
         SaleTransactionsComponent,

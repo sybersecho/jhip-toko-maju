@@ -12,6 +12,7 @@
                 "project": "Project",
                 "supplier": "Supplier",
                 "saleTransactions": "Sale Transactions",
+                "saleItem": "Sale Item",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -87,7 +88,8 @@
         },
         "field": {
             "id": "ID",
-            "no": "No"
+            "no": "No",
+            "total": "Total"
         },
         "ribbon": {
             "dev": "Pengembangan"
@@ -107,7 +109,8 @@
             "view": "Lihat",
             "add": "Tambah",
             "addAll": "Tambah Semua",
-            "saveAll": "Simpan Semua"
+            "saveAll": "Simpan Semua",
+            "addToCart": "Tambah Ke Keranjang"
         },
         "detail": {
             "field": "Inputan",

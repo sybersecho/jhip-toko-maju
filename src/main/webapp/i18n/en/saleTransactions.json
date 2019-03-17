@@ -16,6 +16,7 @@
             "detail": {
                 "title": "Sale Transactions"
             },
+            "quantity": "Quantity",
             "noInvoice": "No Invoice",
             "discount": "Discount",
             "totalPayment": "Total Payment",

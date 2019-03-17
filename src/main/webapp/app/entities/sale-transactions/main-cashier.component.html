@@ -1,0 +1,113 @@
+<div>
+    <jhi-alert></jhi-alert>
+    <div class="row justify-content-start">
+        <div class="col-8">
+            <!-- start cashierForm -->
+            <form name="cashierForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <!-- start div search customer -->
+                        <div class="form-group row">
+                            <label
+                                class="col-sm-2 form-control-label"
+                                jhiTranslate="jhiptokomajuApp.saleTransactions.customer"
+                                for="field_firstName"
+                                >Customer</label
+                            >
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="firstName" id="field_firstName" />
+                            </div>
+                        </div>
+                        <!-- end div search customer -->
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <!-- start div customer code -->
+                        <div class="form-group row">
+                            <label class="col-sm-2 form-control-label" jhiTranslate="jhiptokomajuApp.customer.code" for="field_customerCode"
+                                >Code</label
+                            >
+                            <div class="col-sm-10">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="customerCode"
+                                    id="field_customerCode"
+                                    [ngModel]="customer.code"
+                                    readonly
+                                />
+                            </div>
+                        </div>
+                        <!-- end div customer code -->
+                        <!-- start div customer full name -->
+                        <div class="form-group row">
+                            <label class="col-sm-2 form-control-label" jhiTranslate="jhiptokomajuApp.customer.fullName" for="field_fullName"
+                                >Full Name</label
+                            >
+                            <div class="col-sm-10">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="fullName"
+                                    id="field_fullName"
+                                    [ngModel]="getFullName()"
+                                    readonly
+                                />
+                            </div>
+                        </div>
+                        <!-- end div customer full name -->
+                    </div>
+                    <div class="col-md-6">
+                        <!-- start div customer address -->
+                        <div class="form-group row">
+                            <label class="col-sm-2 form-control-label" jhiTranslate="jhiptokomajuApp.customer.address" for="field_address"
+                                >address
+                            </label>
+                            <div class="col-sm-10">
+                                <textarea
+                                    class="form-control"
+                                    name="address"
+                                    id="field_address"
+                                    [ngModel]="customer.address"
+                                    readonly
+                                ></textarea>
+                            </div>
+                        </div>
+                        <!-- end div customer full address -->
+                    </div>
+                </div>
+                <div class="table">
+                    <table class="table table-striped">
+                        <thead>
+                            <th style="width: 10%"><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+                            <th style="width: 35%"><span jhiTranslate="jhiptokomajuApp.product.name">Product Name</span></th>
+                            <th style="width: 10%"><span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span></th>
+                            <th style="width: 10%"><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
+                            <th style="width: 15%"><span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span></th>
+                            <th style="width: 15%"><span jhiTranslate="global.field.total">Total</span></th>
+                            <th style="width: 5%"></th>
+                        </thead>
+                        <tbody *ngFor="let item of saleTransactions.items; let i = index">
+                            <td>{{ item.product.barcode }}</td>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.product.unit }}</td>
+                            <td>{{ item.product.sellingPrice }}</td>
+                            <td>{{ item.totalPrice }}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-danger" (click)="onDeleteItem(i)">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                </button>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <!-- end cashierForm -->
+        </div>
+        <div class="col-4">
+            <jhi-product-box></jhi-product-box>
+        </div>
+    </div>
+</div>

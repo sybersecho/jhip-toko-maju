@@ -22,7 +22,8 @@
             "gender": "Gender",
             "phoneNumber": "Phone Number",
             "address": "Address",
-            "product": "Product"
+            "product": "Product",
+            "fullName": "Nama"
         }
     }
 }

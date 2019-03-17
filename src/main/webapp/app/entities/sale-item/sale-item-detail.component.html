@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="saleItem">
+            <h2><span jhiTranslate="jhiptokomajuApp.saleItem.detail.title">Sale Item</span> {{saleItem.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="jhiptokomajuApp.saleItem.quantity">Quantity</span></dt>
+                <dd>
+                    <span>{{saleItem.quantity}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleItem.totalPrice">Total Price</span></dt>
+                <dd>
+                    <span>{{saleItem.totalPrice}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleItem.product">Product</span></dt>
+                <dd>
+                    <div *ngIf="saleItem.productId">
+                        <a [routerLink]="['/product', saleItem.productId, 'view']">{{saleItem.productName}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleItem.sale">Sale</span></dt>
+                <dd>
+                    <div *ngIf="saleItem.saleId">
+                        <a [routerLink]="['/sale-transactions', saleItem.saleId, 'view']">{{saleItem.saleNoInvoice}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/sale-item', saleItem.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
