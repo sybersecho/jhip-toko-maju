@@ -91,7 +91,18 @@
                         <tbody *ngFor="let item of saleTransactions.items; let i = index">
                             <td>{{ item.product.barcode }}</td>
                             <td>{{ item.product.name }}</td>
-                            <td>{{ item.quantity }}</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="quantity"
+                                    id="field_quantity"
+                                    [(ngModel)]="item.quantity"
+                                    min="1"
+                                    jhiMin="1"
+                                    (change)="onChangeQuantity(i, item.quantity)"
+                                />
+                            </td>
                             <td>{{ item.product.unit }}</td>
                             <td>{{ item.product.sellingPrice }}</td>
                             <td>{{ item.totalPrice }}</td>

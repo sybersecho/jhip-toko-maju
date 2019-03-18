@@ -56,6 +56,22 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         this.saleTransactions.items.splice(itemPos, 1);
     }
 
+    onChangeQuantity(i: number, itemQuantity: number) {
+        if (itemQuantity <= 0) {
+            this.saleTransactions.items.splice(i, 1);
+        } else {
+            this.recalculateItemQuantity(i, itemQuantity);
+        }
+    }
+
+    protected recalculateItemQuantity(i: number, itemQuantity: number): any {
+        const changeItem = this.saleTransactions.items[i];
+        changeItem.quantity = itemQuantity;
+        changeItem.totalPrice = changeItem.quantity * changeItem.product.sellingPrice;
+
+        this.saleTransactions.items[i] = changeItem;
+    }
+
     protected setSaleCustomer() {
         this.saleTransactions.customerId = this.customer.id;
         this.saleTransactions.customerFirstName = this.customer.firstName;
