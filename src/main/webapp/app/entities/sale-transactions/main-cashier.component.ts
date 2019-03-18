@@ -53,23 +53,19 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     save() {}
 
     onDeleteItem(itemPos: number) {
-        this.saleTransactions.items.splice(itemPos, 1);
+        this.saleTransactions.removeItemAt(itemPos);
     }
 
     onChangeQuantity(i: number, itemQuantity: number) {
         if (itemQuantity <= 0) {
-            this.saleTransactions.items.splice(i, 1);
+            this.onDeleteItem(i);
         } else {
-            this.recalculateItemQuantity(i, itemQuantity);
+            this.saleTransactions.updateItemQuantity(i, itemQuantity);
         }
     }
 
-    protected recalculateItemQuantity(i: number, itemQuantity: number): any {
-        const changeItem = this.saleTransactions.items[i];
-        changeItem.quantity = itemQuantity;
-        changeItem.totalPrice = changeItem.quantity * changeItem.product.sellingPrice;
-
-        this.saleTransactions.items[i] = changeItem;
+    onPaid() {
+        this.saleTransactions.paidTransaction();
     }
 
     protected setSaleCustomer() {
@@ -79,19 +75,11 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     protected registerAddItemEvent(): any {
         this.addItemESubcriber = this.eventManager.subscribe('addItemEvent', response => {
-            this.push(response.item);
+            this.saleTransactions.addOrUpdate(response.item);
         });
     }
 
     protected push(item: ISaleItem) {
-        if (this.saleTransactions.isItemDuplicate(item.product.barcode)) {
-            const itemPos = this.saleTransactions.itemPosition(item.product.barcode);
-            const updateItem = this.saleTransactions.items[itemPos];
-            updateItem.quantity += item.quantity;
-            updateItem.totalPrice += item.totalPrice;
-            this.saleTransactions.items[itemPos] = updateItem;
-        } else {
-            this.saleTransactions.items.push(item);
-        }
+        this.saleTransactions.addOrUpdate(item);
     }
 }
