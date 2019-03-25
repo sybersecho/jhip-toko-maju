@@ -3,8 +3,8 @@ package com.toko.maju.web.rest;
 import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.SaleItem;
-import com.toko.maju.domain.Product;
 import com.toko.maju.domain.SaleTransactions;
+import com.toko.maju.domain.Product;
 import com.toko.maju.repository.SaleItemRepository;
 import com.toko.maju.repository.search.SaleItemSearchRepository;
 import com.toko.maju.service.SaleItemService;
@@ -122,15 +122,15 @@ public class SaleItemResourceIntTest {
             .quantity(DEFAULT_QUANTITY)
             .totalPrice(DEFAULT_TOTAL_PRICE);
         // Add required entity
-        Product product = ProductResourceIntTest.createEntity(em);
-        em.persist(product);
-        em.flush();
-        saleItem.setProduct(product);
-        // Add required entity
         SaleTransactions saleTransactions = SaleTransactionsResourceIntTest.createEntity(em);
         em.persist(saleTransactions);
         em.flush();
         saleItem.setSale(saleTransactions);
+        // Add required entity
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        saleItem.setProduct(product);
         return saleItem;
     }
 
@@ -322,25 +322,6 @@ public class SaleItemResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSaleItemsByProductIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Product product = ProductResourceIntTest.createEntity(em);
-        em.persist(product);
-        em.flush();
-        saleItem.setProduct(product);
-        saleItemRepository.saveAndFlush(saleItem);
-        Long productId = product.getId();
-
-        // Get all the saleItemList where product equals to productId
-        defaultSaleItemShouldBeFound("productId.equals=" + productId);
-
-        // Get all the saleItemList where product equals to productId + 1
-        defaultSaleItemShouldNotBeFound("productId.equals=" + (productId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllSaleItemsBySaleIsEqualToSomething() throws Exception {
         // Initialize the database
         SaleTransactions sale = SaleTransactionsResourceIntTest.createEntity(em);
@@ -355,6 +336,25 @@ public class SaleItemResourceIntTest {
 
         // Get all the saleItemList where sale equals to saleId + 1
         defaultSaleItemShouldNotBeFound("saleId.equals=" + (saleId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSaleItemsByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        saleItem.setProduct(product);
+        saleItemRepository.saveAndFlush(saleItem);
+        Long productId = product.getId();
+
+        // Get all the saleItemList where product equals to productId
+        defaultSaleItemShouldBeFound("productId.equals=" + productId);
+
+        // Get all the saleItemList where product equals to productId + 1
+        defaultSaleItemShouldNotBeFound("productId.equals=" + (productId + 1));
     }
 
     /**

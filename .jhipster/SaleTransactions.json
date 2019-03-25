@@ -1,26 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "items",
-            "otherEntityName": "saleItem",
-            "relationshipType": "one-to-many",
-            "otherEntityRelationshipName": "sale",
-            "otherEntityRelationshipNameUndefined": false
-        },
-        {
-            "relationshipName": "customer",
-            "otherEntityName": "customer",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "firstName",
-            "otherEntityRelationshipName": "saleTransactions",
-            "otherEntityRelationshipNameUndefined": true
-        }
-    ],
+    "name": "SaleTransactions",
     "fields": [
         {
             "fieldName": "noInvoice",
@@ -32,7 +11,7 @@
             "fieldValidateRules": [
                 "min"
             ],
-            "fieldValidateRulesMin": "0"
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "totalPayment",
@@ -41,7 +20,7 @@
                 "required",
                 "min"
             ],
-            "fieldValidateRulesMin": "0"
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "remainingPayment",
@@ -49,7 +28,7 @@
             "fieldValidateRules": [
                 "min"
             ],
-            "fieldValidateRulesMin": "0"
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "paid",
@@ -58,19 +37,37 @@
                 "required",
                 "min"
             ],
-            "fieldValidateRulesMin": "0"
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "saleDate",
             "fieldType": "Instant"
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "items",
+            "otherEntityName": "saleItem",
+            "otherEntityRelationshipName": "sale"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "customer",
+            "otherEntityName": "customer",
+            "otherEntityField": "firstName",
+            "otherEntityRelationshipName": "saleTransactions"
+        }
+    ],
     "changelogDate": "20190316144520",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceImpl",
     "entityTableName": "sale_transactions",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
     "jpaMetamodelFiltering": true,
-    "pagination": "infinite-scroll"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

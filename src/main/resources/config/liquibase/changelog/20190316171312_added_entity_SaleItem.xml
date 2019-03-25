@@ -29,10 +29,12 @@
             <column name="total_price" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
-            <column name="product_id" type="bigint">
-                <constraints unique="true" nullable="false" uniqueConstraintName="ux_sale_item_product_id" />
-            </column>
+
             <column name="sale_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="product_id" type="bigint">
                 <constraints nullable="false" />
             </column>
 

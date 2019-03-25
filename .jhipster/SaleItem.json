@@ -3,26 +3,22 @@
     "clientRootFolder": "",
     "relationships": [
         {
-            "relationshipName": "product",
-            "otherEntityName": "product",
-            "relationshipType": "one-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name",
-            "ownerSide": true,
-            "useJPADerivedIdentifier": false,
-            "otherEntityRelationshipName": "saleItem",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "sale",
+            "otherEntityName": "saleTransactions",
+            "otherEntityField": "noInvoice",
+            "otherEntityRelationshipName": "items",
             "otherEntityRelationshipNameUndefined": false
         },
         {
-            "relationshipName": "sale",
-            "otherEntityName": "saleTransactions",
+            "relationshipName": "product",
+            "otherEntityName": "product",
             "relationshipType": "many-to-one",
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "noInvoice",
+            "otherEntityField": "name",
             "otherEntityRelationshipName": "saleItem",
             "otherEntityRelationshipNameUndefined": true
         }
@@ -34,7 +30,7 @@
             "fieldValidateRules": [
                 "min"
             ],
-            "fieldValidateRulesMin": "0"
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "totalPrice",
@@ -42,7 +38,7 @@
             "fieldValidateRules": [
                 "min"
             ],
-            "fieldValidateRulesMin": "0"
+            "fieldValidateRulesMin": 0
         }
     ],
     "changelogDate": "20190316171312",

@@ -99,13 +99,13 @@ public class SaleItemQueryService extends QueryService<SaleItem> {
             if (criteria.getTotalPrice() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTotalPrice(), SaleItem_.totalPrice));
             }
-            if (criteria.getProductId() != null) {
-                specification = specification.and(buildSpecification(criteria.getProductId(),
-                    root -> root.join(SaleItem_.product, JoinType.LEFT).get(Product_.id)));
-            }
             if (criteria.getSaleId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSaleId(),
                     root -> root.join(SaleItem_.sale, JoinType.LEFT).get(SaleTransactions_.id)));
+            }
+            if (criteria.getProductId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductId(),
+                    root -> root.join(SaleItem_.product, JoinType.LEFT).get(Product_.id)));
             }
         }
         return specification;

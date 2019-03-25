@@ -59,9 +59,6 @@ enum UnitMeasure {
   M
 }
 
-relationship OneToOne {
-  SaleItem{product(name) required} to Product
-}
 relationship OneToMany {
   Supplier{product} to Product{supplier(name)},
   Customer{product} to CustomerProduct{customer(firstName) required},
@@ -71,7 +68,8 @@ relationship OneToMany {
 relationship ManyToOne {
   CustomerProduct{product(name) required} to Product,
   ProjectProduct{product(name) required} to Product,
-  SaleTransactions{customer(firstName) required} to Customer
+  SaleTransactions{customer(firstName) required} to Customer,
+  SaleItem{product(name) required} to Product
 }
 
 dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with mapstruct

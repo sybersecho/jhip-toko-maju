@@ -18,13 +18,13 @@ public class SaleItemDTO implements Serializable {
     private BigDecimal totalPrice;
 
 
-    private Long productId;
-
-    private String productName;
-
     private Long saleId;
 
     private String saleNoInvoice;
+
+    private Long productId;
+
+    private String productName;
 
     public Long getId() {
         return id;
@@ -50,22 +50,6 @@ public class SaleItemDTO implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
     public Long getSaleId() {
         return saleId;
     }
@@ -80,6 +64,22 @@ public class SaleItemDTO implements Serializable {
 
     public void setSaleNoInvoice(String saleTransactionsNoInvoice) {
         this.saleNoInvoice = saleTransactionsNoInvoice;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     @Override
@@ -109,10 +109,10 @@ public class SaleItemDTO implements Serializable {
             "id=" + getId() +
             ", quantity=" + getQuantity() +
             ", totalPrice=" + getTotalPrice() +
-            ", product=" + getProductId() +
-            ", product='" + getProductName() + "'" +
             ", sale=" + getSaleId() +
             ", sale='" + getSaleNoInvoice() + "'" +
+            ", product=" + getProductId() +
+            ", product='" + getProductName() + "'" +
             "}";
     }
 }
