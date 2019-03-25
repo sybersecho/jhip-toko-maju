@@ -1,145 +1,152 @@
 package com.toko.maju.service.dto;
+
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the SaleTransactions entity.
  */
 public class SaleTransactionsDTO implements Serializable {
 
-    private Long id;
+	private Long id;
 
-    private String noInvoice;
+	private String noInvoice;
 
-    @DecimalMin(value = "0")
-    private BigDecimal discount;
+	@DecimalMin(value = "0")
+	private BigDecimal discount;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    private BigDecimal totalPayment;
+	@NotNull
+	@DecimalMin(value = "0")
+	private BigDecimal totalPayment;
 
-    @DecimalMin(value = "0")
-    private BigDecimal remainingPayment;
+	@DecimalMin(value = "0")
+	private BigDecimal remainingPayment;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    private BigDecimal paid;
+	@NotNull
+	@DecimalMin(value = "0")
+	private BigDecimal paid;
 
-    private Instant saleDate;
+	private Instant saleDate;
 
+	private Long customerId;
 
-    private Long customerId;
+	private String customerFirstName;
 
-    private String customerFirstName;
+	private Set<SaleItemDTO> items = new HashSet<SaleItemDTO>();
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNoInvoice() {
-        return noInvoice;
-    }
+	public String getNoInvoice() {
+		return noInvoice;
+	}
 
-    public void setNoInvoice(String noInvoice) {
-        this.noInvoice = noInvoice;
-    }
+	public void setNoInvoice(String noInvoice) {
+		this.noInvoice = noInvoice;
+	}
 
-    public BigDecimal getDiscount() {
-        return discount;
-    }
+	public BigDecimal getDiscount() {
+		return discount;
+	}
 
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
-    }
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
+	}
 
-    public BigDecimal getTotalPayment() {
-        return totalPayment;
-    }
+	public BigDecimal getTotalPayment() {
+		return totalPayment;
+	}
 
-    public void setTotalPayment(BigDecimal totalPayment) {
-        this.totalPayment = totalPayment;
-    }
+	public void setTotalPayment(BigDecimal totalPayment) {
+		this.totalPayment = totalPayment;
+	}
 
-    public BigDecimal getRemainingPayment() {
-        return remainingPayment;
-    }
+	public BigDecimal getRemainingPayment() {
+		return remainingPayment;
+	}
 
-    public void setRemainingPayment(BigDecimal remainingPayment) {
-        this.remainingPayment = remainingPayment;
-    }
+	public void setRemainingPayment(BigDecimal remainingPayment) {
+		this.remainingPayment = remainingPayment;
+	}
 
-    public BigDecimal getPaid() {
-        return paid;
-    }
+	public BigDecimal getPaid() {
+		return paid;
+	}
 
-    public void setPaid(BigDecimal paid) {
-        this.paid = paid;
-    }
+	public void setPaid(BigDecimal paid) {
+		this.paid = paid;
+	}
 
-    public Instant getSaleDate() {
-        return saleDate;
-    }
+	public Instant getSaleDate() {
+		return saleDate;
+	}
 
-    public void setSaleDate(Instant saleDate) {
-        this.saleDate = saleDate;
-    }
+	public void setSaleDate(Instant saleDate) {
+		this.saleDate = saleDate;
+	}
 
-    public Long getCustomerId() {
-        return customerId;
-    }
+	public Long getCustomerId() {
+		return customerId;
+	}
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
 
-    public String getCustomerFirstName() {
-        return customerFirstName;
-    }
+	public String getCustomerFirstName() {
+		return customerFirstName;
+	}
 
-    public void setCustomerFirstName(String customerFirstName) {
-        this.customerFirstName = customerFirstName;
-    }
+	public void setCustomerFirstName(String customerFirstName) {
+		this.customerFirstName = customerFirstName;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+	public Set<SaleItemDTO> getItems() {
+		return items;
+	}
 
-        SaleTransactionsDTO saleTransactionsDTO = (SaleTransactionsDTO) o;
-        if (saleTransactionsDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), saleTransactionsDTO.getId());
-    }
+	public void setItems(Set<SaleItemDTO> items) {
+		this.items = items;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
-    @Override
-    public String toString() {
-        return "SaleTransactionsDTO{" +
-            "id=" + getId() +
-            ", noInvoice='" + getNoInvoice() + "'" +
-            ", discount=" + getDiscount() +
-            ", totalPayment=" + getTotalPayment() +
-            ", remainingPayment=" + getRemainingPayment() +
-            ", paid=" + getPaid() +
-            ", saleDate='" + getSaleDate() + "'" +
-            ", customer=" + getCustomerId() +
-            ", customer='" + getCustomerFirstName() + "'" +
-            "}";
-    }
+		SaleTransactionsDTO saleTransactionsDTO = (SaleTransactionsDTO) o;
+		if (saleTransactionsDTO.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), saleTransactionsDTO.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "SaleTransactionsDTO{" + "id=" + getId() + ", noInvoice='" + getNoInvoice() + "'" + ", discount="
+				+ getDiscount() + ", totalPayment=" + getTotalPayment() + ", remainingPayment=" + getRemainingPayment()
+				+ ", paid=" + getPaid() + ", saleDate='" + getSaleDate() + "'" + ", customer=" + getCustomerId()
+				+ ", customer='" + getCustomerFirstName() +", items='" + getItems() + "'" + "}";
+	}
+	
+	
 }

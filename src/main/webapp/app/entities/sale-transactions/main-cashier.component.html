@@ -92,7 +92,6 @@
                             <th style="width: 15%"><span jhiTranslate="global.field.total">Total</span></th>
                             <th style="width: 5%"></th>
                         </thead>
-                        <!-- <div> -->
                         <tbody *ngFor="let item of saleTransactions.items; let i = index">
                             <td>{{ item.product.barcode }}</td>
                             <td>{{ item.product.name }}</td>
@@ -166,10 +165,21 @@
                                 </th>
                             </tr>
                         </tfoot>
-                        <!-- </div> -->
                     </table>
                 </div>
             </form>
+            <div class="row" *ngIf="saleTransactions.items.length > 0">
+                <div class="col-sm-4 text-left">
+                    <button class="btn btn-sm btn-success" (click)="save()">Process</button>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <button class="btn btn-sm btn-success ">Process center</button>
+                </div>
+                <div class="col-sm-4 text-right">
+                    <button class="btn btn-sm btn-success ">Process Right</button>
+                </div>
+            </div>
+
             <!-- end cashierForm -->
         </div>
         <div class="col-4">

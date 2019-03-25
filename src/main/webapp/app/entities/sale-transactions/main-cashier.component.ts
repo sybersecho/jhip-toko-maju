@@ -4,8 +4,10 @@ import { JhiParseLinks, JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { AccountService } from 'app/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ISaleTransactions, SaleTransactions } from 'app/shared/model/sale-transactions.model';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { ISaleItem } from 'app/shared/model/sale-item.model';
+import { SaleTransactionsService } from './sale-transactions.service';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'jhi-main-cashier',
@@ -20,6 +22,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     addItemESubcriber: Subscription;
 
     constructor(
+        protected saleService: SaleTransactionsService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
@@ -50,7 +53,27 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         return this.customer.firstName + ' ' + this.customer.lastName;
     }
 
-    save() {}
+    save() {
+        console.log('saving sales');
+        this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
+    }
+    // subscribeToSaveResponse(arg0: import("rxjs").Observable<import("@angular/common/http").HttpResponse<ISaleTransactions>>): any {
+    //     throw new Error("Method not implemented.");
+    // }
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<ISaleTransactions>>) {
+        result.subscribe((res: HttpResponse<ISaleTransactions>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    protected onSaveSuccess() {
+        // this.isSaving = false;
+        // this.previousState();
+        this.saleTransactions = new SaleTransactions();
+        this.setSaleCustomer();
+    }
+
+    protected onSaveError() {
+        // this.isSaving = false;
+    }
 
     onDeleteItem(itemPos: number) {
         this.saleTransactions.removeItemAt(itemPos);

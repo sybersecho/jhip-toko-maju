@@ -56,8 +56,9 @@ public class SaleTransactions implements Serializable {
     @Column(name = "sale_date")
     private Instant saleDate;
 
-    @OneToMany(mappedBy = "sale")
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//    @JsonIgnoreProperties("saleItems")
     private Set<SaleItem> items = new HashSet<>();
     @ManyToOne(optional = false)
     @NotNull
@@ -220,6 +221,7 @@ public class SaleTransactions implements Serializable {
             ", remainingPayment=" + getRemainingPayment() +
             ", paid=" + getPaid() +
             ", saleDate='" + getSaleDate() + "'" +
+            ", items='" + getItems() + "'" +
             "}";
     }
 }

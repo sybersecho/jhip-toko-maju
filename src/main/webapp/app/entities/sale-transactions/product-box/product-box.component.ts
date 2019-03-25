@@ -37,9 +37,15 @@ export class ProductBoxComponent implements OnInit {
 
     addToCart(form: NgForm) {
         this.calculateTotalPrice();
+        this.associateProduct();
         this.eventManager.broadcast({ name: 'addItemEvent', item: this.selectedItem });
         this.reset();
         form.resetForm(this.selectedItem);
+    }
+
+    protected associateProduct(): any {
+        this.selectedItem.productId = this.selectedItem.product.id;
+        this.selectedItem.productName = this.selectedItem.product.name;
     }
 
     protected calculateTotalPrice(): any {
