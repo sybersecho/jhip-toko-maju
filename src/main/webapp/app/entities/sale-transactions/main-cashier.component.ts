@@ -20,6 +20,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     currentAccount: any;
     routeData: any;
     addItemESubcriber: Subscription;
+    changeCustomerSubcriber: Subscription;
 
     constructor(
         protected saleService: SaleTransactionsService,
@@ -43,10 +44,12 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.registerAddItemEvent();
+        this.changeCustomerEvent();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.addItemESubcriber);
+        this.eventManager.destroy(this.changeCustomerSubcriber);
     }
 
     getFullName(): string {
@@ -54,7 +57,6 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     save() {
-        console.log('saving sales');
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
     // subscribeToSaveResponse(arg0: import("rxjs").Observable<import("@angular/common/http").HttpResponse<ISaleTransactions>>): any {
@@ -91,6 +93,10 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         this.saleTransactions.paidTransaction();
     }
 
+    onSearchCustomer() {
+        console.log('on search customer');
+    }
+
     protected setSaleCustomer() {
         this.saleTransactions.customerId = this.customer.id;
         this.saleTransactions.customerFirstName = this.customer.firstName;
@@ -99,6 +105,14 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     protected registerAddItemEvent(): any {
         this.addItemESubcriber = this.eventManager.subscribe('addItemEvent', response => {
             this.saleTransactions.addOrUpdate(response.item);
+        });
+    }
+
+    protected changeCustomerEvent(): any {
+        this.changeCustomerSubcriber = this.eventManager.subscribe('onSelectCustomerEvent', response => {
+            // this.saleTransactions.addOrUpdate(response.item);
+            this.customer = response.data;
+            this.setSaleCustomer();
         });
     }
 

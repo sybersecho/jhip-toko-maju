@@ -5,7 +5,7 @@
             <!-- start cashierForm -->
             <form name="cashierForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
                 <div class="form-row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <!-- start div search customer -->
                         <div class="form-group row">
                             <label
@@ -19,6 +19,17 @@
                             </div>
                         </div>
                         <!-- end div search customer -->
+                    </div>
+                    <div class="col-md-6">
+                        <button
+                            class="btn btn-block btn-info"
+                            type="button"
+                            [routerLink]="['/', { outlets: { popup: 'sale/search-customer' } }]"
+                            replaceUrl="true"
+                            queryParamsHandling="merge"
+                        >
+                            Search Customer
+                        </button>
                     </div>
                 </div>
                 <div class="form-row">

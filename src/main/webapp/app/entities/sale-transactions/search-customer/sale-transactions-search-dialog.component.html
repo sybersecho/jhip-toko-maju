@@ -1,0 +1,46 @@
+<form name="searchForm">
+    <div class="modal-header">
+        <h4 class="modal-title" jhiTranslate="jhiptokomajuApp.customer.home.search">Cari Customer</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <!-- <jhi-alert-error></jhi-alert-error>
+        <p
+            id="jhi-delete-saleTransactions-heading"
+            jhiTranslate="jhiptokomajuApp.saleTransactions.delete.question"
+            [translateValues]="{ id: saleTransactions.id }"
+        >
+            Are you sure you want to delete this Sale Transactions?
+        </p> -->
+        <div class="col-sm-12">
+            <div *ngIf="customers">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><span jhiTranslate="jhiptokomajuApp.customer.code">Code</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.customer.firstName">First Name</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.customer.phoneNumber">Phone Number</span></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let customer of customers">
+                            <td>{{ customer.code }}</td>
+                            <td>{{ customer.firstName }} {{ customer.lastName }}</td>
+                            <td>{{ customer.phoneNumber }}</td>
+                            <td><button type="button" class="btn btn-block btn-sm btn-info" (click)="onSelect(customer)">Select</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button id="jhi-confirm-delete-saleTransactions" type="submit" class="btn btn-danger">
+            <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.delete">Delete</span>
+        </button>
+    </div> -->
+</form>
