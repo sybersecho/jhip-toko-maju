@@ -11,6 +11,10 @@ export interface ISaleItem {
     saleNoInvoice?: string;
     saleId?: number;
     product?: IProduct;
+
+    createItem(): SaleItem;
+    associateProduct(): void;
+    isQtyBigerThanStock(): boolean;
 }
 
 export class SaleItem implements ISaleItem {
@@ -25,7 +29,27 @@ export class SaleItem implements ISaleItem {
         public unit?: UnitMeasure,
         public sellingPrice?: number,
         public product?: IProduct
-    ) {
-        // this.product = new Product();
+    ) {}
+
+    public createItem(): SaleItem {
+        this.calculateTotalPrice();
+        this.associateProduct();
+        return this;
+    }
+
+    public associateProduct(): void {
+        this.productId = this.product.id;
+        this.productName = this.product.name;
+    }
+
+    public isQtyBigerThanStock(): boolean {
+        if (this.product) {
+            return this.quantity > this.product.stock;
+        }
+        return false;
+    }
+
+    protected calculateTotalPrice(): void {
+        this.totalPrice = this.product.sellingPrice * this.quantity;
     }
 }

@@ -6,6 +6,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { ISaleItem, SaleItem } from 'app/shared/model/sale-item.model';
 import { NgForm } from '@angular/forms';
+import { resource } from 'selenium-webdriver/http';
+import { isString } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 @Component({
     selector: 'jhi-product-box',
@@ -16,6 +18,7 @@ export class ProductBoxComponent implements OnInit {
     products: IProduct[];
     selectedProduct: IProduct;
     selectedItem: ISaleItem = new SaleItem();
+    // productStock: number;
 
     constructor(
         private productService: ProductService,
@@ -23,6 +26,7 @@ export class ProductBoxComponent implements OnInit {
         protected jhiAlertService: JhiAlertService
     ) {
         this.selectedItem.quantity = 1;
+        // this.productStock = 1;
     }
 
     ngOnInit() {
@@ -35,21 +39,14 @@ export class ProductBoxComponent implements OnInit {
             .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
+    checkStock(): boolean {
+        return this.selectedItem.isQtyBigerThanStock();
+    }
+
     addToCart(form: NgForm) {
-        this.calculateTotalPrice();
-        this.associateProduct();
-        this.eventManager.broadcast({ name: 'addItemEvent', item: this.selectedItem });
+        this.eventManager.broadcast({ name: 'addItemEvent', item: this.selectedItem.createItem() });
         this.reset();
         form.resetForm(this.selectedItem);
-    }
-
-    protected associateProduct(): any {
-        this.selectedItem.productId = this.selectedItem.product.id;
-        this.selectedItem.productName = this.selectedItem.product.name;
-    }
-
-    protected calculateTotalPrice(): any {
-        this.selectedItem.totalPrice = this.selectedItem.product.sellingPrice * this.selectedItem.quantity;
     }
 
     protected reset(): any {
