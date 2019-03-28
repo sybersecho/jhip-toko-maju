@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IProduct } from 'app/shared/model/product.model';
 import { ProductService } from 'app/entities/product';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -8,16 +8,18 @@ import { ISaleItem, SaleItem } from 'app/shared/model/sale-item.model';
 import { NgForm } from '@angular/forms';
 import { resource } from 'selenium-webdriver/http';
 import { isString } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-product-box',
     templateUrl: './product-box.component.html',
     styles: []
 })
-export class ProductBoxComponent implements OnInit {
+export class ProductBoxComponent implements OnInit, OnDestroy {
     products: IProduct[];
     selectedProduct: IProduct;
     selectedItem: ISaleItem = new SaleItem();
+    saleSavedEventSub: Subscription;
     // productStock: number;
 
     constructor(
@@ -30,6 +32,11 @@ export class ProductBoxComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loadProducts();
+        this.registerSaleSavedEvent();
+    }
+
+    protected loadProducts(): void {
         this.productService
             .query()
             .pipe(
@@ -37,6 +44,14 @@ export class ProductBoxComponent implements OnInit {
                 map((response: HttpResponse<IProduct[]>) => response.body)
             )
             .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    protected registerSaleSavedEvent(): void {
+        this.saleSavedEventSub = this.eventManager.subscribe('saleSavedEvent', response => this.loadProducts());
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.saleSavedEventSub);
     }
 
     checkStock(): boolean {

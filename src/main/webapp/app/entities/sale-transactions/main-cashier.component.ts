@@ -16,6 +16,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 })
 export class MainCashierComponent implements OnInit, OnDestroy {
     customer: ICustomer;
+    defaultCustomer: ICustomer;
     saleTransactions: ISaleTransactions = new SaleTransactions();
     currentAccount: any;
     routeData: any;
@@ -37,6 +38,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
             // this.reverse = data.pagingParams.ascending;
             // this.predicate = data.pagingParams.predicate;
             this.customer = data.customer;
+            this.defaultCustomer = this.customer;
         });
 
         this.setSaleCustomer();
@@ -59,9 +61,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     save() {
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
-    // subscribeToSaveResponse(arg0: import("rxjs").Observable<import("@angular/common/http").HttpResponse<ISaleTransactions>>): any {
-    //     throw new Error("Method not implemented.");
-    // }
+
     protected subscribeToSaveResponse(result: Observable<HttpResponse<ISaleTransactions>>) {
         result.subscribe(
             (res: HttpResponse<ISaleTransactions>) => this.onSaveSuccess(),
@@ -70,15 +70,14 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     protected onSaveSuccess() {
-        // this.isSaving = false;
-        // this.previousState();
         this.saleTransactions = new SaleTransactions();
+        this.customer = this.defaultCustomer;
+        this.eventManager.broadcast({ name: 'saleSavedEvent' });
         this.setSaleCustomer();
     }
 
     protected onSaveError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
-        // this.isSaving = false;
     }
 
     onDeleteItem(itemPos: number) {
@@ -114,7 +113,6 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     protected changeCustomerEvent(): any {
         this.changeCustomerSubcriber = this.eventManager.subscribe('onSelectCustomerEvent', response => {
-            // this.saleTransactions.addOrUpdate(response.item);
             this.customer = response.data;
             this.setSaleCustomer();
         });
