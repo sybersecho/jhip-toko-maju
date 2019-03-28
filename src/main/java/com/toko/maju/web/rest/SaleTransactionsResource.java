@@ -1,6 +1,7 @@
 package com.toko.maju.web.rest;
 import com.toko.maju.service.SaleTransactionsService;
 import com.toko.maju.web.rest.errors.BadRequestAlertException;
+import com.toko.maju.web.rest.errors.InternalServerErrorException;
 import com.toko.maju.web.rest.util.HeaderUtil;
 import com.toko.maju.web.rest.util.PaginationUtil;
 import com.toko.maju.service.dto.SaleTransactionsDTO;
@@ -54,7 +55,7 @@ public class SaleTransactionsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/sale-transactions")
-    public ResponseEntity<SaleTransactionsDTO> createSaleTransactions(@Valid @RequestBody SaleTransactionsDTO saleTransactionsDTO) throws URISyntaxException {
+    public ResponseEntity<SaleTransactionsDTO> createSaleTransactions(@Valid @RequestBody SaleTransactionsDTO saleTransactionsDTO) throws Exception {
         log.debug("REST request to save SaleTransactions : {}", saleTransactionsDTO);
         if (saleTransactionsDTO.getId() != null) {
             throw new BadRequestAlertException("A new saleTransactions cannot already have an ID", ENTITY_NAME, "idexists");
@@ -75,7 +76,7 @@ public class SaleTransactionsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/sale-transactions")
-    public ResponseEntity<SaleTransactionsDTO> updateSaleTransactions(@Valid @RequestBody SaleTransactionsDTO saleTransactionsDTO) throws URISyntaxException {
+    public ResponseEntity<SaleTransactionsDTO> updateSaleTransactions(@Valid @RequestBody SaleTransactionsDTO saleTransactionsDTO) throws Exception {
         log.debug("REST request to update SaleTransactions : {}", saleTransactionsDTO);
         if (saleTransactionsDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

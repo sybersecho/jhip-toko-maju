@@ -63,7 +63,10 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     //     throw new Error("Method not implemented.");
     // }
     protected subscribeToSaveResponse(result: Observable<HttpResponse<ISaleTransactions>>) {
-        result.subscribe((res: HttpResponse<ISaleTransactions>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<ISaleTransactions>) => this.onSaveSuccess(),
+            (res: HttpErrorResponse) => this.onSaveError(res.message)
+        );
     }
 
     protected onSaveSuccess() {
@@ -73,7 +76,8 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         this.setSaleCustomer();
     }
 
-    protected onSaveError() {
+    protected onSaveError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
         // this.isSaving = false;
     }
 

@@ -1,6 +1,5 @@
 package com.toko.maju.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -22,118 +21,117 @@ import java.util.Objects;
 @Document(indexName = "saleitem")
 public class SaleItem implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private static final long serialVersionUID = 1L;
 
-    @Min(value = 0)
-    @Column(name = "quantity")
-    private Integer quantity;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @DecimalMin(value = "0")
-    @Column(name = "total_price", precision = 10, scale = 2)
-    private BigDecimal totalPrice;
+	@Min(value = 0)
+	@Column(name = "quantity")
+	private Integer quantity;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties("items")
-    private SaleTransactions sale;
+	@DecimalMin(value = "0")
+	@Column(name = "total_price", precision = 10, scale = 2)
+	private BigDecimal totalPrice;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties("saleItems")
-    private Product product;
+	@ManyToOne(optional = false)
+	@NotNull
+	@JsonIgnoreProperties("items")
+	private SaleTransactions sale;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
+	@ManyToOne(fetch = FetchType.EAGER)
+	@NotNull
+	@JsonIgnoreProperties("saleItems")
+	private Product product;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
+	// remove
+	public Long getId() {
+		return id;
+	}
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public SaleItem quantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
+	public Integer getQuantity() {
+		return quantity;
+	}
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+	public SaleItem quantity(Integer quantity) {
+		this.quantity = quantity;
+		return this;
+	}
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
 
-    public SaleItem totalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-        return this;
-    }
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+	public SaleItem totalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+		return this;
+	}
 
-    public SaleTransactions getSale() {
-        return sale;
-    }
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 
-    public SaleItem sale(SaleTransactions saleTransactions) {
-        this.sale = saleTransactions;
-        return this;
-    }
+	public SaleTransactions getSale() {
+		return sale;
+	}
 
-    public void setSale(SaleTransactions saleTransactions) {
-        this.sale = saleTransactions;
-    }
+	public SaleItem sale(SaleTransactions saleTransactions) {
+		this.sale = saleTransactions;
+		return this;
+	}
 
-    public Product getProduct() {
-        return product;
-    }
+	public void setSale(SaleTransactions saleTransactions) {
+		this.sale = saleTransactions;
+	}
 
-    public SaleItem product(Product product) {
-        this.product = product;
-        return this;
-    }
+	public Product getProduct() {
+		return product;
+	}
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+	public SaleItem product(Product product) {
+		this.product = product;
+		return this;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SaleItem saleItem = (SaleItem) o;
-        if (saleItem.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), saleItem.getId());
-    }
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+	// setters here, do not remove
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		SaleItem saleItem = (SaleItem) o;
+		if (saleItem.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), saleItem.getId());
+	}
 
-    @Override
-    public String toString() {
-        return "SaleItem{" +
-            "id=" + getId() +
-            ", quantity=" + getQuantity() +
-            ", totalPrice=" + getTotalPrice() +
-            "}";
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "SaleItem{" + "id=" + getId() + ", quantity=" + getQuantity() + ", totalPrice=" + getTotalPrice()
+				+ ", product =" + getProduct() + "}";
+	}
 }

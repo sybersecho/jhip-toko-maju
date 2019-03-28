@@ -1,6 +1,7 @@
 package com.toko.maju.service;
 
 import com.toko.maju.service.dto.SaleTransactionsDTO;
+import com.toko.maju.web.rest.errors.InternalServerErrorException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,8 +18,9 @@ public interface SaleTransactionsService {
      *
      * @param saleTransactionsDTO the entity to save
      * @return the persisted entity
+     * @throws Exception 
      */
-    SaleTransactionsDTO save(SaleTransactionsDTO saleTransactionsDTO);
+    SaleTransactionsDTO save(SaleTransactionsDTO saleTransactionsDTO) throws Exception;
 
     /**
      * Get all the saleTransactions.
