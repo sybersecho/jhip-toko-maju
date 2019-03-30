@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IProduct } from 'app/shared/model/product.model';
+import { IProduct, Product } from 'app/shared/model/product.model';
 import { ProductService } from 'app/entities/product';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { filter, map } from 'rxjs/operators';
@@ -20,7 +20,8 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
     selectedProduct: IProduct;
     selectedItem: ISaleItem = new SaleItem();
     saleSavedEventSub: Subscription;
-    // productStock: number;
+    addProductEventSub: Subscription;
+    searchBarcode: string;
 
     constructor(
         private productService: ProductService,
@@ -28,12 +29,38 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
         protected jhiAlertService: JhiAlertService
     ) {
         this.selectedItem.quantity = 1;
-        // this.productStock = 1;
     }
 
     ngOnInit() {
-        this.loadProducts();
+        // this.loadProducts();
         this.registerSaleSavedEvent();
+        this.registerAddSelectProductEvent();
+    }
+
+    protected registerAddSelectProductEvent(): any {
+        this.addProductEventSub = this.eventManager.subscribe('onSelectProductEvent', response => {
+            this.selectedItem.setProduct(response.data);
+        });
+    }
+
+    searchProduct() {
+        this.productService
+            .findByBarcode(this.searchBarcode)
+            .pipe(
+                filter((mayBeOk: HttpResponse<IProduct>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct>) => response.body)
+            ) // res[0] index to 0 because response from back end is array list of product
+            .subscribe((res: IProduct) => this.foundProduct(res[0]), (err: HttpErrorResponse) => this.onError(err.message));
+    }
+
+    clearSelectedProduct() {
+        this.selectedItem.setProduct(new Product());
+    }
+
+    protected foundProduct(found: IProduct): void {
+        if (found) {
+            this.selectedItem.setProduct(found);
+        }
     }
 
     protected loadProducts(): void {
@@ -52,10 +79,15 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventManager.destroy(this.saleSavedEventSub);
+        this.eventManager.destroy(this.addProductEventSub);
     }
 
     checkStock(): boolean {
         return this.selectedItem.isQtyBigerThanStock();
+    }
+
+    isProductSelected(): boolean {
+        return this.selectedItem.product === null || this.selectedItem.product === undefined || this.selectedItem.product.id === undefined;
     }
 
     addToCart(form: NgForm) {

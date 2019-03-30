@@ -1,7 +1,7 @@
 <div>
     <jhi-alert></jhi-alert>
     <div class="row justify-content-start">
-        <div class="col-8">
+        <div class="col-sm-8">
             <!-- start cashierForm -->
             <form name="cashierForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
                 <div class="form-row">
@@ -181,19 +181,25 @@
             </form>
             <div class="row" *ngIf="saleTransactions.items.length > 0">
                 <div class="col-sm-4 text-left">
-                    <button class="btn btn-sm btn-success" (click)="save()">Process</button>
+                    <button class="btn btn-sm btn-success" (click)="save()">
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.process">Process</span>
+                    </button>
                 </div>
                 <div class="col-sm-4 text-center">
-                    <button class="btn btn-sm btn-success ">Process center</button>
+                    <button class="btn btn-sm btn-success ">
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
+                    </button>
                 </div>
                 <div class="col-sm-4 text-right">
-                    <button class="btn btn-sm btn-success ">Process Right</button>
+                    <button class="btn btn-sm btn-success ">
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAsOrders">Process as Delivery Orders</span>
+                    </button>
                 </div>
             </div>
 
             <!-- end cashierForm -->
         </div>
-        <div class="col-4">
+        <div class="col-sm-4">
             <jhi-product-box></jhi-product-box>
         </div>
     </div>

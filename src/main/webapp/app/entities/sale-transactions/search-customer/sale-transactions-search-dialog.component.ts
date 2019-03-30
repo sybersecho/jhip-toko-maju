@@ -10,7 +10,7 @@ import { ICustomer } from 'app/shared/model/customer.model';
 // import { SaleTransactionsService } from './sale-transactions.service';
 
 @Component({
-    selector: 'jhi-sale-transactions-searc-dialog',
+    selector: 'jhi-sale-transactions-search-dialog',
     templateUrl: './sale-transactions-search-dialog.component.html'
 })
 export class SaleTransactionsSearchDialogComponent {

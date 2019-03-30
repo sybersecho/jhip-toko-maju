@@ -10,11 +10,13 @@ export interface ISaleItem {
     productId?: number;
     saleNoInvoice?: string;
     saleId?: number;
+    barcode?: string;
     product?: IProduct;
 
     createItem(): SaleItem;
     associateProduct(): void;
     isQtyBigerThanStock(): boolean;
+    setProduct(product: IProduct): void;
 }
 
 export class SaleItem implements ISaleItem {
@@ -28,6 +30,7 @@ export class SaleItem implements ISaleItem {
         public saleId?: number,
         public unit?: UnitMeasure,
         public sellingPrice?: number,
+        public barcode?: string,
         public product?: IProduct
     ) {}
 
@@ -47,6 +50,15 @@ export class SaleItem implements ISaleItem {
             return this.quantity > this.product.stock;
         }
         return false;
+    }
+
+    setProduct(product: IProduct): void {
+        this.product = product;
+        this.productName = product.name;
+        this.productId = product.id;
+        this.sellingPrice = product.sellingPrice;
+        this.unit = product.unit;
+        this.barcode = product.barcode;
     }
 
     protected calculateTotalPrice(): void {

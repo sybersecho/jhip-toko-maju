@@ -16,6 +16,11 @@
             "detail": {
                 "title": "Sale Transactions"
             },
+            "action": {
+                "process": "Proses",
+                "processAndPrint": "Proses & Print",
+                "processAsOrders": "Proses Sebagai Surat Jalan"
+            },
             "quantity": "Quantity",
             "noInvoice": "No Invoice",
             "discount": "Discount",

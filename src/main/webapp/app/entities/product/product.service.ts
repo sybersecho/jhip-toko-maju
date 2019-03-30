@@ -44,11 +44,13 @@ export class ProductService {
     }
 
     searchBy(req?: any): Observable<EntityArrayResponseType> {
-        console.log(req);
         const options = this.createParams(req);
-        console.log('options');
-        console.log(options);
         return this.http.get<IProduct[]>(this.resourceSearchUrlBy, { params: options, observe: 'response' });
+    }
+
+    findByBarcode(barcode: string): Observable<EntityResponseType> {
+        const options = new HttpParams().set('barcode.equals', barcode);
+        return this.http.get<IProduct>(this.resourceSearchUrlBy, { params: options, observe: 'response' });
     }
 
     protected createParams(req?: any): HttpParams {
@@ -57,9 +59,5 @@ export class ProductService {
             .set('barcode.contains', req.query)
             .set('name.contains', req.query)
             .set('supplierName.contains', req.query);
-        // params = createRequestOption(params);
-        // console.log('createRequestOption');
-        // console.log(createRequestOption(params));
-        // return params;
     }
 }

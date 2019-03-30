@@ -19,6 +19,7 @@ import {
     SaleTransactionsSearchDialogComponent,
     SaleTransactionsSearchPopupComponent
 } from './search-customer/sale-transactions-search-dialog.component';
+import { SearchProductDialogComponent, SearchProductPopupComponent } from './product-box/search-product-dialog.component';
 
 const ENTITY_STATES = [...saleTransactionsRoute, ...saleTransactionsPopupRoute];
 
@@ -33,7 +34,9 @@ const ENTITY_STATES = [...saleTransactionsRoute, ...saleTransactionsPopupRoute];
         MainCashierComponent,
         ProductBoxComponent,
         SaleTransactionsSearchDialogComponent,
-        SaleTransactionsSearchPopupComponent
+        SaleTransactionsSearchPopupComponent,
+        SearchProductDialogComponent,
+        SearchProductPopupComponent
     ],
     entryComponents: [
         SaleTransactionsComponent,
@@ -43,7 +46,9 @@ const ENTITY_STATES = [...saleTransactionsRoute, ...saleTransactionsPopupRoute];
         MainCashierComponent,
         ProductBoxComponent,
         SaleTransactionsSearchDialogComponent,
-        SaleTransactionsSearchPopupComponent
+        SaleTransactionsSearchPopupComponent,
+        SearchProductDialogComponent,
+        SearchProductPopupComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

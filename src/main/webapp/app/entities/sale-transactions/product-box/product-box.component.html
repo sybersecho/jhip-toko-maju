@@ -1,65 +1,108 @@
-<div class="row">
-    <form name="saleForm" role="form" novalidate (ngSubmit)="addToCart(saleForm)" #saleForm="ngForm">
-        <jhi-alert-error></jhi-alert-error>
+<!-- <div class="row"> -->
+<form name="saleForm" role="form" novalidate (ngSubmit)="addToCart(saleForm)" #saleForm="ngForm">
+    <jhi-alert-error></jhi-alert-error>
+    <!-- <div class="row"> -->
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.barcode" for="field_barcode">Barcode</label>
+            <a
+                class="fa-pull-right"
+                jhiTranslate="jhiptokomajuApp.product.home.search"
+                [routerLink]="['/', { outlets: { popup: 'sale/search-product' } }]"
+                replaceUrl="true"
+                queryParamsHandling="merge"
+            >
+                Search Customer</a
+            >
+            <input
+                type="text"
+                class="form-control"
+                name="barcode"
+                id="field_barcode"
+                [(ngModel)]="searchBarcode"
+                (keydown.enter)="searchProduct()"
+            />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.name" for="field_name">Name</label>
+            <a class="fa-pull-right" (click)="clearSelectedProduct()"> Clear</a>
+            <input type="text" class="form-control" name="name" id="field_name" [ngModel]="selectedItem.productName" readonly />
+        </div>
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.product" for="field_product">Product</label>
-                    <select class="form-control" id="field_product" name="product" [(ngModel)]="selectedItem.product" required>
-                        <option *ngIf="saleForm.value.product" [ngValue]="null" selected></option>
-                        <option [ngValue]="productOption" *ngFor="let productOption of products"
-                            >{{ productOption.name }} ({{ productOption.stock }})
-                        </option>
-                    </select>
-                </div>
-                <div [hidden]="!(saleForm.controls.product?.dirty && saleForm.controls.product?.invalid)">
-                    <small
-                        class="form-text text-danger"
-                        [hidden]="!saleForm.controls.product?.errors?.required"
-                        jhiTranslate="entity.validation.required"
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.sellingPrice" for="field_sellingPrice"
+                        >Selling Price</label
                     >
-                        This field is required.
-                    </small>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.quantity" for="field_quantity">Quantity</label>
                     <input
                         type="number"
                         class="form-control"
-                        name="quantity"
-                        id="field_quantity"
-                        [(ngModel)]="selectedItem.quantity"
-                        min="1"
-                        jhiMin="1"
+                        name="sellingPrice"
+                        id="field_sellingPrice"
+                        [ngModel]="selectedItem.sellingPrice"
+                        readonly
                     />
-                    <div [hidden]="!((saleForm.controls.quantity?.dirty && saleForm.controls.quantity?.invalid) || checkStock())">
-                        <small
-                            class="form-text text-danger"
-                            [hidden]="!saleForm.controls.quantity?.errors?.min"
-                            jhiTranslate="entity.validation.min"
-                            [translateValues]="{ min: 1 }"
-                        >
-                            This field should be at least 1.
-                        </small>
-                        <small
-                            class="form-text text-danger"
-                            [hidden]="!saleForm.controls.quantity?.errors?.number"
-                            jhiTranslate="entity.validation.number"
-                        >
-                            This field should be a number.
-                        </small>
-                        <small class="form-text text-danger" [hidden]="!checkStock()">
-                            <!-- jhiTranslate="entity.validation.number" -->
-                            This field should not be bigger that stock.
-                        </small>
-                    </div>
+                </div>
+            </div>
+            <div class="col-md-6  col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.stock" for="field_stock">Stock</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="stock"
+                        id="field_stock"
+                        [ngModel]="selectedItem.product?.stock"
+                        readonly
+                    />
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-success btn-lg btn-block" [disabled]="saleForm.form.invalid || checkStock()">
+
+        <!-- </div> -->
+        <!-- <div class="col-sm-12"> -->
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.quantity" for="field_quantity">Quantity</label>
+            <input
+                type="number"
+                class="form-control"
+                name="quantity"
+                id="field_quantity"
+                [(ngModel)]="selectedItem.quantity"
+                min="1"
+                jhiMin="1"
+            />
+            <div [hidden]="!((saleForm.controls.quantity?.dirty && saleForm.controls.quantity?.invalid) || checkStock())">
+                <small
+                    class="form-text text-danger"
+                    [hidden]="!saleForm.controls.quantity?.errors?.min"
+                    jhiTranslate="entity.validation.min"
+                    [translateValues]="{ min: 1 }"
+                >
+                    This field should be at least 1.
+                </small>
+                <small
+                    class="form-text text-danger"
+                    [hidden]="!saleForm.controls.quantity?.errors?.number"
+                    jhiTranslate="entity.validation.number"
+                >
+                    This field should be a number.
+                </small>
+                <small class="form-text text-danger" [hidden]="!checkStock()">
+                    <!-- jhiTranslate="entity.validation.number" -->
+                    This field should not be bigger that stock.
+                </small>
+            </div>
+        </div>
+        <button
+            type="button"
+            class="btn btn-success btn-lg btn-block"
+            [disabled]="saleForm.form.invalid || checkStock() || isProductSelected()"
+            (click)="addToCart(saleForm)"
+        >
             <fa-icon [icon]="'shopping-cart'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.addToCart">Add To Cart</span>
         </button>
-    </form>
-</div>
+    </div>
+    <!-- </div> -->
+</form>
+<!-- </div> -->

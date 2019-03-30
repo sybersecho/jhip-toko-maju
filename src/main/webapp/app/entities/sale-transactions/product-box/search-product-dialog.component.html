@@ -1,0 +1,78 @@
+<form name="searchForm">
+    <div class="modal-header">
+        <h4 class="modal-title" jhiTranslate="jhiptokomajuApp.product.home.search">Cari Product</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mr-1">
+                    <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="searchKeyword"
+                        id="searchKeyword"
+                        name="searchKeyword"
+                        placeholder="{{ 'jhiptokomajuApp.product.home.search' | translate }}"
+                    />
+                    <button class="input-group-append btn btn-info" (click)="search(searchKeyword)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clearSearch()" *ngIf="searchKeyword">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+            <div *ngIf="products">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span> <fa-icon [icon]="'sort'"></fa-icon>
+                                </th>
+                                <th><span jhiTranslate="jhiptokomajuApp.product.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <th>
+                                    <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
+                                    <fa-icon [icon]="'sort'"></fa-icon>
+                                </th>
+                                <th>
+                                    <span jhiTranslate="jhiptokomajuApp.product.supplier">Supplier</span>
+                                    <fa-icon [icon]="'sort'"></fa-icon>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of products">
+                                <td>{{ product.barcode }}</td>
+                                <td>{{ product.name }}</td>
+                                <td jhiTranslate="{{ 'jhiptokomajuApp.UnitMeasure.' + product.unit }}">{{ product.unit }}</td>
+
+                                <td>{{ product.sellingPrice }}</td>
+                                <td>{{ product.supplierName }}</td>
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-info btn-sm"
+                                            [ngbTooltip]="addTooltip"
+                                            (click)="onSelect(product)"
+                                        >
+                                            <!-- (click)="addProduct(product)" -->
+                                            <fa-icon [icon]="'plus'"></fa-icon>
+                                            <ng-template #addTooltip>
+                                                <span class="d-none d-md-inline" jhiTranslate="entity.action.add">Add</span>
+                                            </ng-template>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

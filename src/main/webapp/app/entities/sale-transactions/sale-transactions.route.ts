@@ -16,6 +16,8 @@ import { ICustomer, Customer } from 'app/shared/model/customer.model';
 import { CustomerService } from '../customer';
 import { SaleTransactionsSearchPopupComponent } from './search-customer/sale-transactions-search-dialog.component';
 import { CustomersResolve } from './search-customer/customers.resolve.';
+import { SearchProductPopupComponent } from './product-box/search-product-dialog.component';
+import { ProductsResolve } from './product-box/products.resolve';
 
 @Injectable({ providedIn: 'root' })
 export class SaleTransactionsResolve implements Resolve<ISaleTransactions> {
@@ -115,6 +117,19 @@ export const saleTransactionsPopupRoute: Routes = [
         component: SaleTransactionsSearchPopupComponent,
         resolve: {
             customers: CustomersResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'sale/search-product',
+        component: SearchProductPopupComponent,
+        resolve: {
+            products: ProductsResolve
         },
         data: {
             authorities: ['ROLE_USER'],

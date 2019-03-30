@@ -16,6 +16,11 @@
             "detail": {
                 "title": "Sale Transactions"
             },
+            "action": {
+                "process": "Process",
+                "processAndPrint": "Process & Print",
+                "processAsOrders": "Process as Delivery Orders"
+            },
             "quantity": "Quantity",
             "noInvoice": "No Invoice",
             "discount": "Discount",
