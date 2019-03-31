@@ -8,6 +8,7 @@ import { Subscription, Observable } from 'rxjs';
 import { ISaleItem } from 'app/shared/model/sale-item.model';
 import { SaleTransactionsService } from './sale-transactions.service';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-main-cashier',
@@ -59,6 +60,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     save() {
+        this.saleTransactions.saleDate = moment(new Date());
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
 

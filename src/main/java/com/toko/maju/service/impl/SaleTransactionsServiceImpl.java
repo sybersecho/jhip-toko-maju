@@ -7,9 +7,11 @@ import com.toko.maju.domain.SaleItem;
 import com.toko.maju.domain.SaleItem_;
 import com.toko.maju.domain.SaleTransactions;
 import com.toko.maju.domain.SaleTransactions_;
+import com.toko.maju.domain.SequenceNumber;
 import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.SaleItemRepository;
 import com.toko.maju.repository.SaleTransactionsRepository;
+import com.toko.maju.repository.SequenceNumberRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
 import com.toko.maju.service.dto.SaleItemCriteria;
 import com.toko.maju.service.dto.SaleItemDTO;
@@ -54,10 +56,7 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 	private final SaleTransactionsSearchRepository saleTransactionsSearchRepository;
 
 	@Autowired
-	private final SaleItemMapper saleItemMapper = null;
-
-	@Autowired
-	private final SaleItemQueryService saleItemQueryService = null;
+	private final SequenceNumberRepository sequenceNumberRepository = null;
 
 	@Autowired
 	private final SaleItemRepository saleItemRepository = null;
@@ -85,6 +84,14 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 	public SaleTransactionsDTO save(SaleTransactionsDTO saleTransactionsDTO) throws Exception {
 		log.debug("Request to save SaleTransactions : {}", saleTransactionsDTO);
 		SaleTransactions saleTransactions = saleTransactionsMapper.toEntity(saleTransactionsDTO);
+
+		SequenceNumber currentInvoiceNo = sequenceNumberRepository.findByType("invoice");
+		int currentValue = currentInvoiceNo.getNextValue();
+		String noInvoice = generateInvoiceNo(currentValue);
+		currentInvoiceNo.setNextValue(++currentValue);
+		sequenceNumberRepository.save(currentInvoiceNo);
+
+		saleTransactions.setNoInvoice(noInvoice);
 		saleTransactions = saleTransactionsRepository.save(saleTransactions);
 
 		Set<Product> products = saleItemRepository.findProductsBySale(saleTransactions.getId());
@@ -95,6 +102,14 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 		SaleTransactionsDTO result = saleTransactionsMapper.toDto(saleTransactions);
 		saleTransactionsSearchRepository.save(saleTransactions);
 		return result;
+	}
+
+	private String generateInvoiceNo(int currentValue) {
+		StringBuilder build = new StringBuilder();
+		build.append("INV");
+		build.append(String.format("%06d", currentValue));
+		log.debug("new Invoice No: " + build.toString());
+		return build.toString();
 	}
 
 	private Set<Product> updateQty(Set<SaleItem> items, Set<Product> products) throws InternalServerErrorException {
