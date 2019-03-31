@@ -29,7 +29,8 @@
             "paid": "Paid",
             "saleDate": "Sale Date",
             "items": "Items",
-            "customer": "Customer"
+            "customer": "Customer",
+            "change": "Change"
         }
     }
 }

@@ -12,7 +12,9 @@ import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.SaleItemRepository;
 import com.toko.maju.repository.SaleTransactionsRepository;
 import com.toko.maju.repository.SequenceNumberRepository;
+import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
+import com.toko.maju.repository.search.SequenceNumberSearchRepository;
 import com.toko.maju.service.dto.SaleItemCriteria;
 import com.toko.maju.service.dto.SaleItemDTO;
 import com.toko.maju.service.dto.SaleTransactionsDTO;
@@ -59,10 +61,16 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 	private final SequenceNumberRepository sequenceNumberRepository = null;
 
 	@Autowired
+	private final SequenceNumberSearchRepository sequenceNumberSearchRepository = null;
+
+	@Autowired
 	private final SaleItemRepository saleItemRepository = null;
 
 	@Autowired
 	private final ProductRepository productRepository = null;
+
+	@Autowired
+	private final ProductSearchRepository productSearchRepository = null;
 
 	public SaleTransactionsServiceImpl(SaleTransactionsRepository saleTransactionsRepository,
 			SaleTransactionsMapper saleTransactionsMapper,
@@ -90,6 +98,7 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 		String noInvoice = generateInvoiceNo(currentValue);
 		currentInvoiceNo.setNextValue(++currentValue);
 		sequenceNumberRepository.save(currentInvoiceNo);
+		sequenceNumberSearchRepository.save(currentInvoiceNo);
 
 		saleTransactions.setNoInvoice(noInvoice);
 		saleTransactions = saleTransactionsRepository.save(saleTransactions);
@@ -99,6 +108,7 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 		products = updateQty(saleTransactions.getItems(), products);
 		log.debug(" update product: {}", products);
 		productRepository.saveAll(products);
+		productSearchRepository.saveAll(products);
 		SaleTransactionsDTO result = saleTransactionsMapper.toDto(saleTransactions);
 		saleTransactionsSearchRepository.save(saleTransactions);
 		return result;

@@ -22,6 +22,8 @@ export interface ISaleTransactions {
     updateItemQuantity(itemIndex: number, newQuantity: number): void;
     addOrUpdate(item: ISaleItem): void;
     paidTransaction(): void;
+    changes(): number;
+    recalculate(): void;
 }
 
 export class SaleTransactions implements ISaleTransactions {
@@ -68,6 +70,13 @@ export class SaleTransactions implements ISaleTransactions {
         this.calculateTotalPayment();
     }
 
+    recalculate(): void {
+        if (this.paid > this.totalPayment) {
+            this.paid = this.totalPayment;
+        }
+        this.calculateTotalPayment();
+    }
+
     public addOrUpdate(item: ISaleItem): void {
         if (this.isItemDuplicate(item.product.barcode)) {
             this.updateItem(item);
@@ -78,6 +87,10 @@ export class SaleTransactions implements ISaleTransactions {
 
     public paidTransaction(): void {
         this.calculateRemainPayment();
+    }
+
+    public changes(): number {
+        return Math.abs(this.totalPayment - this.discount - this.paid);
     }
 
     private getItemOnArray(barcode: string) {
@@ -115,6 +128,16 @@ export class SaleTransactions implements ISaleTransactions {
         if (!this.discount) {
             this.discount = 0;
         }
+        this.paid = Math.abs(this.paid);
+        this.discount = Math.abs(this.discount);
         this.remainingPayment = this.totalPayment - this.discount - this.paid;
+        this.remainingPayment = Math.abs(this.remainingPayment);
+        this.checkRemainPayment();
+    }
+
+    private checkRemainPayment(): void {
+        if (this.remainingPayment < 0) {
+            this.remainingPayment = 0;
+        }
     }
 }

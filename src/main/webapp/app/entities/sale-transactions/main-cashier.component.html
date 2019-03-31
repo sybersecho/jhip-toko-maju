@@ -3,7 +3,7 @@
     <div class="row justify-content-start">
         <div class="col-sm-8">
             <!-- start cashierForm -->
-            <form name="cashierForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <form name="cashierForm" role="form" novalidate (ngSubmit)="save()" #cashierForm="ngForm">
                 <div class="form-row">
                     <div class="col-md-6">
                         <!-- start div search customer -->
@@ -95,7 +95,9 @@
                                 <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span>
                             </th>
                             <th style="width: 35%"><span jhiTranslate="jhiptokomajuApp.product.name">Product Name</span></th>
-                            <th style="width: 10%" class="text-center"><span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span></th>
+                            <th style="width: 10%" class="text-center">
+                                <span jhiTranslate="jhiptokomajuApp.saleTransactions.quantity">Quantity</span>
+                            </th>
                             <th style="width: 10%"><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
                             <th style="width: 15%">
                                 <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
@@ -133,23 +135,27 @@
                                 <th colspan="2" id="subtotal">{{ saleTransactions.totalPayment }}</th>
                             </tr>
                             <tr>
-                                <th colspan="5" class="text-right">Discount</th>
-                                <th colspan="2" id="subtotal">
+                                <th colspan="5" class="text-right">
+                                    <span jhiTranslate="jhiptokomajuApp.saleTransactions.discount">Discount</span>
+                                </th>
+                                <th colspan="2" id="discount">
                                     <input
                                         type="number"
                                         class="form-control"
                                         name="discount"
                                         id="field_discount"
                                         [(ngModel)]="saleTransactions.discount"
-                                        min="1"
-                                        jhiMin="1"
+                                        min="0"
+                                        jhiMin="0"
                                         (change)="onPaid()"
                                     />
                                 </th>
                             </tr>
                             <tr>
-                                <th colspan="5" class="text-right">Pembayaran</th>
-                                <th colspan="2" id="subtotal">
+                                <th colspan="5" class="text-right">
+                                    <span jhiTranslate="jhiptokomajuApp.saleTransactions.paid">Paid</span>
+                                </th>
+                                <th colspan="2" id="paid">
                                     <input
                                         type="number"
                                         class="form-control"
@@ -162,9 +168,11 @@
                                     />
                                 </th>
                             </tr>
-                            <tr>
-                                <th colspan="5" class="text-right">Sisa Nota</th>
-                                <th colspan="2" id="subtotal">
+                            <tr *ngIf="saleTransactions.paid <= saleTransactions.totalPayment">
+                                <th colspan="5" class="text-right">
+                                    <span jhiTranslate="jhiptokomajuApp.saleTransactions.remainingPayment">Remaining Payment</span>
+                                </th>
+                                <th colspan="2" id="remainingPayment">
                                     <input
                                         type="number"
                                         class="form-control"
@@ -175,28 +183,42 @@
                                     />
                                 </th>
                             </tr>
+                            <tr *ngIf="saleTransactions.paid > saleTransactions.totalPayment">
+                                <th colspan="5" class="text-right">
+                                    <span jhiTranslate="jhiptokomajuApp.saleTransactions.change">Change</span>
+                                </th>
+                                <th colspan="2" id="change">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        name="change"
+                                        id="field_change"
+                                        [ngModel]="totalChange()"
+                                        readonly
+                                    />
+                                </th>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
+                <div class="row" *ngIf="saleTransactions.items.length > 0">
+                    <div class="col-sm-4 text-left">
+                        <button type="button" class="btn btn-sm btn-success" (click)="save()" [disabled]="cashierForm.form.invalid">
+                            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.process">Process</span>
+                        </button>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <button type="button" class="btn btn-sm btn-success " [disabled]="cashierForm.form.invalid">
+                            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
+                        </button>
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        <button type="button" class="btn btn-sm btn-success " [disabled]="cashierForm.form.invalid">
+                            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAsOrders">Process as Delivery Orders</span>
+                        </button>
+                    </div>
+                </div>
             </form>
-            <div class="row" *ngIf="saleTransactions.items.length > 0">
-                <div class="col-sm-4 text-left">
-                    <button class="btn btn-sm btn-success" (click)="save()">
-                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.process">Process</span>
-                    </button>
-                </div>
-                <div class="col-sm-4 text-center">
-                    <button class="btn btn-sm btn-success ">
-                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
-                    </button>
-                </div>
-                <div class="col-sm-4 text-right">
-                    <button class="btn btn-sm btn-success ">
-                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAsOrders">Process as Delivery Orders</span>
-                    </button>
-                </div>
-            </div>
-
             <!-- end cashierForm -->
         </div>
         <div class="col-sm-4">

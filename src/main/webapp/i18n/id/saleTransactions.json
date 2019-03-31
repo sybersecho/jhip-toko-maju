@@ -21,15 +21,16 @@
                 "processAndPrint": "Proses & Print",
                 "processAsOrders": "Proses Sebagai Surat Jalan"
             },
-            "quantity": "Quantity",
-            "noInvoice": "No Invoice",
-            "discount": "Discount",
-            "totalPayment": "Total Payment",
-            "remainingPayment": "Remaining Payment",
-            "paid": "Paid",
-            "saleDate": "Sale Date",
+            "quantity": "Jumlah",
+            "noInvoice": "No Fraktur",
+            "discount": "Potongan",
+            "totalPayment": "Total Pembayaran",
+            "remainingPayment": "Sisa Pembayaran",
+            "paid": "Dibayar",
+            "saleDate": "Tanggal Penjualan",
             "items": "Items",
-            "customer": "Customer"
+            "customer": "Pelanggan",
+            "change": "Kembalian"
         }
     }
 }

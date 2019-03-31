@@ -61,6 +61,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     save() {
         this.saleTransactions.saleDate = moment(new Date());
+        this.saleTransactions.recalculate();
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
 
@@ -100,6 +101,10 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     onSearchCustomer() {
         console.log('on search customer');
+    }
+
+    totalChange(): number {
+        return this.saleTransactions.changes();
     }
 
     protected setSaleCustomer() {
