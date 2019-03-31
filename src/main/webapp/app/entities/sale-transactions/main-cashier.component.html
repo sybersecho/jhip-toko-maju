@@ -45,7 +45,7 @@
                                     class="form-control"
                                     name="customerCode"
                                     id="field_customerCode"
-                                    [ngModel]="customer.code"
+                                    [ngModel]="getCustomerCode()"
                                     readonly
                                 />
                             </div>
@@ -62,7 +62,7 @@
                                     class="form-control"
                                     name="fullName"
                                     id="field_fullName"
-                                    [ngModel]="getFullName()"
+                                    [ngModel]="getCustomerFullName()"
                                     readonly
                                 />
                             </div>
@@ -80,7 +80,7 @@
                                     class="form-control"
                                     name="address"
                                     id="field_address"
-                                    [ngModel]="customer.address"
+                                    [ngModel]="getCustomerAddress()"
                                     readonly
                                 ></textarea>
                             </div>

@@ -1,5 +1,7 @@
 import { Moment } from 'moment';
 import { ISaleItem } from './sale-item.model';
+import { ICustomer } from './customer.model';
+import { SaleTransactionsService } from 'app/entities/sale-transactions';
 
 export interface ISaleTransactions {
     id?: number;
@@ -12,6 +14,11 @@ export interface ISaleTransactions {
     items?: Array<ISaleItem>;
     customerFirstName?: string;
     customerId?: number;
+    customerLastName?: string;
+    customerCode?: string;
+    customerAddress?: string;
+
+    customer?: ICustomer;
 
     // isItemDuplicate(barcode: string): boolean;
     // itemPosition(barcode: string): number;
@@ -24,9 +31,13 @@ export interface ISaleTransactions {
     paidTransaction(): void;
     changes(): number;
     recalculate(): void;
+    setCustomer(customer: ICustomer): void;
+    // setSaleService(service: SaleTransactionsService): void;
 }
 
 export class SaleTransactions implements ISaleTransactions {
+    // private saletransactionService: SaleTransactionsService;
+
     constructor(
         public id?: number,
         public noInvoice?: string,
@@ -37,19 +48,49 @@ export class SaleTransactions implements ISaleTransactions {
         public saleDate?: Moment,
         public items?: Array<ISaleItem>,
         public customerFirstName?: string,
-        public customerId?: number
+        public customerId?: number,
+        public customerLastName?: string,
+        public customerCode?: string,
+        public customerAddress?: string,
+        public customer?: ICustomer
     ) {
         this.items = [];
     }
 
+    // public setSaleService(service: SaleTransactionsService): void {
+    //     this.saletransactionService = service;
+    // }
+
     public removeItemAt(i: number): void {
         this.items.splice(i, 1);
         this.calculateTotalPayment();
+        // this.addToSession();
+        // this.saletransactionService.
     }
+
+    // private addToSession() {
+    //     if (this.saletransactionService) {
+    //         // console.log('is this null: ' + this);
+    //         this.saletransactionService.addToSession(this).subscribe(res => {
+    //             console.log('success add to session');
+    //         });
+    //     }
+    // }
 
     public addItem(item: ISaleItem): void {
         this.items.push(item);
         this.calculateTotalPayment();
+        // this.addToSession();
+    }
+
+    public setCustomer(customer: ICustomer): void {
+        this.customer = customer;
+        this.customerId = customer.id;
+        this.customerFirstName = customer.firstName;
+        this.customerLastName = customer.lastName;
+        this.customerCode = customer.code;
+        this.customerAddress = customer.address;
+        // this.addToSession();
     }
 
     public updateItem(item: ISaleItem): void {
@@ -59,6 +100,7 @@ export class SaleTransactions implements ISaleTransactions {
         updateItem.totalPrice += item.totalPrice;
         this.items[itemPos] = updateItem;
         this.calculateTotalPayment();
+        // this.addToSession();
     }
 
     public updateItemQuantity(itemIndex: number, newQuantity: number): void {
@@ -68,6 +110,7 @@ export class SaleTransactions implements ISaleTransactions {
 
         this.items[itemIndex] = changeItem;
         this.calculateTotalPayment();
+        // this.addToSession();
     }
 
     recalculate(): void {
@@ -75,6 +118,7 @@ export class SaleTransactions implements ISaleTransactions {
             this.paid = this.totalPayment;
         }
         this.calculateTotalPayment();
+        // this.addToSession();
     }
 
     public addOrUpdate(item: ISaleItem): void {
@@ -83,10 +127,12 @@ export class SaleTransactions implements ISaleTransactions {
         } else {
             this.addItem(item);
         }
+        // this.addToSession();
     }
 
     public paidTransaction(): void {
         this.calculateRemainPayment();
+        // this.addToSession();
     }
 
     public changes(): number {

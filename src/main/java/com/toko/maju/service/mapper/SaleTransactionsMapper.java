@@ -13,6 +13,9 @@ public interface SaleTransactionsMapper extends EntityMapper<SaleTransactionsDTO
 
 	@Mapping(source = "customer.id", target = "customerId")
 	@Mapping(source = "customer.firstName", target = "customerFirstName")
+	@Mapping(source = "customer.lastName", target = "customerLastName")
+	@Mapping(source = "customer.code", target = "customerCode")
+	@Mapping(source = "customer.address", target = "customerAddress")
 	SaleTransactionsDTO toDto(SaleTransactions saleTransactions);
 
 	@Mapping(target = "items", ignore = false)

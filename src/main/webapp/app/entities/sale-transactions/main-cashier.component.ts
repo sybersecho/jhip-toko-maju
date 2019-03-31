@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked, AfterViewInit } from '@angular/core';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { JhiParseLinks, JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { AccountService } from 'app/core';
@@ -9,6 +9,7 @@ import { ISaleItem } from 'app/shared/model/sale-item.model';
 import { SaleTransactionsService } from './sale-transactions.service';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { SaleCartService } from './sale-cart.service';
 
 @Component({
     selector: 'jhi-main-cashier',
@@ -31,7 +32,8 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected cartService: SaleCartService
     ) {
         this.routeData = this.activatedRoute.data.subscribe(data => {
             // this.page = data.pagingParams.page;
@@ -42,17 +44,41 @@ export class MainCashierComponent implements OnInit, OnDestroy {
             this.defaultCustomer = this.customer;
         });
 
-        this.setSaleCustomer();
+        this.saleTransactions = this.cartService.get();
+        // this.saleTransactions.setSaleService(this.saleService);
+        // this.getSaleInSession();
+        if (!this.saleTransactions.customer) {
+            this.setSaleCustomer();
+        }
+
+        // this.cartService.setSale(this.saleTransactions);
     }
 
     ngOnInit() {
         this.registerAddItemEvent();
         this.changeCustomerEvent();
+        // console.log(this.saleTransactions);
+        // this.getSaleInSession();
+    }
+
+    getCustomerCode(): string {
+        // this.saleTransactions.c
+        return this.saleTransactions.customerCode;
+    }
+
+    getCustomerFullName(): string {
+        return this.saleTransactions.customerFirstName + ' ' + this.saleTransactions.customerLastName;
+    }
+
+    getCustomerAddress(): string {
+        return this.saleTransactions.customerAddress;
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.addItemESubcriber);
         this.eventManager.destroy(this.changeCustomerSubcriber);
+        // console.log('ondestroy');
+        this.cartService.setSale(this.saleTransactions);
     }
 
     getFullName(): string {
@@ -77,6 +103,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         this.customer = this.defaultCustomer;
         this.eventManager.broadcast({ name: 'saleSavedEvent' });
         this.setSaleCustomer();
+        // this.addSaleIntoSession();
     }
 
     protected onSaveError(errorMessage: string) {
@@ -85,6 +112,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     onDeleteItem(itemPos: number) {
         this.saleTransactions.removeItemAt(itemPos);
+        // this.addSaleIntoSession();
     }
 
     onChangeQuantity(i: number, itemQuantity: number) {
@@ -93,10 +121,12 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         } else {
             this.saleTransactions.updateItemQuantity(i, itemQuantity);
         }
+        // this.addSaleIntoSession();
     }
 
     onPaid() {
         this.saleTransactions.paidTransaction();
+        // this.addSaleIntoSession();
     }
 
     onSearchCustomer() {
@@ -108,9 +138,32 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     protected setSaleCustomer() {
-        this.saleTransactions.customerId = this.customer.id;
-        this.saleTransactions.customerFirstName = this.customer.firstName;
+        // this.saleTransactions.customerId = this.customer.id;
+        // this.saleTransactions.customerFirstName = this.customer.firstName;
+        this.saleTransactions.setCustomer(this.customer);
+        // this.addSaleIntoSession();
     }
+
+    // private getSaleInSession() {
+    //     this.saleService.getInSession().subscribe(
+    //         res => {
+    //             console.log('response from get sale in session!!!');
+    //             console.log(res);
+    //             this.saleTransactions = res.body;
+    //         },
+    //         err => {
+    //             console.log('Error: ' + err.message);
+    //         }
+    //     );
+    // }
+
+    // private addSaleIntoSession() {
+    //     if (this.saleTransactions) {
+    //         this.saleService.addToSession(this.saleTransactions).subscribe(res => {
+    //             console.log('success call add to session');
+    //         });
+    //     }
+    // }
 
     protected registerAddItemEvent(): any {
         this.addItemESubcriber = this.eventManager.subscribe('addItemEvent', response => {

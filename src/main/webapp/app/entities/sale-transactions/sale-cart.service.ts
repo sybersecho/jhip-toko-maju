@@ -15,15 +15,19 @@ export class SaleCartService {
     private storage: Storage;
     // private customer: ICustomer;
     private saleTransactions: ISaleTransactions = new SaleTransactions();
-    private customer: ICustomer;
-    constructor(private storageService: SessionStorageService) {}
+    // private customer: ICustomer;
+    constructor() {}
 
     get(): ISaleTransactions {
-        return this.retieve();
+        return this.saleTransactions;
     }
 
     getCustomer(): ICustomer {
-        return this.retrieveCustomer();
+        return this.saleTransactions.customer;
+    }
+
+    setSale(saleTransactions: ISaleTransactions) {
+        this.saleTransactions = saleTransactions;
     }
 
     // getCustomer(){
@@ -34,34 +38,34 @@ export class SaleCartService {
 
     // }
 
-    updateSale(saleTransactions: ISaleTransactions) {
-        this.storageService.store(CART_KEY, saleTransactions);
-        // console..
-    }
+    // updateSale(saleTransactions: ISaleTransactions) {
+    //     this.storageService.store(CART_KEY, saleTransactions);
+    //     // console..
+    // }
 
-    private retrieveCustomer(): ICustomer {
-        const customer: ICustomer = this.storageService.retrieve(CART_CUSTOMER);
-        if (!customer) {
-            this.customer = new Customer();
-            this.updateCustomer(this.customer);
-        }
-        return customer;
-    }
+    // private retrieveCustomer(): ICustomer {
+    //     const customer: ICustomer = this.storageService.retrieve(CART_CUSTOMER);
+    //     if (!customer) {
+    //         this.customer = new Customer();
+    //         this.updateCustomer(this.customer);
+    //     }
+    //     return customer;
+    // }
 
-    updateCustomer(customer: ICustomer): void {
-        this.storageService.store(CART_CUSTOMER, this.customer);
-    }
+    // updateCustomer(customer: ICustomer): void {
+    //     this.storageService.store(CART_CUSTOMER, this.customer);
+    // }
 
-    private retieve(): ISaleTransactions {
-        const sale: ISaleTransactions = this.storageService.retrieve('jhi_' + CART_KEY);
-        if (!sale) {
-            console.log('sale empty');
-            this.saleTransactions = new SaleTransactions();
-            this.updateSale(this.saleTransactions);
-        }
-        this.saleTransactions = sale;
-        return this.saleTransactions;
-    }
+    // private retieve(): ISaleTransactions {
+    //     const sale: ISaleTransactions = this.storageService.retrieve('jhi_' + CART_KEY);
+    //     if (!sale) {
+    //         console.log('sale empty');
+    //         this.saleTransactions = new SaleTransactions();
+    //         this.updateSale(this.saleTransactions);
+    //     }
+    //     this.saleTransactions = sale;
+    //     return this.saleTransactions;
+    // }
 
     // getCustomer(): ICustomer {
     //     return this.customer !== null ? this.customer : null;

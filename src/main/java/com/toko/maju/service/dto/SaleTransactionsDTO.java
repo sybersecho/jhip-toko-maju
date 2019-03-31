@@ -37,6 +37,12 @@ public class SaleTransactionsDTO implements Serializable {
 
 	private String customerFirstName;
 
+	private String customerLastName;
+
+	private String customerCode;
+
+	private String customerAddress;
+
 	private Set<SaleItemDTO> items = new HashSet<SaleItemDTO>();
 
 	public Long getId() {
@@ -111,6 +117,30 @@ public class SaleTransactionsDTO implements Serializable {
 		this.customerFirstName = customerFirstName;
 	}
 
+	public String getCustomerLastName() {
+		return customerLastName;
+	}
+
+	public void setCustomerLastName(String customerLastName) {
+		this.customerLastName = customerLastName;
+	}
+
+	public String getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+
+	public String getCustomerAddress() {
+		return customerAddress;
+	}
+
+	public void setCustomerAddress(String customerAddress) {
+		this.customerAddress = customerAddress;
+	}
+
 	public Set<SaleItemDTO> getItems() {
 		return items;
 	}
@@ -142,11 +172,20 @@ public class SaleTransactionsDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SaleTransactionsDTO{" + "id=" + getId() + ", noInvoice='" + getNoInvoice() + "'" + ", discount="
-				+ getDiscount() + ", totalPayment=" + getTotalPayment() + ", remainingPayment=" + getRemainingPayment()
-				+ ", paid=" + getPaid() + ", saleDate='" + getSaleDate() + "'" + ", customer=" + getCustomerId()
-				+ ", customer='" + getCustomerFirstName() +", items='" + getItems() + "'" + "}";
+		return "SaleTransactionsDTO{" 
+				+ "id=" + getId()  
+				+ ", noInvoice='" + getNoInvoice() + "'" 
+				+ ", discount=" + getDiscount() 
+				+ ", totalPayment=" + getTotalPayment() 
+				+ ", remainingPayment=" + getRemainingPayment()
+				+ ", paid=" + getPaid() 
+				+ ", saleDate='" + getSaleDate() + "'" 
+				+ ", customerId=" + getCustomerId()
+				+ ", customerFirstName='" + getCustomerFirstName() + "'" 
+				+ ", customerLastName='" + getCustomerLastName() + "'" 
+				+ ", customerCode='" + getCustomerCode() + "'" 
+				+ ", customerAddress='" + getCustomerAddress() + "'" 
+				+ ", items='" + getItems() + "'" + "}";
 	}
-	
-	
+
 }

@@ -57,6 +57,22 @@ export class SaleTransactionsService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    addToSession(saleTransactions: ISaleTransactions): Observable<EntityResponseType> {
+        console.log('call add to session');
+        const copy = this.convertDateFromClient(saleTransactions);
+        const sessionUrl = this.resourceUrl + '/add-to-session';
+        return this.http
+            .post<ISaleTransactions>(sessionUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    getInSession(): Observable<EntityResponseType> {
+        const sessionUrl = this.resourceUrl + '/get-in-session';
+        return this.http
+            .get<ISaleTransactions>(sessionUrl, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
     protected convertDateFromClient(saleTransactions: ISaleTransactions): ISaleTransactions {
         const copy: ISaleTransactions = Object.assign({}, saleTransactions, {
             saleDate: saleTransactions.saleDate != null && saleTransactions.saleDate.isValid() ? saleTransactions.saleDate.toJSON() : null
