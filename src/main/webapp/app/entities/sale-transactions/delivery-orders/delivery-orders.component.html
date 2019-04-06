@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-12">
+        <!-- <div class="card"> -->
+        <!-- <div class="card-body p-0"> -->
+        <div class="row p-2">
+            <div class="col-md-12 text-center">
+                <h1 class="font-weight-bold mb-1">Surat Jalan</h1>
+            </div>
+        </div>
+        <div class="row pb-5 p-3">
+            <div class="col-md-6">
+                <p class="font-weight-bold mb-4">Client Information</p>
+                <p class="mb-1">{{ saleTransaction.customerFirstName }} {{ saleTransaction.customerLastName }}</p>
+                <!-- <p>Acme Inc</p> -->
+                <p class="mb-1">{{ saleTransaction.customerAddress }}</p>
+                <!-- <p class="mb-1">6781 45P</p> -->
+            </div>
+
+            <div class="col-md-6 text-right">
+                <p class="font-weight-bold mb-4">Payment Details</p>
+                <p class="mb-1">
+                    No Fraktur: <span class="font-weight-bold">{{ saleTransaction.noInvoice }} </span>
+                </p>
+                <p class="mb-1">
+                    Tanggal: <span class="font-weight-bold"> {{ saleTransaction.saleDate | date: 'dd-MMM-yyyy' }}</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="row p-1">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="border-0 text-uppercase small font-weight-bold">No</th>
+                            <th class="border-0 text-uppercase small font-weight-bold">Barcode</th>
+                            <th class="border-0 text-uppercase small font-weight-bold">Nama Barang</th>
+                            <th class="border-0 text-uppercase small font-weight-bold">Jumlah Barang</th>
+                            <th class="border-0 text-uppercase small font-weight-bold">Satuan</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let item of items; let i = index">
+                        <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ item?.barcode }}</td>
+                            <td>{{ item?.productName }}</td>
+                            <td>{{ item?.quantity }}</td>
+                            <td>{{ item?.unit }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="d-flex flex-row-reverse bg-dark text-white p-5">
+            <div class="py-0 px-5 text-center">
+                <div class="py-3 mb-5 font-weight-normal">Penerima</div>
+                <div class="h2 font-weight-normal">(....................)</div>
+            </div>
+        </div>
+    </div>
+</div>

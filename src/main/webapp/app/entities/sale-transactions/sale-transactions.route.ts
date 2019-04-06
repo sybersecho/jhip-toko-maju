@@ -18,6 +18,8 @@ import { SaleTransactionsSearchPopupComponent } from './search-customer/sale-tra
 import { CustomersResolve } from './search-customer/customers.resolve.';
 import { SearchProductPopupComponent } from './product-box/search-product-dialog.component';
 import { ProductsResolve } from './product-box/products.resolve';
+import { PrintComponent } from './print/print.component';
+import { DeliveryOrdersComponent } from './delivery-orders/delivery-orders.component';
 
 @Injectable({ providedIn: 'root' })
 export class SaleTransactionsResolve implements Resolve<ISaleTransactions> {
@@ -137,5 +139,31 @@ export const saleTransactionsPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
+    }
+];
+
+export const saleTransactionsPrintRoute: Routes = [
+    {
+        path: 'sale',
+        component: PrintComponent,
+        children: [
+            {
+                path: 'print',
+                component: DeliveryOrdersComponent
+            },
+            {
+                path: 'print/:invoiceNo',
+                component: DeliveryOrdersComponent
+            }
+        ],
+        // resolve: {
+        //     saleTransactions: SaleTransactionsResolve
+        // },
+        // data: {
+        //     authorities: ['ROLE_USER'],
+        //     pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
+        // },
+        // canActivate: [UserRouteAccessService],
+        outlet: 'print'
     }
 ];

@@ -24,6 +24,8 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     routeData: any;
     addItemESubcriber: Subscription;
     changeCustomerSubcriber: Subscription;
+    isSale = false;
+    printAsOrder = false;
 
     constructor(
         protected saleService: SaleTransactionsService,
@@ -61,6 +63,27 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         // this.getSaleInSession();
     }
 
+    onPrint(sale: ISaleTransactions) {
+        const test = this.router.navigate(['/', { outlets: { print: 'sale/print/' + sale.noInvoice } }]);
+        test.then(resolve =>
+            setTimeout(() => {
+                // window.print();
+            })
+        );
+        // setTimeout(() => {
+        //     window.print();
+        //     // this.isPrinting = false;
+        //     // this.router.navigate([{ outlets: { print: null } }]);
+        // });
+
+        // [routerLink]="['/', { outlets: { print: 'sale/print' } }]"
+    }
+
+    processAsOrders() {
+        this.printAsOrder = true;
+        this.save();
+    }
+
     getCustomerCode(): string {
         // this.saleTransactions.c
         return this.saleTransactions.customerCode;
@@ -93,12 +116,16 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<ISaleTransactions>>) {
         result.subscribe(
-            (res: HttpResponse<ISaleTransactions>) => this.onSaveSuccess(),
+            (res: HttpResponse<ISaleTransactions>) => this.onSaveSuccess(res.body),
             (res: HttpErrorResponse) => this.onSaveError(res.message)
         );
     }
 
-    protected onSaveSuccess() {
+    protected onSaveSuccess(sale: ISaleTransactions) {
+        console.log(sale);
+        if (this.printAsOrder) {
+            this.onPrint(sale);
+        }
         this.saleTransactions = new SaleTransactions();
         this.customer = this.defaultCustomer;
         this.eventManager.broadcast({ name: 'saleSavedEvent' });

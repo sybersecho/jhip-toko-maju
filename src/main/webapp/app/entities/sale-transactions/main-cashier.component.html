@@ -190,6 +190,17 @@
                     </tfoot>
                 </table>
             </div>
+            <!-- <div class="col-sm-4 text-center">
+                <button
+                    type="button"
+                    class="btn btn-sm btn-success "
+                    [routerLink]="['/', { outlets: { print: 'sale/print' } }]"
+                    replaceUrl="true"
+                    queryParamsHandling="merge"
+                >
+                    <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
+                </button>
+            </div> -->
             <div class="row" *ngIf="saleTransactions.items.length > 0">
                 <div class="col-sm-4 text-left">
                     <button type="button" class="btn btn-sm btn-success" (click)="save()" [disabled]="cashierForm.form.invalid">
@@ -197,12 +208,28 @@
                     </button>
                 </div>
                 <div class="col-sm-4 text-center">
-                    <button type="button" class="btn btn-sm btn-success " [disabled]="cashierForm.form.invalid">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-success "
+                        [disabled]="cashierForm.form.invalid"
+                        (click)="onPrint()"
+                        replaceUrl="true"
+                        queryParamsHandling="merge"
+                    >
+                        <!--   printSectionId="print-section"
+                        ngxPrint-->
                         <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
                     </button>
                 </div>
                 <div class="col-sm-4 text-right">
-                    <button type="button" class="btn btn-sm btn-success " [disabled]="cashierForm.form.invalid">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-success "
+                        [disabled]="cashierForm.form.invalid"
+                        (click)="processAsOrders()"
+                        replaceUrl="true"
+                        queryParamsHandling="merge"
+                    >
                         <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAsOrders">Process as Delivery Orders</span>
                     </button>
                 </div>
@@ -214,4 +241,8 @@
         <jhi-product-box></jhi-product-box>
     </div>
 </div>
+<!--
+<div id="print-section">
+    test print
+</div> -->
 <!-- </div> -->

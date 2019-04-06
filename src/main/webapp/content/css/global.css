@@ -140,7 +140,23 @@ Custom alerts for notification
     }
 }
 
-/* ==========================================================================
+jhi-print {
+    display: none;
+}
+
+@media print {
+    jhi-page-ribbon,
+    jhi-footer,
+    jhi-main-cashier {
+        display: none;
+    }
+
+    jhi-main jhi-print {
+        display: block;
+    }
+}
+
+/* ======================================npm====================================
 entity tables helpers
 ========================================================================== */
 /* Remove Bootstrap padding from the element

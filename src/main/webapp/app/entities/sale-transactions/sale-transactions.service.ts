@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
@@ -37,6 +37,15 @@ export class SaleTransactionsService {
         return this.http
             .get<ISaleTransactions>(`${this.resourceUrl}/${id}`, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    findByInvoice(invoiceNo: string): Observable<EntityArrayResponseType> {
+        // const resourceInvoiceUrl = this.resourceUrl + '/invoice';
+        console.log('findByInvoice: ' + invoiceNo);
+        const options = new HttpParams().set('noInvoice.equals', invoiceNo);
+        return this.http
+            .get<ISaleTransactions[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
     query(req?: any): Observable<EntityArrayResponseType> {

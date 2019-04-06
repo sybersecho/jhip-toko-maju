@@ -15,6 +15,9 @@ public interface SaleItemMapper extends EntityMapper<SaleItemDTO, SaleItem> {
     @Mapping(source = "sale.noInvoice", target = "saleNoInvoice")
     @Mapping(source = "product.id", target = "productId")
     @Mapping(source = "product.name", target = "productName")
+    @Mapping(source = "product.barcode", target = "barcode")
+    @Mapping(source = "product.sellingPrice", target = "sellingPrice")
+    @Mapping(source = "product.unit", target = "unit")
     SaleItemDTO toDto(SaleItem saleItem);
 
     @Mapping(source = "saleId", target = "sale")
