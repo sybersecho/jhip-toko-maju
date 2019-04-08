@@ -78,7 +78,7 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
     // }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.saleSavedEventSub);
+        // this.eventManager.destroy(this.saleSavedEventSub);
         this.eventManager.destroy(this.addProductEventSub);
     }
 
