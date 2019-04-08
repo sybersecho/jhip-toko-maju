@@ -53,7 +53,7 @@
                                 <td>{{ product.name }}</td>
                                 <td jhiTranslate="{{ 'jhiptokomajuApp.UnitMeasure.' + product.unit }}">{{ product.unit }}</td>
 
-                                <td>{{ product.sellingPrice }}</td>
+                                <td>{{ product.sellingPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
                                 <td>{{ product.supplierName }}</td>
                                 <td class="text-right">
                                     <div class="btn-group flex-btn-group-container">
