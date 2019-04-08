@@ -110,8 +110,8 @@
                             />
                         </td>
                         <td>{{ item.product.unit }}</td>
-                        <td>{{ item.product.sellingPrice }}</td>
-                        <td>{{ item.totalPrice }}</td>
+                        <td>{{ item.product.sellingPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
+                        <td>{{ item.totalPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-danger" (click)="onDeleteItem(i)">
                                 <fa-icon [icon]="'times'"></fa-icon>
@@ -121,7 +121,7 @@
                     <tfoot *ngIf="saleTransactions.items.length > 0">
                         <tr>
                             <th colspan="5" class="text-right">Total</th>
-                            <th colspan="2" id="subtotal">{{ saleTransactions.totalPayment }}</th>
+                            <th colspan="2" id="subtotal">{{ saleTransactions.totalPayment | currency: 'IDR':'Rp. ':'4.2-2' }}</th>
                         </tr>
                         <tr>
                             <th colspan="5" class="text-right">
@@ -129,14 +129,16 @@
                             </th>
                             <th colspan="2" id="discount">
                                 <input
-                                    type="number"
+                                    type="tel"
                                     class="form-control"
                                     name="discount"
                                     id="field_discount"
                                     [(ngModel)]="saleTransactions.discount"
                                     min="0"
                                     jhiMin="0"
-                                    (change)="onPaid()"
+                                    (ngModelChange)="onPaid()"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                                    currencyMask
                                 />
                             </th>
                         </tr>
@@ -146,16 +148,21 @@
                             </th>
                             <th colspan="2" id="paid">
                                 <input
-                                    type="number"
+                                    type="tel"
                                     class="form-control"
                                     name="paid"
                                     id="field_paid"
                                     [(ngModel)]="saleTransactions.paid"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                                    currencyMask
                                     min="1"
                                     jhiMin="1"
-                                    (change)="onPaid()"
+                                    (ngModelChange)="onPaid()"
                                 />
                             </th>
+                            <!--
+                                    (change)="onPaid()" [ngModel]="saleTransactions.paid | currency: 'IDR':'Rp. ':'4.2-2'"
+                            [ngModelOptions]="{ updateOn: 'blur' }" -->
                         </tr>
                         <tr *ngIf="saleTransactions.paid <= saleTransactions.totalPayment">
                             <th colspan="5" class="text-right">
@@ -163,11 +170,13 @@
                             </th>
                             <th colspan="2" id="remainingPayment">
                                 <input
-                                    type="number"
+                                    type="tel"
                                     class="form-control"
                                     name="remainingPayment"
                                     id="field_remainingPayment"
                                     [(ngModel)]="saleTransactions.remainingPayment"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                                    currencyMask
                                     readonly
                                 />
                             </th>
@@ -178,11 +187,13 @@
                             </th>
                             <th colspan="2" id="change">
                                 <input
-                                    type="number"
+                                    type="tel"
                                     class="form-control"
                                     name="change"
                                     id="field_change"
                                     [ngModel]="totalChange()"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                                    currencyMask
                                     readonly
                                 />
                             </th>

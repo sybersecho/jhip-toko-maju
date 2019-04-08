@@ -35,11 +35,13 @@
                         >Selling Price</label
                     >
                     <input
-                        type="number"
+                        type="tel"
                         class="form-control"
                         name="sellingPrice"
                         id="field_sellingPrice"
                         [ngModel]="selectedItem.sellingPrice"
+                        [options]="{ prefix: 'Rp. ', thousands: '.', decimal: ',' }"
+                        currencyMask
                         readonly
                     />
                 </div>

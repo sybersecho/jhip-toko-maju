@@ -3,13 +3,14 @@ import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbDateMomentAdapter } from './util/datepicker-adapter';
 import { JhiptokomajuSharedLibsModule, JhiptokomajuSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 @NgModule({
-    imports: [JhiptokomajuSharedLibsModule, JhiptokomajuSharedCommonModule],
+    imports: [JhiptokomajuSharedLibsModule, JhiptokomajuSharedCommonModule, NgxCurrencyModule],
     declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
-    exports: [JhiptokomajuSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
+    exports: [JhiptokomajuSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective, NgxCurrencyModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhiptokomajuSharedModule {
