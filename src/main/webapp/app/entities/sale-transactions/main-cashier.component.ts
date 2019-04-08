@@ -10,6 +10,8 @@ import { SaleTransactionsService } from './sale-transactions.service';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
 import { SaleCartService } from './sale-cart.service';
+import { CustomerService } from '../customer';
+import { ICustomerProduct } from 'app/shared/model/customer-product.model';
 
 @Component({
     selector: 'jhi-main-cashier',
@@ -20,6 +22,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     customer: ICustomer;
     defaultCustomer: ICustomer;
     saleTransactions: ISaleTransactions = new SaleTransactions();
+    customerProducts: ICustomerProduct[];
     currentAccount: any;
     routeData: any;
     addItemESubcriber: Subscription;
@@ -29,6 +32,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     constructor(
         protected saleService: SaleTransactionsService,
+        protected customerService: CustomerService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
@@ -64,19 +68,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     onPrint(sale: ISaleTransactions) {
-        const test = this.router.navigate(['/', { outlets: { print: 'sale/print/' + sale.noInvoice } }]);
-        test.then(resolve =>
-            setTimeout(() => {
-                // window.print();
-            })
-        );
-        // setTimeout(() => {
-        //     window.print();
-        //     // this.isPrinting = false;
-        //     // this.router.navigate([{ outlets: { print: null } }]);
-        // });
-
-        // [routerLink]="['/', { outlets: { print: 'sale/print' } }]"
+        this.router.navigate(['/', { outlets: { print: 'sale/print/' + sale.noInvoice } }]);
     }
 
     processAsOrders() {
@@ -85,7 +77,6 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     getCustomerCode(): string {
-        // this.saleTransactions.c
         return this.saleTransactions.customerCode;
     }
 
@@ -100,7 +91,6 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.eventManager.destroy(this.addItemESubcriber);
         this.eventManager.destroy(this.changeCustomerSubcriber);
-        // console.log('ondestroy');
         this.cartService.setSale(this.saleTransactions);
     }
 
@@ -165,9 +155,9 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     protected setSaleCustomer() {
-        // this.saleTransactions.customerId = this.customer.id;
-        // this.saleTransactions.customerFirstName = this.customer.firstName;
+        this.loadCustomerProduct();
         this.saleTransactions.setCustomer(this.customer);
+
         // this.addSaleIntoSession();
     }
 
@@ -194,8 +184,43 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     protected registerAddItemEvent(): any {
         this.addItemESubcriber = this.eventManager.subscribe('addItemEvent', response => {
-            this.saleTransactions.addOrUpdate(response.item);
+            let item: ISaleItem = response.item;
+            item = this.updateSalePrice(item);
+            this.saleTransactions.addOrUpdate(item);
         });
+    }
+
+    loadCustomerProduct(): void {
+        this.customerService.searcyByCustomer(this.customer.id).subscribe(
+            response => {
+                this.customerProducts = response.body;
+                // console.log(this.customerProducts);
+                this.updateExistingItemPrice();
+            },
+            err => {
+                console.error(err.message);
+            }
+        );
+    }
+
+    updateSalePrice(item: ISaleItem): ISaleItem {
+        item = this.findAndUpdateSalePrice(item);
+        return item;
+    }
+
+    private findAndUpdateSalePrice(item: ISaleItem): ISaleItem {
+        let cusItem: ICustomerProduct = null;
+        if (this.customerProducts) {
+            cusItem = this.customerProducts.find(product => product.id === item.productId);
+        }
+        if (cusItem) {
+            // console.log('Price Before: ' + item.sellingPrice);
+            item.sellingPrice = cusItem.specialPrice;
+            item.createItem();
+            // console.log('Price after: ' + item.sellingPrice);
+            return item;
+        }
+        return null;
     }
 
     protected changeCustomerEvent(): any {
@@ -205,7 +230,24 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         });
     }
 
-    protected push(item: ISaleItem) {
+    protected updateExistingItemPrice(): void {
+        this.saleTransactions.items.forEach(existingItem => {
+            let found: ICustomerProduct = null;
+
+            // console.log('Sell Price Before: ' + existingItem.sellingPrice);
+            found = this.findAndUpdateSalePrice(existingItem);
+
+            if (!found) {
+                // console.log('Product sale price: ' + existingItem.product.sellingPrice);
+                existingItem.sellingPrice = existingItem.product.sellingPrice;
+                // console.log('Sell Price after not found: ' + existingItem.sellingPrice);
+            }
+            existingItem.createItem();
+        });
+        this.saleTransactions.recalculate();
+    }
+
+    protected push(item: ISaleItem): void {
         this.saleTransactions.addOrUpdate(item);
     }
 }

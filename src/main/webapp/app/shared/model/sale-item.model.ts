@@ -62,6 +62,6 @@ export class SaleItem implements ISaleItem {
     }
 
     protected calculateTotalPrice(): void {
-        this.totalPrice = this.product.sellingPrice * this.quantity;
+        this.totalPrice = this.sellingPrice * this.quantity;
     }
 }

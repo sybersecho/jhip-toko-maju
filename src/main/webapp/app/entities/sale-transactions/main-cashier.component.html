@@ -110,7 +110,7 @@
                             />
                         </td>
                         <td>{{ item.product.unit }}</td>
-                        <td>{{ item.product.sellingPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
+                        <td>{{ item.sellingPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
                         <td>{{ item.totalPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-danger" (click)="onDeleteItem(i)">

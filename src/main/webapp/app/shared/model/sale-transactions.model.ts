@@ -106,7 +106,7 @@ export class SaleTransactions implements ISaleTransactions {
     public updateItemQuantity(itemIndex: number, newQuantity: number): void {
         const changeItem = this.items[itemIndex];
         changeItem.quantity = newQuantity;
-        changeItem.totalPrice = changeItem.quantity * changeItem.product.sellingPrice;
+        changeItem.totalPrice = changeItem.quantity * changeItem.sellingPrice;
 
         this.items[itemIndex] = changeItem;
         this.calculateTotalPayment();
