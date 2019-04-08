@@ -29,7 +29,8 @@ export class SearchProductDialogComponent {
 
     clearSearch() {
         this.searchKeyword = '';
-        this.loadAll();
+        this.products = null;
+        // this.loadAll();
     }
 
     search(query) {

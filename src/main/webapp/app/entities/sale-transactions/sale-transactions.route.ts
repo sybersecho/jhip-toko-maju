@@ -130,9 +130,9 @@ export const saleTransactionsPopupRoute: Routes = [
     {
         path: 'sale/search-product',
         component: SearchProductPopupComponent,
-        resolve: {
-            products: ProductsResolve
-        },
+        // resolve: {
+        //     products: ProductsResolve
+        // },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'

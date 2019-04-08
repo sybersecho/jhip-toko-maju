@@ -23,27 +23,30 @@
                     </button>
                 </div>
             </form>
-            <div *ngIf="products">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span> <fa-icon [icon]="'sort'"></fa-icon>
-                                </th>
-                                <th><span jhiTranslate="jhiptokomajuApp.product.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                                <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                                <th>
-                                    <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
-                                    <fa-icon [icon]="'sort'"></fa-icon>
-                                </th>
-                                <th>
-                                    <span jhiTranslate="jhiptokomajuApp.product.supplier">Supplier</span>
-                                    <fa-icon [icon]="'sort'"></fa-icon>
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th><span jhiTranslate="jhiptokomajuApp.product.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.supplier">Supplier</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <ng-container *ngIf="products && products.length > 0; else noProducts">
+                        <!-- <div> -->
+
                         <tbody>
                             <tr *ngFor="let product of products">
                                 <td>{{ product.barcode }}</td>
@@ -70,9 +73,25 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
-                </div>
+
+                        <!-- </div> -->
+                    </ng-container>
+                    <ng-template #noProducts>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    <!-- <span class="text-center"> -->
+                                    no record found
+                                    <!-- </span> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+                </table>
             </div>
+            <!-- <div #noProducts>
+
+            </div> -->
         </div>
     </div>
 </form>

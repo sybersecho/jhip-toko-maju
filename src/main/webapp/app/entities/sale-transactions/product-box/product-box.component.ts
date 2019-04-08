@@ -33,7 +33,7 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // this.loadProducts();
-        this.registerSaleSavedEvent();
+        // this.registerSaleSavedEvent();
         this.registerAddSelectProductEvent();
     }
 
@@ -63,19 +63,19 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
         }
     }
 
-    protected loadProducts(): void {
-        this.productService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IProduct[]>) => response.body)
-            )
-            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
-    }
+    // protected loadProducts(): void {
+    //     this.productService
+    //         .query()
+    //         .pipe(
+    //             filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+    //             map((response: HttpResponse<IProduct[]>) => response.body)
+    //         )
+    //         .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
+    // }
 
-    protected registerSaleSavedEvent(): void {
-        this.saleSavedEventSub = this.eventManager.subscribe('saleSavedEvent', response => this.loadProducts());
-    }
+    // protected registerSaleSavedEvent(): void {
+    //     this.saleSavedEventSub = this.eventManager.subscribe('saleSavedEvent', response => this.loadProducts());
+    // }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.saleSavedEventSub);
