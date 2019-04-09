@@ -219,26 +219,6 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         );
     }
 
-    // updateSalePrice(item: ISaleItem): ISaleItem {
-    //     item = this.findAndUpdateSalePrice(item);
-    //     return item;
-    // }
-
-    // private findAndUpdateSalePrice(item: ISaleItem): ISaleItem {
-    //     let cusItem: ICustomerProduct = null;
-    //     if (this.customerProducts && this.customerProducts.length > 0) {
-    //         cusItem = this.customerProducts.find(product => product.id === item.productId);
-    //     }
-    //     if (cusItem) {
-    //         // console.log('Price Before: ' + item.sellingPrice);
-    //         item.sellingPrice = cusItem.specialPrice;
-    //         item.createItem();
-    //         // console.log('Price after: ' + item.sellingPrice);
-    //         return item;
-    //     }
-    //     return null;
-    // }
-
     protected changeCustomerEvent(): any {
         this.changeCustomerSubcriber = this.eventManager.subscribe('onSelectCustomerEvent', response => {
             this.customer = response.data;
@@ -248,18 +228,10 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     protected updateExistingItemPrice(): void {
         this.saleTransactions.items.forEach(existingItem => {
-            // let found: ICustomerProduct = null;
-
             // console.log('Sell Price Before: ' + existingItem.sellingPrice);
             const found = this.getCustomerProductPrice(existingItem.productId);
 
-            if (found < 0) {
-                // console.log('Product sale price: ' + existingItem.product.sellingPrice);
-                existingItem.sellingPrice = existingItem.product.sellingPrice;
-                // console.log('Sell Price after not found: ' + existingItem.sellingPrice);
-            } else {
-                existingItem.sellingPrice = found;
-            }
+            existingItem.sellingPrice = found > 0 ? found : existingItem.product.sellingPrice;
 
             existingItem.createItem();
         });
