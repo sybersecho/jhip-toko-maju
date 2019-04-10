@@ -36,11 +36,11 @@
                                 <td>{{ customerProduct.barcode }}</td>
                                 <td>{{ customerProduct.productName }}</td>
                                 <td>{{ customerProduct.unit }}</td>
-                                <td>{{ customerProduct.unitPrice }}</td>
-                                <td>{{ customerProduct.sellingPrice }}</td>
+                                <td>{{ customerProduct.unitPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
+                                <td>{{ customerProduct.sellingPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
                                 <td>
                                     <input
-                                        type="number"
+                                        type="tel"
                                         class="form-control form-control-sm"
                                         name="specialPrice"
                                         id="field_specialPrice"
@@ -48,6 +48,8 @@
                                         required
                                         min="0"
                                         jhiMin="0"
+                                        [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                                        currencyMask
                                     />
                                 </td>
                                 <td class="text-right">

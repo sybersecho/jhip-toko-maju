@@ -47,9 +47,9 @@
                 <td>{{product.barcode}}</td>
                 <td>{{product.name}}</td>
                 <td jhiTranslate="{{'jhiptokomajuApp.UnitMeasure.' + product.unit}}">{{product.unit}}</td>
-                <td>{{product.warehousePrice}}</td>
-                <td>{{product.unitPrice}}</td>
-                <td>{{product.sellingPrice}}</td>
+                <td>{{product.warehousePrice | currency: 'IDR':'Rp. ':'4.2-2'}}</td>
+                <td>{{product.unitPrice | currency: 'IDR':'Rp. ':'4.2-2'}}</td>
+                <td>{{product.sellingPrice | currency: 'IDR':'Rp. ':'4.2-2'}}</td>
                 <td>{{product.stock}}</td>
                 <td>
                     <div *ngIf="product.supplierId">
