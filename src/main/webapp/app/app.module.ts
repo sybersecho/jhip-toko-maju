@@ -4,13 +4,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Ng2Webstorage } from 'ngx-webstorage';
+import { NgxWebstorageModule } from 'ngx-webstorage';
 import { NgJhipsterModule } from 'ng-jhipster';
+import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
+import { LoadingInterceptor } from './blocks/interceptor/loading-interceptor';
 import { JhiptokomajuSharedModule } from 'app/shared';
 import { JhiptokomajuCoreModule } from 'app/core';
 import { JhiptokomajuAppRoutingModule } from './app-routing.module';
@@ -24,7 +26,15 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
 @NgModule({
     imports: [
         BrowserModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
+        NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
+        NgxLoadingModule.forRoot({
+            animationType: ngxLoadingAnimationTypes.rectangleBounce,
+            backdropBackgroundColour: 'rgba(0,0,0,0.1)',
+            backdropBorderRadius: '4px',
+            primaryColour: '#ffffff',
+            secondaryColour: '#ffffff',
+            tertiaryColour: '#ffffff'
+        }),
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
             alertAsToast: false,
@@ -60,6 +70,11 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         {
             provide: HTTP_INTERCEPTORS,
             useClass: NotificationInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoadingInterceptor,
             multi: true
         }
     ],

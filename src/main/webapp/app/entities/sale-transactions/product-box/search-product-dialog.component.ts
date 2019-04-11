@@ -88,7 +88,8 @@ export class SearchProductPopupComponent implements OnInit, OnDestroy {
             setTimeout(() => {
                 this.ngbModalRef = this.modalService.open(SearchProductDialogComponent as Component, {
                     size: 'lg',
-                    backdrop: 'static'
+                    backdrop: 'static',
+                    centered: true
                 });
                 this.ngbModalRef.componentInstance.products = products;
                 this.ngbModalRef.result.then(
