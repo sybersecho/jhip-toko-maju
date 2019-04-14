@@ -1,0 +1,105 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.invoice.home.title">Invoices</span>
+        <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-invoice" [routerLink]="['/invoice/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.invoice.home.createLabel">
+                Create new Invoice
+            </span>
+        </button> -->
+    </h2>
+    <jhi-alert></jhi-alert>
+    <jhi-search-invoice (searchEvent)="searchEvt($event)" (clearEvent)="clearEvt($event)"></jhi-search-invoice>
+    <br />
+    <div class="table-responsive" *ngIf="invoices">
+        <table class="table table-striped">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+                    <th jhiSortBy="noInvoice">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.noInvoice">No Invoice</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="customer">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="totalPayment">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.totalPayment">Total Payment</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="remainingPayment">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.remainingPayment">Remaining Payment</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="paid">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.paid">Paid</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="saleDate">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="remainingPayment">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.remainingPayment">Remaining Payment</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody
+                infinite-scroll
+                (scrolled)="loadPage(page + 1)"
+                [infiniteScrollDisabled]="page >= links['last']"
+                [infiniteScrollDistance]="0"
+            >
+                <tr *ngFor="let invoice of invoices; trackBy: trackId">
+                    <!-- <td><a [routerLink]="['/invoice', invoice.id, 'view' ]">{{invoice.id}}</a></td> -->
+                    <td>{{ invoice.noInvoice }}</td>
+                    <td>{{ invoice.customer }}</td>
+                    <td>{{ invoice.totalPayment | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ invoice.paid | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ invoice.saleDate | date: 'medium' }}</td>
+                    <td>
+                        <div class="form-group">
+                            <input
+                                id="field_paid"
+                                type="tel"
+                                class="form-control"
+                                name="paid"
+                                min="0"
+                                jhiMin="0"
+                                [options]="{ prefix: '', thousands: '.', precision: 0 }"
+                                [(ngModel)]="invoice.settlement"
+                                currencyMask
+                            />
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="invoiceCheck{{ invoice.id }}" />
+                        </div>
+                    </td>
+                    <!-- <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit" [routerLink]="['/invoice', invoice.id, 'view']" class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+                            <button type="submit" [routerLink]="['/invoice', invoice.id, 'edit']" class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <button
+                                type="submit"
+                                [routerLink]="['/', 'invoice', { outlets: { popup: invoice.id + '/delete' } }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm"
+                            >
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "noInvoice",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "customer",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "totalPayment",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "remainingPayment",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "paid",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "saleDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "changelogDate": "20190413162351",
+    "dto": "no",
+    "searchEngine": "elasticsearch",
+    "service": "no",
+    "entityTableName": "invoice",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": false,
+    "pagination": "infinite-scroll"
+}

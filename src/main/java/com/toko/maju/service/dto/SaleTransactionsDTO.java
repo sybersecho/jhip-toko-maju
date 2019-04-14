@@ -125,6 +125,15 @@ public class SaleTransactionsDTO implements Serializable {
 		this.customerLastName = customerLastName;
 	}
 
+	public String getCustomerFullName() {
+		StringBuilder buildName = new StringBuilder();
+		buildName.append(getCustomerFirstName());
+		buildName.append(" ");
+		buildName.append(getCustomerLastName());
+
+		return buildName.toString();
+	}
+
 	public String getCustomerCode() {
 		return customerCode;
 	}
@@ -172,20 +181,12 @@ public class SaleTransactionsDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SaleTransactionsDTO{" 
-				+ "id=" + getId()  
-				+ ", noInvoice='" + getNoInvoice() + "'" 
-				+ ", discount=" + getDiscount() 
-				+ ", totalPayment=" + getTotalPayment() 
-				+ ", remainingPayment=" + getRemainingPayment()
-				+ ", paid=" + getPaid() 
-				+ ", saleDate='" + getSaleDate() + "'" 
-				+ ", customerId=" + getCustomerId()
-				+ ", customerFirstName='" + getCustomerFirstName() + "'" 
-				+ ", customerLastName='" + getCustomerLastName() + "'" 
-				+ ", customerCode='" + getCustomerCode() + "'" 
-				+ ", customerAddress='" + getCustomerAddress() + "'" 
-				+ ", items='" + getItems() + "'" + "}";
+		return "SaleTransactionsDTO{" + "id=" + getId() + ", noInvoice='" + getNoInvoice() + "'" + ", discount="
+				+ getDiscount() + ", totalPayment=" + getTotalPayment() + ", remainingPayment=" + getRemainingPayment()
+				+ ", paid=" + getPaid() + ", saleDate='" + getSaleDate() + "'" + ", customerId=" + getCustomerId()
+				+ ", customerFirstName='" + getCustomerFirstName() + "'" + ", customerLastName='"
+				+ getCustomerLastName() + "'" + ", customerCode='" + getCustomerCode() + "'" + ", customerAddress='"
+				+ getCustomerAddress() + "'" + ", items='" + getItems() + "'" + "}";
 	}
 
 }

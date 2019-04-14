@@ -1,12 +1,21 @@
 package com.toko.maju.service.impl;
 
-import com.toko.maju.service.SaleItemQueryService;
-import com.toko.maju.service.SaleTransactionsService;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
+import java.util.Optional;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.toko.maju.domain.Product;
 import com.toko.maju.domain.SaleItem;
-import com.toko.maju.domain.SaleItem_;
 import com.toko.maju.domain.SaleTransactions;
-import com.toko.maju.domain.SaleTransactions_;
 import com.toko.maju.domain.SequenceNumber;
 import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.SaleItemRepository;
@@ -15,32 +24,10 @@ import com.toko.maju.repository.SequenceNumberRepository;
 import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
 import com.toko.maju.repository.search.SequenceNumberSearchRepository;
-import com.toko.maju.service.dto.SaleItemCriteria;
-import com.toko.maju.service.dto.SaleItemDTO;
+import com.toko.maju.service.SaleTransactionsService;
 import com.toko.maju.service.dto.SaleTransactionsDTO;
-import com.toko.maju.service.mapper.SaleItemMapper;
 import com.toko.maju.service.mapper.SaleTransactionsMapper;
 import com.toko.maju.web.rest.errors.InternalServerErrorException;
-
-import io.github.jhipster.service.filter.LongFilter;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.persistence.criteria.JoinType;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing SaleTransactions.

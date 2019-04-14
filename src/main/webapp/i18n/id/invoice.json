@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "invoice": {
+            "home": {
+                "title": "Invoices",
+                "createLabel": "Buat Invoice baru",
+                "createOrEditLabel": "Buat atau edit Invoice",
+                "search": "Cari Invoice"
+            },
+            "created": "Invoice dengan id {{ param }} telah dibuat",
+            "updated": "Invoice dengan id {{ param }} telah diperbaharui",
+            "deleted": "Invoice dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Invoice {{ id }}?"
+            },
+            "detail": {
+                "title": "Invoice"
+            },
+            "noInvoice": "No Invoice",
+            "customer": "Customer",
+            "totalPayment": "Total Payment",
+            "remainingPayment": "Remaining Payment",
+            "paid": "Paid",
+            "saleDate": "Sale Date"
+        }
+    }
+}
