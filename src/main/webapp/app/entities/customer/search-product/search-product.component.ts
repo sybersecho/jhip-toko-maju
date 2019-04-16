@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { JhiParseLinks, JhiAlertService, JhiEventManager } from 'ng-jhipster';
-import { AccountService } from 'app/core';
-import { HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { CustomerService } from 'app/entities/customer/customer.service';
-import { ICustomerProduct, CustomerProduct } from 'app/shared/model/customer-product.model';
-import { CustomerProductService } from 'app/entities/customer/customer-product/customer-product.service';
-import { Observable } from 'rxjs';
-import { ICustomer } from 'app/shared/model/customer.model';
-import { ProductService } from 'app/entities/product';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
+import { HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-search-product',
@@ -18,38 +11,27 @@ import { IProduct } from 'app/shared/model/product.model';
     styles: []
 })
 export class SearchProductComponent implements OnInit {
-    currentAccount: any;
-    customer: ICustomer;
-    entity: any;
     products: IProduct[];
-    save: ICustomerProduct;
-    error: any;
-    success: any;
+    currentSearch: any;
     predicate: any;
     reverse: any;
-    currentSearch: any;
-
     constructor(
         protected productService: ProductService,
-        protected customerSevice: CustomerService,
-        protected customerProductService: CustomerProductService,
-        protected parseLinks: JhiParseLinks,
+        protected eventManager: JhiEventManager,
         protected jhiAlertService: JhiAlertService,
-        protected accountService: AccountService,
-        protected activatedRoute: ActivatedRoute,
-        protected router: Router,
-        protected eventManager: JhiEventManager
+        public activeModal: NgbActiveModal
     ) {}
 
     ngOnInit() {
         this.loadAll();
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });
-        this.activatedRoute.data.subscribe(({ entity }) => {
-            // this.customer = customer;
-            this.entity = entity;
-        });
+    }
+
+    addProduct(product: IProduct) {
+        // console.log('save id: ' + product.id);
+        // this.createCustomerProduct(product);
+        // this.subscribeToSaveResponse(this.customerProductService.create(this.save));
+        this.eventManager.broadcast({ name: 'customerProductEvent', content: product });
+        // console.log(this.save);
     }
 
     loadAll() {
@@ -80,24 +62,6 @@ export class SearchProductComponent implements OnInit {
             );
     }
 
-    back() {
-        console.log('back');
-        this.router.navigate(['customer', this.customer.id, 'products']);
-    }
-
-    clear() {
-        // this.page = 0;
-        this.currentSearch = '';
-        // this.router.navigate([
-        //     '/product',
-        //     {
-        //         page: this.page,
-        //         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-        //     }
-        // ]);
-        this.loadAll();
-    }
-
     search(query) {
         if (!query) {
             return this.clear();
@@ -115,16 +79,17 @@ export class SearchProductComponent implements OnInit {
         this.loadAll();
     }
 
-    addProduct(product: IProduct) {
-        // console.log('save id: ' + product.id);
-        // this.createCustomerProduct(product);
-        // this.subscribeToSaveResponse(this.customerProductService.create(this.save));
-        this.eventManager.broadcast({ name: 'addProduct', content: product, entity: this.entity });
-        // console.log(this.save);
-    }
-
-    protected onSaveError() {
-        // this.isSaving = false;
+    clear() {
+        // this.page = 0;
+        this.currentSearch = '';
+        // this.router.navigate([
+        //     '/product',
+        //     {
+        //         page: this.page,
+        //         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        //     }
+        // ]);
+        this.loadAll();
     }
 
     protected paginateProducts(data: IProduct[], headers: HttpHeaders) {

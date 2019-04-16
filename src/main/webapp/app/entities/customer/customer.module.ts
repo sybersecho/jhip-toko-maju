@@ -13,7 +13,9 @@ import {
     CustomerProductComponent,
     InfoProductComponent,
     customerRoute,
-    customerPopupRoute
+    customerPopupRoute,
+    CustomerInvoiceComponent,
+    SearchProductComponent
 } from './';
 
 const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
@@ -27,7 +29,9 @@ const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
         CustomerDeleteDialogComponent,
         CustomerDeletePopupComponent,
         InfoProductComponent,
-        CustomerProductComponent
+        CustomerProductComponent,
+        CustomerInvoiceComponent,
+        SearchProductComponent
     ],
     entryComponents: [
         CustomerComponent,
@@ -35,7 +39,9 @@ const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
         CustomerDeleteDialogComponent,
         CustomerDeletePopupComponent,
         InfoProductComponent,
-        CustomerProductComponent
+        CustomerProductComponent,
+        CustomerInvoiceComponent,
+        SearchProductComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     exports: [RouterModule],

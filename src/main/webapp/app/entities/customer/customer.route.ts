@@ -49,31 +49,6 @@ export const customerRoute: Routes = [
                     defaultSort: 'id,asc',
                     pageTitle: 'jhiptokomajuApp.customer.home.title'
                 }
-            },
-            {
-                path: ':id/products',
-                component: CustomerProductComponent,
-                resolve: {
-                    customerProducts: CustomerProductResolve,
-                    customer: CustomerResolve
-                },
-                data: {
-                    authorities: ['ROLE_USER'],
-                    pageTitle: 'jhiptokomajuApp.customer.home.title'
-                },
-                canActivateChild: [UserRouteAccessService]
-            },
-            {
-                path: ':id/search-product',
-                component: SearchProductComponent,
-                resolve: {
-                    entity: CustomerResolve
-                },
-                data: {
-                    authorities: ['ROLE_USER'],
-                    pageTitle: 'jhiptokomajuApp.customer.home.title'
-                },
-                canActivate: [UserRouteAccessService]
             }
         ],
         resolve: {
@@ -87,7 +62,32 @@ export const customerRoute: Routes = [
         canActivateChild: [UserRouteAccessService]
     },
     {
-        path: 'customer:id/view',
+        path: 'customer/:id/products',
+        component: CustomerProductComponent,
+        resolve: {
+            customerProducts: CustomerProductResolve,
+            customer: CustomerResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhiptokomajuApp.customer.home.title'
+        },
+        canActivateChild: [UserRouteAccessService]
+    },
+    {
+        path: 'customer/:id/search-product',
+        component: SearchProductComponent,
+        resolve: {
+            entity: CustomerResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhiptokomajuApp.customer.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'customer/:id/view',
         component: CustomerDetailComponent,
         resolve: {
             customer: CustomerResolve

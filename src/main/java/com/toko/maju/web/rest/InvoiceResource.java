@@ -47,13 +47,13 @@ public class InvoiceResource {
 	 * @return the ResponseEntity with status 200 (OK) and the list of
 	 *         saleTransactions in body
 	 */
-	@GetMapping("/invoice-between-date")
+	@GetMapping("/invoices")
 	public ResponseEntity<List<InvoiceVM>> getAllSaleTransactions(SaleTransactionsCriteria criteria,
 			Pageable pageable) {
-		log.debug("REST request to get Invoice by criteria: {} to {}", criteria);
+		log.debug("REST request to get Invoice by criteria: {}", criteria);
 		Page<SaleTransactionsDTO> page = saleTransactionsQueryService.findByCriteria(criteria, pageable);
 		List<InvoiceVM> listInvoice = createInvoiceFromSale(page);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-between-date");
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoices");
 		return ResponseEntity.ok().headers(headers).body(listInvoice);
 	}
 

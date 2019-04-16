@@ -6,142 +6,144 @@
         <jhi-alert></jhi-alert>
     </div>
     <br />
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="col-sm-12">
-                <button
-                    id="jh-create-entity"
-                    class="btn btn-primary float-right jh-create-entity create-customer"
-                    [routerLink]="['/customer/new']"
-                    [ngbTooltip]="addTooltip"
-                    placement="bottom"
-                >
-                    <fa-icon [icon]="'plus'"></fa-icon>
-                    <ng-template #addTooltip>
-                        <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.customer.home.createLabel">
-                            Create new Customer
-                        </span>
-                    </ng-template>
+    <!-- <div class="row"> -->
+    <!-- <div class="col-sm-4"> -->
+    <div class="col-sm-12">
+        <button
+            id="jh-create-entity"
+            class="btn btn-primary float-right jh-create-entity create-customer"
+            [routerLink]="['/customer/new']"
+            [ngbTooltip]="addTooltip"
+            placement="bottom"
+        >
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <ng-template #addTooltip>
+                <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.customer.home.createLabel">
+                    Create new Customer
+                </span>
+            </ng-template>
+        </button>
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 mr-1">
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="currentSearch"
+                    id="currentSearch"
+                    name="currentSearch"
+                    placeholder="{{ 'jhiptokomajuApp.customer.home.search' | translate }}"
+                />
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
                 </button>
-                <form name="searchForm" class="form-inline">
-                    <div class="input-group w-100 mr-1">
-                        <input
-                            type="text"
-                            class="form-control"
-                            [(ngModel)]="currentSearch"
-                            id="currentSearch"
-                            name="currentSearch"
-                            placeholder="{{ 'jhiptokomajuApp.customer.home.search' | translate }}"
-                        />
-                        <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                            <fa-icon [icon]="'search'"></fa-icon>
-                        </button>
-                        <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                            <fa-icon [icon]="'trash-alt'"></fa-icon>
-                        </button>
-                    </div>
-                </form>
+                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
             </div>
-            <br />
-            <div class="col-sm-12">
-                <div *ngIf="customers">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                                <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-                                <th jhiSortBy="code">
-                                    <span jhiTranslate="jhiptokomajuApp.customer.code">Code</span> <fa-icon [icon]="'sort'"></fa-icon>
-                                </th>
-                                <th jhiSortBy="firstName">
-                                    <span jhiTranslate="jhiptokomajuApp.customer.firstName">First Name</span>
-                                    <fa-icon [icon]="'sort'"></fa-icon>
-                                </th>
-                                <!-- <th jhiSortBy="lastName"><span jhiTranslate="jhiptokomajuApp.customer.lastName">Last Name</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-                                <!-- <th jhiSortBy="gender"><span jhiTranslate="jhiptokomajuApp.customer.gender">Gender</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-                                <th jhiSortBy="phoneNumber">
-                                    <span jhiTranslate="jhiptokomajuApp.customer.phoneNumber">Phone Number</span>
-                                    <fa-icon [icon]="'sort'"></fa-icon>
-                                </th>
-                                <!-- <th jhiSortBy="address"><span jhiTranslate="jhiptokomajuApp.customer.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let customer of customers; trackBy: trackId">
-                                <td>
-                                    <a [routerLink]="['/customer', customer.id, 'view']">{{ customer.code }}</a>
-                                </td>
-                                <td>{{ customer.firstName }} {{ customer.lastName }}</td>
-                                <!-- <td></td> -->
-                                <!-- <td jhiTranslate="{{'jhiptokomajuApp.Gender.' + customer.gender}}">{{customer.gender}}</td> -->
-                                <td>{{ customer.phoneNumber }}</td>
-                                <!-- <td>{{customer.address}}</td> -->
-                                <td class="text-right">
-                                    <div class="btn-group flex-btn-group-container">
-                                        <button
-                                            type="submit"
-                                            [routerLink]="['/customer', customer.id, 'products']"
-                                            [ngbTooltip]="viewTooltip"
-                                            class="btn btn-info btn-sm"
-                                        >
-                                            <fa-icon [icon]="'eye'"></fa-icon>
-                                            <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span> -->
-                                        </button>
-                                        <ng-template #viewTooltip>
-                                            <span class="hidden-sm-down" jjhiTranslate="entity.action.view">View</span>
-                                        </ng-template>
-                                        <button
-                                            type="submit"
-                                            [routerLink]="['/customer', customer.id, 'edit']"
-                                            [ngbTooltip]="editTooltip"
-                                            class="btn btn-primary btn-sm"
-                                        >
-                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                            <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span> -->
-                                        </button>
-                                        <ng-template #editTooltip>
-                                            <span class="hidden-sm-down" jhiTranslate="entity.action.edit">Edit</span>
-                                        </ng-template>
-                                        <button
-                                            type="submit"
-                                            [routerLink]="['/', { outlets: { popup: 'customer/' + customer.id + '/delete' } }]"
-                                            class="btn btn-danger btn-sm"
-                                            [ngbTooltip]="deleteTooltip"
-                                        >
-                                            <fa-icon [icon]="'times'"></fa-icon>
-                                            <ng-template #deleteTooltip>
-                                                <span class="hidden-sm-down" jhiTranslate="entity.action.delete">Delete</span>
-                                            </ng-template>
-                                            <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span> -->
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div *ngIf="customers && customers.length">
-                        <div class="row justify-content-center">
-                            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-                        </div>
-                        <div class="row justify-content-center">
-                            <ngb-pagination
-                                [collectionSize]="totalItems"
-                                [(page)]="page"
-                                [pageSize]="itemsPerPage"
-                                [maxSize]="5"
-                                [rotate]="true"
-                                [boundaryLinks]="true"
-                                (pageChange)="loadPage(page)"
-                            ></ngb-pagination>
-                        </div>
-                    </div>
+        </form>
+    </div>
+    <br />
+    <div class="col-sm-12 mt-2">
+        <div *ngIf="customers">
+            <table class="table table-striped">
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                        <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+                        <th jhiSortBy="code">
+                            <span jhiTranslate="jhiptokomajuApp.customer.code">Code</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th jhiSortBy="firstName">
+                            <span jhiTranslate="jhiptokomajuApp.customer.firstName">First Name</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <!-- <th jhiSortBy="lastName"><span jhiTranslate="jhiptokomajuApp.customer.lastName">Last Name</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+                        <th jhiSortBy="gender">
+                            <span jhiTranslate="jhiptokomajuApp.customer.gender">Gender</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th jhiSortBy="phoneNumber">
+                            <span jhiTranslate="jhiptokomajuApp.customer.phoneNumber">Phone Number</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <!-- <th jhiSortBy="address"><span jhiTranslate="jhiptokomajuApp.customer.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let customer of customers; trackBy: trackId">
+                        <td>
+                            <a [routerLink]="['/customer', customer.id, 'view']">{{ customer.code }}</a>
+                        </td>
+                        <td>{{ customer.firstName }} {{ customer.lastName }}</td>
+                        <!-- <td></td> -->
+                        <td jhiTranslate="{{ 'jhiptokomajuApp.Gender.' + customer.gender }}">{{ customer.gender }}</td>
+                        <td>{{ customer.phoneNumber }}</td>
+                        <!-- <td>{{customer.address}}</td> -->
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button
+                                    type="button"
+                                    [routerLink]="['/customer', customer.id, 'view']"
+                                    [ngbTooltip]="viewTooltip"
+                                    class="btn btn-info btn-sm m-1"
+                                >
+                                    <fa-icon [icon]="'eye'"></fa-icon>
+                                    <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span> -->
+                                </button>
+                                <ng-template #viewTooltip>
+                                    <span class="hidden-sm-down" jjhiTranslate="entity.action.view">View</span>
+                                </ng-template>
+                                <button
+                                    type="button"
+                                    [routerLink]="['/customer', customer.id, 'edit']"
+                                    [ngbTooltip]="editTooltip"
+                                    class="btn btn-primary btn-sm m-1"
+                                >
+                                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                    <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span> -->
+                                </button>
+                                <ng-template #editTooltip>
+                                    <span class="hidden-sm-down" jhiTranslate="entity.action.edit">Edit</span>
+                                </ng-template>
+                                <button
+                                    type="button"
+                                    [routerLink]="['/', { outlets: { popup: 'customer/' + customer.id + '/delete' } }]"
+                                    class="btn btn-danger btn-sm m-1"
+                                    [ngbTooltip]="deleteTooltip"
+                                >
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <ng-template #deleteTooltip>
+                                        <span class="hidden-sm-down" jhiTranslate="entity.action.delete">Delete</span>
+                                    </ng-template>
+                                    <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span> -->
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="customers && customers.length">
+                <div class="row justify-content-center">
+                    <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="row justify-content-center">
+                    <ngb-pagination
+                        [collectionSize]="totalItems"
+                        [(page)]="page"
+                        [pageSize]="itemsPerPage"
+                        [maxSize]="5"
+                        [rotate]="true"
+                        [boundaryLinks]="true"
+                        (pageChange)="loadPage(page)"
+                    ></ngb-pagination>
                 </div>
             </div>
         </div>
-        <div class="col-sm-8">
-            <router-outlet></router-outlet>
-        </div>
     </div>
+    <!-- </div> -->
+    <!-- <div class="col-sm-8">
+            <router-outlet></router-outlet>
+        </div> -->
+    <!-- </div> -->
 </div>
 <!-- </div> -->
 <!-- </div> -->

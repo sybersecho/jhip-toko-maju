@@ -1,0 +1,42 @@
+<div class="table-responsive mt-3">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    <span jhiTranslate="jhiptokomajuApp.invoice.noInvoice">No Invoice</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th>
+                    <span jhiTranslate="jhiptokomajuApp.invoice.totalPayment">Total Payment</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th>
+                    <span jhiTranslate="jhiptokomajuApp.invoice.remainingPayment">Remaining Payment</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th><span jhiTranslate="jhiptokomajuApp.invoice.paid">Paid</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th>
+                    <span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody
+            infinite-scroll
+            (scrolled)="loadPage(page + 1)"
+            [infiniteScrollDisabled]="page >= links['last']"
+            [infiniteScrollDistance]="0"
+        >
+            <tr *ngFor="let invoice of invoices; trackBy: trackId">
+                <!-- <td><a [routerLink]="['/invoice', invoice.id, 'view' ]">{{invoice.id}}</a></td> -->
+                <td>{{ invoice.noInvoice }}</td>
+                <td>{{ invoice.totalPayment | currency: 'IDR':'Rp. ' }}</td>
+                <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
+                <td>{{ invoice.paid | currency: 'IDR':'Rp. ' }}</td>
+                <td>{{ invoice.saleDate | date: 'medium' }}</td>
+                <td>actions</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

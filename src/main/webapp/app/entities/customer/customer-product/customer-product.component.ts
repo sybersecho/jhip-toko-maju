@@ -1,26 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { CustomerService } from '../customer.service';
-import { ICustomerProduct } from 'app/shared/model/customer-product.model';
+import { ICustomerProduct, CustomerProduct } from 'app/shared/model/customer-product.model';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { Router, ActivatedRoute, Data } from '@angular/router';
 import { AccountService } from 'app/core';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerProductService } from './customer-product.service';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { SearchProductModalService } from '../search-product/search-product-modal.service';
+import { IProduct } from 'app/shared/model/product.model';
+// import { SearchProductModalService } from '../../customer';
 
 @Component({
     selector: 'jhi-customer-product',
     templateUrl: './customer-product.component.html',
     styles: []
 })
-export class CustomerProductComponent implements OnInit {
+export class CustomerProductComponent implements OnInit, OnDestroy {
     customerProducts: ICustomerProduct[];
-    customer: ICustomer;
+    @Input() customer: ICustomer;
+    modalRef: NgbModalRef;
+    eventSubscription: Subscription;
 
     constructor(
         protected customerService: CustomerService,
         protected customerProductService: CustomerProductService,
+        protected searchProductModalService: SearchProductModalService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected router: Router,
@@ -29,14 +36,46 @@ export class CustomerProductComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.loadAll();
+        // this.loadAll();
+        this.reloadCustomerProduct();
+        this.registerEvent();
+    }
+
+    protected registerEvent() {
+        this.eventSubscription = this.eventManager.subscribe('customerProductEvent', response => this.addCustomerProduct(response.content));
+    }
+
+    protected addCustomerProduct(product: IProduct) {
+        const newProduct: ICustomerProduct = this.createNewCustomerProduct(product);
+        this.subscribeToSaveResponse(this.customerProductService.create(newProduct));
+        this.reloadCustomerProduct();
+    }
+
+    protected createNewCustomerProduct(product: IProduct): ICustomerProduct {
+        const newCustomerProduct = new CustomerProduct();
+        newCustomerProduct.productId = product.id;
+        newCustomerProduct.specialPrice = product.sellingPrice;
+        newCustomerProduct.customerId = this.customer.id;
+
+        return newCustomerProduct;
+    }
+
+    ngOnDestroy(): void {
+        this.eventManager.destroy(this.eventSubscription);
+        this.modalRef = null;
     }
 
     loadAll() {
-        this.activatedRoute.data.subscribe((data: Data) => {
-            this.customerProducts = data['customerProducts'];
-            this.customer = data['customer'];
-        });
+        this.reloadCustomerProduct();
+        // this.activatedRoute.data.subscribe((data: Data) => {
+        //     this.customerProducts = data['customerProducts'];
+        //     this.customer = data['customer'];
+        // });
+    }
+
+    searchProduct() {
+        console.log('search product');
+        this.modalRef = this.searchProductModalService.open();
     }
 
     update(product: ICustomerProduct) {

@@ -1,0 +1,106 @@
+<div class="modal-header">
+    <h4 class="modal-title" jhiTranslate="login.title">Sign in</h4>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')">
+        <span aria-hidden="true">x</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <div class="col-md-11">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mr-1">
+                    <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="currentSearch"
+                        id="currentSearch"
+                        name="currentSearch"
+                        placeholder="{{ 'jhiptokomajuApp.product.home.search' | translate }}"
+                    />
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-11 mt-2">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse">
+                            <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+                            <th jhiSortBy="barcode">
+                                <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span> <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="name">
+                                <span jhiTranslate="jhiptokomajuApp.product.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="unit">
+                                <span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span> <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <!-- <th jhiSortBy="warehousePrice">
+                                <span jhiTranslate="jhiptokomajuApp.product.warehousePrice">Warehouse Price</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th> -->
+                            <!-- <th jhiSortBy="unitPrice">
+                                <span jhiTranslate="jhiptokomajuApp.product.unitPrice">Unit Price</span> <fa-icon [icon]="'sort'"></fa-icon>
+                            </th> -->
+                            <th jhiSortBy="sellingPrice">
+                                <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <!-- <th jhiSortBy="stock">
+                                <span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span> <fa-icon [icon]="'sort'"></fa-icon>
+                            </th> -->
+                            <th jhiSortBy="supplierName">
+                                <span jhiTranslate="jhiptokomajuApp.product.supplier">Supplier</span> <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of products">
+                            <!-- <td>
+                                <a [routerLink]="['/product', product.id, 'view']">{{ product.id }}</a>
+                            </td> -->
+                            <td>{{ product.barcode }}</td>
+                            <td>{{ product.name }}</td>
+                            <td jhiTranslate="{{ 'jhiptokomajuApp.UnitMeasure.' + product.unit }}">{{ product.unit }}</td>
+                            <!-- <td>{{ product.warehousePrice }}</td> -->
+                            <!-- <td>{{ product.unitPrice }}</td> -->
+                            <td>{{ product.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
+                            <!-- <td>{{ product.stock }}</td> -->
+                            <td>{{ product.supplierName }}</td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-info btn-sm"
+                                        [ngbTooltip]="addTooltip"
+                                        (click)="addProduct(product)"
+                                    >
+                                        <fa-icon [icon]="'plus'"></fa-icon>
+                                        <ng-template #addTooltip>
+                                            <span class="d-none d-md-inline" jhiTranslate="entity.action.add">Add</span>
+                                        </ng-template>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <div>
+                    <button type="button" id="cancel-save" class="btn btn-secondary float-left">
+                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+                    </button>
+                    <button type="button" id="save-entity" class="btn btn-primary  float-right">
+                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.addAll">Add All</span>
+                    </button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

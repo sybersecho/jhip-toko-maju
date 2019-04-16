@@ -42,9 +42,7 @@ export class InvoiceService {
 
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
-        console.log(req.start);
-        // console.log(req.start.toJSON());
-        console.log(moment(req.start).format('DD.MM.YYYY'));
+
         return this.http
             .get<IInvoice[]>(this.resourceUrl, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
@@ -55,12 +53,21 @@ export class InvoiceService {
         // options.set('saleDate.greaterThan', req.start);
         // options.set('saleDate.lessThan', req.end);
         const modOptions = this.modifiyOption(options);
-        console.log(req.start);
-        console.log(modOptions);
+        // console.log(req.start);
+        // console.log(modOptions);
         // console.log(moment(req.start).format('DD.MM.YYYY'));
-        const invoice = SERVER_API_URL + 'api/invoice-between-date';
+        // const invoice = SERVER_API_URL + 'api/invoice-between-date';
         return this.http
-            .get<IInvoice[]>(invoice, { params: modOptions, observe: 'response' })
+            .get<IInvoice[]>(this.resourceUrl, { params: modOptions, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
+    queryByCustomer(req?: any) {
+        const options = createRequestOption(req);
+        const modOptions = this.modifiyOption(options);
+        // const invoice = SERVER_API_URL + 'api/invoice-between-date';
+        return this.http
+            .get<IInvoice[]>(this.resourceUrl, { params: modOptions, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
@@ -72,6 +79,8 @@ export class InvoiceService {
                     modify = modify.set('saleDate.greaterOrEqualThan', options.get(key));
                 } else if (key === 'end') {
                     modify = modify.set('saleDate.lessOrEqualThan', options.get(key));
+                } else if (key === 'customer') {
+                    modify = modify.set('customerId.equals', options.get(key));
                 } else {
                     modify = modify.set(key, options.get(key));
                 }
