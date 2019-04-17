@@ -18,7 +18,9 @@
             },
             "name": "Name",
             "address": "Address",
-            "product": "Product"
+            "code": "Code",
+            "product": "Product",
+            "customer": "Customer"
         }
     }
 }

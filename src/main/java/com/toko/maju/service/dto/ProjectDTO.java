@@ -16,6 +16,16 @@ public class ProjectDTO implements Serializable {
     @NotNull
     private String address;
 
+    @NotNull
+    @Size(min = 4, max = 10)
+    private String code;
+
+
+    private Long customerId;
+
+    private String customerFirstName;
+    private String customerLastName;
+    private String customerFullName;
 
     public Long getId() {
         return id;
@@ -40,6 +50,47 @@ public class ProjectDTO implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerFirstName() {
+        return customerFirstName;
+    }
+
+    public void setCustomerFirstName(String customerFirstName) {
+        this.customerFirstName = customerFirstName;
+    }
+
+    public String getCustomerLastName() {
+        return customerLastName;
+    }
+
+    public void setCustomerLastName(String customerLastName) {
+        this.customerLastName = customerLastName;
+    }
+
+    public String getCustomerFullName() {
+        return customerFullName;
+    }
+
+    public void setCustomerFullName(String customerFullName) {
+        this.customerFullName = customerFullName;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -68,6 +119,11 @@ public class ProjectDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", address='" + getAddress() + "'" +
+            ", code='" + getCode() + "'" +
+            ", customer=" + getCustomerId() +
+            ", customer='" + getCustomerFirstName() + "'" +
+            ", customer='" + getCustomerLastName() + "'" +
+            ", customer='" + getCustomerFullName() + "'" +
             "}";
     }
 }

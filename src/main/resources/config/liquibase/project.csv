@@ -1,3 +1,3 @@
-ID;NAME;ADDRESS  
-1;Project XYZ;Semarang
-2;Project ABC;Semarang
+ID;NAME;ADDRESS;CODE;CUSTOMER_ID
+1;Project XYZ;Semarang;P001;1
+2;Project ABC;Semarang;P002;1

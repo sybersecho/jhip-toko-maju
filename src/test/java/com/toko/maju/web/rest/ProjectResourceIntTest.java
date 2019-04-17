@@ -4,6 +4,7 @@ import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.Project;
 import com.toko.maju.domain.ProjectProduct;
+import com.toko.maju.domain.Customer;
 import com.toko.maju.repository.ProjectRepository;
 import com.toko.maju.repository.search.ProjectSearchRepository;
 import com.toko.maju.service.ProjectService;
@@ -57,6 +58,9 @@ public class ProjectResourceIntTest {
 
     private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -118,14 +122,19 @@ public class ProjectResourceIntTest {
     public static Project createEntity(EntityManager em) {
         Project project = new Project()
             .name(DEFAULT_NAME)
-            .address(DEFAULT_ADDRESS);
+            .address(DEFAULT_ADDRESS)
+            .code(DEFAULT_CODE);
+        // Add required entity
+        Customer customer = CustomerResourceIntTest.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        project.setCustomer(customer);
         return project;
     }
 
     @Before
     public void initTest() {
         project = createEntity(em);
-        this.projectRepository.deleteAll();
     }
 
     @Test
@@ -146,6 +155,7 @@ public class ProjectResourceIntTest {
         Project testProject = projectList.get(projectList.size() - 1);
         assertThat(testProject.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testProject.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testProject.getCode()).isEqualTo(DEFAULT_CODE);
 
         // Validate the Project in Elasticsearch
         verify(mockProjectSearchRepository, times(1)).save(testProject);
@@ -214,6 +224,25 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
+    public void checkCodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = projectRepository.findAll().size();
+        // set the field null
+        project.setCode(null);
+
+        // Create the Project, which fails.
+        ProjectDTO projectDTO = projectMapper.toDto(project);
+
+        restProjectMockMvc.perform(post("/api/projects")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(projectDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Project> projectList = projectRepository.findAll();
+        assertThat(projectList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllProjects() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
@@ -224,7 +253,8 @@ public class ProjectResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())));
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())));
     }
     
     @Test
@@ -239,7 +269,8 @@ public class ProjectResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(project.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()));
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()));
     }
 
     @Test
@@ -322,6 +353,45 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllProjectsByCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where code equals to DEFAULT_CODE
+        defaultProjectShouldBeFound("code.equals=" + DEFAULT_CODE);
+
+        // Get all the projectList where code equals to UPDATED_CODE
+        defaultProjectShouldNotBeFound("code.equals=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where code in DEFAULT_CODE or UPDATED_CODE
+        defaultProjectShouldBeFound("code.in=" + DEFAULT_CODE + "," + UPDATED_CODE);
+
+        // Get all the projectList where code equals to UPDATED_CODE
+        defaultProjectShouldNotBeFound("code.in=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where code is not null
+        defaultProjectShouldBeFound("code.specified=true");
+
+        // Get all the projectList where code is null
+        defaultProjectShouldNotBeFound("code.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllProjectsByProductIsEqualToSomething() throws Exception {
         // Initialize the database
         ProjectProduct product = ProjectProductResourceIntTest.createEntity(em);
@@ -338,6 +408,25 @@ public class ProjectResourceIntTest {
         defaultProjectShouldNotBeFound("productId.equals=" + (productId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCustomerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Customer customer = CustomerResourceIntTest.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        project.setCustomer(customer);
+        projectRepository.saveAndFlush(project);
+        Long customerId = customer.getId();
+
+        // Get all the projectList where customer equals to customerId
+        defaultProjectShouldBeFound("customerId.equals=" + customerId);
+
+        // Get all the projectList where customer equals to customerId + 1
+        defaultProjectShouldNotBeFound("customerId.equals=" + (customerId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -347,7 +436,8 @@ public class ProjectResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)));
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)));
 
         // Check, that the count call also returns 1
         restProjectMockMvc.perform(get("/api/projects/count?sort=id,desc&" + filter))
@@ -396,7 +486,8 @@ public class ProjectResourceIntTest {
         em.detach(updatedProject);
         updatedProject
             .name(UPDATED_NAME)
-            .address(UPDATED_ADDRESS);
+            .address(UPDATED_ADDRESS)
+            .code(UPDATED_CODE);
         ProjectDTO projectDTO = projectMapper.toDto(updatedProject);
 
         restProjectMockMvc.perform(put("/api/projects")
@@ -410,6 +501,7 @@ public class ProjectResourceIntTest {
         Project testProject = projectList.get(projectList.size() - 1);
         assertThat(testProject.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProject.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testProject.getCode()).isEqualTo(UPDATED_CODE);
 
         // Validate the Project in Elasticsearch
         verify(mockProjectSearchRepository, times(1)).save(testProject);
@@ -471,7 +563,8 @@ public class ProjectResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)));
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)));
     }
 
     @Test

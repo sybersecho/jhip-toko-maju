@@ -7,74 +7,78 @@
             </button>
         </div>
         <div class="col-sm-12">
-            <div class="table-responsive mt-3">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th><span jhiTranslate="global.field.no">No</span></th>
-                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.barcode">Barcode</span></th>
-                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.product">Product Name</span></th>
-                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.unit">Unit</span></th>
-                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.unitPrices">Unit Price</span></th>
-                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.sellingPrices">Selling Price</span></th>
-                            <th><span jhiTranslate="jhiptokomajuApp.customerProduct.specialPrice">Special Price</span></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let customerProduct of customerProducts; trackBy: trackId; let i = index">
-                            <td>{{ i + 1 }}</td>
-                            <td>{{ customerProduct.barcode }}</td>
-                            <td>{{ customerProduct.productName }}</td>
-                            <td>{{ customerProduct.unit }}</td>
-                            <td>{{ customerProduct.unitPrice | currency: 'IDR':'Rp. ' }}</td>
-                            <td>{{ customerProduct.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
-                            <td>
-                                <input
-                                    type="tel"
-                                    class="form-control form-control-sm"
-                                    name="specialPrice"
-                                    id="field_specialPrice"
-                                    [(ngModel)]="customerProduct.specialPrice"
-                                    required
-                                    min="0"
-                                    jhiMin="0"
-                                    [options]="{ prefix: '', thousands: '.', precision: 0 }"
-                                    currencyMask
-                                />
-                            </td>
-                            <td class="text-right">
-                                <div class="btn-group flex-btn-group-container">
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-primary btn-sm"
-                                        (click)="update(customerProduct)"
-                                        [ngbTooltip]="addTooltip"
-                                        placement="bottom"
-                                    >
-                                        <fa-icon [icon]="'plus'"></fa-icon>
-                                        <ng-template #addTooltip>
-                                            <span class="d-none d-md-inline" jhiTranslate="entity.action.save">Save</span>
-                                        </ng-template>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-danger btn-sm"
-                                        (click)="delete(customerProduct)"
-                                        [ngbTooltip]="deleteTooltip"
-                                        placement="bottom"
-                                    >
-                                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                                        <ng-template #deleteTooltip>
-                                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                                        </ng-template>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <form name="productForm" #productForm="ngForm">
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th><span jhiTranslate="global.field.no">No</span></th>
+                                <th><span jhiTranslate="jhiptokomajuApp.customerProduct.barcode">Barcode</span></th>
+                                <th><span jhiTranslate="jhiptokomajuApp.customerProduct.product">Product Name</span></th>
+                                <th><span jhiTranslate="jhiptokomajuApp.customerProduct.unit">Unit</span></th>
+                                <th><span jhiTranslate="jhiptokomajuApp.customerProduct.unitPrices">Unit Price</span></th>
+                                <th><span jhiTranslate="jhiptokomajuApp.customerProduct.sellingPrices">Selling Price</span></th>
+                                <th><span jhiTranslate="jhiptokomajuApp.customerProduct.specialPrice">Special Price</span></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let customerProduct of customerProducts; trackBy: trackId; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ customerProduct.barcode }}</td>
+                                <td>{{ customerProduct.productName }}</td>
+                                <td>{{ customerProduct.unit }}</td>
+                                <td>{{ customerProduct.unitPrice | currency: 'IDR':'Rp. ' }}</td>
+                                <td>{{ customerProduct.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
+                                <td>
+                                    <input
+                                        type="tel"
+                                        class="form-control form-control-sm"
+                                        name="specialPrice"
+                                        id="field_specialPrice"
+                                        [(ngModel)]="customerProduct.specialPrice"
+                                        required
+                                        min="0"
+                                        jhiMin="0"
+                                        [options]="{ prefix: '', thousands: '.', precision: 0 }"
+                                        currencyMask
+                                        #price
+                                        (ngModelChange)="inputValue(price)"
+                                    />
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-primary btn-sm"
+                                            (click)="update(customerProduct)"
+                                            [ngbTooltip]="addTooltip"
+                                            placement="bottom"
+                                        >
+                                            <fa-icon [icon]="'plus'"></fa-icon>
+                                            <ng-template #addTooltip>
+                                                <span class="d-none d-md-inline" jhiTranslate="entity.action.save">Save</span>
+                                            </ng-template>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            (click)="delete(customerProduct)"
+                                            [ngbTooltip]="deleteTooltip"
+                                            placement="bottom"
+                                        >
+                                            <fa-icon [icon]="'trash-alt'"></fa-icon>
+                                            <ng-template #deleteTooltip>
+                                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                            </ng-template>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
         </div>
     </div>
     <br />

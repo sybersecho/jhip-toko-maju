@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
@@ -30,7 +30,8 @@ export class ProjectService {
 
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
-        return this.http.get<IProject[]>(this.resourceUrl, { params: options, observe: 'response' });
+        const modifiyOption = this.modifiyOption(options);
+        return this.http.get<IProject[]>(this.resourceUrl, { params: modifiyOption, observe: 'response' });
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
@@ -40,5 +41,19 @@ export class ProjectService {
     search(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IProject[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
+    }
+
+    protected modifiyOption(options: HttpParams): HttpParams {
+        let modify: HttpParams = new HttpParams();
+        if (options) {
+            options.keys().forEach(key => {
+                if (key === 'customerId') {
+                    modify = modify.set('customerId.equals', options.get(key));
+                } else {
+                    modify = modify.set(key, options.get(key));
+                }
+            });
+        }
+        return modify;
     }
 }

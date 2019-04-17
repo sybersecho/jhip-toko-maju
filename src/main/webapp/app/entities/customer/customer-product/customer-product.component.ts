@@ -51,6 +51,10 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
         this.reloadCustomerProduct();
     }
 
+    inputValue(event) {
+        console.log(event);
+    }
+
     protected createNewCustomerProduct(product: IProduct): ICustomerProduct {
         const newCustomerProduct = new CustomerProduct();
         newCustomerProduct.productId = product.id;

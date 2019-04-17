@@ -1,5 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ICustomer } from 'app/shared/model/customer.model';
+import { IProject } from 'app/shared/model/project.model';
+import { ProjectService } from 'app/entities/project';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ITEMS_PER_PAGE } from 'app/shared';
 
 @Component({
     selector: 'jhi-customer-project',
@@ -8,10 +13,61 @@ import { ICustomer } from 'app/shared/model/customer.model';
 })
 export class CustomerProjectComponent implements OnInit {
     @Input() customer: ICustomer;
+    projects: IProject[];
+    links: any;
+    totalItems: any;
+    itemsPerPage: any;
+    page: any;
+    predicate: any;
+    previousPage: any;
+    reverse: any;
 
-    constructor() {}
+    constructor(
+        protected projectService: ProjectService,
+        protected jhiAlertService: JhiAlertService,
+        protected eventManager: JhiEventManager,
+        protected router: Router,
+        protected activatedRoute: ActivatedRoute
+    ) {
+        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.page = 0;
+        this.predicate = 'id';
+        this.reverse = true;
+    }
 
     ngOnInit() {
-        // console.log(this.customer);
+        this.loadCustomerProject();
+    }
+
+    loadCustomerProject() {
+        this.projectService
+            .query({
+                page: this.page - 1,
+                customerId: this.customer.id,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                response => {
+                    this.projects = response.body;
+                },
+                error => this.onError(error.errorMessage)
+            );
+    }
+
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+
+    trackId(index: number, item: IProject) {
+        return item.id;
+    }
+
+    onError(errorMessage: any): void {
+        this.jhiAlertService.error(errorMessage, null, null);
     }
 }

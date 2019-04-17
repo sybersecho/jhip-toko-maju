@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(ProjectService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new Project(0, 'AAAAAAA', 'AAAAAAA');
+            elemDefault = new Project(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -56,7 +56,8 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         name: 'BBBBBB',
-                        address: 'BBBBBB'
+                        address: 'BBBBBB',
+                        code: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -74,7 +75,8 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         name: 'BBBBBB',
-                        address: 'BBBBBB'
+                        address: 'BBBBBB',
+                        code: 'BBBBBB'
                     },
                     elemDefault
                 );

@@ -2,6 +2,7 @@ package com.toko.maju.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -37,9 +38,19 @@ public class Project implements Serializable {
     @Column(name = "address", nullable = false)
     private String address;
 
+    @NotNull
+    @Size(min = 4, max = 10)
+    @Column(name = "code", length = 10, nullable = false, unique = true)
+    private String code;
+
     @OneToMany(mappedBy = "project")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ProjectProduct> products = new HashSet<>();
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("projects")
+    private Customer customer;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -75,6 +86,19 @@ public class Project implements Serializable {
         this.address = address;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public Project code(String code) {
+        this.code = code;
+        return this;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public Set<ProjectProduct> getProducts() {
         return products;
     }
@@ -98,6 +122,19 @@ public class Project implements Serializable {
 
     public void setProducts(Set<ProjectProduct> projectProducts) {
         this.products = projectProducts;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Project customer(Customer customer) {
+        this.customer = customer;
+        return this;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -127,6 +164,7 @@ public class Project implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", address='" + getAddress() + "'" +
+            ", code='" + getCode() + "'" +
             "}";
     }
 }

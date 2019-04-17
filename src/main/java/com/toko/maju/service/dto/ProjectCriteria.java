@@ -28,7 +28,11 @@ public class ProjectCriteria implements Serializable {
 
     private StringFilter address;
 
+    private StringFilter code;
+
     private LongFilter productId;
+
+    private LongFilter customerId;
 
     public LongFilter getId() {
         return id;
@@ -54,12 +58,28 @@ public class ProjectCriteria implements Serializable {
         this.address = address;
     }
 
+    public StringFilter getCode() {
+        return code;
+    }
+
+    public void setCode(StringFilter code) {
+        this.code = code;
+    }
+
     public LongFilter getProductId() {
         return productId;
     }
 
     public void setProductId(LongFilter productId) {
         this.productId = productId;
+    }
+
+    public LongFilter getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(LongFilter customerId) {
+        this.customerId = customerId;
     }
 
 
@@ -76,7 +96,9 @@ public class ProjectCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
             Objects.equals(address, that.address) &&
-            Objects.equals(productId, that.productId);
+            Objects.equals(code, that.code) &&
+            Objects.equals(productId, that.productId) &&
+            Objects.equals(customerId, that.customerId);
     }
 
     @Override
@@ -85,7 +107,9 @@ public class ProjectCriteria implements Serializable {
         id,
         name,
         address,
-        productId
+        code,
+        productId,
+        customerId
         );
     }
 
@@ -95,7 +119,9 @@ public class ProjectCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
                 (address != null ? "address=" + address + ", " : "") +
+                (code != null ? "code=" + code + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +
+                (customerId != null ? "customerId=" + customerId + ", " : "") +
             "}";
     }
 

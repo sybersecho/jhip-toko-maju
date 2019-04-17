@@ -18,6 +18,16 @@
                         <th><span>Invoices</span></th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr *ngFor="let project of projects; trackBy: trackId; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ project.code }}</td>
+                        <td>{{ project.name }}</td>
+                        <td>{{ project.address }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

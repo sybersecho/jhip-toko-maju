@@ -8,6 +8,17 @@
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "project",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "customer",
+            "otherEntityName": "customer",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "firstName",
+            "otherEntityRelationshipName": "project",
+            "otherEntityRelationshipNameUndefined": true
         }
     ],
     "fields": [
@@ -24,6 +35,18 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "code",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "unique",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "4",
+            "fieldValidateRulesMaxlength": "10"
         }
     ],
     "changelogDate": "20190301194022",
