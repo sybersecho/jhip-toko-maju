@@ -12,3 +12,4 @@ export * from './customer-product/customer-product-resolve.service';
 export * from './customer-invoice/customer-invoice.component';
 export * from './search-product/search-product.component';
 export * from './search-product/search-product-modal.service';
+export * from './customer-project/customer-project.component';

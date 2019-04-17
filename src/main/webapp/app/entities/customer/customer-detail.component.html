@@ -71,12 +71,14 @@
     </div>
     <div class="col-12 mt-2">
         <ngb-tabset type="pills">
+            <ngb-tab title="Project">
+                <ng-template ngbTabContent><jhi-customer-project [customer]="customer"></jhi-customer-project></ng-template>
+            </ngb-tab>
             <ngb-tab title="Products">
                 <ng-template ngbTabContent>
                     <jhi-customer-product [customer]="customer"></jhi-customer-product>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Project"> <ng-template ngbTabContent> Projects</ng-template> </ngb-tab>
             <ngb-tab title="Invoice">
                 <ng-template ngbTabContent>
                     <jhi-customer-invoice [customerInv]="customer"></jhi-customer-invoice>
