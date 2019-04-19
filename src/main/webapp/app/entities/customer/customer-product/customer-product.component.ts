@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CustomerService } from '../customer.service';
 import { ICustomerProduct, CustomerProduct } from 'app/shared/model/customer-product.model';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
@@ -21,6 +21,7 @@ import { IProduct } from 'app/shared/model/product.model';
 export class CustomerProductComponent implements OnInit, OnDestroy {
     customerProducts: ICustomerProduct[];
     @Input() customer: ICustomer;
+    @Output() countProduct = new EventEmitter();
     modalRef: NgbModalRef;
     eventSubscription: Subscription;
 
@@ -51,9 +52,9 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
         this.reloadCustomerProduct();
     }
 
-    inputValue(event) {
-        console.log(event);
-    }
+    // inputValue(event) {
+    //     console.log(event);
+    // }
 
     protected createNewCustomerProduct(product: IProduct): ICustomerProduct {
         const newCustomerProduct = new CustomerProduct();
@@ -109,6 +110,7 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
         this.customerService.searcyByCustomer(this.customer.id).subscribe(
             res => {
                 this.customerProducts = res.body;
+                this.countProduct.next(this.customerProducts.length);
             },
             err => this.onError(err.errorMessage)
         );

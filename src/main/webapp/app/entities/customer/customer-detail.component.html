@@ -5,66 +5,51 @@
             <div class="col-md-12 col-sm-12">
                 <div class="box box-widget widget-user">
                     <div class="widget-user-header bg-aqua-active">
-                        <h3 class="widget-user-username">Alexander Pierce</h3>
-                        <h5 class="widget-user-desc">Founder &amp; CEO</h5>
+                        <h3 class="widget-user-username">{{ customer.firstName }} {{ customer.lastName }}</h3>
+                        <h5 class="widget-user-desc">{{ customer.address }}</h5>
                     </div>
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-2 border-right">
-                                <div class="description-block">
-                                    <h5 class="description-header">3,200</h5>
-                                    <span class="description-text">Invoice</span>
-                                </div>
-                                <!-- /.description-block -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-sm-2 border-right">
-                                <div class="description-block">
-                                    <h5 class="description-header">13,000</h5>
-                                    <span class="description-text">Buy</span>
-                                </div>
-                                <!-- /.description-block -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-sm-2 border-right">
-                                <div class="description-block">
-                                    <h5 class="description-header">0</h5>
-                                    <span class="description-text">Product</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 border-right">
-                                <div class="description-block">
-                                    <h5 class="description-header">0</h5>
-                                    <span class="description-text">Project</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 border-right">
-                                <div class="description-block">
-                                    <h5 class="description-header">0</h5>
-                                    <span class="description-text">Project</span>
-                                </div>
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-sm-2 text-center">
-                                <div class="description-block">
-                                    <button
-                                        type="button"
-                                        [routerLink]="['/customer', customer.id, 'edit']"
-                                        [ngbTooltip]="editTooltip"
-                                        class="btn btn-primary btn-lg m-1 "
-                                    >
-                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                    </button>
-                                    <ng-template #editTooltip>
-                                        <span class="hidden-sm-down" jhiTranslate="entity.action.edit">Edit</span>
-                                    </ng-template>
-                                </div>
-                                <!-- /.description-block -->
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                        <!-- /.row -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12">
+                <div class="info-box bg-green">
+                    <span class="info-box-icon "><fa-icon [icon]="'pencil-alt'"></fa-icon></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Invoice</span>
+                        <span class="info-box-number">{{ invoiceCount }}</span>
                     </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <div class="info-box bg-aqua">
+                    <span class="info-box-icon"><fa-icon [icon]="'shopping-cart'"></fa-icon></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Buy</span>
+                        <span class="info-box-number">{{ totalBuy }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <div class="info-box bg-navy">
+                    <span class="info-box-icon"><fa-icon [icon]="'th-list'"></fa-icon></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Project</span>
+                        <span class="info-box-number">{{ totalProject }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><fa-icon [icon]="'star'"></fa-icon></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Product</span>
+                        <span class="info-box-number">{{ productCount }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
                 </div>
             </div>
         </div>
@@ -73,17 +58,17 @@
         <ngb-tabset type="pills">
             <ngb-tab title="Project">
                 <ng-template ngbTabContent>
-                    <jhi-customer-project [customer]="customer"></jhi-customer-project>
+                    <jhi-customer-project [customer]="customer" (countProject)="project($event)"></jhi-customer-project>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Products">
                 <ng-template ngbTabContent>
-                    <jhi-customer-product [customer]="customer"></jhi-customer-product>
+                    <jhi-customer-product [customer]="customer" (countProduct)="product($event)"></jhi-customer-product>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Invoice">
                 <ng-template ngbTabContent>
-                    <jhi-customer-invoice [customerInv]="customer"></jhi-customer-invoice>
+                    <jhi-customer-invoice [customerInv]="customer" (countSale)="invoice($event)"></jhi-customer-invoice>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>

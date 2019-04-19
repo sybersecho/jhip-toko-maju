@@ -16,35 +16,40 @@ import { ICustomerProduct } from 'app/shared/model/customer-product.model';
 })
 export class CustomerDetailComponent implements OnInit {
     customer: ICustomer;
-    invoices: IInvoice[];
-    customerProducts: ICustomerProduct[];
-    searchInvoice: SearchInvoice;
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    itemsPerPage: number;
-    links: any;
-    page: any;
-    predicate: any;
-    reverse: any;
-    totalItems: number;
-    currentSearch: string;
+    // invoices: IInvoice[];
+    productCount = 0;
+    invoiceCount = 0;
+    totalBuy = 0;
+    totalRemainingPayment = 0;
+    totalProject = 0;
+    // customerProducts: ICustomerProduct[];
+    // searchInvoice: SearchInvoice;
+    // currentAccount: any;
+    // eventSubscriber: Subscription;
+    // itemsPerPage: number;
+    // links: any;
+    // page: any;
+    // predicate: any;
+    // reverse: any;
+    // totalItems: number;
+    // currentSearch: string;
 
     constructor(
-        protected invoiceService: InvoiceService,
+        // protected invoiceService: InvoiceService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
-        this.invoices = [];
-        this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
+        // this.invoices = [];
+        // this.itemsPerPage = ITEMS_PER_PAGE;
+        // this.page = 0;
+        // this.links = {
+        //     last: 0
+        // };
+        // this.predicate = 'id';
+        // this.reverse = true;
     }
 
     ngOnInit() {
@@ -53,14 +58,32 @@ export class CustomerDetailComponent implements OnInit {
         });
     }
 
-    loadPage(page) {
-        this.page = page;
-        // this.loadAll();
+    invoice(sale) {
+        console.log(sale);
+        this.invoiceCount = sale.totalInvoice;
+        this.totalBuy = sale.totalPayment;
+        this.totalRemainingPayment = sale.totalRemainingPay;
+        // this.invoiceCount = i;
     }
 
-    trackId(index: number, item: IInvoice) {
-        return item.id;
+    project(count: number) {
+        console.log('project: ' + count);
+        this.totalProject = count;
     }
+
+    product(count: number) {
+        console.log('Product: ' + count);
+        this.productCount = count;
+    }
+
+    // loadPage(page) {
+    //     this.page = page;
+    //     // this.loadAll();
+    // }
+
+    // trackId(index: number, item: IInvoice) {
+    //     return item.id;
+    // }
 
     previousState() {
         window.history.back();

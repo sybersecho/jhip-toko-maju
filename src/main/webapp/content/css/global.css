@@ -16,7 +16,7 @@ body {
 
 a {
     color: #533f03;
-    font-weight: bold;
+    font-weight: bold !important;
 }
 
 a:hover {
@@ -24,6 +24,77 @@ a:hover {
     font-weight: bold;
     /* make sure browsers use the pointer cursor for anchors, even with no href */
     cursor: pointer;
+}
+/*
+ * Component: Info Box
+ * -------------------
+ */
+.info-box {
+    display: block;
+    min-height: 90px;
+    background: #fff;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    margin-bottom: 15px;
+}
+.info-box small {
+    font-size: 14px;
+}
+.info-box .progress {
+    background: rgba(0, 0, 0, 0.2);
+    margin: 5px -10px 5px -10px;
+    height: 2px;
+}
+.info-box .progress,
+.info-box .progress .progress-bar {
+    border-radius: 0;
+}
+.info-box .progress .progress-bar {
+    background: #fff;
+}
+.info-box-icon {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2px;
+    display: block;
+    float: left;
+    height: 90px;
+    width: 90px;
+    text-align: center;
+    font-size: 45px;
+    line-height: 90px;
+    background: rgba(0, 0, 0, 0.2);
+}
+.info-box-icon > img {
+    max-width: 100%;
+}
+.info-box-content {
+    padding: 5px 10px;
+    margin-left: 90px;
+}
+.info-box-number {
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+}
+.progress-description,
+.info-box-text {
+    display: block;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.info-box-text {
+    text-transform: uppercase;
+}
+.info-box-more {
+    display: block;
+}
+.progress-description {
+    margin: 0;
 }
 
 /*
@@ -721,7 +792,19 @@ Generic styles
 .jh-card {
     padding: 1.5%;
     margin-top: 20px;
-    border: none;
+    border: none !important;
+}
+
+.jh-navbar {
+    background-color: #009688 !important;
+}
+
+.blockquote {
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 1rem !important;
+    font-weight: 100;
+    border-left: 0.25rem solid #eceeef;
 }
 
 .error {
@@ -752,7 +835,22 @@ Generic styles
 }
 
 .footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.125);
+    bottom: 0;
+    left: 0;
+    color: #666;
+    background: #eee;
+    border-top: 1px solid silver;
+    position: fixed;
+    width: 100%;
+    padding: 10px;
+    padding-bottom: 0;
+    text-align: center;
+    z-index: 2;
+    font-size: 0.9em;
+}
+
+.footer p {
+    margin-bottom: 7px;
 }
 
 .hand,
@@ -904,6 +1002,11 @@ ui bootstrap tweaks
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* Override Bootstrap's default vertical-align: top */
+.table th td {
+    vertical-align: middle !important;
 }
 
 .table tr.active td {

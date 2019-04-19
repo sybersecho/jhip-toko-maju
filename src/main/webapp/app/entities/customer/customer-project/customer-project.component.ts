@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { IProject } from 'app/shared/model/project.model';
 import { ProjectService } from 'app/entities/project';
@@ -13,6 +13,7 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 })
 export class CustomerProjectComponent implements OnInit {
     @Input() customer: ICustomer;
+    @Output() countProject = new EventEmitter();
     projects: IProject[];
     links: any;
     totalItems: any;
@@ -50,6 +51,7 @@ export class CustomerProjectComponent implements OnInit {
             .subscribe(
                 response => {
                     this.projects = response.body;
+                    this.countProject.next(this.projects.length);
                 },
                 error => this.onError(error.errorMessage)
             );

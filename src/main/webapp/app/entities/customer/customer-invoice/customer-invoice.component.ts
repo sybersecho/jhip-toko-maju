@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { InvoiceService } from 'app/entities/invoice';
 // import moment = require('moment');
@@ -16,7 +16,10 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 })
 export class CustomerInvoiceComponent implements OnInit {
     @Input() customerInv: ICustomer;
+    @Output() countSale = new EventEmitter();
     invoices: IInvoice[];
+    // totalPaid = 0;
+    // remainingPayment = 0;
     page: any;
     itemsPerPage: number;
     predicate: any;
@@ -72,9 +75,16 @@ export class CustomerInvoiceComponent implements OnInit {
     protected paginateInvoices(data: IInvoice[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        let totalPayment = 0;
+        let totalRemainingPay = 0;
+        const totalInvoice = this.totalItems;
         for (let i = 0; i < data.length; i++) {
             this.invoices.push(data[i]);
+            totalPayment += data[i].totalPayment;
+            totalRemainingPay += data[i].remainingPayment;
         }
+
+        this.countSale.next({ totalInvoice, totalPayment, totalRemainingPay });
     }
 
     trackId(index: number, item: IInvoice) {

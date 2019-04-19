@@ -42,7 +42,9 @@ import {
     faHome,
     faShoppingCart,
     faCartPlus,
-    faCartArrowDown
+    faCartArrowDown,
+    faStar,
+    faStarHalfAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -83,4 +85,6 @@ library.add(faAsterisk);
 library.add(faShoppingCart);
 library.add(faCartPlus);
 library.add(faCartArrowDown);
+library.add(faStar);
+library.add(faStarHalfAlt);
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
