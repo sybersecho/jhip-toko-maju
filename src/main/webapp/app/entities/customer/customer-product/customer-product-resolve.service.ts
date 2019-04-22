@@ -10,9 +10,10 @@ import { HttpResponse } from '@angular/common/http';
     providedIn: 'root'
 })
 export class CustomerProductResolve implements Resolve<ICustomerProduct[]> {
+    private products: ICustomerProduct[];
     constructor(private service: CustomerService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ICustomerProduct[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): ICustomerProduct[] | Observable<ICustomerProduct[]> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.searcyByCustomer(id).pipe(
@@ -20,6 +21,6 @@ export class CustomerProductResolve implements Resolve<ICustomerProduct[]> {
                 map((customer: HttpResponse<ICustomerProduct[]>) => customer.body)
             );
         }
-        return null;
+        return this.products;
     }
 }

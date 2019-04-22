@@ -12,9 +12,11 @@ import { ITEMS_PER_PAGE } from 'app/shared';
     styles: []
 })
 export class CustomerProjectComponent implements OnInit {
-    @Input() customer: ICustomer;
+    // tslint:disable-next-line: no-input-rename
+    @Input('customer-in') customer: ICustomer;
     @Output() countProject = new EventEmitter();
-    projects: IProject[];
+    // tslint:disable-next-line: no-input-rename
+    @Input('project-in') projects: IProject[];
     links: any;
     totalItems: any;
     itemsPerPage: any;
@@ -37,16 +39,16 @@ export class CustomerProjectComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadCustomerProject();
+        // this.loadCustomerProject();
     }
 
     loadCustomerProject() {
         this.projectService
             .query({
-                page: this.page - 1,
-                customerId: this.customer.id,
-                size: this.itemsPerPage,
-                sort: this.sort()
+                // page: this.page - 1,
+                customerId: this.customer.id
+                // size: this.itemsPerPage,
+                // sort: this.sort()
             })
             .subscribe(
                 response => {

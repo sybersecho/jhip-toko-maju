@@ -37,42 +37,42 @@ export const projectRoute: Routes = [
     {
         path: 'project',
         component: ProjectComponent,
-        children: [
-            {
-                path: '',
-                component: InfoProductComponent,
-                data: {
-                    authorities: ['ROLE_USER'],
-                    defaultSort: 'id,asc',
-                    pageTitle: 'jhiptokomajuApp.project.home.title'
-                }
-            },
-            {
-                path: ':id/products',
-                component: ProjectProductComponent,
-                resolve: {
-                    projectProducts: ProjectProductResolve,
-                    project: ProjectResolve
-                },
-                data: {
-                    authorities: ['ROLE_USER'],
-                    defaultSort: 'id,asc',
-                    pageTitle: 'jhiptokomajuApp.project.home.title'
-                }
-            },
-            {
-                path: ':id/search-product',
-                component: SearchProductComponent,
-                resolve: {
-                    entity: ProjectResolve
-                },
-                data: {
-                    authorities: ['ROLE_USER'],
-                    pageTitle: 'jhiptokomajuApp.project.home.title'
-                },
-                canActivate: [UserRouteAccessService]
-            }
-        ],
+        // children: [
+        //     {
+        //         path: '',
+        //         component: InfoProductComponent,
+        //         data: {
+        //             authorities: ['ROLE_USER'],
+        //             defaultSort: 'id,asc',
+        //             pageTitle: 'jhiptokomajuApp.project.home.title'
+        //         }
+        //     },
+        //     {
+        //         path: ':id/products',
+        //         component: ProjectProductComponent,
+        //         resolve: {
+        //             projectProducts: ProjectProductResolve,
+        //             project: ProjectResolve
+        //         },
+        //         data: {
+        //             authorities: ['ROLE_USER'],
+        //             defaultSort: 'id,asc',
+        //             pageTitle: 'jhiptokomajuApp.project.home.title'
+        //         }
+        //     },
+        //     {
+        //         path: ':id/search-product',
+        //         component: SearchProductComponent,
+        //         resolve: {
+        //             entity: ProjectResolve
+        //         },
+        //         data: {
+        //             authorities: ['ROLE_USER'],
+        //             pageTitle: 'jhiptokomajuApp.project.home.title'
+        //         },
+        //         canActivate: [UserRouteAccessService]
+        //     }
+        // ],
         resolve: {
             pagingParams: JhiResolvePagingParams
         },

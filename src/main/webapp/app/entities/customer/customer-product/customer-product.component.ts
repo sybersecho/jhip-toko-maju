@@ -19,8 +19,10 @@ import { IProduct } from 'app/shared/model/product.model';
     styles: []
 })
 export class CustomerProductComponent implements OnInit, OnDestroy {
-    customerProducts: ICustomerProduct[];
-    @Input() customer: ICustomer;
+    // tslint:disable-next-line: no-input-rename
+    @Input('products-in') customerProducts: ICustomerProduct[];
+    // tslint:disable-next-line: no-input-rename
+    @Input('customer-in') customer: ICustomer;
     @Output() countProduct = new EventEmitter();
     modalRef: NgbModalRef;
     eventSubscription: Subscription;
@@ -38,7 +40,7 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // this.loadAll();
-        this.reloadCustomerProduct();
+        // this.reloadCustomerProduct();
         this.registerEvent();
     }
 
@@ -51,10 +53,6 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
         this.subscribeToSaveResponse(this.customerProductService.create(newProduct));
         this.reloadCustomerProduct();
     }
-
-    // inputValue(event) {
-    //     console.log(event);
-    // }
 
     protected createNewCustomerProduct(product: IProduct): ICustomerProduct {
         const newCustomerProduct = new CustomerProduct();

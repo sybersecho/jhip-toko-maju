@@ -9,39 +9,39 @@ import { JhiptokomajuInvoiceModule } from './invoice/invoice.module';
 
 @NgModule({
     imports: [
-        JhiptokomajuCustomerModule,
+        // JhiptokomajuCustomerModule,
         JhiptokomajuProductModule,
         JhiptokomajuProjectModule,
         JhiptokomajuSupplierModule,
         JhiptokomajuSaleTransactionsModule,
-        JhiptokomajuInvoiceModule
-        // RouterModule.forChild([
-        //     {
-        //         path: 'customer',
-        //         loadChildren: './customer/customer.module#JhiptokomajuCustomerModule'
-        //     },
-        //     {
-        //         path: 'product',
-        //         loadChildren: './product/product.module#JhiptokomajuProductModule'
-        //     },
-        //     {
-        //         path: 'project',
-        //         loadChildren: './project/project.module#JhiptokomajuProjectModule'
-        //     },
-        //     {
-        //         path: 'supplier',
-        //         loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
-        //     }
-        // {
-        //     path: 'sale-transactions',
-        //     loadChildren: './sale-transactions/sale-transactions.module#JhiptokomajuSaleTransactionsModule'
-        // }
-        // {
-        //     path: 'invoice',
-        //     loadChildren: './invoice/invoice.module#JhiptokomajuInvoiceModule'
-        // }
-        //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
-        // ])
+        JhiptokomajuInvoiceModule,
+        RouterModule.forChild([
+            // {
+            //     path: 'customer',
+            //     loadChildren: './customer/customer.module#JhiptokomajuCustomerModule'
+            // },
+            //     {
+            //         path: 'product',
+            //         loadChildren: './product/product.module#JhiptokomajuProductModule'
+            //     },
+            //     {
+            //         path: 'project',
+            //         loadChildren: './project/project.module#JhiptokomajuProjectModule'
+            //     },
+            {
+                path: 'supplier',
+                loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
+            }
+            // {
+            //     path: 'sale-transactions',
+            //     loadChildren: './sale-transactions/sale-transactions.module#JhiptokomajuSaleTransactionsModule'
+            // }
+            // {
+            //     path: 'invoice',
+            //     loadChildren: './invoice/invoice.module#JhiptokomajuInvoiceModule'
+            // }
+            //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+        ])
     ],
     declarations: [],
     entryComponents: [],

@@ -9,6 +9,7 @@ import { AccountService } from 'app/core';
 import { Subscription } from 'rxjs';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ICustomerProduct } from 'app/shared/model/customer-product.model';
+import { IProject } from 'app/shared/model/project.model';
 
 @Component({
     selector: 'jhi-customer-detail',
@@ -16,7 +17,9 @@ import { ICustomerProduct } from 'app/shared/model/customer-product.model';
 })
 export class CustomerDetailComponent implements OnInit {
     customer: ICustomer;
-    // invoices: IInvoice[];
+    invoices: IInvoice[];
+    customerProducts: ICustomerProduct[];
+    projects: IProject[];
     productCount = 0;
     invoiceCount = 0;
     totalBuy = 0;
@@ -42,6 +45,12 @@ export class CustomerDetailComponent implements OnInit {
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
+        this.activatedRoute.data.subscribe(data => {
+            this.customer = data.customer;
+            this.invoices = data.invoices;
+            this.customerProducts = data.products;
+            this.projects = data.projects;
+        });
         // this.invoices = [];
         // this.itemsPerPage = ITEMS_PER_PAGE;
         // this.page = 0;
@@ -53,37 +62,45 @@ export class CustomerDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ customer }) => {
-            this.customer = customer;
+        this.setInvoiceWidget();
+        this.setProductWidget();
+        this.setProjectWidget();
+    }
+
+    protected setProjectWidget() {
+        this.project(this.projects.length);
+    }
+
+    protected setProductWidget() {
+        this.product(this.customerProducts.length);
+    }
+
+    protected setInvoiceWidget() {
+        this.invoiceCount = this.invoices.length;
+        this.totalBuy = 0;
+        this.totalRemainingPayment = 0;
+        this.invoices.forEach(inv => {
+            this.totalBuy += inv.totalPayment;
+            this.totalRemainingPayment += inv.remainingPayment;
         });
     }
 
     invoice(sale) {
-        console.log(sale);
+        // console.log(sale);
         this.invoiceCount = sale.totalInvoice;
         this.totalBuy = sale.totalPayment;
         this.totalRemainingPayment = sale.totalRemainingPay;
-        // this.invoiceCount = i;
     }
 
     project(count: number) {
-        console.log('project: ' + count);
+        // console.log('project: ' + count);
         this.totalProject = count;
     }
 
     product(count: number) {
-        console.log('Product: ' + count);
+        // console.log('Product: ' + count);
         this.productCount = count;
     }
-
-    // loadPage(page) {
-    //     this.page = page;
-    //     // this.loadAll();
-    // }
-
-    // trackId(index: number, item: IInvoice) {
-    //     return item.id;
-    // }
 
     previousState() {
         window.history.back();

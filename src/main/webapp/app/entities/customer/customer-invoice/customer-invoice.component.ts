@@ -15,11 +15,11 @@ import { ITEMS_PER_PAGE } from 'app/shared';
     styles: []
 })
 export class CustomerInvoiceComponent implements OnInit {
-    @Input() customerInv: ICustomer;
-    @Output() countSale = new EventEmitter();
-    invoices: IInvoice[];
-    // totalPaid = 0;
-    // remainingPayment = 0;
+    // tslint:disable-next-line: no-input-rename
+    @Input('customer-in') customerInv: ICustomer;
+    // @Output() countSale = new EventEmitter();
+    // tslint:disable-next-line: no-input-rename
+    @Input('invoice-in') invoices: IInvoice[];
     page: any;
     itemsPerPage: number;
     predicate: any;
@@ -35,7 +35,7 @@ export class CustomerInvoiceComponent implements OnInit {
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
-        this.invoices = [];
+        // this.invoices = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
@@ -46,19 +46,20 @@ export class CustomerInvoiceComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadAll();
+        // this.loadAll();
     }
 
-    loadAll() {
+    loadCustomerInvoice() {
         // if (this.searchInvoice) {
         //     console.log('searchInvoice');
         this.invoiceService
             .queryByCustomer({
                 // query: this.currentSearch,
-                customer: this.customerInv.id,
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
+                customer: this.customerInv.id
+                // ,
+                // page: this.page,
+                // size: this.itemsPerPage,
+                // sort: this.sort()
             })
             .subscribe(
                 (res: HttpResponse<IInvoice[]>) => this.paginateInvoices(res.body, res.headers),
@@ -84,7 +85,7 @@ export class CustomerInvoiceComponent implements OnInit {
             totalRemainingPay += data[i].remainingPayment;
         }
 
-        this.countSale.next({ totalInvoice, totalPayment, totalRemainingPay });
+        // this.countSale.next({ totalInvoice, totalPayment, totalRemainingPay });
     }
 
     trackId(index: number, item: IInvoice) {

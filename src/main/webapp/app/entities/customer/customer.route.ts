@@ -19,6 +19,11 @@ import {
 import { CustomerProductComponent } from './customer-product/customer-product.component';
 import { CustomerProductResolve } from './customer-product/customer-product-resolve.service';
 import { InfoProductComponent } from './info-product/info-product.component';
+import { IInvoice } from 'app/shared/model/invoice.model';
+import { InvoiceService } from '../invoice';
+import { IProject } from 'app/shared/model/project.model';
+// import { ProjectService } from 'app/entities/project';
+import { ProjectService } from '../project';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerResolve implements Resolve<ICustomer> {
@@ -36,21 +41,64 @@ export class CustomerResolve implements Resolve<ICustomer> {
     }
 }
 
+@Injectable({ providedIn: 'root' })
+export class CustomerInvoiceResolve implements Resolve<IInvoice[]> {
+    private invoices: IInvoice[];
+    constructor(private service: InvoiceService) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): IInvoice[] | Observable<IInvoice[]> | Promise<IInvoice[]> {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service
+                .queryByCustomer({
+                    customer: id
+                })
+                .pipe(
+                    filter((response: HttpResponse<IInvoice[]>) => response.ok),
+                    map((invoices: HttpResponse<IInvoice[]>) => invoices.body)
+                );
+        }
+        return this.invoices;
+    }
+}
+
+@Injectable({ providedIn: 'root' })
+export class CustomerProjectResolve implements Resolve<IProject[]> {
+    projects: IProject[];
+
+    constructor(protected service: ProjectService) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): IProject[] | Observable<IProject[]> | Promise<IProject[]> {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service
+                .query({
+                    customerId: id
+                })
+                .pipe(
+                    filter((response: HttpResponse<IProject[]>) => response.ok),
+                    map((projects: HttpResponse<IProject[]>) => projects.body)
+                );
+        }
+        return this.projects;
+    }
+}
+
 export const customerRoute: Routes = [
     {
         path: 'customer',
         component: CustomerComponent,
-        children: [
-            {
-                path: '',
-                component: InfoProductComponent,
-                data: {
-                    authorities: ['ROLE_USER'],
-                    defaultSort: 'id,asc',
-                    pageTitle: 'jhiptokomajuApp.customer.home.title'
-                }
-            }
-        ],
+        // children: [
+        //     {
+        //         path: '',
+        //         component: InfoProductComponent,
+        //         data: {
+        //             authorities: ['ROLE_USER'],
+        //             defaultSort: 'id,asc',
+        //             pageTitle: 'jhiptokomajuApp.customer.home.title'
+        //         }
+        //     }
+        // ],
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -90,7 +138,10 @@ export const customerRoute: Routes = [
         path: 'customer/:id/view',
         component: CustomerDetailComponent,
         resolve: {
-            customer: CustomerResolve
+            customer: CustomerResolve,
+            invoices: CustomerInvoiceResolve,
+            products: CustomerProductResolve,
+            projects: CustomerProjectResolve
         },
         data: {
             authorities: ['ROLE_USER'],
