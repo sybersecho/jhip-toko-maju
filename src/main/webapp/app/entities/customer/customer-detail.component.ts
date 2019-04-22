@@ -72,7 +72,8 @@ export class CustomerDetailComponent implements OnInit {
     }
 
     protected setProductWidget() {
-        this.product(this.customerProducts.length);
+        this.product(this.customerProducts);
+        // this.productCount = products.length;
     }
 
     protected setInvoiceWidget() {
@@ -97,9 +98,10 @@ export class CustomerDetailComponent implements OnInit {
         this.totalProject = count;
     }
 
-    product(count: number) {
+    product(products: ICustomerProduct[]) {
         // console.log('Product: ' + count);
-        this.productCount = count;
+        this.customerProducts = products;
+        this.productCount = products.length;
     }
 
     previousState() {

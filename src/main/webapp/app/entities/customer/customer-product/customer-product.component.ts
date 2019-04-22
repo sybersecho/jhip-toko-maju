@@ -23,7 +23,8 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     @Input('products-in') customerProducts: ICustomerProduct[];
     // tslint:disable-next-line: no-input-rename
     @Input('customer-in') customer: ICustomer;
-    @Output() countProduct = new EventEmitter();
+    // tslint:disable-next-line: no-output-rename
+    @Output('product-evt') productEvent = new EventEmitter();
     modalRef: NgbModalRef;
     eventSubscription: Subscription;
 
@@ -77,7 +78,6 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
     }
 
     searchProduct() {
-        console.log('search product');
         this.modalRef = this.searchProductModalService.open();
     }
 
@@ -108,7 +108,7 @@ export class CustomerProductComponent implements OnInit, OnDestroy {
         this.customerService.searcyByCustomer(this.customer.id).subscribe(
             res => {
                 this.customerProducts = res.body;
-                this.countProduct.next(this.customerProducts.length);
+                this.productEvent.next(this.customerProducts);
             },
             err => this.onError(err.errorMessage)
         );

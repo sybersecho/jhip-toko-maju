@@ -10,8 +10,6 @@ export class SearchProductModalService {
     constructor(private modalService: NgbModal) {}
 
     open(): NgbModalRef {
-        console.log('search-product open');
-        console.log(this.isOpen);
         if (this.isOpen) {
             return;
         }

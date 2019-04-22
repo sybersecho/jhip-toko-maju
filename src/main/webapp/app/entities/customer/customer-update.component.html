@@ -4,7 +4,7 @@
             <h2 id="jhi-customer-heading" jhiTranslate="jhiptokomajuApp.customer.home.createOrEditLabel">Create or edit a Customer</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!customer.id">
+                <div class="form-group" [hidden]="true">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="customer.id" readonly />
