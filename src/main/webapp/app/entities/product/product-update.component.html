@@ -4,7 +4,7 @@
             <h2 id="jhi-product-heading" jhiTranslate="jhiptokomajuApp.product.home.createOrEditLabel">Create or edit a Product</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!product.id">
+                <div class="form-group" [hidden]="true">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" [(ngModel)]="product.id" readonly />
                 </div>

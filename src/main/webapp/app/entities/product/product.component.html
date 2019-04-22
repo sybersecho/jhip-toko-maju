@@ -29,7 +29,7 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th jhiSortBy="barcode"><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="name"><span jhiTranslate="jhiptokomajuApp.product.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="unit"><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -43,8 +43,8 @@
             </thead>
             <tbody>
             <tr *ngFor="let product of products ;trackBy: trackId">
-                <td><a [routerLink]="['/product', product.id, 'view' ]">{{product.id}}</a></td>
-                <td>{{product.barcode}}</td>
+                <td><a [routerLink]="['/product', product.id, 'view' ]">{{product.barcode}}</a></td>
+                <!-- <td>{{product.barcode}}</td> -->
                 <td>{{product.name}}</td>
                 <td jhiTranslate="{{'jhiptokomajuApp.UnitMeasure.' + product.unit}}">{{product.unit}}</td>
                 <td>{{product.warehousePrice | currency: 'IDR':'Rp. ':'4.2-2'}}</td>
