@@ -38,9 +38,13 @@ public class SaleTransactionsCriteria implements Serializable {
 
     private InstantFilter saleDate;
 
+    private BooleanFilter settled;
+
     private LongFilter itemsId;
 
     private LongFilter customerId;
+
+    private LongFilter creatorId;
 
     public LongFilter getId() {
         return id;
@@ -98,6 +102,14 @@ public class SaleTransactionsCriteria implements Serializable {
         this.saleDate = saleDate;
     }
 
+    public BooleanFilter getSettled() {
+        return settled;
+    }
+
+    public void setSettled(BooleanFilter settled) {
+        this.settled = settled;
+    }
+
     public LongFilter getItemsId() {
         return itemsId;
     }
@@ -112,6 +124,14 @@ public class SaleTransactionsCriteria implements Serializable {
 
     public void setCustomerId(LongFilter customerId) {
         this.customerId = customerId;
+    }
+
+    public LongFilter getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(LongFilter creatorId) {
+        this.creatorId = creatorId;
     }
 
 
@@ -132,8 +152,10 @@ public class SaleTransactionsCriteria implements Serializable {
             Objects.equals(remainingPayment, that.remainingPayment) &&
             Objects.equals(paid, that.paid) &&
             Objects.equals(saleDate, that.saleDate) &&
+            Objects.equals(settled, that.settled) &&
             Objects.equals(itemsId, that.itemsId) &&
-            Objects.equals(customerId, that.customerId);
+            Objects.equals(customerId, that.customerId) &&
+            Objects.equals(creatorId, that.creatorId);
     }
 
     @Override
@@ -146,8 +168,10 @@ public class SaleTransactionsCriteria implements Serializable {
         remainingPayment,
         paid,
         saleDate,
+        settled,
         itemsId,
-        customerId
+        customerId,
+        creatorId
         );
     }
 
@@ -161,8 +185,10 @@ public class SaleTransactionsCriteria implements Serializable {
                 (remainingPayment != null ? "remainingPayment=" + remainingPayment + ", " : "") +
                 (paid != null ? "paid=" + paid + ", " : "") +
                 (saleDate != null ? "saleDate=" + saleDate + ", " : "") +
+                (settled != null ? "settled=" + settled + ", " : "") +
                 (itemsId != null ? "itemsId=" + itemsId + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
+                (creatorId != null ? "creatorId=" + creatorId + ", " : "") +
             "}";
     }
 

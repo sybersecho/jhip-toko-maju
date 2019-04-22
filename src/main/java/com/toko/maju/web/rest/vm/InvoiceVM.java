@@ -14,6 +14,7 @@ public class InvoiceVM implements Serializable {
 	private BigDecimal remainingPayment;
 	private BigDecimal paid;
 	private Instant saleDate;
+	private String creator;
 
 	public Long getId() {
 		return id;
@@ -71,11 +72,19 @@ public class InvoiceVM implements Serializable {
 		this.saleDate = saleDate;
 	}
 
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
 	@Override
 	public String toString() {
 		return "InvoiceVM [id=" + id + ", noInvoice=" + noInvoice + ", customer=" + customer + ", totalPayment="
 				+ totalPayment + ", remainingPayment=" + remainingPayment + ", paid=" + paid + ", saleDate=" + saleDate
-				+ "]";
+				+ ", creator=" + creator + "]";
 	}
 
 }

@@ -1,30 +1,21 @@
 package com.toko.maju.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Objects;
 
 /**
  * A SaleTransactions.
@@ -36,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class SaleTransactions implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -65,14 +56,22 @@ public class SaleTransactions implements Serializable {
     @Column(name = "sale_date")
     private Instant saleDate;
 
+    @NotNull
+    @Column(name = "settled", nullable = false)
+    private Boolean settled;
+
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-//    @JsonIgnoreProperties("saleItems")
     private Set<SaleItem> items = new HashSet<>();
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("saleTransactions")
     private Customer customer;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("saleTransactions")
+    private User creator;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -161,6 +160,19 @@ public class SaleTransactions implements Serializable {
         this.saleDate = saleDate;
     }
 
+    public Boolean isSettled() {
+        return settled;
+    }
+
+    public SaleTransactions settled(Boolean settled) {
+        this.settled = settled;
+        return this;
+    }
+
+    public void setSettled(Boolean settled) {
+        this.settled = settled;
+    }
+
     public Set<SaleItem> getItems() {
         return items;
     }
@@ -198,6 +210,19 @@ public class SaleTransactions implements Serializable {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public SaleTransactions creator(User user) {
+        this.creator = user;
+        return this;
+    }
+
+    public void setCreator(User user) {
+        this.creator = user;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -230,7 +255,7 @@ public class SaleTransactions implements Serializable {
             ", remainingPayment=" + getRemainingPayment() +
             ", paid=" + getPaid() +
             ", saleDate='" + getSaleDate() + "'" +
-            ", items='" + getItems() + "'" +
+            ", settled='" + isSettled() + "'" +
             "}";
     }
 }

@@ -39,6 +39,10 @@
                         <span jhiTranslate="jhiptokomajuApp.invoice.remainingPayment">Remaining Payment</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th jhiSortBy="creator">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.creator">Creator</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -56,6 +60,7 @@
                     <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.paid | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.saleDate | date: 'medium' }}</td>
+                    <td>{{ invoice.creator}}</td>
                     <td>
                         <div class="form-group">
                             <input

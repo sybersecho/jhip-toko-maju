@@ -10,6 +10,7 @@ import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 import { SaleTransactionsService } from './sale-transactions.service';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer';
+import { IUser, UserService } from 'app/core';
 
 @Component({
     selector: 'jhi-sale-transactions-update',
@@ -20,12 +21,15 @@ export class SaleTransactionsUpdateComponent implements OnInit {
     isSaving: boolean;
 
     customers: ICustomer[];
+
+    users: IUser[];
     saleDate: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected saleTransactionsService: SaleTransactionsService,
         protected customerService: CustomerService,
+        protected userService: UserService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -42,6 +46,13 @@ export class SaleTransactionsUpdateComponent implements OnInit {
                 map((response: HttpResponse<ICustomer[]>) => response.body)
             )
             .subscribe((res: ICustomer[]) => (this.customers = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.userService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IUser[]>) => response.body)
+            )
+            .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -76,6 +87,10 @@ export class SaleTransactionsUpdateComponent implements OnInit {
     }
 
     trackCustomerById(index: number, item: ICustomer) {
+        return item.id;
+    }
+
+    trackUserById(index: number, item: IUser) {
         return item.id;
     }
 }

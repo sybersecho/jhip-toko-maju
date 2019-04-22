@@ -21,7 +21,8 @@
             "totalPayment": "Total Payment",
             "remainingPayment": "Remaining Payment",
             "paid": "Paid",
-            "saleDate": "Sale Date"
+            "saleDate": "Sale Date",
+            "creator": "Creator"
         }
     }
 }

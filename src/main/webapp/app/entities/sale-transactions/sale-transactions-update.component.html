@@ -89,6 +89,17 @@
                         />
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleTransactions.settled" for="field_settled">Settled</label>
+                    <input type="checkbox" class="form-control" name="settled" id="field_settled"
+                        [(ngModel)]="saleTransactions.settled" />
+                    <div [hidden]="!(editForm.controls.settled?.dirty && editForm.controls.settled?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.settled?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleTransactions.customer" for="field_customer">Customer</label>
@@ -100,6 +111,19 @@
                 <div [hidden]="!(editForm.controls.customer?.dirty && editForm.controls.customer?.invalid)">
                     <small class="form-text text-danger"
                         [hidden]="!editForm.controls.customer?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleTransactions.creator" for="field_creator">Creator</label>
+                    <select class="form-control" id="field_creator" name="creator" [(ngModel)]="saleTransactions.creatorId"  required>
+                        <option *ngIf="!editForm.value.creator" [ngValue]="null" selected></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.creator?.dirty && editForm.controls.creator?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.creator?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
                 </div>

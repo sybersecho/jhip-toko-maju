@@ -29,11 +29,19 @@
                 <dd>
                     <span>{{saleTransactions.saleDate}}</span>
                 </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.settled">Settled</span></dt>
+                <dd>
+                    <span>{{saleTransactions.settled}}</span>
+                </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.customer">Customer</span></dt>
                 <dd>
                     <div *ngIf="saleTransactions.customerId">
                         <a [routerLink]="['/customer', saleTransactions.customerId, 'view']">{{saleTransactions.customerFirstName}}</a>
                     </div>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleTransactions.creator">Creator</span></dt>
+                <dd>
+                    {{saleTransactions.creatorLogin}}
                 </dd>
             </dl>
 

@@ -64,14 +64,15 @@ public class InvoiceResource {
 	}
 
 	private void convertSaleToInvoice(SaleTransactionsDTO sale, List<InvoiceVM> list) {
-		// TODO Auto-generated method stub
 		InvoiceVM item = new InvoiceVM();
+		item.setId(sale.getId());
 		item.setNoInvoice(sale.getNoInvoice());
 		item.setPaid(sale.getPaid());
 		item.setRemainingPayment(sale.getRemainingPayment());
 		item.setTotalPayment(sale.getTotalPayment());
 		item.setCustomer(sale.getCustomerFullName());
 		item.setSaleDate(sale.getSaleDate());
+		item.setCreator(sale.getCreatorLogin());
 
 		list.add(item);
 //		return null;

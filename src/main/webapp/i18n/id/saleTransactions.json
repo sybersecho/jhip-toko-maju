@@ -30,7 +30,9 @@
             "saleDate": "Tanggal Penjualan",
             "items": "Items",
             "customer": "Pelanggan",
-            "change": "Kembalian"
+            "change": "Kembalian",
+            "settled": "Settled",
+            "creator": "Creator"
         }
     }
 }

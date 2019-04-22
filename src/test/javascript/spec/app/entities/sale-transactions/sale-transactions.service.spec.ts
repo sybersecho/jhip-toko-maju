@@ -75,7 +75,8 @@ describe('Service Tests', () => {
                         totalPayment: 1,
                         remainingPayment: 1,
                         paid: 1,
-                        saleDate: currentDate.format(DATE_TIME_FORMAT)
+                        saleDate: currentDate.format(DATE_TIME_FORMAT),
+                        settled: true
                     },
                     elemDefault
                 );
@@ -102,7 +103,8 @@ describe('Service Tests', () => {
                         totalPayment: 1,
                         remainingPayment: 1,
                         paid: 1,
-                        saleDate: currentDate.format(DATE_TIME_FORMAT)
+                        saleDate: currentDate.format(DATE_TIME_FORMAT),
+                        settled: true
                     },
                     elemDefault
                 );

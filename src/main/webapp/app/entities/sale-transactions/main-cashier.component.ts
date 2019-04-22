@@ -102,6 +102,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     save() {
         this.saleTransactions.saleDate = moment(new Date());
         this.saleTransactions.recalculate();
+        console.log('is settled? ' + this.saleTransactions.settled);
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
 

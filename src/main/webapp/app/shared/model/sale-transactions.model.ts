@@ -17,6 +17,9 @@ export interface ISaleTransactions {
     customerLastName?: string;
     customerCode?: string;
     customerAddress?: string;
+    creatorLogin?: string;
+    creatorId?: number;
+    settled?: boolean;
 
     customer?: ICustomer;
 
@@ -52,9 +55,13 @@ export class SaleTransactions implements ISaleTransactions {
         public customerLastName?: string,
         public customerCode?: string,
         public customerAddress?: string,
+        public creatorLogin?: string,
+        public creatorId?: number,
+        public settled?: boolean,
         public customer?: ICustomer
     ) {
         this.items = [];
+        this.settled = this.settled || false;
     }
 
     // public setSaleService(service: SaleTransactionsService): void {
@@ -114,8 +121,10 @@ export class SaleTransactions implements ISaleTransactions {
     }
 
     recalculate(): void {
-        if (this.paid > this.totalPayment) {
+        this.settled = false;
+        if (this.paid >= this.totalPayment) {
             this.paid = this.totalPayment;
+            this.settled = true;
         }
         this.calculateTotalPayment();
         // this.addToSession();
@@ -168,6 +177,7 @@ export class SaleTransactions implements ISaleTransactions {
     }
 
     private calculateRemainPayment(): void {
+        // this.settled = false;
         if (!this.paid) {
             this.paid = 0;
         }
@@ -184,6 +194,7 @@ export class SaleTransactions implements ISaleTransactions {
     private checkRemainPayment(): void {
         if (this.remainingPayment < 0) {
             this.remainingPayment = 0;
+            this.settled = true;
         }
     }
 }

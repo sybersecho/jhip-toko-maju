@@ -30,7 +30,9 @@
             "saleDate": "Sale Date",
             "items": "Items",
             "customer": "Customer",
-            "change": "Change"
+            "change": "Change",
+            "settled": "Settled",
+            "creator": "Creator"
         }
     }
 }

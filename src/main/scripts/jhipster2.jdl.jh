@@ -19,7 +19,8 @@ entity Product {
 }
 entity Project {
   name String required,
-  address String required
+  address String required,
+  code String required unique minlength(4) maxlength(10)
 }
 entity Supplier {
   name String required,
@@ -41,11 +42,25 @@ entity SaleTransactions {
   totalPayment BigDecimal required min(0),
   remainingPayment BigDecimal min(0),
   paid BigDecimal required min(0),
-  saleDate Instant
+  saleDate Instant,
+  settled Boolean required
 }
 entity SaleItem {
   quantity Integer min(0),
   totalPrice BigDecimal min(0)
+}
+entity SequenceNumber {
+  type String required unique,
+  nextValue Integer,
+  incrementValue Integer
+}
+entity Invoice {
+  noInvoice BigDecimal,
+  customer String,
+  totalPayment BigDecimal,
+  remainingPayment BigDecimal,
+  paid BigDecimal,
+  saleDate Instant
 }
 
 enum Gender {
@@ -66,15 +81,17 @@ relationship OneToMany {
   SaleTransactions{items} to SaleItem{sale(noInvoice) required}
 }
 relationship ManyToOne {
+  Project{customer(firstName) required} to Customer,
   CustomerProduct{product(name) required} to Product,
   ProjectProduct{product(name) required} to Product,
   SaleTransactions{customer(firstName) required} to Customer,
+  SaleTransactions{creator(login) required} to User,
   SaleItem{product(name) required} to Product
 }
 
 dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with mapstruct
 paginate Customer, Product, Project, Supplier with pagination
-paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with infinite-scroll
+paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice with infinite-scroll
 service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with elasticsearch
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice with elasticsearch
 filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem

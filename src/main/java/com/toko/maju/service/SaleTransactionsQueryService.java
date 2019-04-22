@@ -111,6 +111,9 @@ public class SaleTransactionsQueryService extends QueryService<SaleTransactions>
             if (criteria.getSaleDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getSaleDate(), SaleTransactions_.saleDate));
             }
+            if (criteria.getSettled() != null) {
+                specification = specification.and(buildSpecification(criteria.getSettled(), SaleTransactions_.settled));
+            }
             if (criteria.getItemsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemsId(),
                     root -> root.join(SaleTransactions_.items, JoinType.LEFT).get(SaleItem_.id)));
@@ -118,6 +121,10 @@ public class SaleTransactionsQueryService extends QueryService<SaleTransactions>
             if (criteria.getCustomerId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCustomerId(),
                     root -> root.join(SaleTransactions_.customer, JoinType.LEFT).get(Customer_.id)));
+            }
+            if (criteria.getCreatorId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCreatorId(),
+                    root -> root.join(SaleTransactions_.creator, JoinType.LEFT).get(User_.id)));
             }
         }
         return specification;

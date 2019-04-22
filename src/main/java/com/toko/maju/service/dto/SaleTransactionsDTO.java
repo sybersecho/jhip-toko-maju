@@ -1,43 +1,48 @@
 package com.toko.maju.service.dto;
-
-import java.time.Instant;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 /**
  * A DTO for the SaleTransactions entity.
  */
 public class SaleTransactionsDTO implements Serializable {
 
-	private Long id;
+    private Long id;
 
-	private String noInvoice;
+    private String noInvoice;
 
-	@DecimalMin(value = "0")
-	private BigDecimal discount;
+    @DecimalMin(value = "0")
+    private BigDecimal discount;
 
-	@NotNull
-	@DecimalMin(value = "0")
-	private BigDecimal totalPayment;
+    @NotNull
+    @DecimalMin(value = "0")
+    private BigDecimal totalPayment;
 
-	@DecimalMin(value = "0")
-	private BigDecimal remainingPayment;
+    @DecimalMin(value = "0")
+    private BigDecimal remainingPayment;
 
-	@NotNull
-	@DecimalMin(value = "0")
-	private BigDecimal paid;
+    @NotNull
+    @DecimalMin(value = "0")
+    private BigDecimal paid;
 
-	private Instant saleDate;
+    private Instant saleDate;
 
-	private Long customerId;
+    @NotNull
+    private Boolean settled;
 
-	private String customerFirstName;
 
-	private String customerLastName;
+    private Long customerId;
+
+    private String customerFirstName;
+
+    private String customerLastName;
 
 	private String customerCode;
 
@@ -45,79 +50,108 @@ public class SaleTransactionsDTO implements Serializable {
 
 	private Set<SaleItemDTO> items = new HashSet<SaleItemDTO>();
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private Long creatorId;
 
-	public String getNoInvoice() {
-		return noInvoice;
-	}
+    private String creatorLogin;
 
-	public void setNoInvoice(String noInvoice) {
-		this.noInvoice = noInvoice;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public BigDecimal getDiscount() {
-		return discount;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setDiscount(BigDecimal discount) {
-		this.discount = discount;
-	}
+    public String getNoInvoice() {
+        return noInvoice;
+    }
 
-	public BigDecimal getTotalPayment() {
-		return totalPayment;
-	}
+    public void setNoInvoice(String noInvoice) {
+        this.noInvoice = noInvoice;
+    }
 
-	public void setTotalPayment(BigDecimal totalPayment) {
-		this.totalPayment = totalPayment;
-	}
+    public BigDecimal getDiscount() {
+        return discount;
+    }
 
-	public BigDecimal getRemainingPayment() {
-		return remainingPayment;
-	}
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
 
-	public void setRemainingPayment(BigDecimal remainingPayment) {
-		this.remainingPayment = remainingPayment;
-	}
+    public BigDecimal getTotalPayment() {
+        return totalPayment;
+    }
 
-	public BigDecimal getPaid() {
-		return paid;
-	}
+    public void setTotalPayment(BigDecimal totalPayment) {
+        this.totalPayment = totalPayment;
+    }
 
-	public void setPaid(BigDecimal paid) {
-		this.paid = paid;
-	}
+    public BigDecimal getRemainingPayment() {
+        return remainingPayment;
+    }
 
-	public Instant getSaleDate() {
-		return saleDate;
-	}
+    public void setRemainingPayment(BigDecimal remainingPayment) {
+        this.remainingPayment = remainingPayment;
+    }
 
-	public void setSaleDate(Instant saleDate) {
-		this.saleDate = saleDate;
-	}
+    public BigDecimal getPaid() {
+        return paid;
+    }
 
-	public Long getCustomerId() {
-		return customerId;
-	}
+    public void setPaid(BigDecimal paid) {
+        this.paid = paid;
+    }
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
+    public Instant getSaleDate() {
+        return saleDate;
+    }
 
-	public String getCustomerFirstName() {
-		return customerFirstName;
-	}
+    public void setSaleDate(Instant saleDate) {
+        this.saleDate = saleDate;
+    }
 
-	public void setCustomerFirstName(String customerFirstName) {
-		this.customerFirstName = customerFirstName;
-	}
+    public Boolean isSettled() {
+        return settled;
+    }
 
-	public String getCustomerLastName() {
+    public void setSettled(Boolean settled) {
+        this.settled = settled;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerFirstName() {
+        return customerFirstName;
+    }
+
+    public void setCustomerFirstName(String customerFirstName) {
+        this.customerFirstName = customerFirstName;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long userId) {
+        this.creatorId = userId;
+    }
+
+    public String getCreatorLogin() {
+        return creatorLogin;
+    }
+
+    public void setCreatorLogin(String userLogin) {
+        this.creatorLogin = userLogin;
+    }
+
+    public String getCustomerLastName() {
 		return customerLastName;
 	}
 
@@ -158,35 +192,46 @@ public class SaleTransactionsDTO implements Serializable {
 		this.items = items;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-		SaleTransactionsDTO saleTransactionsDTO = (SaleTransactionsDTO) o;
-		if (saleTransactionsDTO.getId() == null || getId() == null) {
-			return false;
-		}
-		return Objects.equals(getId(), saleTransactionsDTO.getId());
-	}
+        SaleTransactionsDTO saleTransactionsDTO = (SaleTransactionsDTO) o;
+        if (saleTransactionsDTO.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), saleTransactionsDTO.getId());
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(getId());
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 
-	@Override
-	public String toString() {
-		return "SaleTransactionsDTO{" + "id=" + getId() + ", noInvoice='" + getNoInvoice() + "'" + ", discount="
-				+ getDiscount() + ", totalPayment=" + getTotalPayment() + ", remainingPayment=" + getRemainingPayment()
-				+ ", paid=" + getPaid() + ", saleDate='" + getSaleDate() + "'" + ", customerId=" + getCustomerId()
-				+ ", customerFirstName='" + getCustomerFirstName() + "'" + ", customerLastName='"
-				+ getCustomerLastName() + "'" + ", customerCode='" + getCustomerCode() + "'" + ", customerAddress='"
-				+ getCustomerAddress() + "'" + ", items='" + getItems() + "'" + "}";
-	}
-
+    @Override
+    public String toString() {
+        return "SaleTransactionsDTO{" +
+            "id=" + getId() +
+            ", noInvoice='" + getNoInvoice() + "'" +
+            ", discount=" + getDiscount() +
+            ", totalPayment=" + getTotalPayment() +
+            ", remainingPayment=" + getRemainingPayment() +
+            ", paid=" + getPaid() +
+            ", saleDate='" + getSaleDate() + "'" +
+            ", settled='" + isSettled() + "'" +
+            ", customer=" + getCustomerId() +
+            ", customerCode='" + getCustomerCode() + "'" +
+            ", customer='" + getCustomerFirstName() + "'" +
+            ", customer='" + getCustomerLastName() + "'" +
+            ", customer='" + getCustomerAddress() + "'" +
+            ", creator=" + getCreatorId() +
+            ", creator='" + getCreatorLogin() + "'" +
+            ", items='" + getItems() + "'" +
+            "}";
+    }
 }

@@ -46,7 +46,15 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="settled" type="boolean">
+                <constraints nullable="false" />
+            </column>
+
             <column name="customer_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="creator_id" type="bigint">
                 <constraints nullable="false" />
             </column>
 

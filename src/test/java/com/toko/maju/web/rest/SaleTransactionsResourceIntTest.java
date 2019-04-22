@@ -5,6 +5,7 @@ import com.toko.maju.JhiptokomajuApp;
 import com.toko.maju.domain.SaleTransactions;
 import com.toko.maju.domain.SaleItem;
 import com.toko.maju.domain.Customer;
+import com.toko.maju.domain.User;
 import com.toko.maju.repository.SaleTransactionsRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
 import com.toko.maju.service.SaleTransactionsService;
@@ -74,6 +75,9 @@ public class SaleTransactionsResourceIntTest {
     private static final Instant DEFAULT_SALE_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_SALE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final Boolean DEFAULT_SETTLED = false;
+    private static final Boolean UPDATED_SETTLED = true;
+
     @Autowired
     private SaleTransactionsRepository saleTransactionsRepository;
 
@@ -138,12 +142,18 @@ public class SaleTransactionsResourceIntTest {
             .totalPayment(DEFAULT_TOTAL_PAYMENT)
             .remainingPayment(DEFAULT_REMAINING_PAYMENT)
             .paid(DEFAULT_PAID)
-            .saleDate(DEFAULT_SALE_DATE);
+            .saleDate(DEFAULT_SALE_DATE)
+            .settled(DEFAULT_SETTLED);
         // Add required entity
         Customer customer = CustomerResourceIntTest.createEntity(em);
         em.persist(customer);
         em.flush();
         saleTransactions.setCustomer(customer);
+        // Add required entity
+        User user = UserResourceIntTest.createEntity(em);
+        em.persist(user);
+        em.flush();
+        saleTransactions.setCreator(user);
         return saleTransactions;
     }
 
@@ -174,6 +184,7 @@ public class SaleTransactionsResourceIntTest {
         assertThat(testSaleTransactions.getRemainingPayment()).isEqualTo(DEFAULT_REMAINING_PAYMENT);
         assertThat(testSaleTransactions.getPaid()).isEqualTo(DEFAULT_PAID);
         assertThat(testSaleTransactions.getSaleDate()).isEqualTo(DEFAULT_SALE_DATE);
+        assertThat(testSaleTransactions.isSettled()).isEqualTo(DEFAULT_SETTLED);
 
         // Validate the SaleTransactions in Elasticsearch
         verify(mockSaleTransactionsSearchRepository, times(1)).save(testSaleTransactions);
@@ -242,6 +253,25 @@ public class SaleTransactionsResourceIntTest {
 
     @Test
     @Transactional
+    public void checkSettledIsRequired() throws Exception {
+        int databaseSizeBeforeTest = saleTransactionsRepository.findAll().size();
+        // set the field null
+        saleTransactions.setSettled(null);
+
+        // Create the SaleTransactions, which fails.
+        SaleTransactionsDTO saleTransactionsDTO = saleTransactionsMapper.toDto(saleTransactions);
+
+        restSaleTransactionsMockMvc.perform(post("/api/sale-transactions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(saleTransactionsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SaleTransactions> saleTransactionsList = saleTransactionsRepository.findAll();
+        assertThat(saleTransactionsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllSaleTransactions() throws Exception {
         // Initialize the database
         saleTransactionsRepository.saveAndFlush(saleTransactions);
@@ -256,7 +286,8 @@ public class SaleTransactionsResourceIntTest {
             .andExpect(jsonPath("$.[*].totalPayment").value(hasItem(DEFAULT_TOTAL_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].remainingPayment").value(hasItem(DEFAULT_REMAINING_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())))
-            .andExpect(jsonPath("$.[*].saleDate").value(hasItem(DEFAULT_SALE_DATE.toString())));
+            .andExpect(jsonPath("$.[*].saleDate").value(hasItem(DEFAULT_SALE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].settled").value(hasItem(DEFAULT_SETTLED.booleanValue())));
     }
     
     @Test
@@ -275,7 +306,8 @@ public class SaleTransactionsResourceIntTest {
             .andExpect(jsonPath("$.totalPayment").value(DEFAULT_TOTAL_PAYMENT.intValue()))
             .andExpect(jsonPath("$.remainingPayment").value(DEFAULT_REMAINING_PAYMENT.intValue()))
             .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.intValue()))
-            .andExpect(jsonPath("$.saleDate").value(DEFAULT_SALE_DATE.toString()));
+            .andExpect(jsonPath("$.saleDate").value(DEFAULT_SALE_DATE.toString()))
+            .andExpect(jsonPath("$.settled").value(DEFAULT_SETTLED.booleanValue()));
     }
 
     @Test
@@ -514,6 +546,45 @@ public class SaleTransactionsResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSaleTransactionsBySettledIsEqualToSomething() throws Exception {
+        // Initialize the database
+        saleTransactionsRepository.saveAndFlush(saleTransactions);
+
+        // Get all the saleTransactionsList where settled equals to DEFAULT_SETTLED
+        defaultSaleTransactionsShouldBeFound("settled.equals=" + DEFAULT_SETTLED);
+
+        // Get all the saleTransactionsList where settled equals to UPDATED_SETTLED
+        defaultSaleTransactionsShouldNotBeFound("settled.equals=" + UPDATED_SETTLED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSaleTransactionsBySettledIsInShouldWork() throws Exception {
+        // Initialize the database
+        saleTransactionsRepository.saveAndFlush(saleTransactions);
+
+        // Get all the saleTransactionsList where settled in DEFAULT_SETTLED or UPDATED_SETTLED
+        defaultSaleTransactionsShouldBeFound("settled.in=" + DEFAULT_SETTLED + "," + UPDATED_SETTLED);
+
+        // Get all the saleTransactionsList where settled equals to UPDATED_SETTLED
+        defaultSaleTransactionsShouldNotBeFound("settled.in=" + UPDATED_SETTLED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSaleTransactionsBySettledIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        saleTransactionsRepository.saveAndFlush(saleTransactions);
+
+        // Get all the saleTransactionsList where settled is not null
+        defaultSaleTransactionsShouldBeFound("settled.specified=true");
+
+        // Get all the saleTransactionsList where settled is null
+        defaultSaleTransactionsShouldNotBeFound("settled.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSaleTransactionsByItemsIsEqualToSomething() throws Exception {
         // Initialize the database
         SaleItem items = SaleItemResourceIntTest.createEntity(em);
@@ -549,6 +620,25 @@ public class SaleTransactionsResourceIntTest {
         defaultSaleTransactionsShouldNotBeFound("customerId.equals=" + (customerId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllSaleTransactionsByCreatorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        User creator = UserResourceIntTest.createEntity(em);
+        em.persist(creator);
+        em.flush();
+        saleTransactions.setCreator(creator);
+        saleTransactionsRepository.saveAndFlush(saleTransactions);
+        Long creatorId = creator.getId();
+
+        // Get all the saleTransactionsList where creator equals to creatorId
+        defaultSaleTransactionsShouldBeFound("creatorId.equals=" + creatorId);
+
+        // Get all the saleTransactionsList where creator equals to creatorId + 1
+        defaultSaleTransactionsShouldNotBeFound("creatorId.equals=" + (creatorId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -562,7 +652,8 @@ public class SaleTransactionsResourceIntTest {
             .andExpect(jsonPath("$.[*].totalPayment").value(hasItem(DEFAULT_TOTAL_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].remainingPayment").value(hasItem(DEFAULT_REMAINING_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())))
-            .andExpect(jsonPath("$.[*].saleDate").value(hasItem(DEFAULT_SALE_DATE.toString())));
+            .andExpect(jsonPath("$.[*].saleDate").value(hasItem(DEFAULT_SALE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].settled").value(hasItem(DEFAULT_SETTLED.booleanValue())));
 
         // Check, that the count call also returns 1
         restSaleTransactionsMockMvc.perform(get("/api/sale-transactions/count?sort=id,desc&" + filter))
@@ -615,7 +706,8 @@ public class SaleTransactionsResourceIntTest {
             .totalPayment(UPDATED_TOTAL_PAYMENT)
             .remainingPayment(UPDATED_REMAINING_PAYMENT)
             .paid(UPDATED_PAID)
-            .saleDate(UPDATED_SALE_DATE);
+            .saleDate(UPDATED_SALE_DATE)
+            .settled(UPDATED_SETTLED);
         SaleTransactionsDTO saleTransactionsDTO = saleTransactionsMapper.toDto(updatedSaleTransactions);
 
         restSaleTransactionsMockMvc.perform(put("/api/sale-transactions")
@@ -633,6 +725,7 @@ public class SaleTransactionsResourceIntTest {
         assertThat(testSaleTransactions.getRemainingPayment()).isEqualTo(UPDATED_REMAINING_PAYMENT);
         assertThat(testSaleTransactions.getPaid()).isEqualTo(UPDATED_PAID);
         assertThat(testSaleTransactions.getSaleDate()).isEqualTo(UPDATED_SALE_DATE);
+        assertThat(testSaleTransactions.isSettled()).isEqualTo(UPDATED_SETTLED);
 
         // Validate the SaleTransactions in Elasticsearch
         verify(mockSaleTransactionsSearchRepository, times(1)).save(testSaleTransactions);
@@ -698,7 +791,8 @@ public class SaleTransactionsResourceIntTest {
             .andExpect(jsonPath("$.[*].totalPayment").value(hasItem(DEFAULT_TOTAL_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].remainingPayment").value(hasItem(DEFAULT_REMAINING_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())))
-            .andExpect(jsonPath("$.[*].saleDate").value(hasItem(DEFAULT_SALE_DATE.toString())));
+            .andExpect(jsonPath("$.[*].saleDate").value(hasItem(DEFAULT_SALE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].settled").value(hasItem(DEFAULT_SETTLED.booleanValue())));
     }
 
     @Test

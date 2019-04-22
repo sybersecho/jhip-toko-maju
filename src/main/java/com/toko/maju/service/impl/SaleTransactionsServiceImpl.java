@@ -21,9 +21,11 @@ import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.SaleItemRepository;
 import com.toko.maju.repository.SaleTransactionsRepository;
 import com.toko.maju.repository.SequenceNumberRepository;
+import com.toko.maju.repository.UserRepository;
 import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
 import com.toko.maju.repository.search.SequenceNumberSearchRepository;
+import com.toko.maju.security.SecurityUtils;
 import com.toko.maju.service.SaleTransactionsService;
 import com.toko.maju.service.dto.SaleTransactionsDTO;
 import com.toko.maju.service.mapper.SaleTransactionsMapper;
@@ -59,6 +61,9 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 	@Autowired
 	private final ProductSearchRepository productSearchRepository = null;
 
+	@Autowired
+	private final UserRepository userRepository = null;
+
 	public SaleTransactionsServiceImpl(SaleTransactionsRepository saleTransactionsRepository,
 			SaleTransactionsMapper saleTransactionsMapper,
 			SaleTransactionsSearchRepository saleTransactionsSearchRepository) {
@@ -78,7 +83,14 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 	@Transactional
 	public SaleTransactionsDTO save(SaleTransactionsDTO saleTransactionsDTO) throws Exception {
 		log.debug("Request to save SaleTransactions : {}", saleTransactionsDTO);
+		log.debug("dto items" + saleTransactionsDTO.getItems());
 		SaleTransactions saleTransactions = saleTransactionsMapper.toEntity(saleTransactionsDTO);
+		log.debug("entity items" + saleTransactions.getItems());
+
+		String login = SecurityUtils.getCurrentUserLogin().get();
+		log.debug("login: " + login);
+		saleTransactions.setCreator(userRepository.findOneByLogin(login).get());
+		log.debug("Creator: " + saleTransactions.getCreator());
 
 		SequenceNumber currentInvoiceNo = sequenceNumberRepository.findByType("invoice");
 		int currentValue = currentInvoiceNo.getNextValue();
