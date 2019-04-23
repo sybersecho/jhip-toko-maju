@@ -34,6 +34,8 @@ public class DuePaymentCriteria implements Serializable {
 
     private BigDecimalFilter paid;
 
+    private BigDecimalFilter totalPayment;
+
     private LongFilter creatorId;
 
     private LongFilter saleId;
@@ -78,6 +80,14 @@ public class DuePaymentCriteria implements Serializable {
         this.paid = paid;
     }
 
+    public BigDecimalFilter getTotalPayment() {
+        return totalPayment;
+    }
+
+    public void setTotalPayment(BigDecimalFilter totalPayment) {
+        this.totalPayment = totalPayment;
+    }
+
     public LongFilter getCreatorId() {
         return creatorId;
     }
@@ -110,6 +120,7 @@ public class DuePaymentCriteria implements Serializable {
             Objects.equals(createdDate, that.createdDate) &&
             Objects.equals(settled, that.settled) &&
             Objects.equals(paid, that.paid) &&
+            Objects.equals(totalPayment, that.totalPayment) &&
             Objects.equals(creatorId, that.creatorId) &&
             Objects.equals(saleId, that.saleId);
     }
@@ -122,6 +133,7 @@ public class DuePaymentCriteria implements Serializable {
         createdDate,
         settled,
         paid,
+        totalPayment,
         creatorId,
         saleId
         );
@@ -135,6 +147,7 @@ public class DuePaymentCriteria implements Serializable {
                 (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
                 (settled != null ? "settled=" + settled + ", " : "") +
                 (paid != null ? "paid=" + paid + ", " : "") +
+                (totalPayment != null ? "totalPayment=" + totalPayment + ", " : "") +
                 (creatorId != null ? "creatorId=" + creatorId + ", " : "") +
                 (saleId != null ? "saleId=" + saleId + ", " : "") +
             "}";

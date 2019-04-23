@@ -40,7 +40,7 @@
                         name="sellingPrice"
                         id="field_sellingPrice"
                         [ngModel]="selectedItem.sellingPrice"
-                        [options]="{ prefix: 'Rp. ', thousands: '.', decimal: ',' }"
+                        [options]="{ prefix: 'Rp. ', thousands: '.', precision: 0 }"
                         currencyMask
                         readonly
                     />

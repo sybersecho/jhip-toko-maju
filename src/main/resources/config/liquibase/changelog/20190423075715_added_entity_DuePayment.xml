@@ -38,6 +38,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="total_payment" type="decimal(10,2)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="creator_id" type="bigint">
                 <constraints nullable="false" />
             </column>

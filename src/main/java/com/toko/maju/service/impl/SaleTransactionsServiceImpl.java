@@ -103,6 +103,7 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 			due.setRemainingPayment(saleTransactions.getRemainingPayment());
 			due.setSale(saleTransactions);
 			due.setCreatedDate(saleTransactions.getSaleDate());
+			due.setTotalPayment(saleTransactions.getTotalPayment());
 			
 			saleTransactions.addDuePayment(due);
 		}

@@ -53,6 +53,11 @@ public class DuePayment implements Serializable {
 	@Column(name = "paid", precision = 10, scale = 2, nullable = false)
 	private BigDecimal paid;
 
+	@NotNull
+	@DecimalMin(value = "0")
+	@Column(name = "total_payment", precision = 10, scale = 2, nullable = false)
+	private BigDecimal totalPayment;
+
 	@ManyToOne(optional = false)
 	@NotNull
 	@JsonIgnoreProperties("duePayments")
@@ -125,6 +130,19 @@ public class DuePayment implements Serializable {
 		this.paid = paid;
 	}
 
+	public BigDecimal getTotalPayment() {
+		return totalPayment;
+	}
+
+	public DuePayment totalPayment(BigDecimal totalPayment) {
+		this.totalPayment = totalPayment;
+		return this;
+	}
+
+	public void setTotalPayment(BigDecimal totalPayment) {
+		this.totalPayment = totalPayment;
+	}
+
 	public User getCreator() {
 		return creator;
 	}
@@ -176,6 +194,7 @@ public class DuePayment implements Serializable {
 	@Override
 	public String toString() {
 		return "DuePayment{" + "id=" + getId() + ", remainingPayment=" + getRemainingPayment() + ", createdDate='"
-				+ getCreatedDate() + "'" + ", settled='" + isSettled() + "'" + ", paid=" + getPaid() + "}";
+				+ getCreatedDate() + "'" + ", settled='" + isSettled() + "'" + ", paid=" + getPaid() + ", totalPayment="
+				+ getTotalPayment() + "}";
 	}
 }

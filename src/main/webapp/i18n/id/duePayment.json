@@ -19,7 +19,8 @@
             "remainingPayment": "Saldo",
             "createdDate": "Tanggal",
             "settled": "Settled",
-            "paid": "Dibayar",
+            "paid": "Pembayaran",
+            "totalPayment": "Nominal",
             "creator": "Dibuat",
             "sale": "No. Fraktur",
             "customer": "Pelanggan"

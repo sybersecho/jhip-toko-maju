@@ -68,6 +68,9 @@ public class DuePaymentResourceIntTest {
     private static final BigDecimal DEFAULT_PAID = new BigDecimal(0);
     private static final BigDecimal UPDATED_PAID = new BigDecimal(1);
 
+    private static final BigDecimal DEFAULT_TOTAL_PAYMENT = new BigDecimal(0);
+    private static final BigDecimal UPDATED_TOTAL_PAYMENT = new BigDecimal(1);
+
     @Autowired
     private DuePaymentRepository duePaymentRepository;
 
@@ -130,7 +133,8 @@ public class DuePaymentResourceIntTest {
             .remainingPayment(DEFAULT_REMAINING_PAYMENT)
             .createdDate(DEFAULT_CREATED_DATE)
             .settled(DEFAULT_SETTLED)
-            .paid(DEFAULT_PAID);
+            .paid(DEFAULT_PAID)
+            .totalPayment(DEFAULT_TOTAL_PAYMENT);
         // Add required entity
         User user = UserResourceIntTest.createEntity(em);
         em.persist(user);
@@ -164,6 +168,7 @@ public class DuePaymentResourceIntTest {
         assertThat(testDuePayment.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testDuePayment.isSettled()).isEqualTo(DEFAULT_SETTLED);
         assertThat(testDuePayment.getPaid()).isEqualTo(DEFAULT_PAID);
+        assertThat(testDuePayment.getTotalPayment()).isEqualTo(DEFAULT_TOTAL_PAYMENT);
 
         // Validate the DuePayment in Elasticsearch
         verify(mockDuePaymentSearchRepository, times(1)).save(testDuePayment);
@@ -251,6 +256,25 @@ public class DuePaymentResourceIntTest {
 
     @Test
     @Transactional
+    public void checkTotalPaymentIsRequired() throws Exception {
+        int databaseSizeBeforeTest = duePaymentRepository.findAll().size();
+        // set the field null
+        duePayment.setTotalPayment(null);
+
+        // Create the DuePayment, which fails.
+        DuePaymentDTO duePaymentDTO = duePaymentMapper.toDto(duePayment);
+
+        restDuePaymentMockMvc.perform(post("/api/due-payments")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(duePaymentDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<DuePayment> duePaymentList = duePaymentRepository.findAll();
+        assertThat(duePaymentList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllDuePayments() throws Exception {
         // Initialize the database
         duePaymentRepository.saveAndFlush(duePayment);
@@ -263,7 +287,8 @@ public class DuePaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].remainingPayment").value(hasItem(DEFAULT_REMAINING_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].settled").value(hasItem(DEFAULT_SETTLED.booleanValue())))
-            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())));
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())))
+            .andExpect(jsonPath("$.[*].totalPayment").value(hasItem(DEFAULT_TOTAL_PAYMENT.intValue())));
     }
     
     @Test
@@ -280,7 +305,8 @@ public class DuePaymentResourceIntTest {
             .andExpect(jsonPath("$.remainingPayment").value(DEFAULT_REMAINING_PAYMENT.intValue()))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.settled").value(DEFAULT_SETTLED.booleanValue()))
-            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.intValue()));
+            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.intValue()))
+            .andExpect(jsonPath("$.totalPayment").value(DEFAULT_TOTAL_PAYMENT.intValue()));
     }
 
     @Test
@@ -441,6 +467,45 @@ public class DuePaymentResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllDuePaymentsByTotalPaymentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        duePaymentRepository.saveAndFlush(duePayment);
+
+        // Get all the duePaymentList where totalPayment equals to DEFAULT_TOTAL_PAYMENT
+        defaultDuePaymentShouldBeFound("totalPayment.equals=" + DEFAULT_TOTAL_PAYMENT);
+
+        // Get all the duePaymentList where totalPayment equals to UPDATED_TOTAL_PAYMENT
+        defaultDuePaymentShouldNotBeFound("totalPayment.equals=" + UPDATED_TOTAL_PAYMENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDuePaymentsByTotalPaymentIsInShouldWork() throws Exception {
+        // Initialize the database
+        duePaymentRepository.saveAndFlush(duePayment);
+
+        // Get all the duePaymentList where totalPayment in DEFAULT_TOTAL_PAYMENT or UPDATED_TOTAL_PAYMENT
+        defaultDuePaymentShouldBeFound("totalPayment.in=" + DEFAULT_TOTAL_PAYMENT + "," + UPDATED_TOTAL_PAYMENT);
+
+        // Get all the duePaymentList where totalPayment equals to UPDATED_TOTAL_PAYMENT
+        defaultDuePaymentShouldNotBeFound("totalPayment.in=" + UPDATED_TOTAL_PAYMENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDuePaymentsByTotalPaymentIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        duePaymentRepository.saveAndFlush(duePayment);
+
+        // Get all the duePaymentList where totalPayment is not null
+        defaultDuePaymentShouldBeFound("totalPayment.specified=true");
+
+        // Get all the duePaymentList where totalPayment is null
+        defaultDuePaymentShouldNotBeFound("totalPayment.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllDuePaymentsByCreatorIsEqualToSomething() throws Exception {
         // Initialize the database
         User creator = UserResourceIntTest.createEntity(em);
@@ -487,7 +552,8 @@ public class DuePaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].remainingPayment").value(hasItem(DEFAULT_REMAINING_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].settled").value(hasItem(DEFAULT_SETTLED.booleanValue())))
-            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())));
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())))
+            .andExpect(jsonPath("$.[*].totalPayment").value(hasItem(DEFAULT_TOTAL_PAYMENT.intValue())));
 
         // Check, that the count call also returns 1
         restDuePaymentMockMvc.perform(get("/api/due-payments/count?sort=id,desc&" + filter))
@@ -538,7 +604,8 @@ public class DuePaymentResourceIntTest {
             .remainingPayment(UPDATED_REMAINING_PAYMENT)
             .createdDate(UPDATED_CREATED_DATE)
             .settled(UPDATED_SETTLED)
-            .paid(UPDATED_PAID);
+            .paid(UPDATED_PAID)
+            .totalPayment(UPDATED_TOTAL_PAYMENT);
         DuePaymentDTO duePaymentDTO = duePaymentMapper.toDto(updatedDuePayment);
 
         restDuePaymentMockMvc.perform(put("/api/due-payments")
@@ -554,6 +621,7 @@ public class DuePaymentResourceIntTest {
         assertThat(testDuePayment.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testDuePayment.isSettled()).isEqualTo(UPDATED_SETTLED);
         assertThat(testDuePayment.getPaid()).isEqualTo(UPDATED_PAID);
+        assertThat(testDuePayment.getTotalPayment()).isEqualTo(UPDATED_TOTAL_PAYMENT);
 
         // Validate the DuePayment in Elasticsearch
         verify(mockDuePaymentSearchRepository, times(1)).save(testDuePayment);
@@ -617,7 +685,8 @@ public class DuePaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].remainingPayment").value(hasItem(DEFAULT_REMAINING_PAYMENT.intValue())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].settled").value(hasItem(DEFAULT_SETTLED.booleanValue())))
-            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())));
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.intValue())))
+            .andExpect(jsonPath("$.[*].totalPayment").value(hasItem(DEFAULT_TOTAL_PAYMENT.intValue())));
     }
 
     @Test

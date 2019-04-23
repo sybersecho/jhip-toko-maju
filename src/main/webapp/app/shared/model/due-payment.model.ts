@@ -6,6 +6,7 @@ export interface IDuePayment {
     createdDate?: Moment;
     settled?: boolean;
     paid?: number;
+    totalPayment?: number;
     creatorLogin?: string;
     creatorId?: number;
     saleNoInvoice?: string;
@@ -13,8 +14,6 @@ export interface IDuePayment {
     customerFirstName?: string;
     customerLastName?: string;
     customerFullName?: string;
-
-    // customerFullName(): string;
 }
 
 export class DuePayment implements IDuePayment {
@@ -24,6 +23,7 @@ export class DuePayment implements IDuePayment {
         public createdDate?: Moment,
         public settled?: boolean,
         public paid?: number,
+        public totalPayment?: number,
         public creatorLogin?: string,
         public creatorId?: number,
         public saleNoInvoice?: string,
@@ -35,8 +35,4 @@ export class DuePayment implements IDuePayment {
         this.settled = this.settled || false;
         this.customerFullName = this.customerFirstName + ' ' + this.customerLastName;
     }
-
-    // public customerFullName(): string {
-    //     return this.customerFirstName + ' ' + this.customerLastName;
-    // }
 }

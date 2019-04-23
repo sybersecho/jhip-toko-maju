@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new DuePayment(0, 0, currentDate, false, 0);
+            elemDefault = new DuePayment(0, 0, currentDate, false, 0, 0);
         });
 
         describe('Service methods', async () => {
@@ -73,7 +73,8 @@ describe('Service Tests', () => {
                         remainingPayment: 1,
                         createdDate: currentDate.format(DATE_TIME_FORMAT),
                         settled: true,
-                        paid: 1
+                        paid: 1,
+                        totalPayment: 1
                     },
                     elemDefault
                 );
@@ -98,7 +99,8 @@ describe('Service Tests', () => {
                         remainingPayment: 1,
                         createdDate: currentDate.format(DATE_TIME_FORMAT),
                         settled: true,
-                        paid: 1
+                        paid: 1,
+                        totalPayment: 1
                     },
                     elemDefault
                 );

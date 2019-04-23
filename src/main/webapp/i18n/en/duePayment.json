@@ -20,6 +20,7 @@
             "createdDate": "Created Date",
             "settled": "Settled",
             "paid": "Paid",
+            "totalPayment": "Total Payment",
             "creator": "Creator",
             "sale": "Sale",
             "customer": "Customer"

@@ -24,6 +24,10 @@ public class DuePaymentDTO implements Serializable {
     @DecimalMin(value = "0")
     private BigDecimal paid;
 
+    @NotNull
+    @DecimalMin(value = "0")
+    private BigDecimal totalPayment;
+
 
     private Long creatorId;
 
@@ -75,6 +79,14 @@ public class DuePaymentDTO implements Serializable {
 
     public void setPaid(BigDecimal paid) {
         this.paid = paid;
+    }
+
+    public BigDecimal getTotalPayment() {
+        return totalPayment;
+    }
+
+    public void setTotalPayment(BigDecimal totalPayment) {
+        this.totalPayment = totalPayment;
     }
 
     public Long getCreatorId() {
@@ -154,6 +166,7 @@ public class DuePaymentDTO implements Serializable {
             ", createdDate='" + getCreatedDate() + "'" +
             ", settled='" + isSettled() + "'" +
             ", paid=" + getPaid() +
+            ", totalPayment=" + getTotalPayment() +
             ", creator=" + getCreatorId() +
             ", creator='" + getCreatorLogin() + "'" +
             ", sale=" + getSaleId() +

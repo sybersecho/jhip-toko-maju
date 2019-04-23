@@ -105,6 +105,9 @@ public class DuePaymentQueryService extends QueryService<DuePayment> {
             if (criteria.getPaid() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPaid(), DuePayment_.paid));
             }
+            if (criteria.getTotalPayment() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalPayment(), DuePayment_.totalPayment));
+            }
             if (criteria.getCreatorId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCreatorId(),
                     root -> root.join(DuePayment_.creator, JoinType.LEFT).get(User_.id)));
