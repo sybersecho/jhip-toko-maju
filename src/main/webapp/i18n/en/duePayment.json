@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "duePayment": {
+            "home": {
+                "title": "Due Payments",
+                "createLabel": "Create a new Due Payment",
+                "createOrEditLabel": "Create or edit a Due Payment",
+                "search": "Search for Due Payment"
+            },
+            "created": "A new Due Payment is created with identifier {{ param }}",
+            "updated": "A Due Payment is updated with identifier {{ param }}",
+            "deleted": "A Due Payment is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Due Payment {{ id }}?"
+            },
+            "detail": {
+                "title": "Due Payment"
+            },
+            "remainingPayment": "Remaining Payment",
+            "createdDate": "Created Date",
+            "settled": "Settled",
+            "paid": "Paid",
+            "creator": "Creator",
+            "sale": "Sale"
+        }
+    }
+}

@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="duePayment">
+            <h2><span jhiTranslate="jhiptokomajuApp.duePayment.detail.title">Due Payment</span> {{duePayment.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="jhiptokomajuApp.duePayment.remainingPayment">Remaining Payment</span></dt>
+                <dd>
+                    <span>{{duePayment.remainingPayment}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.duePayment.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{duePayment.createdDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.duePayment.settled">Settled</span></dt>
+                <dd>
+                    <span>{{duePayment.settled}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.duePayment.paid">Paid</span></dt>
+                <dd>
+                    <span>{{duePayment.paid}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.duePayment.creator">Creator</span></dt>
+                <dd>
+                    {{duePayment.creatorLogin}}
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.duePayment.sale">Sale</span></dt>
+                <dd>
+                    <div *ngIf="duePayment.saleId">
+                        <a [routerLink]="['/sale-transactions', duePayment.saleId, 'view']">{{duePayment.saleNoInvoice}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/due-payment', duePayment.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "duePayment": {
+            "home": {
+                "title": "Due Payments",
+                "createLabel": "Buat Due Payment baru",
+                "createOrEditLabel": "Buat atau edit Due Payment",
+                "search": "Cari Due Payment"
+            },
+            "created": "Due Payment dengan id {{ param }} telah dibuat",
+            "updated": "Due Payment dengan id {{ param }} telah diperbaharui",
+            "deleted": "Due Payment dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Due Payment {{ id }}?"
+            },
+            "detail": {
+                "title": "Due Payment"
+            },
+            "remainingPayment": "Remaining Payment",
+            "createdDate": "Created Date",
+            "settled": "Settled",
+            "paid": "Paid",
+            "creator": "Creator",
+            "sale": "Sale"
+        }
+    }
+}

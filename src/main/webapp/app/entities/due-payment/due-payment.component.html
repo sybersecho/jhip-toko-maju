@@ -1,0 +1,85 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.duePayment.home.title">Due Payments</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-due-payment" [routerLink]="['/due-payment/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down"  jhiTranslate="jhiptokomajuApp.duePayment.home.createLabel">
+            Create new Due Payment
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jhiptokomajuApp.duePayment.home.search' | translate }}">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="duePayments">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remainingPayment"><span jhiTranslate="jhiptokomajuApp.duePayment.remainingPayment">Remaining Payment</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdDate"><span jhiTranslate="jhiptokomajuApp.duePayment.createdDate">Created Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="settled"><span jhiTranslate="jhiptokomajuApp.duePayment.settled">Settled</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="paid"><span jhiTranslate="jhiptokomajuApp.duePayment.paid">Paid</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="creatorLogin"><span jhiTranslate="jhiptokomajuApp.duePayment.creator">Creator</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="saleNoInvoice"><span jhiTranslate="jhiptokomajuApp.duePayment.sale">Sale</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let duePayment of duePayments ;trackBy: trackId">
+                <td><a [routerLink]="['/due-payment', duePayment.id, 'view' ]">{{duePayment.id}}</a></td>
+                <td>{{duePayment.remainingPayment}}</td>
+                <td>{{duePayment.createdDate | date:'medium'}}</td>
+                <td>{{duePayment.settled}}</td>
+                <td>{{duePayment.paid}}</td>
+                <td>
+                    {{duePayment.creatorLogin}}
+                </td>
+                <td>
+                    <div *ngIf="duePayment.saleId">
+                        <a [routerLink]="['../sale-transactions', duePayment.saleId , 'view' ]" >{{duePayment.saleNoInvoice}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/due-payment', duePayment.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/due-payment', duePayment.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'due-payment', { outlets: { popup: duePayment.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
