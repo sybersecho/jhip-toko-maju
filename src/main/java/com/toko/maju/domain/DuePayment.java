@@ -1,18 +1,26 @@
 package com.toko.maju.domain;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * A DuePayment.
@@ -23,136 +31,151 @@ import java.util.Objects;
 @Document(indexName = "duepayment")
 public class DuePayment implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private static final long serialVersionUID = 1L;
 
-    @Column(name = "remaining_payment", precision = 10, scale = 2)
-    private BigDecimal remainingPayment;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotNull
-    @Column(name = "created_date", nullable = false)
-    private Instant createdDate;
+	@Column(name = "remaining_payment", precision = 10, scale = 2)
+	private BigDecimal remainingPayment;
 
-    @NotNull
-    @Column(name = "settled", nullable = false)
-    private Boolean settled;
+	@NotNull
+	@Column(name = "created_date", nullable = false)
+	private Instant createdDate;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    @Column(name = "paid", precision = 10, scale = 2, nullable = false)
-    private BigDecimal paid;
+	@NotNull
+	@Column(name = "settled", nullable = false)
+	private Boolean settled;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties("duePayments")
-    private User creator;
+	@NotNull
+	@DecimalMin(value = "0")
+	@Column(name = "paid", precision = 10, scale = 2, nullable = false)
+	private BigDecimal paid;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
+	@ManyToOne(optional = false)
+	@NotNull
+	@JsonIgnoreProperties("duePayments")
+	private User creator;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@ManyToOne(optional = false)
+//    @JsonIgnoreProperties("duePayments")
+	@JsonBackReference
+	private SaleTransactions sale;
 
-    public BigDecimal getRemainingPayment() {
-        return remainingPayment;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
+	// remove
+	public Long getId() {
+		return id;
+	}
 
-    public DuePayment remainingPayment(BigDecimal remainingPayment) {
-        this.remainingPayment = remainingPayment;
-        return this;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setRemainingPayment(BigDecimal remainingPayment) {
-        this.remainingPayment = remainingPayment;
-    }
+	public BigDecimal getRemainingPayment() {
+		return remainingPayment;
+	}
 
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
+	public DuePayment remainingPayment(BigDecimal remainingPayment) {
+		this.remainingPayment = remainingPayment;
+		return this;
+	}
 
-    public DuePayment createdDate(Instant createdDate) {
-        this.createdDate = createdDate;
-        return this;
-    }
+	public void setRemainingPayment(BigDecimal remainingPayment) {
+		this.remainingPayment = remainingPayment;
+	}
 
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
+	public Instant getCreatedDate() {
+		return createdDate;
+	}
 
-    public Boolean isSettled() {
-        return settled;
-    }
+	public DuePayment createdDate(Instant createdDate) {
+		this.createdDate = createdDate;
+		return this;
+	}
 
-    public DuePayment settled(Boolean settled) {
-        this.settled = settled;
-        return this;
-    }
+	public void setCreatedDate(Instant createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public void setSettled(Boolean settled) {
-        this.settled = settled;
-    }
+	public Boolean isSettled() {
+		return settled;
+	}
 
-    public BigDecimal getPaid() {
-        return paid;
-    }
+	public DuePayment settled(Boolean settled) {
+		this.settled = settled;
+		return this;
+	}
 
-    public DuePayment paid(BigDecimal paid) {
-        this.paid = paid;
-        return this;
-    }
+	public void setSettled(Boolean settled) {
+		this.settled = settled;
+	}
 
-    public void setPaid(BigDecimal paid) {
-        this.paid = paid;
-    }
+	public BigDecimal getPaid() {
+		return paid;
+	}
 
-    public User getCreator() {
-        return creator;
-    }
+	public DuePayment paid(BigDecimal paid) {
+		this.paid = paid;
+		return this;
+	}
 
-    public DuePayment creator(User user) {
-        this.creator = user;
-        return this;
-    }
+	public void setPaid(BigDecimal paid) {
+		this.paid = paid;
+	}
 
-    public void setCreator(User user) {
-        this.creator = user;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+	public User getCreator() {
+		return creator;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DuePayment duePayment = (DuePayment) o;
-        if (duePayment.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), duePayment.getId());
-    }
+	public DuePayment creator(User user) {
+		this.creator = user;
+		return this;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+	public void setCreator(User user) {
+		this.creator = user;
+	}
 
-    @Override
-    public String toString() {
-        return "DuePayment{" +
-            "id=" + getId() +
-            ", remainingPayment=" + getRemainingPayment() +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", settled='" + isSettled() + "'" +
-            ", paid=" + getPaid() +
-            "}";
-    }
+	public SaleTransactions getSale() {
+		return sale;
+	}
+
+	public DuePayment sale(SaleTransactions saleTransactions) {
+		this.sale = saleTransactions;
+		return this;
+	}
+
+	public void setSale(SaleTransactions saleTransactions) {
+		this.sale = saleTransactions;
+	}
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+	// setters here, do not remove
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		DuePayment duePayment = (DuePayment) o;
+		if (duePayment.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), duePayment.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "DuePayment{" + "id=" + getId() + ", remainingPayment=" + getRemainingPayment() + ", createdDate='"
+				+ getCreatedDate() + "'" + ", settled='" + isSettled() + "'" + ", paid=" + getPaid() + "}";
+	}
 }

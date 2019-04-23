@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.toko.maju.domain.DuePayment;
 import com.toko.maju.domain.Product;
 import com.toko.maju.domain.SaleItem;
 import com.toko.maju.domain.SaleTransactions;
@@ -83,15 +84,30 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 	@Transactional
 	public SaleTransactionsDTO save(SaleTransactionsDTO saleTransactionsDTO) throws Exception {
 		log.debug("Request to save SaleTransactions : {}", saleTransactionsDTO);
-		log.debug("dto items" + saleTransactionsDTO.getItems());
+//		log.debug("dto items" + saleTransactionsDTO.getItems());
 		SaleTransactions saleTransactions = saleTransactionsMapper.toEntity(saleTransactionsDTO);
-		log.debug("entity items" + saleTransactions.getItems());
+//		log.debug("entity items" + saleTransactions.getItems());
 
+//		set creator
 		String login = SecurityUtils.getCurrentUserLogin().get();
-		log.debug("login: " + login);
+//		log.debug("login: " + login);
 		saleTransactions.setCreator(userRepository.findOneByLogin(login).get());
-		log.debug("Creator: " + saleTransactions.getCreator());
+//		log.debug("Creator: " + saleTransactions.getCreator());
 
+//		set due payment if not settled
+		if(!saleTransactions.isSettled()) {
+			DuePayment due = new DuePayment();
+			due.setSettled(saleTransactions.isSettled());
+			due.setCreator(saleTransactions.getCreator());
+			due.setPaid(saleTransactions.getPaid());
+			due.setRemainingPayment(saleTransactions.getRemainingPayment());
+			due.setSale(saleTransactions);
+			due.setCreatedDate(saleTransactions.getSaleDate());
+			
+			saleTransactions.addDuePayment(due);
+		}
+		
+//		set invoice number
 		SequenceNumber currentInvoiceNo = sequenceNumberRepository.findByType("invoice");
 		int currentValue = currentInvoiceNo.getNextValue();
 		String noInvoice = generateInvoiceNo(currentValue);

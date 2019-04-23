@@ -29,6 +29,10 @@ public class DuePaymentDTO implements Serializable {
 
     private String creatorLogin;
 
+    private Long saleId;
+
+    private String saleNoInvoice;
+
     public Long getId() {
         return id;
     }
@@ -85,6 +89,22 @@ public class DuePaymentDTO implements Serializable {
         this.creatorLogin = userLogin;
     }
 
+    public Long getSaleId() {
+        return saleId;
+    }
+
+    public void setSaleId(Long saleTransactionsId) {
+        this.saleId = saleTransactionsId;
+    }
+
+    public String getSaleNoInvoice() {
+        return saleNoInvoice;
+    }
+
+    public void setSaleNoInvoice(String saleTransactionsNoInvoice) {
+        this.saleNoInvoice = saleTransactionsNoInvoice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -116,6 +136,8 @@ public class DuePaymentDTO implements Serializable {
             ", paid=" + getPaid() +
             ", creator=" + getCreatorId() +
             ", creator='" + getCreatorLogin() + "'" +
+            ", sale=" + getSaleId() +
+            ", sale='" + getSaleNoInvoice() + "'" +
             "}";
     }
 }

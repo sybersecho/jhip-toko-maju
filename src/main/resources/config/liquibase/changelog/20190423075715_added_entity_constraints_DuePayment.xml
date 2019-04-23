@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 
+        <addForeignKeyConstraint baseColumnNames="sale_id"
+                                 baseTableName="due_payment"
+                                 constraintName="fk_due_payment_sale_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sale_transactions"/>
+
     </changeSet>
 </databaseChangeLog>

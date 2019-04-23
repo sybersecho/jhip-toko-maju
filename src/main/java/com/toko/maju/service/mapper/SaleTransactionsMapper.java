@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity SaleTransactions and its DTO SaleTransactionsDTO.
  */
-@Mapper(componentModel = "spring", uses = {CustomerMapper.class, UserMapper.class, SaleItemMapper.class })
+@Mapper(componentModel = "spring", uses = {CustomerMapper.class, UserMapper.class, SaleItemMapper.class, DuePaymentMapper.class })
 public interface SaleTransactionsMapper extends EntityMapper<SaleTransactionsDTO, SaleTransactions> {
 
     @Mapping(source = "customer.id", target = "customerId")

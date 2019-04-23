@@ -1,21 +1,30 @@
 package com.toko.maju.domain;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * A SaleTransactions.
@@ -26,264 +35,263 @@ import java.util.Objects;
 @Document(indexName = "saletransactions")
 public class SaleTransactions implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "no_invoice")
-    private String noInvoice;
+	@Column(name = "no_invoice")
+	private String noInvoice;
 
-    @DecimalMin(value = "0")
-    @Column(name = "discount", precision = 10, scale = 2)
-    private BigDecimal discount;
+	@DecimalMin(value = "0")
+	@Column(name = "discount", precision = 10, scale = 2)
+	private BigDecimal discount;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    @Column(name = "total_payment", precision = 10, scale = 2, nullable = false)
-    private BigDecimal totalPayment;
+	@NotNull
+	@DecimalMin(value = "0")
+	@Column(name = "total_payment", precision = 10, scale = 2, nullable = false)
+	private BigDecimal totalPayment;
 
-    @DecimalMin(value = "0")
-    @Column(name = "remaining_payment", precision = 10, scale = 2)
-    private BigDecimal remainingPayment;
+	@DecimalMin(value = "0")
+	@Column(name = "remaining_payment", precision = 10, scale = 2)
+	private BigDecimal remainingPayment;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    @Column(name = "paid", precision = 10, scale = 2, nullable = false)
-    private BigDecimal paid;
+	@NotNull
+	@DecimalMin(value = "0")
+	@Column(name = "paid", precision = 10, scale = 2, nullable = false)
+	private BigDecimal paid;
 
-    @Column(name = "sale_date")
-    private Instant saleDate;
+	@Column(name = "sale_date")
+	private Instant saleDate;
 
-    @NotNull
-    @Column(name = "settled", nullable = false)
-    private Boolean settled;
+	@NotNull
+	@Column(name = "settled", nullable = false)
+	private Boolean settled;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<SaleItem> items = new HashSet<>();
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties("saleTransactions")
-    private Customer customer;
+	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Set<SaleItem> items = new HashSet<>();
+	@ManyToOne(optional = false)
+	@NotNull
+	@JsonIgnoreProperties("saleTransactions")
+	private Customer customer;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties("saleTransactions")
-    private User creator;
+	@ManyToOne(optional = false)
+	@NotNull
+	@JsonIgnoreProperties("saleTransactions")
+	private User creator;
 
-    @OneToMany(mappedBy = "sales")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<DuePayment> duePayments = new HashSet<>();
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
+	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//    @JsonIgnoreProperties("duePayments")
+	@JsonManagedReference
+	private Set<DuePayment> duePayments = new HashSet<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
+	// remove
+	public Long getId() {
+		return id;
+	}
 
-    public String getNoInvoice() {
-        return noInvoice;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public SaleTransactions noInvoice(String noInvoice) {
-        this.noInvoice = noInvoice;
-        return this;
-    }
+	public String getNoInvoice() {
+		return noInvoice;
+	}
 
-    public void setNoInvoice(String noInvoice) {
-        this.noInvoice = noInvoice;
-    }
+	public SaleTransactions noInvoice(String noInvoice) {
+		this.noInvoice = noInvoice;
+		return this;
+	}
 
-    public BigDecimal getDiscount() {
-        return discount;
-    }
+	public void setNoInvoice(String noInvoice) {
+		this.noInvoice = noInvoice;
+	}
 
-    public SaleTransactions discount(BigDecimal discount) {
-        this.discount = discount;
-        return this;
-    }
+	public BigDecimal getDiscount() {
+		return discount;
+	}
 
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
-    }
+	public SaleTransactions discount(BigDecimal discount) {
+		this.discount = discount;
+		return this;
+	}
 
-    public BigDecimal getTotalPayment() {
-        return totalPayment;
-    }
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
+	}
 
-    public SaleTransactions totalPayment(BigDecimal totalPayment) {
-        this.totalPayment = totalPayment;
-        return this;
-    }
+	public BigDecimal getTotalPayment() {
+		return totalPayment;
+	}
 
-    public void setTotalPayment(BigDecimal totalPayment) {
-        this.totalPayment = totalPayment;
-    }
+	public SaleTransactions totalPayment(BigDecimal totalPayment) {
+		this.totalPayment = totalPayment;
+		return this;
+	}
 
-    public BigDecimal getRemainingPayment() {
-        return remainingPayment;
-    }
+	public void setTotalPayment(BigDecimal totalPayment) {
+		this.totalPayment = totalPayment;
+	}
 
-    public SaleTransactions remainingPayment(BigDecimal remainingPayment) {
-        this.remainingPayment = remainingPayment;
-        return this;
-    }
+	public BigDecimal getRemainingPayment() {
+		return remainingPayment;
+	}
 
-    public void setRemainingPayment(BigDecimal remainingPayment) {
-        this.remainingPayment = remainingPayment;
-    }
+	public SaleTransactions remainingPayment(BigDecimal remainingPayment) {
+		this.remainingPayment = remainingPayment;
+		return this;
+	}
 
-    public BigDecimal getPaid() {
-        return paid;
-    }
+	public void setRemainingPayment(BigDecimal remainingPayment) {
+		this.remainingPayment = remainingPayment;
+	}
 
-    public SaleTransactions paid(BigDecimal paid) {
-        this.paid = paid;
-        return this;
-    }
+	public BigDecimal getPaid() {
+		return paid;
+	}
 
-    public void setPaid(BigDecimal paid) {
-        this.paid = paid;
-    }
+	public SaleTransactions paid(BigDecimal paid) {
+		this.paid = paid;
+		return this;
+	}
 
-    public Instant getSaleDate() {
-        return saleDate;
-    }
+	public void setPaid(BigDecimal paid) {
+		this.paid = paid;
+	}
 
-    public SaleTransactions saleDate(Instant saleDate) {
-        this.saleDate = saleDate;
-        return this;
-    }
+	public Instant getSaleDate() {
+		return saleDate;
+	}
 
-    public void setSaleDate(Instant saleDate) {
-        this.saleDate = saleDate;
-    }
+	public SaleTransactions saleDate(Instant saleDate) {
+		this.saleDate = saleDate;
+		return this;
+	}
 
-    public Boolean isSettled() {
-        return settled;
-    }
+	public void setSaleDate(Instant saleDate) {
+		this.saleDate = saleDate;
+	}
 
-    public SaleTransactions settled(Boolean settled) {
-        this.settled = settled;
-        return this;
-    }
+	public Boolean isSettled() {
+		return settled;
+	}
 
-    public void setSettled(Boolean settled) {
-        this.settled = settled;
-    }
+	public SaleTransactions settled(Boolean settled) {
+		this.settled = settled;
+		return this;
+	}
 
-    public Set<SaleItem> getItems() {
-        return items;
-    }
+	public void setSettled(Boolean settled) {
+		this.settled = settled;
+	}
 
-    public SaleTransactions items(Set<SaleItem> saleItems) {
-        this.items = saleItems;
-        return this;
-    }
+	public Set<SaleItem> getItems() {
+		return items;
+	}
 
-    public SaleTransactions addItems(SaleItem saleItem) {
-        this.items.add(saleItem);
-        saleItem.setSale(this);
-        return this;
-    }
+	public SaleTransactions items(Set<SaleItem> saleItems) {
+		this.items = saleItems;
+		return this;
+	}
 
-    public SaleTransactions removeItems(SaleItem saleItem) {
-        this.items.remove(saleItem);
-        saleItem.setSale(null);
-        return this;
-    }
+	public SaleTransactions addItems(SaleItem saleItem) {
+		this.items.add(saleItem);
+		saleItem.setSale(this);
+		return this;
+	}
 
-    public void setItems(Set<SaleItem> saleItems) {
-        this.items = saleItems;
-    }
+	public SaleTransactions removeItems(SaleItem saleItem) {
+		this.items.remove(saleItem);
+		saleItem.setSale(null);
+		return this;
+	}
 
-    public Customer getCustomer() {
-        return customer;
-    }
+	public void setItems(Set<SaleItem> saleItems) {
+		this.items = saleItems;
+	}
 
-    public SaleTransactions customer(Customer customer) {
-        this.customer = customer;
-        return this;
-    }
+	public Customer getCustomer() {
+		return customer;
+	}
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+	public SaleTransactions customer(Customer customer) {
+		this.customer = customer;
+		return this;
+	}
 
-    public User getCreator() {
-        return creator;
-    }
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
-    public SaleTransactions creator(User user) {
-        this.creator = user;
-        return this;
-    }
+	public User getCreator() {
+		return creator;
+	}
 
-    public void setCreator(User user) {
-        this.creator = user;
-    }
+	public SaleTransactions creator(User user) {
+		this.creator = user;
+		return this;
+	}
 
-    public Set<DuePayment> getDuePayments() {
-        return duePayments;
-    }
+	public void setCreator(User user) {
+		this.creator = user;
+	}
 
-    public SaleTransactions duePayments(Set<DuePayment> duePayments) {
-        this.duePayments = duePayments;
-        return this;
-    }
+	public Set<DuePayment> getDuePayments() {
+		return duePayments;
+	}
 
-    public SaleTransactions addDuePayment(DuePayment duePayment) {
-        this.duePayments.add(duePayment);
-        duePayment.setSales(this);
-        return this;
-    }
+	public SaleTransactions duePayments(Set<DuePayment> duePayments) {
+		this.duePayments = duePayments;
+		return this;
+	}
 
-    public SaleTransactions removeDuePayment(DuePayment duePayment) {
-        this.duePayments.remove(duePayment);
-        duePayment.setSales(null);
-        return this;
-    }
+	public SaleTransactions addDuePayment(DuePayment duePayment) {
+		this.duePayments.add(duePayment);
+		duePayment.setSale(this);
+		return this;
+	}
 
-    public void setDuePayments(Set<DuePayment> duePayments) {
-        this.duePayments = duePayments;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+	public SaleTransactions removeDuePayment(DuePayment duePayment) {
+		this.duePayments.remove(duePayment);
+		duePayment.setSale(null);
+		return this;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SaleTransactions saleTransactions = (SaleTransactions) o;
-        if (saleTransactions.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), saleTransactions.getId());
-    }
+	public void setDuePayments(Set<DuePayment> duePayments) {
+		this.duePayments = duePayments;
+	}
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+	// setters here, do not remove
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		SaleTransactions saleTransactions = (SaleTransactions) o;
+		if (saleTransactions.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), saleTransactions.getId());
+	}
 
-    @Override
-    public String toString() {
-        return "SaleTransactions{" +
-            "id=" + getId() +
-            ", noInvoice='" + getNoInvoice() + "'" +
-            ", discount=" + getDiscount() +
-            ", totalPayment=" + getTotalPayment() +
-            ", remainingPayment=" + getRemainingPayment() +
-            ", paid=" + getPaid() +
-            ", saleDate='" + getSaleDate() + "'" +
-            ", settled='" + isSettled() + "'" +
-            "}";
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "SaleTransactions{" + "id=" + getId() + ", noInvoice='" + getNoInvoice() + "'" + ", discount="
+				+ getDiscount() + ", totalPayment=" + getTotalPayment() + ", remainingPayment=" + getRemainingPayment()
+				+ ", paid=" + getPaid() + ", saleDate='" + getSaleDate() + "'" + ", settled='" + isSettled() + "'"
+				+ "}";
+	}
 }

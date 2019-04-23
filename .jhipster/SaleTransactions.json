@@ -34,7 +34,7 @@
             "relationshipName": "duePayment",
             "otherEntityName": "duePayment",
             "relationshipType": "one-to-many",
-            "otherEntityRelationshipName": "sales",
+            "otherEntityRelationshipName": "sale",
             "otherEntityRelationshipNameUndefined": false
         }
     ],

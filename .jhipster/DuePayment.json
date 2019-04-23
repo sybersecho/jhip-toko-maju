@@ -11,7 +11,16 @@
             ],
             "otherEntityField": "login",
             "ownerSide": true,
-            "otherEntityRelationshipName": "duePayment"
+            "otherEntityRelationshipName": "duePayment",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "sale",
+            "otherEntityName": "saleTransactions",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "noInvoice",
+            "otherEntityRelationshipName": "duePayment",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [
