@@ -5,11 +5,13 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IDuePayment } from 'app/shared/model/due-payment.model';
+import { IDuePayment, DuePayment } from 'app/shared/model/due-payment.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { DuePaymentService } from './due-payment.service';
+import { SaleTransactionsService } from '../sale-transactions';
+import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 
 @Component({
     selector: 'jhi-due-payment',
@@ -17,6 +19,7 @@ import { DuePaymentService } from './due-payment.service';
 })
 export class DuePaymentComponent implements OnInit, OnDestroy {
     duePayments: IDuePayment[];
+    sales: ISaleTransactions[];
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -29,6 +32,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
 
     constructor(
         protected duePaymentService: DuePaymentService,
+        protected saleTransactionsService: SaleTransactionsService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
@@ -36,6 +40,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         protected accountService: AccountService
     ) {
         this.duePayments = [];
+        this.sales = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
@@ -50,28 +55,35 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
-            this.duePaymentService
-                .search({
-                    query: this.currentSearch,
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<IDuePayment[]>) => this.paginateDuePayments(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
-        this.duePaymentService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
+        // if (this.currentSearch) {
+        //     this.duePaymentService
+        //         .search({
+        //             query: this.currentSearch,
+        //             page: this.page,
+        //             size: this.itemsPerPage,
+        //             sort: this.sort()
+        //         })
+        //         .subscribe(
+        //             (res: HttpResponse<IDuePayment[]>) => this.paginateDuePayments(res.body, res.headers),
+        //             (res: HttpErrorResponse) => this.onError(res.message)
+        //         );
+        //     return;
+        // }
+        // this.duePaymentService
+        //     .query({
+        //         page: this.page,
+        //         size: this.itemsPerPage,
+        //         sort: this.sort()
+        //     })
+        //     .subscribe(
+        //         (res: HttpResponse<IDuePayment[]>) => this.paginateDuePayments(res.body, res.headers),
+        //         (res: HttpErrorResponse) => this.onError(res.message)
+        //     );
+
+        this.saleTransactionsService
+            .queryDueTransaction()
             .subscribe(
-                (res: HttpResponse<IDuePayment[]>) => this.paginateDuePayments(res.body, res.headers),
+                (res: HttpResponse<ISaleTransactions[]>) => this.paginateDuePayments(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -142,14 +154,49 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    protected paginateDuePayments(data: IDuePayment[], headers: HttpHeaders) {
-        console.log('Due Payment: ');
+    changeEdit(duePayment: IDuePayment) {
+        if (duePayment.isEdit) {
+            duePayment.isEdit = false;
+            duePayment.paid = 0;
+        } else {
+            duePayment.isEdit = true;
+            duePayment.paid = duePayment.remainingPayment;
+        }
+    }
+
+    protected paginateDuePayments(data: ISaleTransactions[], headers: HttpHeaders) {
+        console.log('sale: ');
         console.log(data);
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            this.duePayments.push(data[i]);
+            this.sales.push(data[i]);
+            const duePayment: IDuePayment = this.createDuePayment(data[i]);
+            console.log('Due payment: ');
+            console.log(duePayment);
+            this.duePayments.push(duePayment);
         }
+    }
+
+    protected createDuePayment(sale: ISaleTransactions): IDuePayment {
+        console.log('Sale: ');
+        console.log(sale);
+        // tslint:disable-next-line: prefer-const
+        let duePayment = new DuePayment();
+        duePayment.customerLastName = sale.customerLastName;
+        duePayment.createdDate = sale.saleDate;
+        duePayment.creatorId = sale.creatorId;
+        duePayment.creatorLogin = sale.creatorLogin;
+        duePayment.customerFirstName = sale.customerFirstName;
+        duePayment.customerFullName = sale.customerFirstName + ' ' + sale.customerLastName;
+        duePayment.paid = 0;
+        duePayment.remainingPayment = sale.remainingPayment;
+        duePayment.saleId = sale.id;
+        duePayment.saleNoInvoice = sale.noInvoice;
+        duePayment.totalPayment = sale.totalPayment;
+        duePayment.isEdit = false;
+
+        return duePayment;
     }
 
     protected onError(errorMessage: string) {
