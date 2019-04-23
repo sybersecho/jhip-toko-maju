@@ -10,6 +10,11 @@ export interface IDuePayment {
     creatorId?: number;
     saleNoInvoice?: string;
     saleId?: number;
+    customerFirstName?: string;
+    customerLastName?: string;
+    customerFullName?: string;
+
+    // customerFullName(): string;
 }
 
 export class DuePayment implements IDuePayment {
@@ -22,8 +27,16 @@ export class DuePayment implements IDuePayment {
         public creatorLogin?: string,
         public creatorId?: number,
         public saleNoInvoice?: string,
-        public saleId?: number
+        public saleId?: number,
+        public customerFirstName?: string,
+        public customerLastName?: string,
+        public customerFullName?: string
     ) {
         this.settled = this.settled || false;
+        this.customerFullName = this.customerFirstName + ' ' + this.customerLastName;
     }
+
+    // public customerFullName(): string {
+    //     return this.customerFirstName + ' ' + this.customerLastName;
+    // }
 }

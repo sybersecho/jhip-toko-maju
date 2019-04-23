@@ -16,12 +16,13 @@
             "detail": {
                 "title": "Due Payment"
             },
-            "remainingPayment": "Remaining Payment",
-            "createdDate": "Created Date",
+            "remainingPayment": "Saldo",
+            "createdDate": "Tanggal",
             "settled": "Settled",
-            "paid": "Paid",
-            "creator": "Creator",
-            "sale": "Sale"
+            "paid": "Dibayar",
+            "creator": "Dibuat",
+            "sale": "No. Fraktur",
+            "customer": "Pelanggan"
         }
     }
 }

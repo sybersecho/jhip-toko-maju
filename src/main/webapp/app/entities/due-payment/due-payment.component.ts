@@ -143,6 +143,8 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     }
 
     protected paginateDuePayments(data: IDuePayment[], headers: HttpHeaders) {
+        console.log('due payment: ');
+        console.log(data);
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {

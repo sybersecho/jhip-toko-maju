@@ -32,6 +32,10 @@ public class DuePaymentDTO implements Serializable {
     private Long saleId;
 
     private String saleNoInvoice;
+    
+    private String customerFirstName;
+    
+    private String customerLastName;
 
     public Long getId() {
         return id;
@@ -105,7 +109,23 @@ public class DuePaymentDTO implements Serializable {
         this.saleNoInvoice = saleTransactionsNoInvoice;
     }
 
-    @Override
+    public String getCustomerFirstName() {
+		return customerFirstName;
+	}
+
+	public void setCustomerFirstName(String customerFirstName) {
+		this.customerFirstName = customerFirstName;
+	}
+
+	public String getCustomerLastName() {
+		return customerLastName;
+	}
+
+	public void setCustomerLastName(String customerLastName) {
+		this.customerLastName = customerLastName;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

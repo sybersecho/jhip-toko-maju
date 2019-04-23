@@ -15,6 +15,8 @@ public interface DuePaymentMapper extends EntityMapper<DuePaymentDTO, DuePayment
     @Mapping(source = "creator.login", target = "creatorLogin")
     @Mapping(source = "sale.id", target = "saleId")
     @Mapping(source = "sale.noInvoice", target = "saleNoInvoice")
+    @Mapping(source = "sale.customer.firstName", target = "customerFirstName")
+    @Mapping(source = "sale.customer.lastName", target = "customerLastName")
     DuePaymentDTO toDto(DuePayment duePayment);
 
     @Mapping(source = "creatorId", target = "creator")

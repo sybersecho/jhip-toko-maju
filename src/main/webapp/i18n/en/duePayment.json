@@ -21,7 +21,8 @@
             "settled": "Settled",
             "paid": "Paid",
             "creator": "Creator",
-            "sale": "Sale"
+            "sale": "Sale",
+            "customer": "Customer"
         }
     }
 }
