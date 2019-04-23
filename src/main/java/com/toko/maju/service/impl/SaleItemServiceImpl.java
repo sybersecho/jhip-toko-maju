@@ -91,7 +91,8 @@ public class SaleItemServiceImpl implements SaleItemService {
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete SaleItem : {}", id);        saleItemRepository.deleteById(id);
+        log.debug("Request to delete SaleItem : {}", id);
+        saleItemRepository.deleteById(id);
         saleItemSearchRepository.deleteById(id);
     }
 

@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(SaleItemService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new SaleItem(0, 0, 0);
+            elemDefault = new SaleItem(0, 0, 0, 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -56,7 +56,9 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         quantity: 1,
-                        totalPrice: 1
+                        totalPrice: 1,
+                        sellingPrice: 1,
+                        productName: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -74,7 +76,9 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         quantity: 1,
-                        totalPrice: 1
+                        totalPrice: 1,
+                        sellingPrice: 1,
+                        productName: 'BBBBBB'
                     },
                     elemDefault
                 );

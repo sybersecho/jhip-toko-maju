@@ -62,6 +62,12 @@ entity Invoice {
   paid BigDecimal,
   saleDate Instant
 }
+entity DuePayment {
+  remainingPayment BigDecimal,
+  createdDate Instant required,
+  settled Boolean required,
+  paid BigDecimal required min(0)
+}
 
 enum Gender {
   MALE,
@@ -78,7 +84,8 @@ relationship OneToMany {
   Supplier{product} to Product{supplier(name)},
   Customer{product} to CustomerProduct{customer(firstName) required},
   Project{product} to ProjectProduct{project(name) required},
-  SaleTransactions{items} to SaleItem{sale(noInvoice) required}
+  SaleTransactions{items} to SaleItem{sale(noInvoice) required},
+  SaleTransactions{duePayment} to DuePayment{sale(noInvoice)}
 }
 relationship ManyToOne {
   Project{customer(firstName) required} to Customer,
@@ -86,12 +93,13 @@ relationship ManyToOne {
   ProjectProduct{product(name) required} to Product,
   SaleTransactions{customer(firstName) required} to Customer,
   SaleTransactions{creator(login) required} to User,
-  SaleItem{product(name) required} to Product
+  SaleItem{product(name) required} to Product,
+  DuePayment{creator(login) required} to User
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with mapstruct
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment with mapstruct
 paginate Customer, Product, Project, Supplier with pagination
-paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem
+paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment with infinite-scroll
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment

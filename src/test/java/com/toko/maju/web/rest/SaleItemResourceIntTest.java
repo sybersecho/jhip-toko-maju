@@ -60,6 +60,12 @@ public class SaleItemResourceIntTest {
     private static final BigDecimal DEFAULT_TOTAL_PRICE = new BigDecimal(0);
     private static final BigDecimal UPDATED_TOTAL_PRICE = new BigDecimal(1);
 
+    private static final BigDecimal DEFAULT_SELLING_PRICE = new BigDecimal(0);
+    private static final BigDecimal UPDATED_SELLING_PRICE = new BigDecimal(1);
+
+    private static final String DEFAULT_PRODUCT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PRODUCT_NAME = "BBBBBBBBBB";
+
     @Autowired
     private SaleItemRepository saleItemRepository;
 
@@ -120,7 +126,9 @@ public class SaleItemResourceIntTest {
     public static SaleItem createEntity(EntityManager em) {
         SaleItem saleItem = new SaleItem()
             .quantity(DEFAULT_QUANTITY)
-            .totalPrice(DEFAULT_TOTAL_PRICE);
+            .totalPrice(DEFAULT_TOTAL_PRICE)
+            .sellingPrice(DEFAULT_SELLING_PRICE)
+            .productName(DEFAULT_PRODUCT_NAME);
         // Add required entity
         SaleTransactions saleTransactions = SaleTransactionsResourceIntTest.createEntity(em);
         em.persist(saleTransactions);
@@ -139,7 +147,7 @@ public class SaleItemResourceIntTest {
         saleItem = createEntity(em);
     }
 
-//    @Test
+    // @Test
     @Transactional
     public void createSaleItem() throws Exception {
         int databaseSizeBeforeCreate = saleItemRepository.findAll().size();
@@ -157,6 +165,8 @@ public class SaleItemResourceIntTest {
         SaleItem testSaleItem = saleItemList.get(saleItemList.size() - 1);
         assertThat(testSaleItem.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testSaleItem.getTotalPrice()).isEqualTo(DEFAULT_TOTAL_PRICE);
+        assertThat(testSaleItem.getSellingPrice()).isEqualTo(DEFAULT_SELLING_PRICE);
+        assertThat(testSaleItem.getProductName()).isEqualTo(DEFAULT_PRODUCT_NAME);
 
         // Validate the SaleItem in Elasticsearch
         verify(mockSaleItemSearchRepository, times(1)).save(testSaleItem);
@@ -187,6 +197,44 @@ public class SaleItemResourceIntTest {
 
     @Test
     @Transactional
+    public void checkSellingPriceIsRequired() throws Exception {
+        int databaseSizeBeforeTest = saleItemRepository.findAll().size();
+        // set the field null
+        saleItem.setSellingPrice(null);
+
+        // Create the SaleItem, which fails.
+        SaleItemDTO saleItemDTO = saleItemMapper.toDto(saleItem);
+
+        restSaleItemMockMvc.perform(post("/api/sale-items")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(saleItemDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SaleItem> saleItemList = saleItemRepository.findAll();
+        assertThat(saleItemList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkProductNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = saleItemRepository.findAll().size();
+        // set the field null
+        saleItem.setProductName(null);
+
+        // Create the SaleItem, which fails.
+        SaleItemDTO saleItemDTO = saleItemMapper.toDto(saleItem);
+
+        restSaleItemMockMvc.perform(post("/api/sale-items")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(saleItemDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SaleItem> saleItemList = saleItemRepository.findAll();
+        assertThat(saleItemList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllSaleItems() throws Exception {
         // Initialize the database
         saleItemRepository.saveAndFlush(saleItem);
@@ -197,9 +245,11 @@ public class SaleItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(saleItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())));
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].sellingPrice").value(hasItem(DEFAULT_SELLING_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSaleItem() throws Exception {
@@ -212,7 +262,9 @@ public class SaleItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(saleItem.getId().intValue()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
-            .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.intValue()));
+            .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.intValue()))
+            .andExpect(jsonPath("$.sellingPrice").value(DEFAULT_SELLING_PRICE.intValue()))
+            .andExpect(jsonPath("$.productName").value(DEFAULT_PRODUCT_NAME.toString()));
     }
 
     @Test
@@ -322,6 +374,84 @@ public class SaleItemResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSaleItemsBySellingPriceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        saleItemRepository.saveAndFlush(saleItem);
+
+        // Get all the saleItemList where sellingPrice equals to DEFAULT_SELLING_PRICE
+        defaultSaleItemShouldBeFound("sellingPrice.equals=" + DEFAULT_SELLING_PRICE);
+
+        // Get all the saleItemList where sellingPrice equals to UPDATED_SELLING_PRICE
+        defaultSaleItemShouldNotBeFound("sellingPrice.equals=" + UPDATED_SELLING_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSaleItemsBySellingPriceIsInShouldWork() throws Exception {
+        // Initialize the database
+        saleItemRepository.saveAndFlush(saleItem);
+
+        // Get all the saleItemList where sellingPrice in DEFAULT_SELLING_PRICE or UPDATED_SELLING_PRICE
+        defaultSaleItemShouldBeFound("sellingPrice.in=" + DEFAULT_SELLING_PRICE + "," + UPDATED_SELLING_PRICE);
+
+        // Get all the saleItemList where sellingPrice equals to UPDATED_SELLING_PRICE
+        defaultSaleItemShouldNotBeFound("sellingPrice.in=" + UPDATED_SELLING_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSaleItemsBySellingPriceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        saleItemRepository.saveAndFlush(saleItem);
+
+        // Get all the saleItemList where sellingPrice is not null
+        defaultSaleItemShouldBeFound("sellingPrice.specified=true");
+
+        // Get all the saleItemList where sellingPrice is null
+        defaultSaleItemShouldNotBeFound("sellingPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSaleItemsByProductNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        saleItemRepository.saveAndFlush(saleItem);
+
+        // Get all the saleItemList where productName equals to DEFAULT_PRODUCT_NAME
+        defaultSaleItemShouldBeFound("productName.equals=" + DEFAULT_PRODUCT_NAME);
+
+        // Get all the saleItemList where productName equals to UPDATED_PRODUCT_NAME
+        defaultSaleItemShouldNotBeFound("productName.equals=" + UPDATED_PRODUCT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSaleItemsByProductNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        saleItemRepository.saveAndFlush(saleItem);
+
+        // Get all the saleItemList where productName in DEFAULT_PRODUCT_NAME or UPDATED_PRODUCT_NAME
+        defaultSaleItemShouldBeFound("productName.in=" + DEFAULT_PRODUCT_NAME + "," + UPDATED_PRODUCT_NAME);
+
+        // Get all the saleItemList where productName equals to UPDATED_PRODUCT_NAME
+        defaultSaleItemShouldNotBeFound("productName.in=" + UPDATED_PRODUCT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSaleItemsByProductNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        saleItemRepository.saveAndFlush(saleItem);
+
+        // Get all the saleItemList where productName is not null
+        defaultSaleItemShouldBeFound("productName.specified=true");
+
+        // Get all the saleItemList where productName is null
+        defaultSaleItemShouldNotBeFound("productName.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSaleItemsBySaleIsEqualToSomething() throws Exception {
         // Initialize the database
         SaleTransactions sale = SaleTransactionsResourceIntTest.createEntity(em);
@@ -366,7 +496,9 @@ public class SaleItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(saleItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())));
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].sellingPrice").value(hasItem(DEFAULT_SELLING_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME)));
 
         // Check, that the count call also returns 1
         restSaleItemMockMvc.perform(get("/api/sale-items/count?sort=id,desc&" + filter))
@@ -401,7 +533,7 @@ public class SaleItemResourceIntTest {
             .andExpect(status().isNotFound());
     }
 
-//    @Test
+    // @Test
     @Transactional
     public void updateSaleItem() throws Exception {
         // Initialize the database
@@ -415,7 +547,9 @@ public class SaleItemResourceIntTest {
         em.detach(updatedSaleItem);
         updatedSaleItem
             .quantity(UPDATED_QUANTITY)
-            .totalPrice(UPDATED_TOTAL_PRICE);
+            .totalPrice(UPDATED_TOTAL_PRICE)
+            .sellingPrice(UPDATED_SELLING_PRICE)
+            .productName(UPDATED_PRODUCT_NAME);
         SaleItemDTO saleItemDTO = saleItemMapper.toDto(updatedSaleItem);
 
         restSaleItemMockMvc.perform(put("/api/sale-items")
@@ -429,6 +563,8 @@ public class SaleItemResourceIntTest {
         SaleItem testSaleItem = saleItemList.get(saleItemList.size() - 1);
         assertThat(testSaleItem.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testSaleItem.getTotalPrice()).isEqualTo(UPDATED_TOTAL_PRICE);
+        assertThat(testSaleItem.getSellingPrice()).isEqualTo(UPDATED_SELLING_PRICE);
+        assertThat(testSaleItem.getProductName()).isEqualTo(UPDATED_PRODUCT_NAME);
 
         // Validate the SaleItem in Elasticsearch
         verify(mockSaleItemSearchRepository, times(1)).save(testSaleItem);
@@ -490,7 +626,9 @@ public class SaleItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(saleItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())));
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].sellingPrice").value(hasItem(DEFAULT_SELLING_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME)));
     }
 
     @Test

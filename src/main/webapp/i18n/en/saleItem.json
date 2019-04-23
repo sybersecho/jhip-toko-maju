@@ -18,8 +18,10 @@
             },
             "quantity": "Quantity",
             "totalPrice": "Total Price",
-            "product": "Product",
-            "sale": "Sale"
+            "sellingPrice": "Selling Price",
+            "productName": "Product Name",
+            "sale": "Sale",
+            "product": "Product"
         }
     }
 }

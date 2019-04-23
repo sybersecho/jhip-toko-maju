@@ -29,6 +29,10 @@ public class SaleItemCriteria implements Serializable {
 
     private BigDecimalFilter totalPrice;
 
+    private BigDecimalFilter sellingPrice;
+
+    private StringFilter productName;
+
     private LongFilter saleId;
 
     private LongFilter productId;
@@ -55,6 +59,22 @@ public class SaleItemCriteria implements Serializable {
 
     public void setTotalPrice(BigDecimalFilter totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public BigDecimalFilter getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(BigDecimalFilter sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public StringFilter getProductName() {
+        return productName;
+    }
+
+    public void setProductName(StringFilter productName) {
+        this.productName = productName;
     }
 
     public LongFilter getSaleId() {
@@ -87,6 +107,8 @@ public class SaleItemCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(quantity, that.quantity) &&
             Objects.equals(totalPrice, that.totalPrice) &&
+            Objects.equals(sellingPrice, that.sellingPrice) &&
+            Objects.equals(productName, that.productName) &&
             Objects.equals(saleId, that.saleId) &&
             Objects.equals(productId, that.productId);
     }
@@ -97,6 +119,8 @@ public class SaleItemCriteria implements Serializable {
         id,
         quantity,
         totalPrice,
+        sellingPrice,
+        productName,
         saleId,
         productId
         );
@@ -108,6 +132,8 @@ public class SaleItemCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (quantity != null ? "quantity=" + quantity + ", " : "") +
                 (totalPrice != null ? "totalPrice=" + totalPrice + ", " : "") +
+                (sellingPrice != null ? "sellingPrice=" + sellingPrice + ", " : "") +
+                (productName != null ? "productName=" + productName + ", " : "") +
                 (saleId != null ? "saleId=" + saleId + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +
             "}";

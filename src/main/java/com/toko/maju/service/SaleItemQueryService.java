@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.jhipster.service.QueryService;
-
-import com.toko.maju.domain.SaleItem;
 import com.toko.maju.domain.*; // for static metamodels
 import com.toko.maju.repository.SaleItemRepository;
 import com.toko.maju.repository.search.SaleItemSearchRepository;
@@ -98,6 +96,12 @@ public class SaleItemQueryService extends QueryService<SaleItem> {
             }
             if (criteria.getTotalPrice() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTotalPrice(), SaleItem_.totalPrice));
+            }
+            if (criteria.getSellingPrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSellingPrice(), SaleItem_.sellingPrice));
+            }
+            if (criteria.getProductName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getProductName(), SaleItem_.productName));
             }
             if (criteria.getSaleId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSaleId(),

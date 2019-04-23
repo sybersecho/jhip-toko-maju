@@ -32,8 +32,10 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quantity"><span jhiTranslate="jhiptokomajuApp.saleItem.quantity">Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="totalPrice"><span jhiTranslate="jhiptokomajuApp.saleItem.totalPrice">Total Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="productName"><span jhiTranslate="jhiptokomajuApp.saleItem.product">Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sellingPrice"><span jhiTranslate="jhiptokomajuApp.saleItem.sellingPrice">Selling Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productName"><span jhiTranslate="jhiptokomajuApp.saleItem.productName">Product Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="saleNoInvoice"><span jhiTranslate="jhiptokomajuApp.saleItem.sale">Sale</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productName"><span jhiTranslate="jhiptokomajuApp.saleItem.product">Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -42,14 +44,16 @@
                 <td><a [routerLink]="['/sale-item', saleItem.id, 'view' ]">{{saleItem.id}}</a></td>
                 <td>{{saleItem.quantity}}</td>
                 <td>{{saleItem.totalPrice}}</td>
-                <td>
-                    <div *ngIf="saleItem.productId">
-                        <a [routerLink]="['../product', saleItem.productId , 'view' ]" >{{saleItem.productName}}</a>
-                    </div>
-                </td>
+                <td>{{saleItem.sellingPrice}}</td>
+                <td>{{saleItem.productName}}</td>
                 <td>
                     <div *ngIf="saleItem.saleId">
                         <a [routerLink]="['../sale-transactions', saleItem.saleId , 'view' ]" >{{saleItem.saleNoInvoice}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="saleItem.productId">
+                        <a [routerLink]="['../product', saleItem.productId , 'view' ]" >{{saleItem.productName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

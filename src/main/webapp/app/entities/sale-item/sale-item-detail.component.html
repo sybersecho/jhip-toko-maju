@@ -13,16 +13,24 @@
                 <dd>
                     <span>{{saleItem.totalPrice}}</span>
                 </dd>
-                <dt><span jhiTranslate="jhiptokomajuApp.saleItem.product">Product</span></dt>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleItem.sellingPrice">Selling Price</span></dt>
                 <dd>
-                    <div *ngIf="saleItem.productId">
-                        <a [routerLink]="['/product', saleItem.productId, 'view']">{{saleItem.productName}}</a>
-                    </div>
+                    <span>{{saleItem.sellingPrice}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleItem.productName">Product Name</span></dt>
+                <dd>
+                    <span>{{saleItem.productName}}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.saleItem.sale">Sale</span></dt>
                 <dd>
                     <div *ngIf="saleItem.saleId">
                         <a [routerLink]="['/sale-transactions', saleItem.saleId, 'view']">{{saleItem.saleNoInvoice}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.saleItem.product">Product</span></dt>
+                <dd>
+                    <div *ngIf="saleItem.productId">
+                        <a [routerLink]="['/product', saleItem.productId, 'view']">{{saleItem.productName}}</a>
                     </div>
                 </dd>
             </dl>

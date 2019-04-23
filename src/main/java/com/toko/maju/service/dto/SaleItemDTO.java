@@ -1,11 +1,13 @@
 package com.toko.maju.service.dto;
-import javax.validation.constraints.*;
-
-import com.toko.maju.domain.enumeration.UnitMeasure;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.toko.maju.domain.enumeration.UnitMeasure;
 
 /**
  * A DTO for the SaleItem entity.
@@ -20,6 +22,13 @@ public class SaleItemDTO implements Serializable {
     @DecimalMin(value = "0")
     private BigDecimal totalPrice;
 
+    @NotNull
+    @DecimalMin(value = "0")
+    private BigDecimal sellingPrice;
+
+    @NotNull
+    private String productName;
+
 
     private Long saleId;
 
@@ -27,13 +36,10 @@ public class SaleItemDTO implements Serializable {
 
     private Long productId;
 
-    private String productName;
-    
-    private BigDecimal sellingPrice;
-    
     private UnitMeasure unit;
-    
-    private String barcode; 
+
+    private String barcode;
+
 
     public Long getId() {
         return id;
@@ -57,6 +63,22 @@ public class SaleItemDTO implements Serializable {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public BigDecimal getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(BigDecimal sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Long getSaleId() {
@@ -83,22 +105,6 @@ public class SaleItemDTO implements Serializable {
         this.productId = productId;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public BigDecimal getSellingPrice() {
-		return sellingPrice;
-	}
-
-	public void setSellingPrice(BigDecimal sellingPrice) {
-		this.sellingPrice = sellingPrice;
-	}
-
 	public UnitMeasure getUnit() {
 		return unit;
 	}
@@ -115,7 +121,7 @@ public class SaleItemDTO implements Serializable {
 		this.barcode = barcode;
 	}
 
-	@Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -142,6 +148,8 @@ public class SaleItemDTO implements Serializable {
             "id=" + getId() +
             ", quantity=" + getQuantity() +
             ", totalPrice=" + getTotalPrice() +
+            ", sellingPrice=" + getSellingPrice() +
+            ", productName='" + getProductName() + "'" +
             ", sale=" + getSaleId() +
             ", sale='" + getSaleNoInvoice() + "'" +
             ", product=" + getProductId() +

@@ -39,20 +39,37 @@
                         </small>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.product" for="field_product">Product</label>
-                    <select class="form-control" id="field_product" name="product" [(ngModel)]="saleItem.productId" required>
-                        <option *ngIf="!editForm.value.product" [ngValue]="null" selected></option>
-                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
-                    </select>
-                </div>
-                <div [hidden]="!(editForm.controls.product?.dirty && editForm.controls.product?.invalid)">
-                    <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.product?.errors?.required" jhiTranslate="entity.validation.required">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.sellingPrice" for="field_sellingPrice">Selling Price</label>
+                    <input type="number" class="form-control" name="sellingPrice" id="field_sellingPrice"
+                        [(ngModel)]="saleItem.sellingPrice" required min="0" jhiMin="0"/>
+                    <div [hidden]="!(editForm.controls.sellingPrice?.dirty && editForm.controls.sellingPrice?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.sellingPrice?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
-                    </small>
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.sellingPrice?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">
+                            This field should be at least 0.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.sellingPrice?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.productName" for="field_productName">Product Name</label>
+                    <input type="text" class="form-control" name="productName" id="field_productName"
+                        [(ngModel)]="saleItem.productName" required/>
+                    <div [hidden]="!(editForm.controls.productName?.dirty && editForm.controls.productName?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.productName?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.sale" for="field_sale">Sale</label>
                     <select class="form-control" id="field_sale" name="sale" [(ngModel)]="saleItem.saleId"  required>
@@ -63,6 +80,19 @@
                 <div [hidden]="!(editForm.controls.sale?.dirty && editForm.controls.sale?.invalid)">
                     <small class="form-text text-danger"
                         [hidden]="!editForm.controls.sale?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.product" for="field_product">Product</label>
+                    <select class="form-control" id="field_product" name="product" [(ngModel)]="saleItem.productId"  required>
+                        <option *ngIf="!editForm.value.product" [ngValue]="null" selected></option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.product?.dirty && editForm.controls.product?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.product?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
                 </div>
