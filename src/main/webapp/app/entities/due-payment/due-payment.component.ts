@@ -12,6 +12,7 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 import { DuePaymentService } from './due-payment.service';
 import { SaleTransactionsService } from '../sale-transactions';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'jhi-due-payment',
@@ -20,6 +21,9 @@ import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 export class DuePaymentComponent implements OnInit, OnDestroy {
     duePayments: IDuePayment[];
     sales: ISaleTransactions[];
+    totalNominal: number;
+    totalSaldo: number;
+    totalPaid: number;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -41,6 +45,9 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     ) {
         this.duePayments = [];
         this.sales = [];
+        this.totalNominal = 0;
+        this.totalSaldo = 0;
+        this.totalPaid = 0;
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
@@ -162,25 +169,27 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
             duePayment.isEdit = true;
             duePayment.paid = duePayment.remainingPayment;
         }
+        this.calculateTotalPaid();
+    }
+
+    calculateTotalPaid() {
+        this.totalPaid = 0;
+        this.duePayments.forEach(due => {
+            this.totalPaid += due.paid;
+        });
     }
 
     protected paginateDuePayments(data: ISaleTransactions[], headers: HttpHeaders) {
-        console.log('sale: ');
-        console.log(data);
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
             this.sales.push(data[i]);
             const duePayment: IDuePayment = this.createDuePayment(data[i]);
-            console.log('Due payment: ');
-            console.log(duePayment);
             this.duePayments.push(duePayment);
         }
     }
 
     protected createDuePayment(sale: ISaleTransactions): IDuePayment {
-        console.log('Sale: ');
-        console.log(sale);
         // tslint:disable-next-line: prefer-const
         let duePayment = new DuePayment();
         duePayment.customerLastName = sale.customerLastName;
@@ -195,6 +204,9 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         duePayment.saleNoInvoice = sale.noInvoice;
         duePayment.totalPayment = sale.totalPayment;
         duePayment.isEdit = false;
+
+        this.totalNominal += duePayment.totalPayment;
+        this.totalSaldo += duePayment.remainingPayment;
 
         return duePayment;
     }

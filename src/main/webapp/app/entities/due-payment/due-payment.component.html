@@ -36,92 +36,123 @@
         </div>
     </div>
     <br />
-    <div class="table-responsive" *ngIf="duePayments">
-        <table class="table table-striped">
-            <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-                    <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-                    <th style="width: 15%" jhiSortBy="saleNoInvoice">
-                        <span jhiTranslate="jhiptokomajuApp.duePayment.sale">Sale</span> <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th style="width: 15%" jhiSortBy="createdDate">
-                        <span jhiTranslate="jhiptokomajuApp.duePayment.createdDate">Created Date</span> <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th style="width: 15%" jhiSortBy="customerFullName">
-                        <span jhiTranslate="jhiptokomajuApp.duePayment.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th style="width: 15%" jhiSortBy="totalPayment">
-                        <span jhiTranslate="jhiptokomajuApp.duePayment.totalPayment">Total Payment</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th style="width: 15%" jhiSortBy="remainingPayment">
-                        <span jhiTranslate="jhiptokomajuApp.duePayment.remainingPayment">Remaining Payment</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <!-- <th jhiSortBy="settled">
+    <form name="paymentForm" role="form" #paymentForm="ngForm">
+        <div class="table-responsive" *ngIf="duePayments">
+            <table class="table table-striped">
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                        <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+                        <th style="width: 15%" jhiSortBy="saleNoInvoice">
+                            <span jhiTranslate="jhiptokomajuApp.duePayment.sale">Sale</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th style="width: 15%" jhiSortBy="createdDate">
+                            <span jhiTranslate="jhiptokomajuApp.duePayment.createdDate">Created Date</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th style="width: 15%" jhiSortBy="customerFullName">
+                            <span jhiTranslate="jhiptokomajuApp.duePayment.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th style="width: 15%" jhiSortBy="totalPayment">
+                            <span jhiTranslate="jhiptokomajuApp.duePayment.totalPayment">Total Payment</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th style="width: 15%" jhiSortBy="remainingPayment">
+                            <span jhiTranslate="jhiptokomajuApp.duePayment.remainingPayment">Remaining Payment</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <!-- <th jhiSortBy="settled">
                         <span jhiTranslate="jhiptokomajuApp.duePayment.settled">Settled</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th> -->
-                    <!-- <th style="width: 10%" jhiSortBy="creatorLogin">
+                        <!-- <th style="width: 10%" jhiSortBy="creatorLogin">
                         <span jhiTranslate="jhiptokomajuApp.duePayment.creator">Creator</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th> -->
-                    <th style="width: 15%">
-                        <span jhiTranslate="jhiptokomajuApp.duePayment.paid">Paid</span>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody
-                infinite-scroll
-                (scrolled)="loadPage(page + 1)"
-                [infiniteScrollDisabled]="page >= links['last']"
-                [infiniteScrollDistance]="0"
-            >
-                <tr *ngFor="let duePayment of duePayments; trackBy: trackId">
-                    <!-- <td><a [routerLink]="['/due-payment', duePayment.id, 'view' ]">{{duePayment.id}}</a></td> -->
-                    <td>
-                        <div *ngIf="duePayment.saleId">
-                            {{ duePayment.saleNoInvoice }}
-                        </div>
-                    </td>
-                    <td>{{ duePayment.createdDate | date: 'medium' }}</td>
-                    <td>{{ duePayment.customerFullName }}</td>
-                    <td>{{ duePayment.totalPayment | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ duePayment.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
-                    <!-- <td>{{ duePayment.settled }}</td> -->
-                    <!-- <td>
+                        <th style="width: 15%">
+                            <span jhiTranslate="jhiptokomajuApp.duePayment.paid">Paid</span>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody
+                    infinite-scroll
+                    (scrolled)="loadPage(page + 1)"
+                    [infiniteScrollDisabled]="page >= links['last']"
+                    [infiniteScrollDistance]="0"
+                >
+                    <tr *ngFor="let duePayment of duePayments; trackBy: trackId; let i = index">
+                        <!-- <td><a [routerLink]="['/due-payment', duePayment.id, 'view' ]">{{duePayment.id}}</a></td> -->
+                        <td>
+                            <div *ngIf="duePayment.saleId">
+                                {{ duePayment.saleNoInvoice }}
+                            </div>
+                        </td>
+                        <td>{{ duePayment.createdDate | date: 'medium' }}</td>
+                        <td>{{ duePayment.customerFullName }}</td>
+                        <td>{{ duePayment.totalPayment | currency: 'IDR':'Rp. ' }}</td>
+                        <td>{{ duePayment.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
+                        <!-- <td>{{ duePayment.settled }}</td> -->
+                        <!-- <td>
                         {{ duePayment.creatorLogin }}
                     </td> -->
-                    <td>
-                        <input
-                            type="tel"
-                            class="form-control form-control-sm"
-                            name="paid{{ duePayment.saleId }}"
-                            id="field_paid"
-                            [(ngModel)]="duePayment.paid"
-                            [required]="duePayment.isEdit"
-                            min="0"
-                            jhiMin="0"
-                            [options]="{ prefix: '', thousands: '.', precision: 0 }"
-                            currencyMask
-                            [readOnly]="!duePayment.isEdit"
-                        />
-                    </td>
-                    <td class="text-right">
-                        <!-- <div class="btn-group flex-btn-group-container"> -->
-                        <button type="button" class="btn btn-info btn-sm" (click)="changeEdit(duePayment)" [hidden]="duePayment.isEdit">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span> -->
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-secondary btn-sm"
-                            (click)="changeEdit(duePayment)"
-                            [hidden]="!duePayment.isEdit"
-                        >
-                            <fa-icon [icon]="'ban'"></fa-icon>
-                            <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span> -->
-                        </button>
-                        <!-- <button type="submit"
+                        <td>
+                            <input
+                                type="tel"
+                                class="form-control form-control-sm"
+                                name="paid{{ duePayment.saleId }}"
+                                id="field_paid{{ duePayment.saleId }}"
+                                [(ngModel)]="duePayment.paid"
+                                [required]="duePayment.isEdit"
+                                min="0"
+                                jhiMin="0"
+                                [max]="duePayment.remainingPayment"
+                                [jhiMax]="duePayment.remainingPayment"
+                                [options]="{ prefix: '', thousands: '.', precision: 0 }"
+                                currencyMask
+                                (ngModelChange)="calculateTotalPaid()"
+                                [readOnly]="!duePayment.isEdit"
+                            />
+                            <div
+                                [hidden]="
+                                    !(
+                                        paymentForm.invalid &&
+                                        paymentForm.controls['paid' + duePayment.saleId]?.dirty &&
+                                        paymentForm.controls['paid' + duePayment.saleId]?.invalid
+                                    )
+                                "
+                            >
+                                <small
+                                    class="form-text text-danger"
+                                    jhiTranslate="entity.validation.min"
+                                    [translateValues]="{ min: 0 }"
+                                    [hidden]="!paymentForm.controls['paid' + duePayment.saleId]?.errors?.min"
+                                >
+                                    This field should be at least 0.
+                                </small>
+                                <small
+                                    class="form-text text-danger"
+                                    jhiTranslate="entity.validation.max"
+                                    [translateValues]="{ max: duePayment.remainingPayment }"
+                                    [hidden]="!paymentForm.controls['paid' + duePayment.saleId]?.errors?.max"
+                                >
+                                    This field should be at least 0.
+                                </small>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <!-- <div class="btn-group flex-btn-group-container"> -->
+                            <button type="button" class="btn btn-info btn-sm" (click)="changeEdit(duePayment)" [hidden]="duePayment.isEdit">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span> -->
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary btn-sm"
+                                (click)="changeEdit(duePayment)"
+                                [hidden]="!duePayment.isEdit"
+                            >
+                                <fa-icon [icon]="'ban'"></fa-icon>
+                                <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span> -->
+                            </button>
+                            <!-- <button type="submit"
                                 [routerLink]="['/', 'due-payment', { outlets: { popup: duePayment.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
@@ -129,10 +160,19 @@
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                         </button> -->
-                        <!-- </div> -->
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                            <!-- </div> -->
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <th colspan="2"></th>
+                    <th>Jumlah</th>
+                    <th>{{ totalNominal | currency: 'IDR':'Rp. ' }}</th>
+                    <th>{{ totalSaldo | currency: 'IDR':'Rp. ' }}</th>
+                    <th class="text-right">{{ totalPaid | currency: 'IDR':'Rp. ' }}</th>
+                    <td></td>
+                </tfoot>
+            </table>
+        </div>
+    </form>
 </div>
