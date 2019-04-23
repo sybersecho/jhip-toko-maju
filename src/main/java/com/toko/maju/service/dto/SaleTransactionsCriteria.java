@@ -46,6 +46,8 @@ public class SaleTransactionsCriteria implements Serializable {
 
     private LongFilter creatorId;
 
+    private LongFilter duePaymentId;
+
     public LongFilter getId() {
         return id;
     }
@@ -134,6 +136,14 @@ public class SaleTransactionsCriteria implements Serializable {
         this.creatorId = creatorId;
     }
 
+    public LongFilter getDuePaymentId() {
+        return duePaymentId;
+    }
+
+    public void setDuePaymentId(LongFilter duePaymentId) {
+        this.duePaymentId = duePaymentId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -155,7 +165,8 @@ public class SaleTransactionsCriteria implements Serializable {
             Objects.equals(settled, that.settled) &&
             Objects.equals(itemsId, that.itemsId) &&
             Objects.equals(customerId, that.customerId) &&
-            Objects.equals(creatorId, that.creatorId);
+            Objects.equals(creatorId, that.creatorId) &&
+            Objects.equals(duePaymentId, that.duePaymentId);
     }
 
     @Override
@@ -171,7 +182,8 @@ public class SaleTransactionsCriteria implements Serializable {
         settled,
         itemsId,
         customerId,
-        creatorId
+        creatorId,
+        duePaymentId
         );
     }
 
@@ -189,6 +201,7 @@ public class SaleTransactionsCriteria implements Serializable {
                 (itemsId != null ? "itemsId=" + itemsId + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
                 (creatorId != null ? "creatorId=" + creatorId + ", " : "") +
+                (duePaymentId != null ? "duePaymentId=" + duePaymentId + ", " : "") +
             "}";
     }
 

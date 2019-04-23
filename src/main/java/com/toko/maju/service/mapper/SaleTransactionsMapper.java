@@ -23,6 +23,7 @@ public interface SaleTransactionsMapper extends EntityMapper<SaleTransactionsDTO
     @Mapping(target = "items", ignore = false)
     @Mapping(source = "customerId", target = "customer")
     @Mapping(source = "creatorId", target = "creator")
+    @Mapping(target = "duePayments", ignore = true)
     SaleTransactions toEntity(SaleTransactionsDTO saleTransactionsDTO);
 
     default SaleTransactions fromId(Long id) {

@@ -6,6 +6,7 @@ import com.toko.maju.domain.SaleTransactions;
 import com.toko.maju.domain.SaleItem;
 import com.toko.maju.domain.Customer;
 import com.toko.maju.domain.User;
+import com.toko.maju.domain.DuePayment;
 import com.toko.maju.repository.SaleTransactionsRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
 import com.toko.maju.service.SaleTransactionsService;
@@ -637,6 +638,25 @@ public class SaleTransactionsResourceIntTest {
 
         // Get all the saleTransactionsList where creator equals to creatorId + 1
         defaultSaleTransactionsShouldNotBeFound("creatorId.equals=" + (creatorId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSaleTransactionsByDuePaymentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        DuePayment duePayment = DuePaymentResourceIntTest.createEntity(em);
+        em.persist(duePayment);
+        em.flush();
+        saleTransactions.addDuePayment(duePayment);
+        saleTransactionsRepository.saveAndFlush(saleTransactions);
+        Long duePaymentId = duePayment.getId();
+
+        // Get all the saleTransactionsList where duePayment equals to duePaymentId
+        defaultSaleTransactionsShouldBeFound("duePaymentId.equals=" + duePaymentId);
+
+        // Get all the saleTransactionsList where duePayment equals to duePaymentId + 1
+        defaultSaleTransactionsShouldNotBeFound("duePaymentId.equals=" + (duePaymentId + 1));
     }
 
     /**

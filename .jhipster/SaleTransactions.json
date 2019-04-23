@@ -29,6 +29,13 @@
             "ownerSide": true,
             "otherEntityRelationshipName": "saleTransactions",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "duePayment",
+            "otherEntityName": "duePayment",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "sales",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [

@@ -73,6 +73,9 @@ public class SaleTransactions implements Serializable {
     @JsonIgnoreProperties("saleTransactions")
     private User creator;
 
+    @OneToMany(mappedBy = "sales")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<DuePayment> duePayments = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -222,6 +225,31 @@ public class SaleTransactions implements Serializable {
 
     public void setCreator(User user) {
         this.creator = user;
+    }
+
+    public Set<DuePayment> getDuePayments() {
+        return duePayments;
+    }
+
+    public SaleTransactions duePayments(Set<DuePayment> duePayments) {
+        this.duePayments = duePayments;
+        return this;
+    }
+
+    public SaleTransactions addDuePayment(DuePayment duePayment) {
+        this.duePayments.add(duePayment);
+        duePayment.setSales(this);
+        return this;
+    }
+
+    public SaleTransactions removeDuePayment(DuePayment duePayment) {
+        this.duePayments.remove(duePayment);
+        duePayment.setSales(null);
+        return this;
+    }
+
+    public void setDuePayments(Set<DuePayment> duePayments) {
+        this.duePayments = duePayments;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
