@@ -55,9 +55,11 @@ export class SaleTransactionsService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
-    queryDueTransaction(): Observable<EntityArrayResponseType> {
-        // const options = createRequestOption(req);
-        const options = new HttpParams().set('settled.equals', 'false');
+    queryDueTransaction(req?: any): Observable<EntityArrayResponseType> {
+        const options = new HttpParams()
+            .set('settled.equals', 'false')
+            .set('saleDate.greaterOrEqualThan', req.from)
+            .set('saleDate.lessOrEqualThan', req.end);
         return this.http
             .get<ISaleTransactions[]>(this.resourceUrl, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));

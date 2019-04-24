@@ -8,11 +8,12 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { IDuePayment, DuePayment } from 'app/shared/model/due-payment.model';
 import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE, DATE_FORMAT } from 'app/shared';
 import { DuePaymentService } from './due-payment.service';
 import { SaleTransactionsService } from '../sale-transactions';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
-import { NgForm } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-due-payment',
@@ -24,6 +25,8 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     totalNominal: number;
     totalSaldo: number;
     totalPaid: number;
+    fromDate: string;
+    endDate: string;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -41,7 +44,8 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected datePipe: DatePipe
     ) {
         this.duePayments = [];
         this.sales = [];
@@ -88,7 +92,14 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         //     );
 
         this.saleTransactionsService
-            .queryDueTransaction()
+            .queryDueTransaction({
+                from: moment(this.fromDate)
+                    .startOf('day')
+                    .toJSON(),
+                end: moment(this.endDate)
+                    .endOf('day')
+                    .toJSON()
+            })
             .subscribe(
                 (res: HttpResponse<ISaleTransactions[]>) => this.paginateDuePayments(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
@@ -134,11 +145,24 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.currentMonth();
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInDuePayments();
+    }
+
+    protected currentMonth() {
+        const dateFormat = 'yyyy-MM-dd';
+        // 'yyyy-MM-dd';
+        const today = new Date();
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        this.fromDate = this.datePipe.transform(firstDay, dateFormat);
+        console.log(this.fromDate);
+        this.endDate = this.datePipe.transform(lastDay, dateFormat);
+        console.log(this.endDate);
     }
 
     ngOnDestroy() {
