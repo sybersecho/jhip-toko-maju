@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, from } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { IDuePayment, DuePayment } from 'app/shared/model/due-payment.model';
 import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE, DATE_FORMAT } from 'app/shared';
+import { ITEMS_PER_PAGE, DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared';
 import { DuePaymentService } from './due-payment.service';
 import { SaleTransactionsService } from '../sale-transactions';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
@@ -107,7 +107,16 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     }
 
     save() {
-        this.duePaymentService.create(this.duePayments[0]).subscribe(
+        const tempDue: IDuePayment[] = this.setCreatedDate(this.duePayments.filter(due => due.isEdit));
+
+        const updateSale: ISaleTransactions[] = this.sales.filter(sale => {
+            return tempDue.findIndex(due => due.saleId === sale.id) > -1;
+        });
+        // console.log('temp: ');
+        // console.log(tempDue);
+        // console.log('sale: ');
+        // console.log(updateSale);
+        this.duePaymentService.saveDuePayment(tempDue, this.sales).subscribe(
             res => {
                 console.log('success');
                 this.loadAll();
@@ -116,6 +125,14 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
                 console.log(err.message);
             }
         );
+    }
+
+    protected setCreatedDate(dues: IDuePayment[]): IDuePayment[] {
+        dues.forEach(due => {
+            due.createdDate = moment(new Date(), DATE_TIME_FORMAT);
+        });
+
+        return dues;
     }
 
     reset() {
@@ -161,6 +178,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
+            // console.log(this.currentAccount);
         });
         this.registerChangeInDuePayments();
     }
@@ -222,7 +240,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
             due.settled = true;
         }
         due.remainingPayment = left;
-        console.log(due);
+        // console.log(due);
     }
 
     protected paginateDuePayments(data: ISaleTransactions[], headers: HttpHeaders) {
@@ -234,7 +252,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         for (let i = 0; i < data.length; i++) {
             this.sales.push(data[i]);
             const duePayment: IDuePayment = this.createDuePayment(data[i]);
-            console.log(duePayment);
+            // console.log(duePayment);
             this.duePayments.push(duePayment);
         }
     }
@@ -246,8 +264,8 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         let duePayment = new DuePayment();
         duePayment.customerLastName = sale.customerLastName;
         duePayment.createdDate = sale.saleDate;
-        duePayment.creatorId = sale.creatorId;
-        duePayment.creatorLogin = sale.creatorLogin;
+        duePayment.creatorId = this.currentAccount.id;
+        duePayment.creatorLogin = this.currentAccount.login;
         duePayment.customerId = sale.customerId;
         duePayment.customerFirstName = sale.customerFirstName;
         duePayment.customerFullName = sale.customerFirstName + ' ' + sale.customerLastName;

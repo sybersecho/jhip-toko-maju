@@ -6,7 +6,9 @@ import com.toko.maju.domain.SaleTransactions;
 import com.toko.maju.repository.DuePaymentRepository;
 import com.toko.maju.repository.SaleTransactionsRepository;
 import com.toko.maju.repository.search.DuePaymentSearchRepository;
+import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
 import com.toko.maju.service.dto.DuePaymentDTO;
+import com.toko.maju.service.dto.SaleTransactionsDTO;
 import com.toko.maju.service.mapper.DuePaymentMapper;
 import com.toko.maju.service.mapper.SaleTransactionsMapper;
 
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -37,6 +40,9 @@ public class DuePaymentServiceImpl implements DuePaymentService {
 
 	@Autowired
 	private final SaleTransactionsMapper saleTransactionsMapper = null;
+
+	@Autowired
+	private final SaleTransactionsSearchRepository SaleTransactionsSearchRepository = null;
 
 	private final DuePaymentSearchRepository duePaymentSearchRepository;
 
@@ -124,4 +130,31 @@ public class DuePaymentServiceImpl implements DuePaymentService {
 		log.debug("Request to search for a page of DuePayments for query {}", query);
 		return duePaymentSearchRepository.search(queryStringQuery(query), pageable).map(duePaymentMapper::toDto);
 	}
+
+	@Override
+	@Transactional
+	public List<DuePaymentDTO> saveDuePayment(List<DuePaymentDTO> duePaymentDTOs,
+			List<SaleTransactionsDTO> saleTransactionsDTOs) {
+		List<DuePayment> duePayments = duePaymentMapper.toEntity(duePaymentDTOs);
+		log.debug("Due Entity {}", duePayments);
+		List<SaleTransactions> saleTransactions = saleTransactionsMapper.toEntity(saleTransactionsDTOs);
+		log.debug("Sale Entity {} before", saleTransactions);
+		for (SaleTransactions sale : saleTransactions) {
+			DuePayment due = duePayments.stream().filter(d -> d.getSale().getId().equals(sale.getId())).findFirst()
+					.get();
+			sale.setPaid(sale.getPaid().add(due.getPaid()));
+			sale.setSettled(due.isSettled());
+			sale.setRemainingPayment(due.getRemainingPayment());
+			saleTransactionsRepository.updateDuePayment(sale.getRemainingPayment(), sale.getPaid(), sale.isSettled(),
+					sale.getId());
+		}
+		log.debug("Sale Entity {} after", saleTransactions);
+
+		log.debug("Saving Due {}", duePayments);
+		duePayments = duePaymentRepository.saveAll(duePayments);
+		duePaymentSearchRepository.saveAll(duePayments);
+		SaleTransactionsSearchRepository.saveAll(saleTransactions);
+		return duePaymentMapper.toDto(duePayments);
+	}
+
 }

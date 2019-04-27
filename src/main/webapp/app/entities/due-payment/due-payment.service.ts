@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IDuePayment } from 'app/shared/model/due-payment.model';
+import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 
 type EntityResponseType = HttpResponse<IDuePayment>;
 type EntityArrayResponseType = HttpResponse<IDuePayment[]>;
@@ -57,6 +58,25 @@ export class DuePaymentService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    saveDuePayment(duePayments: IDuePayment[], sales: ISaleTransactions[]) {
+        // const saless: ISaleTransactions[] = [];
+        // const due: UpdateDue = new UpdateDue(duePayments, sales);
+        // duePayments = convertdate
+        // console.log(due);
+        // console.log('before');
+        // console.log(duePayments);
+        this.convertArrayDateFromClient(duePayments);
+        // console.log('after');
+        // console.log(duePayments);
+        return this.http.post<IDuePayment[]>(this.resourceUrl + '/save', { duePayments, sales }, { observe: 'response' });
+    }
+
+    protected convertArrayDateFromClient(duePayments: IDuePayment[]) {
+        return duePayments.forEach(due => {
+            due = this.convertDateFromClient(due);
+        });
+    }
+
     protected convertDateFromClient(duePayment: IDuePayment): IDuePayment {
         const copy: IDuePayment = Object.assign({}, duePayment, {
             createdDate: duePayment.createdDate != null && duePayment.createdDate.isValid() ? duePayment.createdDate.toJSON() : null
@@ -79,4 +99,11 @@ export class DuePaymentService {
         }
         return res;
     }
+}
+
+export class UpdateDue {
+    // public duePayments?: IDuePayment[];
+    // public sales?: ISaleTransactions[];
+
+    constructor(private duePayments?: IDuePayment[], private sales?: ISaleTransactions[]) {}
 }

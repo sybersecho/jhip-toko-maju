@@ -1,10 +1,12 @@
 package com.toko.maju.service;
 
 import com.toko.maju.service.dto.DuePaymentDTO;
+import com.toko.maju.service.dto.SaleTransactionsDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,4 +55,6 @@ public interface DuePaymentService {
      * @return the list of entities
      */
     Page<DuePaymentDTO> search(String query, Pageable pageable);
+    
+    List<DuePaymentDTO> saveDuePayment(List<DuePaymentDTO> duePaymentDTOs, List<SaleTransactionsDTO> saleTransactionsDTOs);
 }

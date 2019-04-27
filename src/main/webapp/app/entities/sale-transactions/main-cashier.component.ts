@@ -102,7 +102,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     save() {
         this.saleTransactions.saleDate = moment(new Date());
         this.saleTransactions.recalculate();
-        console.log('is settled? ' + this.saleTransactions.settled);
+        // console.log('is settled? ' + this.saleTransactions.settled);
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
 
@@ -114,7 +114,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     protected onSaveSuccess(sale: ISaleTransactions) {
-        console.log(sale);
+        // console.log(sale);
         if (this.printAsOrder) {
             // this.onPrint(sale);
         }
@@ -149,7 +149,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     onSearchCustomer() {
-        console.log('on search customer');
+        // console.log('on search customer');
     }
 
     totalChange(): number {
