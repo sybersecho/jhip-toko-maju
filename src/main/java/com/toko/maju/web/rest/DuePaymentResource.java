@@ -60,8 +60,8 @@ public class DuePaymentResource {
             throw new BadRequestAlertException("A new duePayment cannot already have an ID", ENTITY_NAME, "idexists");
         }
         DuePaymentDTO result = duePaymentService.save(duePaymentDTO);
-        return ResponseEntity.created(new URI("/api/due-payments/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/due-payments/" + result.getSaleNoInvoice()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getSaleNoInvoice()))
             .body(result);
     }
 

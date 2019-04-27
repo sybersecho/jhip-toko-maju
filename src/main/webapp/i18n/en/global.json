@@ -113,7 +113,10 @@
             "clear": "Clear",
             "addAll": "Add All",
             "saveAll": "Save All",
-            "addToCart": "Add to Cart"
+            "addToCart": "Add to Cart",
+            "process": "Process",
+            "processAndPrint": "Process & Print",
+            "processAsOrders": "Process as Delivery Orders"
         },
         "detail": {
             "field": "Field",

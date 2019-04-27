@@ -106,6 +106,18 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
             );
     }
 
+    save() {
+        this.duePaymentService.create(this.duePayments[0]).subscribe(
+            res => {
+                console.log('success');
+                this.loadAll();
+            },
+            err => {
+                console.log(err.message);
+            }
+        );
+    }
+
     reset() {
         this.page = 0;
         this.duePayments = [];
@@ -129,10 +141,10 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
+    search() {
+        // if (!query) {
+        //     return this.clear();
+        // }
         this.duePayments = [];
         this.links = {
             last: 0
@@ -140,7 +152,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         this.page = 0;
         this.predicate = '_score';
         this.reverse = false;
-        this.currentSearch = query;
+        this.currentSearch = '';
         this.loadAll();
     }
 
@@ -160,9 +172,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
         const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
         this.fromDate = this.datePipe.transform(firstDay, dateFormat);
-        console.log(this.fromDate);
         this.endDate = this.datePipe.transform(lastDay, dateFormat);
-        console.log(this.endDate);
     }
 
     ngOnDestroy() {
@@ -191,7 +201,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
             duePayment.paid = 0;
         } else {
             duePayment.isEdit = true;
-            duePayment.paid = duePayment.remainingPayment;
+            duePayment.paid = duePayment.saldo;
         }
         this.calculateTotalPaid();
     }
@@ -200,30 +210,50 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         this.totalPaid = 0;
         this.duePayments.forEach(due => {
             this.totalPaid += due.paid;
+            this.calculateRemainingPayment(due);
         });
     }
 
+    calculateRemainingPayment(due: IDuePayment) {
+        const left = due.saldo - due.paid;
+        due.settled = false;
+        // due.remainingPayment = due.remainingPayment - due.paid;
+        if (left === 0) {
+            due.settled = true;
+        }
+        due.remainingPayment = left;
+        console.log(due);
+    }
+
     protected paginateDuePayments(data: ISaleTransactions[], headers: HttpHeaders) {
+        this.sales = [];
+        this.duePayments = [];
+        this.totalPaid = 0;
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
             this.sales.push(data[i]);
             const duePayment: IDuePayment = this.createDuePayment(data[i]);
+            console.log(duePayment);
             this.duePayments.push(duePayment);
         }
     }
 
     protected createDuePayment(sale: ISaleTransactions): IDuePayment {
+        this.totalNominal = 0;
+        this.totalSaldo = 0;
         // tslint:disable-next-line: prefer-const
         let duePayment = new DuePayment();
         duePayment.customerLastName = sale.customerLastName;
         duePayment.createdDate = sale.saleDate;
         duePayment.creatorId = sale.creatorId;
         duePayment.creatorLogin = sale.creatorLogin;
+        duePayment.customerId = sale.customerId;
         duePayment.customerFirstName = sale.customerFirstName;
         duePayment.customerFullName = sale.customerFirstName + ' ' + sale.customerLastName;
         duePayment.paid = 0;
         duePayment.remainingPayment = sale.remainingPayment;
+        duePayment.saldo = duePayment.remainingPayment;
         duePayment.saleId = sale.id;
         duePayment.saleNoInvoice = sale.noInvoice;
         duePayment.totalPayment = sale.totalPayment;

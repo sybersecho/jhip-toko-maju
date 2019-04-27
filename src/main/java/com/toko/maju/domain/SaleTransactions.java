@@ -82,7 +82,7 @@ public class SaleTransactions implements Serializable {
 	@JsonIgnoreProperties("saleTransactions")
 	private User creator;
 
-	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sale", cascade = {CascadeType.ALL})
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 //    @JsonIgnoreProperties("duePayments")
 	@JsonManagedReference
@@ -289,9 +289,15 @@ public class SaleTransactions implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SaleTransactions{" + "id=" + getId() + ", noInvoice='" + getNoInvoice() + "'" + ", discount="
-				+ getDiscount() + ", totalPayment=" + getTotalPayment() + ", remainingPayment=" + getRemainingPayment()
-				+ ", paid=" + getPaid() + ", saleDate='" + getSaleDate() + "'" + ", settled='" + isSettled() + "'"
+		return "SaleTransactions{" + "id=" + getId() 
+				+ ", noInvoice='" + getNoInvoice() + "'" 
+				+ ", discount=" + getDiscount() 
+				+ ", totalPayment=" + getTotalPayment() 
+				+ ", remainingPayment=" + getRemainingPayment()
+				+ ", paid=" + getPaid() 
+				+ ", saleDate='" + getSaleDate() + "'" 
+				+ ", settled='" + isSettled() + "'"
+				+ ", Customer='" + getCustomer() 
 				+ "}";
 	}
 }

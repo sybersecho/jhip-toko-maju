@@ -113,7 +113,10 @@
             "clear": "Bersihkan",
             "addAll": "Tambah Semua",
             "saveAll": "Simpan Semua",
-            "addToCart": "Tambah Ke Keranjang"
+            "addToCart": "Tambah Ke Keranjang",
+            "process": "Proses",
+            "processAndPrint": "Proses dan Print",
+            "processAsOrders": "Proses Sebagai Surat Jalan"
         },
         "detail": {
             "field": "Inputan",

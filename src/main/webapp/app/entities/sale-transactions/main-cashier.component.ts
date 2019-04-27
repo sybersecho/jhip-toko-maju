@@ -68,8 +68,8 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         // this.getSaleInSession();
     }
 
-    onPrint(sale: ISaleTransactions) {
-        this.router.navigate(['/', { outlets: { print: 'sale/print/' + sale.noInvoice } }]);
+    onPrint() {
+        // this.router.navigate(['/', { outlets: { print: 'sale/print/' + sale.noInvoice } }]);
     }
 
     processAsOrders() {
@@ -116,7 +116,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     protected onSaveSuccess(sale: ISaleTransactions) {
         console.log(sale);
         if (this.printAsOrder) {
-            this.onPrint(sale);
+            // this.onPrint(sale);
         }
         this.saleTransactions = new SaleTransactions();
         this.customer = this.defaultCustomer;

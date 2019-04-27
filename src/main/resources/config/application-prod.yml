@@ -15,9 +15,9 @@
 
 logging:
     level:
-        ROOT: INFO
-        com.toko.maju: INFO
-        io.github.jhipster: INFO
+        ROOT: DEBUG
+        com.toko.maju: DEBUG
+        io.github.jhipster: DEBUG
 
 spring:
     devtools:
@@ -50,8 +50,12 @@ spring:
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory
     data:
-        jest:
-            uri: http://localhost:9200
+        # jest:
+        #     uri: http://localhost:9200
+        elasticsearch:
+            properties:
+                path:
+                    home: target/elasticsearch
     liquibase:
         contexts: prod
     mail:

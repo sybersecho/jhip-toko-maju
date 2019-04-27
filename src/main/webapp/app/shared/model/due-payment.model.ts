@@ -11,10 +11,12 @@ export interface IDuePayment {
     creatorId?: number;
     saleNoInvoice?: string;
     saleId?: number;
+    customerId?: number;
     customerFirstName?: string;
     customerLastName?: string;
     customerFullName?: string;
     isEdit?: boolean;
+    saldo?: number;
 }
 
 export class DuePayment implements IDuePayment {
@@ -29,10 +31,12 @@ export class DuePayment implements IDuePayment {
         public creatorId?: number,
         public saleNoInvoice?: string,
         public saleId?: number,
+        public customerId?: number,
         public customerFirstName?: string,
         public customerLastName?: string,
         public customerFullName?: string,
-        public isEdit?: boolean
+        public isEdit?: boolean,
+        public saldo?: number
     ) {
         this.settled = this.settled || false;
         this.customerFullName = this.customerFirstName + ' ' + this.customerLastName;

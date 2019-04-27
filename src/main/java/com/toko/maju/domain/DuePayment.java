@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -193,8 +194,14 @@ public class DuePayment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DuePayment{" + "id=" + getId() + ", remainingPayment=" + getRemainingPayment() + ", createdDate='"
-				+ getCreatedDate() + "'" + ", settled='" + isSettled() + "'" + ", paid=" + getPaid() + ", totalPayment="
-				+ getTotalPayment() + "}";
+		return "DuePayment{" + "id=" 
+				+ getId() + ", remainingPayment=" 
+				+ getRemainingPayment() + ", createdDate='"
+				+ getCreatedDate() + "'" 
+				+ ", settled='" + isSettled() + "'" 
+				+ ", paid=" + getPaid() 
+				+ ", totalPayment=" + getTotalPayment() 
+				+ ", sale=" + getSale() 
+				+ "}";
 	}
 }

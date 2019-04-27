@@ -37,6 +37,8 @@ public class DuePaymentDTO implements Serializable {
 
     private String saleNoInvoice;
     
+    private String customerId;
+    
     private String customerFirstName;
     
     private String customerLastName;
@@ -121,7 +123,15 @@ public class DuePaymentDTO implements Serializable {
         this.saleNoInvoice = saleTransactionsNoInvoice;
     }
 
-    public String getCustomerFirstName() {
+    public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getCustomerFirstName() {
 		return customerFirstName;
 	}
 

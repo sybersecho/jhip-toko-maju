@@ -60,7 +60,7 @@
                         <td>{{ duePayment.createdDate | date: 'medium' }}</td>
                         <td>{{ duePayment.customerFullName }}</td>
                         <td>{{ duePayment.totalPayment | currency: 'IDR':'Rp. ' }}</td>
-                        <td>{{ duePayment.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
+                        <td>{{ duePayment.saldo | currency: 'IDR':'Rp. ' }}</td>
                         <td>
                             <input
                                 type="tel"
@@ -71,8 +71,8 @@
                                 [required]="duePayment.isEdit"
                                 min="0"
                                 jhiMin="0"
-                                [max]="duePayment.remainingPayment"
-                                [jhiMax]="duePayment.remainingPayment"
+                                [max]="duePayment.saldo"
+                                [jhiMax]="duePayment.saldo"
                                 [options]="{ prefix: '', thousands: '.', precision: 0 }"
                                 currencyMask
                                 (ngModelChange)="calculateTotalPaid()"
@@ -129,6 +129,15 @@
                     <td></td>
                 </tfoot>
             </table>
+        </div>
+        <div class="row" *ngIf="duePayments.length > 0">
+            <div class="col-md-12">
+                <div class="text-right">
+                    <button type="button" class="btn btn-sm btn-success" [disabled]="totalPaid <= 0 || paymentForm.invalid" (click)="save()">
+                        <span jhiTranslate="entity.action.process">Process</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </form>
 </div>
