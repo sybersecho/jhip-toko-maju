@@ -10,6 +10,7 @@ import {
     DuePaymentUpdateComponent,
     DuePaymentDeletePopupComponent,
     DuePaymentDeleteDialogComponent,
+    SaleDetailDialogComponent,
     duePaymentRoute,
     duePaymentPopupRoute
 } from './';
@@ -23,9 +24,16 @@ const ENTITY_STATES = [...duePaymentRoute, ...duePaymentPopupRoute];
         DuePaymentDetailComponent,
         DuePaymentUpdateComponent,
         DuePaymentDeleteDialogComponent,
-        DuePaymentDeletePopupComponent
+        DuePaymentDeletePopupComponent,
+        SaleDetailDialogComponent
     ],
-    entryComponents: [DuePaymentComponent, DuePaymentUpdateComponent, DuePaymentDeleteDialogComponent, DuePaymentDeletePopupComponent],
+    entryComponents: [
+        DuePaymentComponent,
+        DuePaymentUpdateComponent,
+        DuePaymentDeleteDialogComponent,
+        DuePaymentDeletePopupComponent,
+        SaleDetailDialogComponent
+    ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

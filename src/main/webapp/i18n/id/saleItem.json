@@ -14,14 +14,14 @@
                 "question": "Apakah anda yakin ingin menghapus Sale Item {{ id }}?"
             },
             "detail": {
-                "title": "Sale Item"
+                "title": "Detail Penjualan"
             },
-            "quantity": "Quantity",
-            "totalPrice": "Total Price",
-            "sellingPrice": "Selling Price",
+            "quantity": "Jumlah",
+            "totalPrice": "Total",
+            "sellingPrice": "Harga Jual",
             "productName": "Product Name",
-            "sale": "Sale",
-            "product": "Product"
+            "sale": "Penjualan",
+            "product": "Barang"
         }
     }
 }

@@ -6,15 +6,17 @@ import { JhiptokomajuProjectModule } from './project/project.module';
 import { JhiptokomajuSupplierModule } from './supplier/supplier.module';
 import { JhiptokomajuSaleTransactionsModule } from './sale-transactions/sale-transactions.module';
 import { JhiptokomajuInvoiceModule } from './invoice/invoice.module';
+import { JhiptokomajuDuePaymentModule } from './due-payment/due-payment.module';
 
 @NgModule({
     imports: [
-        // JhiptokomajuCustomerModule,
+        JhiptokomajuCustomerModule,
         JhiptokomajuProductModule,
         JhiptokomajuProjectModule,
         JhiptokomajuSupplierModule,
         JhiptokomajuSaleTransactionsModule,
         JhiptokomajuInvoiceModule,
+        JhiptokomajuDuePaymentModule,
         RouterModule.forChild([
             // {
             //     path: 'customer',
@@ -31,7 +33,7 @@ import { JhiptokomajuInvoiceModule } from './invoice/invoice.module';
             {
                 path: 'supplier',
                 loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
-            },
+            }
             // {
             //     path: 'sale-transactions',
             //     loadChildren: './sale-transactions/sale-transactions.module#JhiptokomajuSaleTransactionsModule'
@@ -40,10 +42,10 @@ import { JhiptokomajuInvoiceModule } from './invoice/invoice.module';
             //     path: 'invoice',
             //     loadChildren: './invoice/invoice.module#JhiptokomajuInvoiceModule'
             // }
-            {
-                path: 'due-payment',
-                loadChildren: './due-payment/due-payment.module#JhiptokomajuDuePaymentModule'
-            }
+            // {
+            //     path: 'due-payment',
+            //     loadChildren: './due-payment/due-payment.module#JhiptokomajuDuePaymentModule'
+            // }
             //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
     ],

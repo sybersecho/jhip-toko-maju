@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title" jhiTranslate="jhiptokomajuApp.saleItem.detail.title">Sale Item</h4>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')">
+        <span aria-hidden="true">x</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.product.name">Name</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.saleItem.quantity">Quantity</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
+                        </th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.saleItem.totalPrice">Total Price</span>
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of items">
+                            <td>{{ item.barcode }}</td>
+                            <td>{{ item.productName }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.unit }}</td>
+                            <td>{{ item.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
+                            <td>{{ item.totalPrice | currency: 'IDR':'Rp. ' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

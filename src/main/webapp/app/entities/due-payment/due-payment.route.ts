@@ -30,7 +30,7 @@ export class DuePaymentResolve implements Resolve<IDuePayment> {
 
 export const duePaymentRoute: Routes = [
     {
-        path: '',
+        path: 'due-payment',
         component: DuePaymentComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,7 +39,7 @@ export const duePaymentRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/view',
+        path: 'due-payment/:id/view',
         component: DuePaymentDetailComponent,
         resolve: {
             duePayment: DuePaymentResolve
@@ -51,7 +51,7 @@ export const duePaymentRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'new',
+        path: 'due-payment/new',
         component: DuePaymentUpdateComponent,
         resolve: {
             duePayment: DuePaymentResolve
@@ -63,7 +63,7 @@ export const duePaymentRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/edit',
+        path: 'due-payment/:id/edit',
         component: DuePaymentUpdateComponent,
         resolve: {
             duePayment: DuePaymentResolve
@@ -78,7 +78,7 @@ export const duePaymentRoute: Routes = [
 
 export const duePaymentPopupRoute: Routes = [
     {
-        path: ':id/delete',
+        path: 'due-payment/:id/delete',
         component: DuePaymentDeletePopupComponent,
         resolve: {
             duePayment: DuePaymentResolve

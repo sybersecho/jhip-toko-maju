@@ -14,6 +14,8 @@ import { SaleTransactionsService } from '../sale-transactions';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { NgbModalRef, NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SaleDetailModalService } from './sale-detail-dialog/sale-detail-modal.service';
 
 @Component({
     selector: 'jhi-due-payment',
@@ -36,6 +38,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    modalRef: NgbModalRef;
 
     constructor(
         protected duePaymentService: DuePaymentService,
@@ -45,7 +48,8 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
-        protected datePipe: DatePipe
+        protected datePipe: DatePipe,
+        protected saleDetailModalService: SaleDetailModalService
     ) {
         this.duePayments = [];
         this.sales = [];
@@ -135,6 +139,12 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         return dues;
     }
 
+    viewSaleDetail(saleId: number) {
+        const sale: ISaleTransactions = this.sales.find(s => s.id === saleId);
+        console.log(sale.items);
+        this.modalRef = this.saleDetailModalService.open(sale.items);
+    }
+
     reset() {
         this.page = 0;
         this.duePayments = [];
@@ -195,6 +205,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+        this.modalRef = null;
     }
 
     trackId(index: number, item: IDuePayment) {
@@ -240,7 +251,8 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
             due.settled = true;
         }
         due.remainingPayment = left;
-        // console.log(due);
+        // console.log('saldo: ' + due.saldo);
+        // console.log('paid: ' + due.paid);
     }
 
     protected paginateDuePayments(data: ISaleTransactions[], headers: HttpHeaders) {

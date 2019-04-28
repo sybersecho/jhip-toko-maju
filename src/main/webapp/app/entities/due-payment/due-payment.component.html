@@ -54,7 +54,9 @@
                     <tr *ngFor="let duePayment of duePayments; trackBy: trackId; let i = index">
                         <td>
                             <div *ngIf="duePayment.saleId">
-                                {{ duePayment.saleNoInvoice }}
+                                <a (click)="viewSaleDetail(duePayment.saleId)">
+                                    {{ duePayment.saleNoInvoice }}
+                                </a>
                             </div>
                         </td>
                         <td>{{ duePayment.createdDate | date: 'medium' }}</td>
@@ -133,11 +135,18 @@
         <div class="row" *ngIf="duePayments.length > 0">
             <div class="col-md-12">
                 <div class="text-right">
-                    <button type="button" class="btn btn-sm btn-success" [disabled]="totalPaid <= 0 || paymentForm.invalid" (click)="save()">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-success"
+                        [disabled]="totalPaid <= 0 || paymentForm.invalid"
+                        (click)="save()"
+                    >
                         <span jhiTranslate="entity.action.process">Process</span>
                     </button>
                 </div>
             </div>
         </div>
     </form>
+    <!-- <jhi-detail></jhi-detail> -->
+
 </div>
