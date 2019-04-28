@@ -11,10 +11,11 @@
                 <thead>
                     <tr>
                         <th><span jhiTranslate="global.field.no">No</span></th>
-                        <th><span>Code</span></th>
-                        <th><span>Name</span></th>
-                        <th><span>Address</span></th>
-                        <th><span>Created at</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.project.code">Code</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.project.name">Name</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.project.city">City</span></th>
+                        <th><span jhiTranslate="global.field.createdDate">Created Date</span></th>
+                        <th><span jhiTranslate="global.field.creator">Creator</span></th>
                         <th><span>Invoices</span></th>
                     </tr>
                 </thead>
@@ -23,8 +24,9 @@
                         <td>{{ i + 1 }}</td>
                         <td>{{ project.code }}</td>
                         <td>{{ project.name }}</td>
-                        <td>{{ project.address }}</td>
-                        <td></td>
+                        <td>{{ project.city }}</td>
+                        <td>{{ project.createdDate | date: 'short' }}</td>
+                        <td>{{ project.creatorLogin }}</td>
                         <td></td>
                     </tr>
                 </tbody>

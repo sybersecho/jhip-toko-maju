@@ -91,7 +91,11 @@
         "field": {
             "id": "ID",
             "no": "No",
-            "total": "Total"
+            "total": "Total",
+            "createdDate": "Created Date",
+            "modifiedDate": "Modified Date",
+            "creator": "Creator",
+            "changer": "Changer"
         },
         "ribbon": {
             "dev": "Development"

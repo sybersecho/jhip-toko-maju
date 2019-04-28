@@ -91,7 +91,11 @@
         "field": {
             "id": "ID",
             "no": "No",
-            "total": "Total"
+            "total": "Total",
+            "createdDate": "Tanggal Dibuat",
+            "modifiedDate": "Tanggal Diubah",
+            "creator": "Dibuat",
+            "changer": "Diubah"
         },
         "ribbon": {
             "dev": "Pengembangan"
