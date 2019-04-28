@@ -1,4 +1,5 @@
 package com.toko.maju.service.dto;
+import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -20,12 +21,30 @@ public class ProjectDTO implements Serializable {
     @Size(min = 4, max = 10)
     private String code;
 
+    private String city;
+
+    private String province;
+
+    private String postalCode;
+
+    private Instant createdDate;
+
+    private Instant modifiedDate;
+
 
     private Long customerId;
 
     private String customerFirstName;
     private String customerLastName;
     private String customerFullName;
+
+    private Long creatorId;
+
+    private String creatorLogin;
+
+    private Long changerId;
+
+    private String changerLogin;
 
     public Long getId() {
         return id;
@@ -57,6 +76,46 @@ public class ProjectDTO implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Instant getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Instant modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
     public Long getCustomerId() {
@@ -91,6 +150,37 @@ public class ProjectDTO implements Serializable {
         this.customerFullName = customerFullName;
     }
 
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long userId) {
+        this.creatorId = userId;
+    }
+
+    public String getCreatorLogin() {
+        return creatorLogin;
+    }
+
+    public void setCreatorLogin(String userLogin) {
+        this.creatorLogin = userLogin;
+    }
+
+    public Long getChangerId() {
+        return changerId;
+    }
+
+    public void setChangerId(Long userId) {
+        this.changerId = userId;
+    }
+
+    public String getChangerLogin() {
+        return changerLogin;
+    }
+
+    public void setChangerLogin(String userLogin) {
+        this.changerLogin = userLogin;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -120,10 +210,19 @@ public class ProjectDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", address='" + getAddress() + "'" +
             ", code='" + getCode() + "'" +
+            ", city='" + getCity() + "'" +
+            ", province='" + getProvince() + "'" +
+            ", postalCode='" + getPostalCode() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", modifiedDate='" + getModifiedDate() + "'" +
             ", customer=" + getCustomerId() +
             ", customer='" + getCustomerFirstName() + "'" +
             ", customer='" + getCustomerLastName() + "'" +
             ", customer='" + getCustomerFullName() + "'" +
+            ", creator=" + getCreatorId() +
+            ", creator='" + getCreatorLogin() + "'" +
+            ", changer=" + getChangerId() +
+            ", changer='" + getChangerLogin() + "'" +
             "}";
     }
 }

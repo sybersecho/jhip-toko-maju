@@ -36,15 +36,14 @@
         <table class="table table-striped">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
                     <th jhiSortBy="code">
                         <span jhiTranslate="jhiptokomajuApp.project.code">Code</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="name">
                         <span jhiTranslate="jhiptokomajuApp.project.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="address">
-                        <span jhiTranslate="jhiptokomajuApp.project.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    <th jhiSortBy="city">
+                        <span jhiTranslate="jhiptokomajuApp.project.city">City</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="customerFirstName">
                         <span jhiTranslate="jhiptokomajuApp.project.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon>
@@ -57,9 +56,8 @@
                     <td>
                         <a [routerLink]="['/project', project.id, 'view']">{{ project.code }}</a>
                     </td>
-                    <!-- <td>{{ project.code }}</td> -->
                     <td>{{ project.name }}</td>
-                    <td>{{ project.address }}</td>
+                    <td>{{ project.city }}</td>
                     <td>
                         <div *ngIf="project.customerId">
                             <a [routerLink]="['../customer', project.customerId, 'view']">{{ project.customerFullName }}</a>
@@ -67,24 +65,42 @@
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
-                            <button type="submit" [routerLink]="['/project', project.id, 'view']" class="btn btn-info btn-sm">
-                                <fa-icon [icon]="'eye'"></fa-icon>
-                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                            </button>
-                            <button type="submit" [routerLink]="['/project', project.id, 'edit']" class="btn btn-primary btn-sm">
-                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                            </button>
                             <button
                                 type="submit"
-                                [routerLink]="['/', 'project', { outlets: { popup: project.id + '/delete' } }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm"
+                                [routerLink]="['/project', project.id, 'view']"
+                                class="btn btn-info btn-sm ml-1"
+                                [ngbTooltip]="viewTooltip"
+                            >
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span> -->
+                            </button>
+                            <ng-template #viewTooltip>
+                                <span class="hidden-sm-down" jjhiTranslate="entity.action.view">View</span>
+                            </ng-template>
+                            <button
+                                type="submit"
+                                [routerLink]="['/project', project.id, 'edit']"
+                                class="btn btn-primary btn-sm ml-1"
+                                [ngbTooltip]="editTooltip"
+                            >
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span> -->
+                            </button>
+                            <ng-template #editTooltip>
+                                <span class="hidden-sm-down" jhiTranslate="entity.action.edit">Edit</span>
+                            </ng-template>
+                            <button
+                                type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'project/' + project.id + '/delete' } }]"
+                                [ngbTooltip]="deleteTooltip"
+                                class="btn btn-danger btn-sm ml-1"
                             >
                                 <fa-icon [icon]="'times'"></fa-icon>
-                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                <!-- <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span> -->
                             </button>
+                            <ng-template #deleteTooltip>
+                                <span class="hidden-sm-down" jhiTranslate="entity.action.delete">Delete</span>
+                            </ng-template>
                         </div>
                     </td>
                 </tr>

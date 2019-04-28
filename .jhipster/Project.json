@@ -18,7 +18,25 @@
             ],
             "otherEntityField": "firstName",
             "otherEntityRelationshipName": "project",
-            "otherEntityRelationshipNameUndefined": true
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "creator",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "project",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "changer",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "project",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [
@@ -47,6 +65,26 @@
             ],
             "fieldValidateRulesMinlength": "4",
             "fieldValidateRulesMaxlength": "10"
+        },
+        {
+            "fieldName": "city",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "province",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "postalCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "modifiedDate",
+            "fieldType": "Instant"
         }
     ],
     "changelogDate": "20190301194022",

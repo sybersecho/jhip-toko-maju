@@ -1,31 +1,47 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="project">
-            <h2><span jhiTranslate="jhiptokomajuApp.project.detail.title">Project</span> {{ project.code }}</h2>
-            <hr />
+            <h2><span jhiTranslate="jhiptokomajuApp.project.detail.title">Project</span> {{project.code}}</h2>
+            <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="jhiptokomajuApp.project.name">Name</span></dt>
                 <dd>
-                    <span>{{ project.name }}</span>
+                    <span>{{project.name}}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.project.address">Address</span></dt>
                 <dd>
-                    <span>{{ project.address }}</span>
+                    <span>{{project.address}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.project.city">City</span></dt>
+                <dd>
+                    <span>{{project.city}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.project.province">Province</span></dt>
+                <dd>
+                    <span>{{project.province}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.project.postalCode">Postal Code</span></dt>
+                <dd>
+                    <span>{{project.postalCode}}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.project.customer">Customer</span></dt>
                 <dd>
                     <div *ngIf="project.customerId">
-                        <a [routerLink]="['/customer', project.customerId, 'view']">{{ project.customerFullName }}</a>
+                        <a [routerLink]="['/customer', project.customerId, 'view']">{{project.customerFullName}}</a>
                     </div>
                 </dd>
             </dl>
 
-            <button type="submit" (click)="previousState()" class="btn btn-info">
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
 
-            <button type="button" [routerLink]="['/project', project.id, 'edit']" class="btn btn-primary">
+            <button type="button"
+                    [routerLink]="['/project', project.id, 'edit']"
+                    class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>
         </div>

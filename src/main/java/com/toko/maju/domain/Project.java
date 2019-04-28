@@ -11,6 +11,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -43,6 +44,21 @@ public class Project implements Serializable {
     @Column(name = "code", length = 10, nullable = false, unique = true)
     private String code;
 
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "province")
+    private String province;
+
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @Column(name = "modified_date")
+    private Instant modifiedDate;
+
     @OneToMany(mappedBy = "project")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ProjectProduct> products = new HashSet<>();
@@ -50,6 +66,14 @@ public class Project implements Serializable {
     @NotNull
     @JsonIgnoreProperties("projects")
     private Customer customer;
+
+    @ManyToOne
+    @JsonIgnoreProperties("projects")
+    private User creator;
+
+    @ManyToOne
+    @JsonIgnoreProperties("projects")
+    private User changer;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -99,6 +123,71 @@ public class Project implements Serializable {
         this.code = code;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public Project city(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public Project province(String province) {
+        this.province = province;
+        return this;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public Project postalCode(String postalCode) {
+        this.postalCode = postalCode;
+        return this;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public Project createdDate(Instant createdDate) {
+        this.createdDate = createdDate;
+        return this;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Instant getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public Project modifiedDate(Instant modifiedDate) {
+        this.modifiedDate = modifiedDate;
+        return this;
+    }
+
+    public void setModifiedDate(Instant modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
     public Set<ProjectProduct> getProducts() {
         return products;
     }
@@ -136,6 +225,32 @@ public class Project implements Serializable {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public Project creator(User user) {
+        this.creator = user;
+        return this;
+    }
+
+    public void setCreator(User user) {
+        this.creator = user;
+    }
+
+    public User getChanger() {
+        return changer;
+    }
+
+    public Project changer(User user) {
+        this.changer = user;
+        return this;
+    }
+
+    public void setChanger(User user) {
+        this.changer = user;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -165,6 +280,11 @@ public class Project implements Serializable {
             ", name='" + getName() + "'" +
             ", address='" + getAddress() + "'" +
             ", code='" + getCode() + "'" +
+            ", city='" + getCity() + "'" +
+            ", province='" + getProvince() + "'" +
+            ", postalCode='" + getPostalCode() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", modifiedDate='" + getModifiedDate() + "'" +
             "}";
     }
 }

@@ -16,11 +16,18 @@
             "detail": {
                 "title": "Project"
             },
-            "name": "Name",
-            "address": "Address",
-            "code": "Code",
+            "name": "Nama",
+            "address": "Alamat",
+            "code": "Kode",
+            "city": "Kota",
+            "province": "Provinsi",
+            "postalCode": "Kode Pos",
+            "createdDate": "Tanggal Dibuat",
+            "modifiedDate": "Tanggal Diubah",
             "product": "Product",
-            "customer": "Customer"
+            "customer": "Customer",
+            "creator": "Dibuat",
+            "changer": "Diubah"
         }
     }
 }

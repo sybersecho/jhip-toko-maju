@@ -5,6 +5,7 @@ import com.toko.maju.JhiptokomajuApp;
 import com.toko.maju.domain.Project;
 import com.toko.maju.domain.ProjectProduct;
 import com.toko.maju.domain.Customer;
+import com.toko.maju.domain.User;
 import com.toko.maju.repository.ProjectRepository;
 import com.toko.maju.repository.search.ProjectSearchRepository;
 import com.toko.maju.service.ProjectService;
@@ -32,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -61,6 +64,21 @@ public class ProjectResourceIntTest {
 
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CITY = "AAAAAAAAAA";
+    private static final String UPDATED_CITY = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PROVINCE = "AAAAAAAAAA";
+    private static final String UPDATED_PROVINCE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_POSTAL_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_POSTAL_CODE = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -123,7 +141,12 @@ public class ProjectResourceIntTest {
         Project project = new Project()
             .name(DEFAULT_NAME)
             .address(DEFAULT_ADDRESS)
-            .code(DEFAULT_CODE);
+            .code(DEFAULT_CODE)
+            .city(DEFAULT_CITY)
+            .province(DEFAULT_PROVINCE)
+            .postalCode(DEFAULT_POSTAL_CODE)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .modifiedDate(DEFAULT_MODIFIED_DATE);
         // Add required entity
         Customer customer = CustomerResourceIntTest.createEntity(em);
         em.persist(customer);
@@ -156,6 +179,11 @@ public class ProjectResourceIntTest {
         assertThat(testProject.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testProject.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testProject.getCode()).isEqualTo(DEFAULT_CODE);
+        assertThat(testProject.getCity()).isEqualTo(DEFAULT_CITY);
+        assertThat(testProject.getProvince()).isEqualTo(DEFAULT_PROVINCE);
+        assertThat(testProject.getPostalCode()).isEqualTo(DEFAULT_POSTAL_CODE);
+        assertThat(testProject.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testProject.getModifiedDate()).isEqualTo(DEFAULT_MODIFIED_DATE);
 
         // Validate the Project in Elasticsearch
         verify(mockProjectSearchRepository, times(1)).save(testProject);
@@ -254,7 +282,12 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())));
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
+            .andExpect(jsonPath("$.[*].province").value(hasItem(DEFAULT_PROVINCE.toString())))
+            .andExpect(jsonPath("$.[*].postalCode").value(hasItem(DEFAULT_POSTAL_CODE.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
     }
     
     @Test
@@ -270,7 +303,12 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.id").value(project.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
-            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()));
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()))
+            .andExpect(jsonPath("$.city").value(DEFAULT_CITY.toString()))
+            .andExpect(jsonPath("$.province").value(DEFAULT_PROVINCE.toString()))
+            .andExpect(jsonPath("$.postalCode").value(DEFAULT_POSTAL_CODE.toString()))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.toString()));
     }
 
     @Test
@@ -392,6 +430,201 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllProjectsByCityIsEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where city equals to DEFAULT_CITY
+        defaultProjectShouldBeFound("city.equals=" + DEFAULT_CITY);
+
+        // Get all the projectList where city equals to UPDATED_CITY
+        defaultProjectShouldNotBeFound("city.equals=" + UPDATED_CITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCityIsInShouldWork() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where city in DEFAULT_CITY or UPDATED_CITY
+        defaultProjectShouldBeFound("city.in=" + DEFAULT_CITY + "," + UPDATED_CITY);
+
+        // Get all the projectList where city equals to UPDATED_CITY
+        defaultProjectShouldNotBeFound("city.in=" + UPDATED_CITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCityIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where city is not null
+        defaultProjectShouldBeFound("city.specified=true");
+
+        // Get all the projectList where city is null
+        defaultProjectShouldNotBeFound("city.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByProvinceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where province equals to DEFAULT_PROVINCE
+        defaultProjectShouldBeFound("province.equals=" + DEFAULT_PROVINCE);
+
+        // Get all the projectList where province equals to UPDATED_PROVINCE
+        defaultProjectShouldNotBeFound("province.equals=" + UPDATED_PROVINCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByProvinceIsInShouldWork() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where province in DEFAULT_PROVINCE or UPDATED_PROVINCE
+        defaultProjectShouldBeFound("province.in=" + DEFAULT_PROVINCE + "," + UPDATED_PROVINCE);
+
+        // Get all the projectList where province equals to UPDATED_PROVINCE
+        defaultProjectShouldNotBeFound("province.in=" + UPDATED_PROVINCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByProvinceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where province is not null
+        defaultProjectShouldBeFound("province.specified=true");
+
+        // Get all the projectList where province is null
+        defaultProjectShouldNotBeFound("province.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByPostalCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where postalCode equals to DEFAULT_POSTAL_CODE
+        defaultProjectShouldBeFound("postalCode.equals=" + DEFAULT_POSTAL_CODE);
+
+        // Get all the projectList where postalCode equals to UPDATED_POSTAL_CODE
+        defaultProjectShouldNotBeFound("postalCode.equals=" + UPDATED_POSTAL_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByPostalCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where postalCode in DEFAULT_POSTAL_CODE or UPDATED_POSTAL_CODE
+        defaultProjectShouldBeFound("postalCode.in=" + DEFAULT_POSTAL_CODE + "," + UPDATED_POSTAL_CODE);
+
+        // Get all the projectList where postalCode equals to UPDATED_POSTAL_CODE
+        defaultProjectShouldNotBeFound("postalCode.in=" + UPDATED_POSTAL_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByPostalCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where postalCode is not null
+        defaultProjectShouldBeFound("postalCode.specified=true");
+
+        // Get all the projectList where postalCode is null
+        defaultProjectShouldNotBeFound("postalCode.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCreatedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where createdDate equals to DEFAULT_CREATED_DATE
+        defaultProjectShouldBeFound("createdDate.equals=" + DEFAULT_CREATED_DATE);
+
+        // Get all the projectList where createdDate equals to UPDATED_CREATED_DATE
+        defaultProjectShouldNotBeFound("createdDate.equals=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCreatedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where createdDate in DEFAULT_CREATED_DATE or UPDATED_CREATED_DATE
+        defaultProjectShouldBeFound("createdDate.in=" + DEFAULT_CREATED_DATE + "," + UPDATED_CREATED_DATE);
+
+        // Get all the projectList where createdDate equals to UPDATED_CREATED_DATE
+        defaultProjectShouldNotBeFound("createdDate.in=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCreatedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where createdDate is not null
+        defaultProjectShouldBeFound("createdDate.specified=true");
+
+        // Get all the projectList where createdDate is null
+        defaultProjectShouldNotBeFound("createdDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByModifiedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where modifiedDate equals to DEFAULT_MODIFIED_DATE
+        defaultProjectShouldBeFound("modifiedDate.equals=" + DEFAULT_MODIFIED_DATE);
+
+        // Get all the projectList where modifiedDate equals to UPDATED_MODIFIED_DATE
+        defaultProjectShouldNotBeFound("modifiedDate.equals=" + UPDATED_MODIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByModifiedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where modifiedDate in DEFAULT_MODIFIED_DATE or UPDATED_MODIFIED_DATE
+        defaultProjectShouldBeFound("modifiedDate.in=" + DEFAULT_MODIFIED_DATE + "," + UPDATED_MODIFIED_DATE);
+
+        // Get all the projectList where modifiedDate equals to UPDATED_MODIFIED_DATE
+        defaultProjectShouldNotBeFound("modifiedDate.in=" + UPDATED_MODIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByModifiedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where modifiedDate is not null
+        defaultProjectShouldBeFound("modifiedDate.specified=true");
+
+        // Get all the projectList where modifiedDate is null
+        defaultProjectShouldNotBeFound("modifiedDate.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllProjectsByProductIsEqualToSomething() throws Exception {
         // Initialize the database
         ProjectProduct product = ProjectProductResourceIntTest.createEntity(em);
@@ -427,6 +660,44 @@ public class ProjectResourceIntTest {
         defaultProjectShouldNotBeFound("customerId.equals=" + (customerId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllProjectsByCreatorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        User creator = UserResourceIntTest.createEntity(em);
+        em.persist(creator);
+        em.flush();
+        project.setCreator(creator);
+        projectRepository.saveAndFlush(project);
+        Long creatorId = creator.getId();
+
+        // Get all the projectList where creator equals to creatorId
+        defaultProjectShouldBeFound("creatorId.equals=" + creatorId);
+
+        // Get all the projectList where creator equals to creatorId + 1
+        defaultProjectShouldNotBeFound("creatorId.equals=" + (creatorId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProjectsByChangerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        User changer = UserResourceIntTest.createEntity(em);
+        em.persist(changer);
+        em.flush();
+        project.setChanger(changer);
+        projectRepository.saveAndFlush(project);
+        Long changerId = changer.getId();
+
+        // Get all the projectList where changer equals to changerId
+        defaultProjectShouldBeFound("changerId.equals=" + changerId);
+
+        // Get all the projectList where changer equals to changerId + 1
+        defaultProjectShouldNotBeFound("changerId.equals=" + (changerId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -437,7 +708,12 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)));
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
+            .andExpect(jsonPath("$.[*].province").value(hasItem(DEFAULT_PROVINCE)))
+            .andExpect(jsonPath("$.[*].postalCode").value(hasItem(DEFAULT_POSTAL_CODE)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
 
         // Check, that the count call also returns 1
         restProjectMockMvc.perform(get("/api/projects/count?sort=id,desc&" + filter))
@@ -487,7 +763,12 @@ public class ProjectResourceIntTest {
         updatedProject
             .name(UPDATED_NAME)
             .address(UPDATED_ADDRESS)
-            .code(UPDATED_CODE);
+            .code(UPDATED_CODE)
+            .city(UPDATED_CITY)
+            .province(UPDATED_PROVINCE)
+            .postalCode(UPDATED_POSTAL_CODE)
+            .createdDate(UPDATED_CREATED_DATE)
+            .modifiedDate(UPDATED_MODIFIED_DATE);
         ProjectDTO projectDTO = projectMapper.toDto(updatedProject);
 
         restProjectMockMvc.perform(put("/api/projects")
@@ -502,6 +783,11 @@ public class ProjectResourceIntTest {
         assertThat(testProject.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProject.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testProject.getCode()).isEqualTo(UPDATED_CODE);
+        assertThat(testProject.getCity()).isEqualTo(UPDATED_CITY);
+        assertThat(testProject.getProvince()).isEqualTo(UPDATED_PROVINCE);
+        assertThat(testProject.getPostalCode()).isEqualTo(UPDATED_POSTAL_CODE);
+        assertThat(testProject.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testProject.getModifiedDate()).isEqualTo(UPDATED_MODIFIED_DATE);
 
         // Validate the Project in Elasticsearch
         verify(mockProjectSearchRepository, times(1)).save(testProject);
@@ -564,7 +850,12 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)));
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
+            .andExpect(jsonPath("$.[*].province").value(hasItem(DEFAULT_PROVINCE)))
+            .andExpect(jsonPath("$.[*].postalCode").value(hasItem(DEFAULT_POSTAL_CODE)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
     }
 
     @Test

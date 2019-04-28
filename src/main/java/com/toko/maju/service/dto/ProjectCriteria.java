@@ -9,6 +9,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the Project entity. This class is used in ProjectResource to
@@ -30,9 +31,23 @@ public class ProjectCriteria implements Serializable {
 
     private StringFilter code;
 
+    private StringFilter city;
+
+    private StringFilter province;
+
+    private StringFilter postalCode;
+
+    private InstantFilter createdDate;
+
+    private InstantFilter modifiedDate;
+
     private LongFilter productId;
 
     private LongFilter customerId;
+
+    private LongFilter creatorId;
+
+    private LongFilter changerId;
 
     public LongFilter getId() {
         return id;
@@ -66,6 +81,46 @@ public class ProjectCriteria implements Serializable {
         this.code = code;
     }
 
+    public StringFilter getCity() {
+        return city;
+    }
+
+    public void setCity(StringFilter city) {
+        this.city = city;
+    }
+
+    public StringFilter getProvince() {
+        return province;
+    }
+
+    public void setProvince(StringFilter province) {
+        this.province = province;
+    }
+
+    public StringFilter getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(StringFilter postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public InstantFilter getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(InstantFilter createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public InstantFilter getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(InstantFilter modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
     public LongFilter getProductId() {
         return productId;
     }
@@ -80,6 +135,22 @@ public class ProjectCriteria implements Serializable {
 
     public void setCustomerId(LongFilter customerId) {
         this.customerId = customerId;
+    }
+
+    public LongFilter getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(LongFilter creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public LongFilter getChangerId() {
+        return changerId;
+    }
+
+    public void setChangerId(LongFilter changerId) {
+        this.changerId = changerId;
     }
 
 
@@ -97,8 +168,15 @@ public class ProjectCriteria implements Serializable {
             Objects.equals(name, that.name) &&
             Objects.equals(address, that.address) &&
             Objects.equals(code, that.code) &&
+            Objects.equals(city, that.city) &&
+            Objects.equals(province, that.province) &&
+            Objects.equals(postalCode, that.postalCode) &&
+            Objects.equals(createdDate, that.createdDate) &&
+            Objects.equals(modifiedDate, that.modifiedDate) &&
             Objects.equals(productId, that.productId) &&
-            Objects.equals(customerId, that.customerId);
+            Objects.equals(customerId, that.customerId) &&
+            Objects.equals(creatorId, that.creatorId) &&
+            Objects.equals(changerId, that.changerId);
     }
 
     @Override
@@ -108,8 +186,15 @@ public class ProjectCriteria implements Serializable {
         name,
         address,
         code,
+        city,
+        province,
+        postalCode,
+        createdDate,
+        modifiedDate,
         productId,
-        customerId
+        customerId,
+        creatorId,
+        changerId
         );
     }
 
@@ -120,8 +205,15 @@ public class ProjectCriteria implements Serializable {
                 (name != null ? "name=" + name + ", " : "") +
                 (address != null ? "address=" + address + ", " : "") +
                 (code != null ? "code=" + code + ", " : "") +
+                (city != null ? "city=" + city + ", " : "") +
+                (province != null ? "province=" + province + ", " : "") +
+                (postalCode != null ? "postalCode=" + postalCode + ", " : "") +
+                (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
+                (modifiedDate != null ? "modifiedDate=" + modifiedDate + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
+                (creatorId != null ? "creatorId=" + creatorId + ", " : "") +
+                (changerId != null ? "changerId=" + changerId + ", " : "") +
             "}";
     }
 

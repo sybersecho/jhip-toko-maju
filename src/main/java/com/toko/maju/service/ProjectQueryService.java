@@ -102,6 +102,21 @@ public class ProjectQueryService extends QueryService<Project> {
             if (criteria.getCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCode(), Project_.code));
             }
+            if (criteria.getCity() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCity(), Project_.city));
+            }
+            if (criteria.getProvince() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getProvince(), Project_.province));
+            }
+            if (criteria.getPostalCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPostalCode(), Project_.postalCode));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Project_.createdDate));
+            }
+            if (criteria.getModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getModifiedDate(), Project_.modifiedDate));
+            }
             if (criteria.getProductId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProductId(),
                     root -> root.join(Project_.products, JoinType.LEFT).get(ProjectProduct_.id)));
@@ -109,6 +124,14 @@ public class ProjectQueryService extends QueryService<Project> {
             if (criteria.getCustomerId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCustomerId(),
                     root -> root.join(Project_.customer, JoinType.LEFT).get(Customer_.id)));
+            }
+            if (criteria.getCreatorId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCreatorId(),
+                    root -> root.join(Project_.creator, JoinType.LEFT).get(User_.id)));
+            }
+            if (criteria.getChangerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getChangerId(),
+                    root -> root.join(Project_.changer, JoinType.LEFT).get(User_.id)));
             }
         }
         return specification;

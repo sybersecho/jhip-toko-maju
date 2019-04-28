@@ -19,8 +19,15 @@
             "name": "Name",
             "address": "Address",
             "code": "Code",
+            "city": "City",
+            "province": "Province",
+            "postalCode": "Postal Code",
+            "createdDate": "Created Date",
+            "modifiedDate": "Modified Date",
             "product": "Product",
-            "customer": "Customer"
+            "customer": "Customer",
+            "creator": "Creator",
+            "changer": "Changer"
         }
     }
 }

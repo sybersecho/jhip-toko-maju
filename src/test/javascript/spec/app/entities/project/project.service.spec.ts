@@ -4,6 +4,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { ProjectService } from 'app/entities/project/project.service';
 import { IProject, Project } from 'app/shared/model/project.model';
 
@@ -13,6 +15,7 @@ describe('Service Tests', () => {
         let service: ProjectService;
         let httpMock: HttpTestingController;
         let elemDefault: IProject;
+        let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
@@ -20,13 +23,20 @@ describe('Service Tests', () => {
             injector = getTestBed();
             service = injector.get(ProjectService);
             httpMock = injector.get(HttpTestingController);
+            currentDate = moment();
 
-            elemDefault = new Project(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+            elemDefault = new Project(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
-                const returnedFromService = Object.assign({}, elemDefault);
+                const returnedFromService = Object.assign(
+                    {
+                        createdDate: currentDate.format(DATE_TIME_FORMAT),
+                        modifiedDate: currentDate.format(DATE_TIME_FORMAT)
+                    },
+                    elemDefault
+                );
                 service
                     .find(123)
                     .pipe(take(1))
@@ -39,11 +49,19 @@ describe('Service Tests', () => {
             it('should create a Project', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        id: 0
+                        id: 0,
+                        createdDate: currentDate.format(DATE_TIME_FORMAT),
+                        modifiedDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        createdDate: currentDate,
+                        modifiedDate: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .create(new Project(null))
                     .pipe(take(1))
@@ -57,12 +75,23 @@ describe('Service Tests', () => {
                     {
                         name: 'BBBBBB',
                         address: 'BBBBBB',
-                        code: 'BBBBBB'
+                        code: 'BBBBBB',
+                        city: 'BBBBBB',
+                        province: 'BBBBBB',
+                        postalCode: 'BBBBBB',
+                        createdDate: currentDate.format(DATE_TIME_FORMAT),
+                        modifiedDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
 
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        createdDate: currentDate,
+                        modifiedDate: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .update(expected)
                     .pipe(take(1))
@@ -76,11 +105,22 @@ describe('Service Tests', () => {
                     {
                         name: 'BBBBBB',
                         address: 'BBBBBB',
-                        code: 'BBBBBB'
+                        code: 'BBBBBB',
+                        city: 'BBBBBB',
+                        province: 'BBBBBB',
+                        postalCode: 'BBBBBB',
+                        createdDate: currentDate.format(DATE_TIME_FORMAT),
+                        modifiedDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        createdDate: currentDate,
+                        modifiedDate: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .query(expected)
                     .pipe(
