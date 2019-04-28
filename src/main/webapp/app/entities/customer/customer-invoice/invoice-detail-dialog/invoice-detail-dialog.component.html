@@ -7,6 +7,25 @@
 <div class="modal-body">
     <div class="row justify-content-center">
         <div class="col-md-12 col-sm-12">
+            <div class="row m-1">
+                <div class="col-md-6 col-sm-6">
+                    <p class="mb-1">
+                        No Fraktur: <span class="font-weight-bold">{{ invoice.noInvoice }} </span>
+                    </p>
+                    <p>
+                        Pelanggan :
+                        <span class="font-weight-bold"> {{ invoice.customer }} </span>
+                    </p>
+                </div>
+                <div class="col-md-6 col-sm-6 text-right">
+                    <p class="mb-1">
+                        Tanggal: <span class="font-weight-bold">{{ invoice.saleDate | date: 'short' }}</span>
+                    </p>
+                    <p class="mb-1">
+                        Total: <span class="font-weight-bold">{{ invoice.totalPayment | currency: 'IDR':'Rp. ' }}</span>
+                    </p>
+                </div>
+            </div>
             <ngb-tabset>
                 <ngb-tab title="Items">
                     <ng-template ngbTabContent>
@@ -40,7 +59,32 @@
                 </ngb-tab>
                 <ngb-tab title="Payment">
                     <ng-template ngbTabContent>
-                        this is Payment
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <th>
+                                        <span jhiTranslate="jhiptokomajuApp.duePayment.createdDate">Created Date</span>
+                                    </th>
+                                    <th>
+                                        <span jhiTranslate="jhiptokomajuApp.duePayment.paid">Paid</span>
+                                    </th>
+                                    <th>
+                                        <span jhiTranslate="jhiptokomajuApp.duePayment.remainingPayment">Remaining Payment</span>
+                                    </th>
+                                    <th>
+                                        <span jhiTranslate="jhiptokomajuApp.duePayment.creator">Creator</span>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let payment of payments">
+                                        <td>{{ payment.createdDate | date: 'medium' }}</td>
+                                        <td>{{ payment.paid | currency: 'IDR':'Rp. ' }}</td>
+                                        <td>{{ payment.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
+                                        <td>{{ payment.creatorLogin }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </ng-template>
                 </ngb-tab>
             </ngb-tabset>

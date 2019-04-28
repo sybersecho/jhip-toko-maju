@@ -3,6 +3,7 @@ import { NgbModalRef, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstra
 import { IInvoice } from 'app/shared/model/invoice.model';
 import { InvoiceService } from 'app/entities/invoice';
 import { ISaleItem } from 'app/shared/model/sale-item.model';
+import { IDuePayment } from 'app/shared/model/due-payment.model';
 
 @Component({
     selector: 'jhi-invoice-detail-dialog',
@@ -12,26 +13,28 @@ import { ISaleItem } from 'app/shared/model/sale-item.model';
 export class InvoiceDetailDialogComponent implements OnInit {
     invoice: IInvoice;
     items: ISaleItem[];
+    payments: IDuePayment[];
     constructor(public activeModal: NgbActiveModal, protected invoiceService: InvoiceService) {
         this.items = [];
+        this.payments = [];
     }
 
     ngOnInit() {
-        console.log('invoice in dialog: ');
-        console.log(this.invoice);
-
         this.loadInvoiceItems();
         this.loadInvoiceHistory();
     }
 
     loadInvoiceHistory() {
-        // throw new Error('Method not implemented.');
+        return this.invoiceService.queryInvoiceHistory({ saleId: this.invoice.id }).subscribe(res => {
+            this.payments = res.body;
+            // console.log(this.payments);
+        });
     }
 
     loadInvoiceItems() {
         return this.invoiceService.queryInvoiceItems({ invoice: this.invoice.noInvoice }).subscribe(res => {
             this.items = res.body;
-            console.log(this.items);
+            // console.log(this.items);
         });
     }
 }

@@ -10,6 +10,7 @@ import { createRequestOption } from 'app/shared';
 import { IInvoice } from 'app/shared/model/invoice.model';
 import { formatDate } from '@angular/common';
 import { ISaleItem } from 'app/shared/model/sale-item.model';
+import { IDuePayment } from 'app/shared/model/due-payment.model';
 
 type EntityResponseType = HttpResponse<IInvoice>;
 type EntityArrayResponseType = HttpResponse<IInvoice[]>;
@@ -73,6 +74,13 @@ export class InvoiceService {
         return this.http.get<ISaleItem[]>(this.resourceUrl + '/items', { params: options, observe: 'response' });
     }
 
+    queryInvoiceHistory(req?: any) {
+        const options = new HttpParams().set('saleId.equals', req.saleId);
+        return this.http
+            .get<IDuePayment[]>(this.resourceUrl + '/history', { params: options, observe: 'response' })
+            .pipe(map((res: HttpResponse<IDuePayment[]>) => this.convertPaymentArrayDateFromServer(res)));
+    }
+
     modifiyOption(options: HttpParams): HttpParams {
         let modify: HttpParams = new HttpParams();
         if (options) {
@@ -87,11 +95,6 @@ export class InvoiceService {
                     modify = modify.set(key, options.get(key));
                 }
             });
-            // if (req.sort) {
-            //     req.sort.forEach(val => {
-            //         options = options.append('sort', val);
-            //     });
-            // }
         }
         return modify;
     }
@@ -117,6 +120,15 @@ export class InvoiceService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.saleDate = res.body.saleDate != null ? moment(res.body.saleDate) : null;
+        }
+        return res;
+    }
+
+    protected convertPaymentArrayDateFromServer(res: HttpResponse<IDuePayment[]>): HttpResponse<IDuePayment[]> {
+        if (res.body) {
+            res.body.forEach((payment: IDuePayment) => {
+                payment.createdDate = payment.createdDate != null ? moment(payment.createdDate) : null;
+            });
         }
         return res;
     }
