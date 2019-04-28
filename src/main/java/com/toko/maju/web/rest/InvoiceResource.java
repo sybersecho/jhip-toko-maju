@@ -2,6 +2,8 @@ package com.toko.maju.web.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.toko.maju.domain.SaleItem;
 import com.toko.maju.service.SaleTransactionsQueryService;
 import com.toko.maju.service.SaleTransactionsService;
+import com.toko.maju.service.dto.SaleItemDTO;
 import com.toko.maju.service.dto.SaleTransactionsCriteria;
 import com.toko.maju.service.dto.SaleTransactionsDTO;
 import com.toko.maju.web.rest.util.PaginationUtil;
@@ -55,6 +59,17 @@ public class InvoiceResource {
 		List<InvoiceVM> listInvoice = createInvoiceFromSale(page);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoices");
 		return ResponseEntity.ok().headers(headers).body(listInvoice);
+	}
+	
+	@GetMapping("/invoices/items")
+	public ResponseEntity<List<SaleItemDTO>> getAllSaleItems(SaleTransactionsCriteria criteria,
+			Pageable pageable) {
+		log.debug("REST request to get Invoice Items by criteria: {}", criteria);
+		Page<SaleTransactionsDTO> page = saleTransactionsQueryService.findByCriteria(criteria, pageable);
+		Set<SaleItemDTO> items = page.getContent().get(0).getItems();
+//		List<InvoiceVM> listInvoice = createInvoiceFromSale(page);
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoices/items");
+		return ResponseEntity.ok().headers(headers).body(items.stream().collect(Collectors.toList()));
 	}
 
 	private List<InvoiceVM> createInvoiceFromSale(Page<SaleTransactionsDTO> page) {

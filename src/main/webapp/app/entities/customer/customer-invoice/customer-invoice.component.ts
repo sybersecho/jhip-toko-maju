@@ -8,6 +8,7 @@ import { JhiParseLinks, JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { AccountService } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
+import { InvoiceDetailDialogService } from './invoice-detail-dialog/invoice-detail-dialog.component';
 
 @Component({
     selector: 'jhi-customer-invoice',
@@ -33,7 +34,8 @@ export class CustomerInvoiceComponent implements OnInit {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected invoiceDetailDialogService: InvoiceDetailDialogService
     ) {
         // this.invoices = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -47,6 +49,10 @@ export class CustomerInvoiceComponent implements OnInit {
 
     ngOnInit() {
         // this.loadAll();
+    }
+
+    viewDetail(invoice: IInvoice) {
+        this.invoiceDetailDialogService.open(invoice);
     }
 
     loadCustomerInvoice() {

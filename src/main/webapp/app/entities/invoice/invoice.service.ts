@@ -9,6 +9,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IInvoice } from 'app/shared/model/invoice.model';
 import { formatDate } from '@angular/common';
+import { ISaleItem } from 'app/shared/model/sale-item.model';
 
 type EntityResponseType = HttpResponse<IInvoice>;
 type EntityArrayResponseType = HttpResponse<IInvoice[]>;
@@ -53,10 +54,6 @@ export class InvoiceService {
         // options.set('saleDate.greaterThan', req.start);
         // options.set('saleDate.lessThan', req.end);
         const modOptions = this.modifiyOption(options);
-        // console.log(req.start);
-        // console.log(modOptions);
-        // console.log(moment(req.start).format('DD.MM.YYYY'));
-        // const invoice = SERVER_API_URL + 'api/invoice-between-date';
         return this.http
             .get<IInvoice[]>(this.resourceUrl, { params: modOptions, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
@@ -69,6 +66,11 @@ export class InvoiceService {
         return this.http
             .get<IInvoice[]>(this.resourceUrl, { params: modOptions, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
+    queryInvoiceItems(req?: any) {
+        const options = new HttpParams().set('noInvoice.equals', req.invoice);
+        return this.http.get<ISaleItem[]>(this.resourceUrl + '/items', { params: options, observe: 'response' });
     }
 
     modifiyOption(options: HttpParams): HttpParams {

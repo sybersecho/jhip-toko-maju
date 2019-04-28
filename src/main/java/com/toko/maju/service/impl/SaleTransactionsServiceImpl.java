@@ -95,7 +95,7 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 //		log.debug("Creator: " + saleTransactions.getCreator());
 
 //		set due payment if not settled
-		if(!saleTransactions.isSettled()) {
+//		if(!saleTransactions.isSettled()) {
 			DuePayment due = new DuePayment();
 			due.setSettled(saleTransactions.isSettled());
 			due.setCreator(saleTransactions.getCreator());
@@ -106,7 +106,7 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 			due.setTotalPayment(saleTransactions.getTotalPayment());
 			
 			saleTransactions.addDuePayment(due);
-		}
+//		}
 		
 //		set invoice number
 		SequenceNumber currentInvoiceNo = sequenceNumberRepository.findByType("invoice");

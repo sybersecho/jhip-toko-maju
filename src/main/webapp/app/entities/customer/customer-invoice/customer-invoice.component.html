@@ -19,7 +19,7 @@
                     <span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span>
                     <fa-icon [icon]="'sort'"></fa-icon>
                 </th>
-                <th>View</th>
+                <th></th>
             </tr>
         </thead>
         <tbody
@@ -35,7 +35,11 @@
                 <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
                 <td>{{ invoice.paid | currency: 'IDR':'Rp. ' }}</td>
                 <td>{{ invoice.saleDate | date: 'medium' }}</td>
-                <td>actions</td>
+                <td class="text-right">
+                    <button type="button" class="btn btn-info btn-sm" (click)="viewDetail(invoice)">
+                        <fa-icon [icon]="'eye'"></fa-icon>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>

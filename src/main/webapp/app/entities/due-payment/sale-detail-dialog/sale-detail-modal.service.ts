@@ -12,7 +12,7 @@ export class SaleDetailModalService {
     constructor(private modalService: NgbModal) {}
 
     open(items: ISaleItem[]) {
-        console.log('open call: ' + this.isOpen);
+        // console.log('open call: ' + this.isOpen);
         if (this.isOpen) {
             return;
         }

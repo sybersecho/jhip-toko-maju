@@ -12,7 +12,7 @@ export class SaleDetailDialogComponent implements OnInit {
     constructor(public activeModal: NgbActiveModal) {}
 
     ngOnInit() {
-        console.log('items in dialog');
-        console.log(this.items);
+        // console.log('items in dialog');
+        // console.log(this.items);
     }
 }

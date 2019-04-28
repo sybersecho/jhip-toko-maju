@@ -16,8 +16,11 @@ import {
     customerPopupRoute,
     CustomerInvoiceComponent,
     SearchProductComponent,
-    CustomerProjectComponent
+    CustomerProjectComponent,
+    InvoiceDetailDialogComponent
 } from './';
+// import { InvoiceDetailDialogComponent } from './customer-invoice/invoice-detail-dialog/invoice-detail-dialog.component';
+// import { InvoiceDetailComponent } from './customer-invoice/invoice-detail/invoice-detail.component';
 // import { CustomerProjectComponent } from './customer-project/customer-project.component';
 
 const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
@@ -34,7 +37,8 @@ const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
         CustomerProductComponent,
         CustomerInvoiceComponent,
         SearchProductComponent,
-        CustomerProjectComponent
+        CustomerProjectComponent,
+        InvoiceDetailDialogComponent
     ],
     entryComponents: [
         CustomerComponent,
@@ -45,7 +49,8 @@ const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
         CustomerProductComponent,
         CustomerInvoiceComponent,
         SearchProductComponent,
-        CustomerProjectComponent
+        CustomerProjectComponent,
+        InvoiceDetailDialogComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     exports: [RouterModule],

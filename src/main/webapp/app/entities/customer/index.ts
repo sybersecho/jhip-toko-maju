@@ -13,3 +13,4 @@ export * from './customer-invoice/customer-invoice.component';
 export * from './search-product/search-product.component';
 export * from './search-product/search-product-modal.service';
 export * from './customer-project/customer-project.component';
+export * from './customer-invoice/invoice-detail-dialog/invoice-detail-dialog.component';
