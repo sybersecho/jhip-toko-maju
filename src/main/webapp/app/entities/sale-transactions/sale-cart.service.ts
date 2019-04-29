@@ -15,6 +15,7 @@ export class SaleCartService {
     private storage: Storage;
     // private customer: ICustomer;
     private saleTransactions: ISaleTransactions = new SaleTransactions();
+    private selectedProject = 0;
     // private customer: ICustomer;
     constructor() {}
 
@@ -28,6 +29,14 @@ export class SaleCartService {
 
     setSale(saleTransactions: ISaleTransactions) {
         this.saleTransactions = saleTransactions;
+    }
+
+    setProject(projectId: number): void {
+        this.selectedProject = projectId;
+    }
+
+    getProject(): number {
+        return this.selectedProject;
     }
 
     // getCustomer(){

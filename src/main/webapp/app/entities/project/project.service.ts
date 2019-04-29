@@ -47,6 +47,15 @@ export class ProjectService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    queryCustomerProject(req?: any): Observable<EntityArrayResponseType> {
+        const options = new HttpParams().set('customerId.equals', req.customerId);
+        // createRequestOption(req);
+        // const modifiyOption = this.modifiyOption(options);
+        return this.http
+            .get<IProject[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }

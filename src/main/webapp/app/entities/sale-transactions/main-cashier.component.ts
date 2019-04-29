@@ -12,6 +12,8 @@ import * as moment from 'moment';
 import { SaleCartService } from './sale-cart.service';
 import { CustomerService } from '../customer';
 import { ICustomerProduct } from 'app/shared/model/customer-product.model';
+import { ProjectService } from '../project';
+import { IProject, Project } from 'app/shared/model/project.model';
 
 @Component({
     selector: 'jhi-main-cashier',
@@ -23,6 +25,8 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     defaultCustomer: ICustomer;
     saleTransactions: ISaleTransactions = new SaleTransactions();
     customerProducts: ICustomerProduct[];
+    customerProjects: IProject[];
+    selectedProjectId: number;
     currentAccount: any;
     routeData: any;
     addItemESubcriber: Subscription;
@@ -33,6 +37,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     constructor(
         protected saleService: SaleTransactionsService,
         protected customerService: CustomerService,
+        protected projectService: ProjectService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
@@ -49,8 +54,10 @@ export class MainCashierComponent implements OnInit, OnDestroy {
             this.customer = data.customer;
             this.defaultCustomer = this.customer;
         });
-
+        this.customerProjects = [];
+        this.selectedProjectId = this.cartService.getProject();
         this.saleTransactions = this.cartService.get();
+
         // this.saleTransactions.setSaleService(this.saleService);
         // this.getSaleInSession();
         if (!this.saleTransactions.customer) {
@@ -61,10 +68,11 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // this.customerProjects = [];
         this.registerAddItemEvent();
         this.changeCustomerEvent();
         this.loadCustomerProduct();
-        // console.log(this.saleTransactions);
+        this.loadCustomerProject();
         // this.getSaleInSession();
     }
 
@@ -93,6 +101,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.addItemESubcriber);
         this.eventManager.destroy(this.changeCustomerSubcriber);
         this.cartService.setSale(this.saleTransactions);
+        this.cartService.setProject(this.selectedProjectId);
     }
 
     getFullName(): string {
@@ -102,7 +111,6 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     save() {
         this.saleTransactions.saleDate = moment(new Date());
         this.saleTransactions.recalculate();
-        // console.log('is settled? ' + this.saleTransactions.settled);
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
 
@@ -122,6 +130,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         this.customer = this.defaultCustomer;
         this.eventManager.broadcast({ name: 'saleSavedEvent' });
         this.setSaleCustomer();
+        this.selectedProjectId = 0;
         // this.addSaleIntoSession();
     }
 
@@ -157,8 +166,10 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     protected setSaleCustomer() {
+        // this.customerProjects = [];
         this.loadCustomerProduct();
         this.saleTransactions.setCustomer(this.customer);
+        this.loadCustomerProject();
 
         // this.addSaleIntoSession();
     }
@@ -207,12 +218,38 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         return cusItem;
     }
 
+    loadCustomerProject(): void {
+        // this.customerProjects = [];
+        // console.log(this.customerProjects);
+        this.customerProjects.push(this.dummyProject());
+        if (!this.customer || !this.saleTransactions || !this.saleTransactions.customer) {
+            return;
+        }
+        this.projectService.queryCustomerProject({ customerId: this.saleTransactions.customer.id }).subscribe(response => {
+            // console.log('in ');
+            // console.log(this.customerProjects);
+            this.customerProjects = [];
+            this.customerProjects.push(this.dummyProject());
+            response.body.forEach(a => {
+                this.customerProjects.push(a);
+            });
+        });
+    }
+
+    protected dummyProject(): IProject {
+        const project: IProject = new Project();
+        project.id = 0;
+        project.code = '';
+        project.name = '';
+        return project;
+    }
+
     loadCustomerProduct(): void {
         this.customerService.searcyByCustomer(this.customer.id).subscribe(
             response => {
                 this.customerProducts = response.body;
                 // console.log(this.customerProducts);
-                this.updateExistingItemPrice();
+                // this.updateExistingItemPrice();
             },
             err => {
                 console.error(err.message);

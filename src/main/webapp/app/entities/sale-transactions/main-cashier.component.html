@@ -58,19 +58,21 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label class="col-md-4 form-control-label" jhiTranslate="jhiptokomajuApp.customer.address" for="field_address"
-                            >address
+                        <label class="col-md-4 form-control-label" jhiTranslate="jhiptokomajuApp.project.home.title" for="field_project">
+                            Projects
                         </label>
                         <div class="col-md-8">
-                            <textarea
-                                rows="3"
-                                style="resize: none"
+                            <select
                                 class="form-control"
-                                name="address"
-                                id="field_address"
-                                [ngModel]="getCustomerAddress()"
-                                readonly
-                            ></textarea>
+                                id="field_project"
+                                name="project"
+                                [(ngModel)]="selectedProjectId"
+                            >
+                                <!-- <option *ngIf="!cashierForm.value.project" [ngValue]="null" selected></option> -->
+                                <option [ngValue]="project.id" *ngFor="let project of customerProjects">
+                                    {{ project.name }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
