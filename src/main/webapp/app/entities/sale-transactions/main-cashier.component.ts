@@ -30,14 +30,12 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     currentAccount: any;
     routeData: any;
     addItemESubcriber: Subscription;
-    changeCustomerSubcriber: Subscription;
     isSale = false;
     printAsOrder = false;
 
     constructor(
         protected saleService: SaleTransactionsService,
         protected customerService: CustomerService,
-        protected projectService: ProjectService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
@@ -72,7 +70,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         this.registerAddItemEvent();
         this.changeCustomerEvent();
         this.loadCustomerProduct();
-        this.loadCustomerProject();
+        // this.loadCustomerProject();
         // this.getSaleInSession();
     }
 
@@ -80,18 +78,30 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         // this.router.navigate(['/', { outlets: { print: 'sale/print/' + sale.noInvoice } }]);
     }
 
+    // customerChange(sale: ISaleTransactions) {
+    //     console.log('before');
+    //     console.log(this.saleTransactions);
+    // this.saleTransactions = sale;
+    // console.log('after');
+    // console.log(this.saleTransactions);
+    // }
+
     processAsOrders() {
         this.printAsOrder = true;
         this.save();
     }
 
-    getCustomerCode(): string {
-        return this.saleTransactions.customerCode;
+    projectChange(project): void {
+        this.selectedProjectId = project;
     }
 
-    getCustomerFullName(): string {
-        return this.saleTransactions.customerFirstName + ' ' + this.saleTransactions.customerLastName;
-    }
+    // getCustomerCode(): string {
+    //     return this.saleTransactions.customerCode;
+    // }
+
+    // getCustomerFullName(): string {
+    //     return this.saleTransactions.customerFirstName + ' ' + this.saleTransactions.customerLastName;
+    // }
 
     getCustomerAddress(): string {
         return this.saleTransactions.customerAddress;
@@ -99,7 +109,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventManager.destroy(this.addItemESubcriber);
-        this.eventManager.destroy(this.changeCustomerSubcriber);
+        // this.eventManager.destroy(this.changeCustomerSubcriber);
         this.cartService.setSale(this.saleTransactions);
         this.cartService.setProject(this.selectedProjectId);
     }
@@ -129,7 +139,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         this.saleTransactions = new SaleTransactions();
         this.customer = this.defaultCustomer;
         this.eventManager.broadcast({ name: 'saleSavedEvent' });
-        this.setSaleCustomer();
+        this.saleTransactions.setCustomer(this.customer);
         this.selectedProjectId = 0;
         // this.addSaleIntoSession();
     }
@@ -169,7 +179,7 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         // this.customerProjects = [];
         this.loadCustomerProduct();
         this.saleTransactions.setCustomer(this.customer);
-        this.loadCustomerProject();
+        // this.loadCustomerProject();
 
         // this.addSaleIntoSession();
     }
@@ -218,23 +228,23 @@ export class MainCashierComponent implements OnInit, OnDestroy {
         return cusItem;
     }
 
-    loadCustomerProject(): void {
-        // this.customerProjects = [];
-        // console.log(this.customerProjects);
-        this.customerProjects.push(this.dummyProject());
-        if (!this.customer || !this.saleTransactions || !this.saleTransactions.customer) {
-            return;
-        }
-        this.projectService.queryCustomerProject({ customerId: this.saleTransactions.customer.id }).subscribe(response => {
-            // console.log('in ');
-            // console.log(this.customerProjects);
-            this.customerProjects = [];
-            this.customerProjects.push(this.dummyProject());
-            response.body.forEach(a => {
-                this.customerProjects.push(a);
-            });
-        });
-    }
+    // loadCustomerProject(): void {
+    // this.customerProjects = [];
+    // console.log(this.customerProjects);
+    // this.customerProjects.push(this.dummyProject());
+    // if (!this.customer || !this.saleTransactions || !this.saleTransactions.customer) {
+    //     return;
+    // }
+    // this.projectService.queryCustomerProject({ customerId: this.saleTransactions.customer.id }).subscribe(response => {
+    //     // console.log('in ');
+    //     // console.log(this.customerProjects);
+    //     this.customerProjects = [];
+    //     this.customerProjects.push(this.dummyProject());
+    //     response.body.forEach(a => {
+    //         this.customerProjects.push(a);
+    //     });
+    // });
+    // }
 
     protected dummyProject(): IProject {
         const project: IProject = new Project();
@@ -258,10 +268,10 @@ export class MainCashierComponent implements OnInit, OnDestroy {
     }
 
     protected changeCustomerEvent(): any {
-        this.changeCustomerSubcriber = this.eventManager.subscribe('onSelectCustomerEvent', response => {
-            this.customer = response.data;
-            this.setSaleCustomer();
-        });
+        // this.changeCustomerSubcriber = this.eventManager.subscribe('onSelectCustomerEvent', response => {
+        //     this.customer = response.data;
+        //     this.setSaleCustomer();
+        // });
     }
 
     protected updateExistingItemPrice(): void {

@@ -10,6 +10,7 @@ import {
     SaleTransactionsUpdateComponent,
     SaleTransactionsDeletePopupComponent,
     SaleTransactionsDeleteDialogComponent,
+    CustomerBoxComponent,
     saleTransactionsRoute,
     saleTransactionsPopupRoute,
     saleTransactionsPrintRoute
@@ -42,7 +43,8 @@ const ENTITY_STATES = [...saleTransactionsRoute, ...saleTransactionsPopupRoute, 
         SearchProductDialogComponent,
         SearchProductPopupComponent,
         PrintComponent,
-        DeliveryOrdersComponent
+        DeliveryOrdersComponent,
+        CustomerBoxComponent
     ],
     entryComponents: [
         SaleTransactionsComponent,
@@ -56,7 +58,8 @@ const ENTITY_STATES = [...saleTransactionsRoute, ...saleTransactionsPopupRoute, 
         SearchProductDialogComponent,
         SearchProductPopupComponent,
         PrintComponent,
-        DeliveryOrdersComponent
+        DeliveryOrdersComponent,
+        CustomerBoxComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
