@@ -120,7 +120,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         // console.log(tempDue);
         // console.log('sale: ');
         // console.log(updateSale);
-        this.duePaymentService.saveDuePayment(tempDue, this.sales).subscribe(
+        this.duePaymentService.saveDuePayment(tempDue, updateSale).subscribe(
             res => {
                 console.log('success');
                 this.loadAll();

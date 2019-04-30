@@ -4,7 +4,7 @@ import moment = require('moment');
 import { SaleTransactionsService } from '../sale-transactions.service';
 import { Observable } from 'rxjs';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { ICustomer } from 'app/shared/model/customer.model';
 
 @Component({
@@ -23,7 +23,11 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
     selectedProjectId: number;
     defaultCustomer: ICustomer;
 
-    constructor(protected saleService: SaleTransactionsService, protected jhiAlertService: JhiAlertService) {}
+    constructor(
+        protected saleService: SaleTransactionsService,
+        protected jhiAlertService: JhiAlertService,
+        protected jhiEventManager: JhiEventManager
+    ) {}
 
     ngOnInit() {}
 
@@ -84,7 +88,12 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
         this.customer = this.defaultCustomer;
         this.saleTransactions.setCustomer(this.customer);
         this.selectedProjectId = 0;
+        console.log('sale when save, ', this.saleTransactions);
         this.projectChangedEvent.next(this.selectedProjectId);
+        this.jhiEventManager.broadcast({
+            name: 'onSaveSale',
+            content: this.saleTransactions
+        });
         // this.addSaleIntoSession();
     }
 

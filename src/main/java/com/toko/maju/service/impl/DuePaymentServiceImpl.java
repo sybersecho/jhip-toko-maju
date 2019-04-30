@@ -136,10 +136,11 @@ public class DuePaymentServiceImpl implements DuePaymentService {
 	public List<DuePaymentDTO> saveDuePayment(List<DuePaymentDTO> duePaymentDTOs,
 			List<SaleTransactionsDTO> saleTransactionsDTOs) {
 		List<DuePayment> duePayments = duePaymentMapper.toEntity(duePaymentDTOs);
-		log.debug("Due Entity {}", duePayments);
+		log.debug("Due Entity, size: {}, string {}", duePayments.size(), duePayments);
 		List<SaleTransactions> saleTransactions = saleTransactionsMapper.toEntity(saleTransactionsDTOs);
-		log.debug("Sale Entity {} before", saleTransactions);
+		log.debug("Sale Entity before, size: {}, string: {}", saleTransactions.size(), saleTransactions);
 		for (SaleTransactions sale : saleTransactions) {
+			log.debug("looking for sale: {}", sale);
 			DuePayment due = duePayments.stream().filter(d -> d.getSale().getId().equals(sale.getId())).findFirst()
 					.get();
 			sale.setPaid(sale.getPaid().add(due.getPaid()));
