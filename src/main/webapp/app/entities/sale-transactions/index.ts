@@ -6,3 +6,4 @@ export * from './sale-transactions.component';
 export * from './sale-transactions.route';
 
 export * from './customer-box/customer-box.component';
+export * from './item-box/item-box.component';
