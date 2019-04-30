@@ -1,11 +1,15 @@
-<!-- <div> -->
 <jhi-alert></jhi-alert>
 <div class="row justify-content-start">
     <div class="col-sm-8">
         <!-- start cashierForm -->
         <form name="cashierForm" role="form" novalidate (ngSubmit)="save()" #cashierForm="ngForm">
-            <jhi-customer-box [sale]="saleTransactions" [project]="selectedProjectId" (projectChange)="projectChange($event)"></jhi-customer-box>
+            <jhi-customer-box
+                [sale]="saleTransactions"
+                [project]="selectedProjectId"
+                (projectChange)="projectChange($event)"
+            ></jhi-customer-box>
             <br />
+
             <div class="table">
                 <table class="table table-striped">
                     <thead>
@@ -89,9 +93,6 @@
                                     (ngModelChange)="onPaid()"
                                 />
                             </th>
-                            <!--
-                                    (change)="onPaid()" [ngModel]="saleTransactions.paid | currency: 'IDR':'Rp. ':'4.2-2'"
-                            [ngModelOptions]="{ updateOn: 'blur' }" -->
                         </tr>
                         <tr *ngIf="saleTransactions.paid <= saleTransactions.totalPayment">
                             <th colspan="5" class="text-right">
@@ -130,17 +131,6 @@
                     </tfoot>
                 </table>
             </div>
-            <!-- <div class="col-sm-4 text-center">
-                <button
-                    type="button"
-                    class="btn btn-sm btn-success "
-                    [routerLink]="['/', { outlets: { print: 'sale/print' } }]"
-                    replaceUrl="true"
-                    queryParamsHandling="merge"
-                >
-                    <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
-                </button>
-            </div> -->
             <div class="row" *ngIf="saleTransactions.items.length > 0">
                 <div class="col-sm-4 text-left">
                     <button type="button" class="btn btn-sm btn-success" (click)="save()" [disabled]="cashierForm.form.invalid">
@@ -156,8 +146,6 @@
                         replaceUrl="true"
                         queryParamsHandling="merge"
                     >
-                        <!--   printSectionId="print-section"
-                        ngxPrint-->
                         <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
                     </button>
                 </div>
@@ -178,11 +166,6 @@
         <!-- end cashierForm -->
     </div>
     <div class="col-sm-4">
-        <jhi-product-box></jhi-product-box>
+        <jhi-product-box [sale]="saleTransactions"></jhi-product-box>
     </div>
 </div>
-<!--
-<div id="print-section">
-    test print
-</div> -->
-<!-- </div> -->

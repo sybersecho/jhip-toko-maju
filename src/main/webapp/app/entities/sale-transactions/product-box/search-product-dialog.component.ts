@@ -35,7 +35,7 @@ export class SearchProductDialogComponent {
 
     search(query) {
         if (!query) {
-            return this.clear();
+            return;
         }
 
         this.searchKeyword = query;

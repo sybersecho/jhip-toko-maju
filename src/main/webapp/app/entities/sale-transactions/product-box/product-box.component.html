@@ -1,7 +1,5 @@
-<!-- <div class="row"> -->
 <form name="saleForm" role="form" novalidate (ngSubmit)="addToCart(saleForm)" #saleForm="ngForm">
     <jhi-alert-error></jhi-alert-error>
-    <!-- <div class="row"> -->
     <div class="col-sm-12">
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.barcode" for="field_barcode">Barcode</label>
@@ -12,8 +10,8 @@
                 replaceUrl="true"
                 queryParamsHandling="merge"
             >
-                Search Product</a
-            >
+                Search Product
+            </a>
             <input
                 type="text"
                 class="form-control"
@@ -42,7 +40,6 @@
                         [ngModel]="selectedItem.sellingPrice"
                         [options]="{ prefix: 'Rp. ', thousands: '.', precision: 0 }"
                         currencyMask
-                        readonly
                     />
                 </div>
             </div>
@@ -91,7 +88,6 @@
                     This field should be a number.
                 </small>
                 <small class="form-text text-danger" [hidden]="!checkStock()">
-                    <!-- jhiTranslate="entity.validation.number" -->
                     This field should not be bigger that stock.
                 </small>
             </div>
@@ -105,6 +101,4 @@
             <fa-icon [icon]="'shopping-cart'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.addToCart">Add To Cart</span>
         </button>
     </div>
-    <!-- </div> -->
 </form>
-<!-- </div> -->

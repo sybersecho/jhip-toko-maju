@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { IProduct, Product } from 'app/shared/model/product.model';
 import { ProductService } from 'app/entities/product';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -6,41 +6,41 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { ISaleItem, SaleItem } from 'app/shared/model/sale-item.model';
 import { NgForm } from '@angular/forms';
-import { resource } from 'selenium-webdriver/http';
-import { isString } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { Subscription } from 'rxjs';
+import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
+import { CustomerService } from 'app/entities/customer';
+import { ICustomerProduct } from 'app/shared/model/customer-product.model';
 
 @Component({
     selector: 'jhi-product-box',
     templateUrl: './product-box.component.html',
     styles: []
 })
-export class ProductBoxComponent implements OnInit, OnDestroy {
-    products: IProduct[];
+export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     selectedProduct: IProduct;
     selectedItem: ISaleItem = new SaleItem();
-    saleSavedEventSub: Subscription;
-    addProductEventSub: Subscription;
+    customerProducts: ICustomerProduct[];
+    // tslint:disable-next-line: no-input-rename
+    @Input('sale') saleTransactions: ISaleTransactions;
+    eventSubscription: Subscription;
     searchBarcode: string;
 
     constructor(
         private productService: ProductService,
+        protected customerService: CustomerService,
         protected eventManager: JhiEventManager,
         protected jhiAlertService: JhiAlertService
     ) {
         this.selectedItem.quantity = 1;
+        this.customerProducts = [];
     }
 
     ngOnInit() {
-        // this.loadProducts();
-        // this.registerSaleSavedEvent();
-        this.registerAddSelectProductEvent();
+        this.registerEvent();
     }
 
-    protected registerAddSelectProductEvent(): any {
-        this.addProductEventSub = this.eventManager.subscribe('onSelectProductEvent', response => {
-            this.selectedItem.setProduct(response.data);
-        });
+    ngAfterViewInit(): void {
+        this.loadCustomerProduct();
     }
 
     searchProduct() {
@@ -58,28 +58,34 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
     }
 
     protected foundProduct(found: IProduct): void {
-        if (found) {
-            this.selectedItem.setProduct(found);
+        if (!found) {
+            this.clearSelectedProduct();
+            return;
         }
+
+        this.updateToCustPrice(found);
+        this.selectedItem.setProduct(found);
     }
 
-    // protected loadProducts(): void {
-    //     this.productService
-    //         .query()
-    //         .pipe(
-    //             filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
-    //             map((response: HttpResponse<IProduct[]>) => response.body)
-    //         )
-    //         .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
-    // }
+    protected updateToCustPrice(found: IProduct) {
+        const exist: ICustomerProduct = this.lookupInCustomerProducts(found.id);
+        if (!exist) {
+            return;
+        }
 
-    // protected registerSaleSavedEvent(): void {
-    //     this.saleSavedEventSub = this.eventManager.subscribe('saleSavedEvent', response => this.loadProducts());
-    // }
+        found.sellingPrice = exist.specialPrice;
+    }
+
+    protected lookupInCustomerProducts(productId: number): ICustomerProduct {
+        let item: ICustomerProduct = null;
+        if (this.customerProducts || this.customerProducts.length > 0) {
+            item = this.customerProducts.find(p => p.productId === productId);
+        }
+        return item;
+    }
 
     ngOnDestroy() {
-        // this.eventManager.destroy(this.saleSavedEventSub);
-        this.eventManager.destroy(this.addProductEventSub);
+        this.eventManager.destroy(this.eventSubscription);
     }
 
     checkStock(): boolean {
@@ -91,7 +97,8 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
     }
 
     addToCart(form: NgForm) {
-        this.eventManager.broadcast({ name: 'addItemEvent', item: this.selectedItem.createItem() });
+        this.selectedItem.createItem();
+        this.saleTransactions.addOrUpdate(this.selectedItem);
         this.reset();
         form.resetForm(this.selectedItem);
     }
@@ -101,11 +108,30 @@ export class ProductBoxComponent implements OnInit, OnDestroy {
         this.selectedItem.quantity = 1;
     }
 
-    trackProductById(index: number, item: IProduct) {
-        return item.id;
-    }
-
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    protected registerEvent() {
+        this.eventSubscription = this.eventManager.subscribe('onSelectCustomerEvent', response => this.loadCustomerProduct());
+        this.eventSubscription = this.eventManager.subscribe('onSelectProductEvent', response => {
+            this.foundProduct(response.data);
+        });
+    }
+
+    protected loadCustomerProduct() {
+        if (!this.saleTransactions || !this.saleTransactions.customer) {
+            return;
+        }
+
+        this.customerService.searcyByCustomer(this.saleTransactions.customer.id).subscribe(
+            response => {
+                this.customerProducts = [];
+                this.customerProducts = response.body;
+            },
+            err => {
+                this.onError(err.message);
+            }
+        );
     }
 }

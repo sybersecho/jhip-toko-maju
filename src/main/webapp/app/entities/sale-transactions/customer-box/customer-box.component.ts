@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, AfterViewInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 import { JhiEventManager } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { ProjectService } from 'app/entities/project';
     templateUrl: './customer-box.component.html',
     styles: []
 })
-export class CustomerBoxComponent implements OnInit, OnDestroy, OnChanges {
+export class CustomerBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     // tslint:disable-next-line: no-input-rename
     @Input('sale') saleTransactions: ISaleTransactions;
     // tslint:disable-next-line: no-input-rename
@@ -32,7 +32,7 @@ export class CustomerBoxComponent implements OnInit, OnDestroy, OnChanges {
         this.eventManager.destroy(this.eventSubscription);
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    ngAfterViewInit(): void {
         this.loadProjects();
     }
 
@@ -41,7 +41,6 @@ export class CustomerBoxComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     protected loadProjects(): void {
-        this.customerProjects.push(this.dummyProject());
         if (!this.saleTransactions || !this.saleTransactions.customer) {
             return;
         }
