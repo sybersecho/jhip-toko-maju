@@ -4,12 +4,44 @@
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
-        <div class="col-md-5">
-            <div class="input-group  w-100 mt-3">
+        <div class="col-md-4">
+            <div class="input-group w-100 mt-3">
                 <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" required />
                 <input type="date" class="form-control ml-1" name="end" [(ngModel)]="endDate" required />
                 <button class="input-group-append btn btn-info" (click)="search()">
                     <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-3">
+            <div class="btn-group  w-100 mt-3 flex-btn-group-container">
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-md ml-1"
+                    [ngClass]="{ 'btn-info': filter === 'all' }"
+                    (click)="filterBy('all')"
+                >
+                    <fa-icon [icon]="'eye'"></fa-icon>
+                    <span class="d-none d-md-inline"> Semua</span>
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-md  ml-1"
+                    [ngClass]="{ 'btn-info': filter === 'nonProject' }"
+                    (click)="filterBy('nonProject')"
+                >
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                    <span class="d-none d-md-inline"> No - Project</span>
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-md ml-1"
+                    [ngClass]="{ 'btn-info': filter === 'project' }"
+                    (click)="filterBy('project')"
+                >
+                    <fa-icon [icon]="'star'"></fa-icon>
+                    <span class="d-none d-md-inline"> Project</span>
                 </button>
             </div>
         </div>
@@ -30,6 +62,9 @@
                         </th>
                         <th style="width: 15%" jhiSortBy="customerFullName">
                             <span jhiTranslate="jhiptokomajuApp.duePayment.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                        <th style="width: 15%" jhiSortBy="project">
+                            <span jhiTranslate="jhiptokomajuApp.saleTransactions.project">Project</span> <fa-icon [icon]="'sort'"></fa-icon>
                         </th>
                         <th style="width: 15%" jhiSortBy="totalPayment">
                             <span jhiTranslate="jhiptokomajuApp.duePayment.totalPayment">Total Payment</span>
@@ -61,6 +96,7 @@
                         </td>
                         <td>{{ duePayment.createdDate | date: 'medium' }}</td>
                         <td>{{ duePayment.customerFullName }}</td>
+                        <td>{{ duePayment.projectName }}</td>
                         <td>{{ duePayment.totalPayment | currency: 'IDR':'Rp. ' }}</td>
                         <td>{{ duePayment.saldo | currency: 'IDR':'Rp. ' }}</td>
                         <td>
@@ -148,5 +184,4 @@
         </div>
     </form>
     <!-- <jhi-detail></jhi-detail> -->
-
 </div>

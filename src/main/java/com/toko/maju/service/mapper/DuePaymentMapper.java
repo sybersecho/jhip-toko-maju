@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity DuePayment and its DTO DuePaymentDTO.
  */
-@Mapper(componentModel = "spring", uses = { UserMapper.class, SaleTransactionsMapper.class, CustomerMapper.class})
+@Mapper(componentModel = "spring", uses = { UserMapper.class, SaleTransactionsMapper.class, CustomerMapper.class, ProjectMapper.class})
 public interface DuePaymentMapper extends EntityMapper<DuePaymentDTO, DuePayment> {
 
 	@Mapping(source = "creator.id", target = "creatorId")
@@ -17,6 +17,8 @@ public interface DuePaymentMapper extends EntityMapper<DuePaymentDTO, DuePayment
 	@Mapping(source = "sale.noInvoice", target = "saleNoInvoice")
 	@Mapping(source = "sale.customer.firstName", target = "customerFirstName")
 	@Mapping(source = "sale.customer.lastName", target = "customerLastName")
+	@Mapping(source = "sale.project.id", target = "projectId")
+	@Mapping(source = "sale.project.name", target = "projectName")
 	DuePaymentDTO toDto(DuePayment duePayment);
 
 	@Mapping(source = "creatorId", target = "creator")

@@ -39,6 +39,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     totalItems: number;
     currentSearch: string;
     modalRef: NgbModalRef;
+    filter: any;
 
     constructor(
         protected duePaymentService: DuePaymentService,
@@ -63,10 +64,17 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         };
         this.predicate = 'id';
         this.reverse = true;
+        this.filter = 'all';
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
+    }
+
+    filterBy(key: any): void {
+        this.filter = key;
+        console.log('filter is ', this.filter);
+        this.loadAll();
     }
 
     loadAll() {
@@ -262,14 +270,24 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            this.sales.push(data[i]);
-            const duePayment: IDuePayment = this.createDuePayment(data[i]);
-            // console.log(duePayment);
-            this.duePayments.push(duePayment);
+            if (this.filter === 'all') {
+                this.SaleAndDuePayment(data[i]);
+            } else if (this.filter === 'nonProject' && !data[i].projectId) {
+                this.SaleAndDuePayment(data[i]);
+            } else if (this.filter === 'project' && data[i].projectId) {
+                this.SaleAndDuePayment(data[i]);
+            }
         }
+    }
+    SaleAndDuePayment(sale: ISaleTransactions) {
+        this.sales.push(sale);
+        const duePayment: IDuePayment = this.createDuePayment(sale);
+        // console.log(duePayment);
+        this.duePayments.push(duePayment);
     }
 
     protected createDuePayment(sale: ISaleTransactions): IDuePayment {
+        console.log('sale, ', sale);
         this.totalNominal = 0;
         this.totalSaldo = 0;
         // tslint:disable-next-line: prefer-const
@@ -288,6 +306,8 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         duePayment.saleNoInvoice = sale.noInvoice;
         duePayment.totalPayment = sale.totalPayment;
         duePayment.isEdit = false;
+        duePayment.projectId = sale.projectId;
+        duePayment.projectName = sale.projectId ? sale.projectName : '-';
 
         this.totalNominal += duePayment.totalPayment;
         this.totalSaldo += duePayment.remainingPayment;

@@ -42,6 +42,10 @@ public class DuePaymentDTO implements Serializable {
     private String customerFirstName;
     
     private String customerLastName;
+    
+    private Long projectId;
+
+	private String projectName;
 
     public Long getId() {
         return id;
@@ -147,6 +151,22 @@ public class DuePaymentDTO implements Serializable {
 		this.customerLastName = customerLastName;
 	}
 
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 	@Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -181,6 +201,8 @@ public class DuePaymentDTO implements Serializable {
             ", creator='" + getCreatorLogin() + "'" +
             ", sale=" + getSaleId() +
             ", sale='" + getSaleNoInvoice() + "'" +
+            ", project=" + getProjectId() +
+            ", project='" + getProjectName() + "'" +
             "}";
     }
 }
