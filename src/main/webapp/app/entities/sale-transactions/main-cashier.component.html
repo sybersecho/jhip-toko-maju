@@ -8,7 +8,12 @@
             (projectChange)="projectChange($event)"
         ></jhi-customer-box>
         <br />
-        <jhi-item-box [sale]="saleTransactions" [customer]="customer" (projectChange)="projectChange($event)"></jhi-item-box>
+        <jhi-item-box
+            [sale]="saleTransactions"
+            [customer]="customer"
+            [project]="selectedProjectId"
+            (projectChange)="projectChange($event)"
+        ></jhi-item-box>
         <!-- end cashierForm -->
     </div>
     <div class="col-sm-4">

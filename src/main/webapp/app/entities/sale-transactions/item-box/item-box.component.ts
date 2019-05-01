@@ -20,7 +20,8 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line: no-output-rename
     @Output('projectChange') projectChangedEvent = new EventEmitter();
     printAsOrder = false;
-    selectedProjectId: number;
+    // tslint:disable-next-line: no-input-rename
+    @Input('project') selectedProjectId: number;
     defaultCustomer: ICustomer;
 
     constructor(
@@ -69,7 +70,9 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
 
     save() {
         this.saleTransactions.saleDate = moment(new Date());
+        this.saleTransactions.projectId = this.selectedProjectId > 0 ? this.selectedProjectId : null;
         this.saleTransactions.recalculate();
+        console.log('sale before save ', this.saleTransactions);
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
 

@@ -32,7 +32,9 @@
             "customer": "Customer",
             "change": "Change",
             "settled": "Settled",
-            "creator": "Creator"
+            "creator": "Creator",
+            "duePayment": "Due Payment",
+            "project": "Project"
         }
     }
 }

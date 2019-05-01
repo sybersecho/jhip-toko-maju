@@ -87,6 +87,9 @@ public class SaleTransactions implements Serializable {
 //    @JsonIgnoreProperties("duePayments")
 	@JsonManagedReference
 	private Set<DuePayment> duePayments = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties("saleTransactions")
+    private Project project;
 
 	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
 	// remove
@@ -264,6 +267,19 @@ public class SaleTransactions implements Serializable {
 	public void setDuePayments(Set<DuePayment> duePayments) {
 		this.duePayments = duePayments;
 	}
+
+    public Project getProject() {
+        return project;
+    }
+
+    public SaleTransactions project(Project project) {
+        this.project = project;
+        return this;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
 	// setters here, do not remove
 
@@ -289,15 +305,16 @@ public class SaleTransactions implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SaleTransactions{" + "id=" + getId() 
-				+ ", noInvoice='" + getNoInvoice() + "'" 
-				+ ", discount=" + getDiscount() 
-				+ ", totalPayment=" + getTotalPayment() 
+		return "SaleTransactions{" + "id=" + getId()
+				+ ", noInvoice='" + getNoInvoice() + "'"
+				+ ", discount=" + getDiscount()
+				+ ", totalPayment=" + getTotalPayment()
 				+ ", remainingPayment=" + getRemainingPayment()
-				+ ", paid=" + getPaid() 
-				+ ", saleDate='" + getSaleDate() + "'" 
+				+ ", paid=" + getPaid()
+				+ ", saleDate='" + getSaleDate() + "'"
 				+ ", settled='" + isSettled() + "'"
-				+ ", Customer='" + getCustomer() 
+				+ ", Customer='" + getCustomer() + "'"
+				+ ", Project='" + getProject() + "'"
 				+ "}";
 	}
 }

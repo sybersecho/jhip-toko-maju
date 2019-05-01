@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 import { ISaleItem } from './sale-item.model';
 import { ICustomer } from './customer.model';
-import { SaleTransactionsService } from 'app/entities/sale-transactions';
+import { IDuePayment } from './due-payment.model';
 
 export interface ISaleTransactions {
     id?: number;
@@ -19,6 +19,9 @@ export interface ISaleTransactions {
     customerAddress?: string;
     creatorLogin?: string;
     creatorId?: number;
+    duePayments?: IDuePayment[];
+    projectName?: string;
+    projectId?: number;
     settled?: boolean;
 
     customer?: ICustomer;
@@ -57,6 +60,9 @@ export class SaleTransactions implements ISaleTransactions {
         public customerAddress?: string,
         public creatorLogin?: string,
         public creatorId?: number,
+        public duePayments?: IDuePayment[],
+        public projectName?: string,
+        public projectId?: number,
         public settled?: boolean,
         public customer?: ICustomer
     ) {

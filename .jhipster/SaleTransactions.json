@@ -36,6 +36,14 @@
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "sale",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "saleTransactions",
+            "otherEntityRelationshipNameUndefined": true
         }
     ],
     "fields": [
