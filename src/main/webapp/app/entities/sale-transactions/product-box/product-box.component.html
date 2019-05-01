@@ -37,8 +37,8 @@
                         class="form-control"
                         name="sellingPrice"
                         id="field_sellingPrice"
-                        [ngModel]="selectedItem.sellingPrice"
-                        [options]="{ prefix: 'Rp. ', thousands: '.', precision: 0 }"
+                        [(ngModel)]="selectedItem.sellingPrice"
+                        [options]="{ prefix: '', thousands: '.', precision: 0 }"
                         currencyMask
                     />
                 </div>
