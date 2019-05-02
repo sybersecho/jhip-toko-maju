@@ -9,7 +9,7 @@
         </button> -->
     </h2>
     <jhi-alert></jhi-alert>
-    <jhi-search-invoice (searchEvent)="searchEvt($event)" (clearEvent)="clearEvt($event)"></jhi-search-invoice>
+    <jhi-search-filter (searchEvent)="searchEvt($event)" (clearEvent)="clearEvt($event)"></jhi-search-filter>
     <br />
     <div class="table-responsive" *ngIf="invoices">
         <table class="table table-striped">
@@ -56,7 +56,7 @@
                     <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.paid | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.saleDate | date: 'medium' }}</td>
-                    <td>{{ invoice.creator}}</td>
+                    <td>{{ invoice.creator }}</td>
                     <!-- <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit" [routerLink]="['/invoice', invoice.id, 'view']" class="btn btn-info btn-sm">

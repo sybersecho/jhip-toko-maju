@@ -44,9 +44,10 @@ export class InvoiceService {
 
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
-
+        const modOptions = this.modifiyOption(options);
+        console.log('object,', req, modOptions);
         return this.http
-            .get<IInvoice[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .get<IInvoice[]>(this.resourceUrl, { params: modOptions, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
@@ -91,6 +92,10 @@ export class InvoiceService {
                     modify = modify.set('saleDate.lessOrEqualThan', options.get(key));
                 } else if (key === 'customer') {
                     modify = modify.set('customerId.equals', options.get(key));
+                } else if (key === 'project') {
+                    modify = modify.set('projectId.equals', options.get(key));
+                } else if (key === 'invoice') {
+                    modify = modify.set('noInvoice.contains', options.get(key));
                 } else {
                     modify = modify.set(key, options.get(key));
                 }

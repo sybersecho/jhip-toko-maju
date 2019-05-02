@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h4 class="modal-title" jhiTranslate="jhiptokomajuApp.customer.home.search">Cari Customer</h4>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')">
+        <span aria-hidden="true">x</span>
+    </button>
+</div>
+<div class="modal-body">
+    <jhi-alert-error></jhi-alert-error>
+    <div class="col-sm-12">
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 m-1">
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="searchKeyword"
+                    id="searchKeyword"
+                    name="searchKeyword"
+                    placeholder="{{ 'jhiptokomajuApp.customer.home.search' | translate }}"
+                />
+                <button class="input-group-append btn btn-info" (click)="search()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+                <button class="input-group-append btn btn-danger" (click)="clearSearch()" *ngIf="searchKeyword">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
+            </div>
+        </form>
+        <table class="table table-striped mt-1">
+            <thead>
+                <tr>
+                    <th><span jhiTranslate="jhiptokomajuApp.customer.code">Code</span></th>
+                    <th><span jhiTranslate="jhiptokomajuApp.customer.firstName">First Name</span></th>
+                    <th><span jhiTranslate="jhiptokomajuApp.customer.phoneNumber">Phone Number</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let customer of customers">
+                    <td>{{ customer.code }}</td>
+                    <td>{{ customer.firstName }} {{ customer.lastName }}</td>
+                    <td>{{ customer.phoneNumber }}</td>
+                    <td><button type="button" class="btn btn-block btn-sm btn-info" (click)="onSelect(customer)">Select</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

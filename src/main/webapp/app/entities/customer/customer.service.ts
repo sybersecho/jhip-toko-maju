@@ -48,4 +48,9 @@ export class CustomerService {
         const options = new HttpParams().set('customerId.equals', id);
         return this.http.get<ICustomerProduct[]>(this.resourceCustomerProductUrl, { params: options, observe: 'response' });
     }
+
+    searchByName(req?: any) {
+        const options = new HttpParams().set('firstName.contains', req.query).set('lastName.contains', req.query);
+        return this.http.get<ICustomerProduct[]>(this.resourceUrl, { params: options, observe: 'response' });
+    }
 }

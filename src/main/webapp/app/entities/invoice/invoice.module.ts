@@ -10,9 +10,10 @@ import {
     InvoiceUpdateComponent,
     InvoiceDeletePopupComponent,
     InvoiceDeleteDialogComponent,
-    SearchInvoiceComponent,
+    SearchFilterComponent,
     invoiceRoute,
-    invoicePopupRoute
+    invoicePopupRoute,
+    SearchCustomerDialogComponent
 } from './';
 
 const ENTITY_STATES = [...invoiceRoute, ...invoicePopupRoute];
@@ -25,9 +26,16 @@ const ENTITY_STATES = [...invoiceRoute, ...invoicePopupRoute];
         InvoiceUpdateComponent,
         InvoiceDeleteDialogComponent,
         InvoiceDeletePopupComponent,
-        SearchInvoiceComponent
+        SearchFilterComponent,
+        SearchCustomerDialogComponent
     ],
-    entryComponents: [InvoiceComponent, InvoiceUpdateComponent, InvoiceDeleteDialogComponent, InvoiceDeletePopupComponent],
+    entryComponents: [
+        InvoiceComponent,
+        InvoiceUpdateComponent,
+        InvoiceDeleteDialogComponent,
+        InvoiceDeletePopupComponent,
+        SearchCustomerDialogComponent
+    ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

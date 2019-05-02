@@ -5,7 +5,8 @@
                 "title": "Invoices",
                 "createLabel": "Create a new Invoice",
                 "createOrEditLabel": "Create or edit a Invoice",
-                "search": "Search for Invoice"
+                "search": "Search for Invoice",
+                "status": "Status"
             },
             "created": "A new Invoice is created with identifier {{ param }}",
             "updated": "A Invoice is updated with identifier {{ param }}",

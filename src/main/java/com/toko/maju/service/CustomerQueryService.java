@@ -97,10 +97,10 @@ public class CustomerQueryService extends QueryService<Customer> {
                 specification = specification.and(buildStringSpecification(criteria.getCode(), Customer_.code));
             }
             if (criteria.getFirstName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getFirstName(), Customer_.firstName));
+                specification = specification.or(buildStringSpecification(criteria.getFirstName(), Customer_.firstName));
             }
             if (criteria.getLastName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getLastName(), Customer_.lastName));
+                specification = specification.or(buildStringSpecification(criteria.getLastName(), Customer_.lastName));
             }
             if (criteria.getGender() != null) {
                 specification = specification.and(buildSpecification(criteria.getGender(), Customer_.gender));

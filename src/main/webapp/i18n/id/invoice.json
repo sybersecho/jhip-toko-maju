@@ -2,10 +2,11 @@
     "jhiptokomajuApp": {
         "invoice": {
             "home": {
-                "title": "Invoices",
+                "title": "Daftar Penjualan",
                 "createLabel": "Buat Invoice baru",
                 "createOrEditLabel": "Buat atau edit Invoice",
-                "search": "Cari Invoice"
+                "search": "Cari No Fraktur",
+                "status": "Status Penjualan"
             },
             "created": "Invoice dengan id {{ param }} telah dibuat",
             "updated": "Invoice dengan id {{ param }} telah diperbaharui",

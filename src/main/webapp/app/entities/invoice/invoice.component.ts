@@ -11,7 +11,7 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE, DATE_FORMAT } from 'app/shared';
 import { InvoiceService } from './invoice.service';
-import { SearchInvoice } from './search-invoice.component';
+import { SearchInvoice } from './search-filter.component';
 
 @Component({
     selector: 'jhi-invoice',
@@ -58,7 +58,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
             this.invoiceService
                 .queryByDate({
                     // query: this.currentSearch,
-                    start: moment(this.searchInvoice.startDate)
+                    start: moment(this.searchInvoice.fromDate)
                         .startOf('day')
                         .toJSON(),
                     end: moment(this.searchInvoice.endDate)
@@ -90,9 +90,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
 
     searchEvt(event) {
-        this.invoices = [];
-        this.searchInvoice = event;
-        this.loadAll();
+        this.invoices = event;
+        // this.searchInvoice = event;
+        // this.loadAll();
     }
 
     clearEvt(event) {
