@@ -2,8 +2,12 @@ package com.toko.maju.service.impl;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,22 +100,22 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 
 //		set due payment if not settled
 //		if(!saleTransactions.isSettled()) {
-			DuePayment due = new DuePayment();
-			due.setSettled(saleTransactions.isSettled());
-			due.setCreator(saleTransactions.getCreator());
-			due.setPaid(saleTransactions.getPaid());
-			due.setRemainingPayment(saleTransactions.getRemainingPayment());
-			due.setSale(saleTransactions);
-			due.setCreatedDate(saleTransactions.getSaleDate());
-			due.setTotalPayment(saleTransactions.getTotalPayment());
-			
-			saleTransactions.addDuePayment(due);
+		DuePayment due = new DuePayment();
+		due.setSettled(saleTransactions.isSettled());
+		due.setCreator(saleTransactions.getCreator());
+		due.setPaid(saleTransactions.getPaid());
+		due.setRemainingPayment(saleTransactions.getRemainingPayment());
+		due.setSale(saleTransactions);
+		due.setCreatedDate(saleTransactions.getSaleDate());
+		due.setTotalPayment(saleTransactions.getTotalPayment());
+
+		saleTransactions.addDuePayment(due);
 //		}
-		
+
 //		set invoice number
 		SequenceNumber currentInvoiceNo = sequenceNumberRepository.findByType("invoice");
 		int currentValue = currentInvoiceNo.getNextValue();
-		String noInvoice = generateInvoiceNo(currentValue);
+		String noInvoice = generateInvoiceNo(currentInvoiceNo);
 		currentInvoiceNo.setNextValue(++currentValue);
 		sequenceNumberRepository.save(currentInvoiceNo);
 		sequenceNumberSearchRepository.save(currentInvoiceNo);
@@ -119,7 +123,8 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 		saleTransactions.setNoInvoice(noInvoice);
 		saleTransactions = saleTransactionsRepository.save(saleTransactions);
 
-		Set<Product> products = saleItemRepository.findProductsBySale(saleTransactions.getId());
+		List<Long> productIds = collectProductIds(saleTransactions);
+		Set<Product> products = productRepository.findAllById(productIds).stream().collect(Collectors.toCollection(HashSet::new));
 
 		products = updateQty(saleTransactions.getItems(), products);
 		log.debug(" update product: {}", products);
@@ -130,10 +135,18 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 		return result;
 	}
 
-	private String generateInvoiceNo(int currentValue) {
+	private List<Long> collectProductIds(SaleTransactions saleTransactions) {
+		List<Long> ids = new ArrayList<Long>();
+		for (SaleItem item : saleTransactions.getItems()) {
+			ids.add(item.getId());
+		}
+		return ids;
+	}
+
+	private String generateInvoiceNo(SequenceNumber currentInvoice) {
 		StringBuilder build = new StringBuilder();
-		build.append("INV");
-		build.append(String.format("%06d", currentValue));
+		build.append(currentInvoice.getCodeType());
+		build.append(String.format("%06d", currentInvoice.getNextValue()));
 		log.debug("new Invoice No: " + build.toString());
 		return build.toString();
 	}

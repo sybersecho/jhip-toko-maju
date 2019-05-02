@@ -18,6 +18,20 @@
         {
             "fieldName": "incrementValue",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "display",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "codeType",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20190330214333",

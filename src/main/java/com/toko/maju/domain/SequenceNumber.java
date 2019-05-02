@@ -21,7 +21,7 @@ import java.util.Objects;
 public class SequenceNumber implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +35,14 @@ public class SequenceNumber implements Serializable {
 
     @Column(name = "increment_value")
     private Integer incrementValue;
+
+    @NotNull
+    @Column(name = "display", nullable = false)
+    private String display;
+
+    @NotNull
+    @Column(name = "code_type", nullable = false)
+    private String codeType;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -83,6 +91,32 @@ public class SequenceNumber implements Serializable {
     public void setIncrementValue(Integer incrementValue) {
         this.incrementValue = incrementValue;
     }
+
+    public String getDisplay() {
+        return display;
+    }
+
+    public SequenceNumber display(String display) {
+        this.display = display;
+        return this;
+    }
+
+    public void setDisplay(String display) {
+        this.display = display;
+    }
+
+    public String getCodeType() {
+        return codeType;
+    }
+
+    public SequenceNumber codeType(String codeType) {
+        this.codeType = codeType;
+        return this;
+    }
+
+    public void setCodeType(String codeType) {
+        this.codeType = codeType;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -112,6 +146,8 @@ public class SequenceNumber implements Serializable {
             ", type='" + getType() + "'" +
             ", nextValue=" + getNextValue() +
             ", incrementValue=" + getIncrementValue() +
+            ", display='" + getDisplay() + "'" +
+            ", codeType='" + getCodeType() + "'" +
             "}";
     }
 }

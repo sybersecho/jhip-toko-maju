@@ -34,6 +34,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="display" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="code_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <loadData encoding="UTF-8" file="config/liquibase/sequence_number.csv" separator=";" tableName="sequence_number"/>
