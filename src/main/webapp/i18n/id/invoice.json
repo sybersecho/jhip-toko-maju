@@ -17,12 +17,12 @@
             "detail": {
                 "title": "Invoice"
             },
-            "noInvoice": "No Invoice",
-            "customer": "Customer",
-            "totalPayment": "Total Payment",
-            "remainingPayment": "Remaining Payment",
-            "paid": "Paid",
-            "saleDate": "Sale Date",
+            "noInvoice": "No Fraktur",
+            "customer": "Pelanggan",
+            "totalPayment": "Total",
+            "remainingPayment": "Sisa Pembayaran",
+            "paid": "Pembayaran",
+            "saleDate": "Tanggal",
             "creator": "Dibuat"
         }
     }

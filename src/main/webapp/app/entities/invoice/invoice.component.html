@@ -16,26 +16,29 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
                     <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-                    <th jhiSortBy="noInvoice">
+                    <th style="width: 10%" jhiSortBy="noInvoice">
                         <span jhiTranslate="jhiptokomajuApp.invoice.noInvoice">No Invoice</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="customer">
+                    <th style="width: 15%" jhiSortBy="saleDate">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th style="width: 15%" jhiSortBy="customer">
                         <span jhiTranslate="jhiptokomajuApp.invoice.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="totalPayment">
+                    <th style="width: 10%" jhiSortBy="project">
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.project">Project</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th style="width: 15%" jhiSortBy="totalPayment">
                         <span jhiTranslate="jhiptokomajuApp.invoice.totalPayment">Total Payment</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="remainingPayment">
+                    <th style="width: 15%" jhiSortBy="remainingPayment">
                         <span jhiTranslate="jhiptokomajuApp.invoice.remainingPayment">Remaining Payment</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="paid">
+                    <th style="width: 15%" jhiSortBy="paid">
                         <span jhiTranslate="jhiptokomajuApp.invoice.paid">Paid</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="saleDate">
-                        <span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span> <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="creator">
+                    <th style="width: 10%" jhiSortBy="creator">
                         <span jhiTranslate="jhiptokomajuApp.invoice.creator">Creator</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -51,11 +54,12 @@
                 <tr *ngFor="let invoice of invoices; trackBy: trackId">
                     <!-- <td><a [routerLink]="['/invoice', invoice.id, 'view' ]">{{invoice.id}}</a></td> -->
                     <td>{{ invoice.noInvoice }}</td>
+                    <td>{{ invoice.saleDate | date: 'medium' }}</td>
                     <td>{{ invoice.customer }}</td>
+                    <td>{{ invoice.projectName }}</td>
                     <td>{{ invoice.totalPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.paid | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ invoice.saleDate | date: 'medium' }}</td>
                     <td>{{ invoice.creator }}</td>
                     <!-- <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

@@ -14,7 +14,7 @@
                                 name="searchInvoice"
                                 placeholder="{{ 'jhiptokomajuApp.invoice.home.search' | translate }}"
                             />
-                            <button class="input-group-append btn btn-danger" (click)="clearInvoice()" *ngIf="noInvoice">
+                            <button class="input-group-append btn btn-danger" (click)="clearInvoice()" *ngIf="searchCriteria.noInvoice">
                                 <fa-icon [icon]="'trash-alt'"></fa-icon>
                             </button>
                         </div>
@@ -33,7 +33,7 @@
                             <button class="input-group-append btn btn-info" (click)="searchCustomer()">
                                 <fa-icon [icon]="'search'"></fa-icon>
                             </button>
-                            <button class="input-group-append btn btn-danger" (click)="clearCustomer()" *ngIf="search.customer">
+                            <button class="input-group-append btn btn-danger" (click)="clearCustomer()" *ngIf="searchCriteria.customer">
                                 <fa-icon [icon]="'trash-alt'"></fa-icon>
                             </button>
                         </div>
@@ -42,9 +42,6 @@
                         <div class="input-group mb-2">
                             <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" required />
                             <input type="date" class="form-control ml-1" name="end" [(ngModel)]="endDate" required />
-                            <!-- <button class="input-group-append btn btn-info" (click)="search()">
-                                <fa-icon [icon]="'search'"></fa-icon>
-                            </button> -->
                         </div>
                         <!-- /sale date -->
                     </div>
@@ -54,15 +51,16 @@
                             <input
                                 type="text"
                                 class="form-control"
-                                [(ngModel)]="project"
+                                [ngModel]="projectName()"
                                 id="searchProject"
                                 name="searchProject"
+                                readonly
                                 placeholder="{{ 'jhiptokomajuApp.project.home.search' | translate }}"
                             />
-                            <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                            <button class="input-group-append btn btn-info" (click)="searchProject()">
                                 <fa-icon [icon]="'search'"></fa-icon>
                             </button>
-                            <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                            <button class="input-group-append btn btn-danger" (click)="clearProject()" *ngIf="searchCriteria.project">
                                 <fa-icon [icon]="'trash-alt'"></fa-icon>
                             </button>
                         </div>
@@ -84,26 +82,16 @@
                                 <fa-icon [icon]="'trash-alt'"></fa-icon>
                             </button>
                         </div>
-                        <!-- /project -->
+                        <!-- /status -->
                         <!-- actions -->
                         <div class="text-right">
                             <div class="btn-group">
-                                <button
-                                    type="button"
-                                    id="search-invoice"
-                                    class="btn btn-primary fa-pull-right ml-1"
-                                    (click)="search()"
-                                >
+                                <button type="button" id="search-invoice" class="btn btn-primary fa-pull-right ml-1" (click)="search()">
                                     <fa-icon [icon]="'search'"></fa-icon>&nbsp;<span jhiTranslate="jhiptokomajuApp.invoice.home.search"
                                         >Search</span
                                     >
                                 </button>
-                                <button
-                                    type="button"
-                                    id="search-invoice"
-                                    class="btn btn-secondary fa-pull-right ml-1"
-                                    (click)="clear()"
-                                >
+                                <button type="button" id="search-invoice" class="btn btn-secondary fa-pull-right ml-1" (click)="clear()">
                                     <fa-icon [icon]="'trash-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.clear">Clear</span>
                                 </button>
                             </div>

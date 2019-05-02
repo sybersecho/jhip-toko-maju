@@ -39,10 +39,10 @@ public class InvoiceResource {
 	private static final String ENTITY_NAME = "saleTransactions";
 
 	private final SaleTransactionsService saleTransactionsService;
-	
+
 	@Autowired
-	private final DuePaymentService duePaymentService =  null;
-	
+	private final DuePaymentService duePaymentService = null;
+
 	@Autowired
 	private final DuePaymentQueryService duePaymentQueryService = null;
 
@@ -71,10 +71,9 @@ public class InvoiceResource {
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoices");
 		return ResponseEntity.ok().headers(headers).body(listInvoice);
 	}
-	
+
 	@GetMapping("/invoices/items")
-	public ResponseEntity<List<SaleItemDTO>> getAllSaleItems(SaleTransactionsCriteria criteria,
-			Pageable pageable) {
+	public ResponseEntity<List<SaleItemDTO>> getAllSaleItems(SaleTransactionsCriteria criteria, Pageable pageable) {
 		log.debug("REST request to get Invoice Items by criteria: {}", criteria);
 		Page<SaleTransactionsDTO> page = saleTransactionsQueryService.findByCriteria(criteria, pageable);
 		Set<SaleItemDTO> items = page.getContent().get(0).getItems();
@@ -82,7 +81,7 @@ public class InvoiceResource {
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoices/items");
 		return ResponseEntity.ok().headers(headers).body(items.stream().collect(Collectors.toList()));
 	}
-	
+
 	/**
 	 * GET /due-payments : get all the duePayments.
 	 *
@@ -115,6 +114,7 @@ public class InvoiceResource {
 		item.setCustomer(sale.getCustomerFullName());
 		item.setSaleDate(sale.getSaleDate());
 		item.setCreator(sale.getCreatorLogin());
+		item.setProjectName(sale.getProjectName());
 
 		list.add(item);
 //		return null;

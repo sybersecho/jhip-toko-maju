@@ -45,7 +45,6 @@ export class InvoiceService {
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         const modOptions = this.modifiyOption(options);
-        console.log('object,', req, modOptions);
         return this.http
             .get<IInvoice[]>(this.resourceUrl, { params: modOptions, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));

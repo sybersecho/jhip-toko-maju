@@ -19,7 +19,7 @@ import { SearchInvoice } from './search-filter.component';
 })
 export class InvoiceComponent implements OnInit, OnDestroy {
     invoices: IInvoice[];
-    searchInvoice: SearchInvoice;
+    searchCriteria: SearchInvoice;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -53,21 +53,28 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.searchInvoice) {
-            console.log('searchInvoice');
+        if (this.searchCriteria) {
+            const queryCriteria: any = {};
+            queryCriteria.page = this.page;
+            queryCriteria.size = this.itemsPerPage;
+            queryCriteria.sort = this.sort();
+            queryCriteria.start = moment(this.searchCriteria.fromDate)
+                .startOf('day')
+                .toJSON();
+            queryCriteria.end = moment(this.searchCriteria.endDate)
+                .endOf('day')
+                .toJSON();
+            if (this.searchCriteria.customer) {
+                queryCriteria.customer = this.searchCriteria.customer.id;
+            }
+            if (this.searchCriteria.project) {
+                queryCriteria.project = this.searchCriteria.project.id;
+            }
+            if (this.searchCriteria.noInvoice) {
+                queryCriteria.invoice = this.searchCriteria.noInvoice;
+            }
             this.invoiceService
-                .queryByDate({
-                    // query: this.currentSearch,
-                    start: moment(this.searchInvoice.fromDate)
-                        .startOf('day')
-                        .toJSON(),
-                    end: moment(this.searchInvoice.endDate)
-                        .endOf('day')
-                        .toJSON(),
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
+                .query(queryCriteria)
                 .subscribe(
                     (res: HttpResponse<IInvoice[]>) => this.paginateInvoices(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
@@ -90,9 +97,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
 
     searchEvt(event) {
-        this.invoices = event;
-        // this.searchInvoice = event;
-        // this.loadAll();
+        this.invoices = [];
+        this.searchCriteria = event;
+        this.loadAll();
     }
 
     clearEvt(event) {
@@ -168,7 +175,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     protected paginateInvoices(data: IInvoice[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.invoices = [];
         for (let i = 0; i < data.length; i++) {
+            data[i].projectName = data[i].projectName ? data[i].projectName : '-';
             this.invoices.push(data[i]);
         }
     }

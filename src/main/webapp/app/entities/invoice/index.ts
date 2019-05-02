@@ -6,3 +6,4 @@ export * from './invoice.component';
 export * from './invoice.route';
 export * from './search-filter.component';
 export * from './search-customer-dialog/search-customer-dialog.component';
+export * from './search-project-dialog/search-project-dialog.component';

@@ -94,19 +94,19 @@ public class ProjectQueryService extends QueryService<Project> {
                 specification = specification.and(buildSpecification(criteria.getId(), Project_.id));
             }
             if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), Project_.name));
+                specification = specification.or(buildStringSpecification(criteria.getName(), Project_.name));
             }
             if (criteria.getAddress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAddress(), Project_.address));
+                specification = specification.or(buildStringSpecification(criteria.getAddress(), Project_.address));
             }
             if (criteria.getCode() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCode(), Project_.code));
+                specification = specification.or(buildStringSpecification(criteria.getCode(), Project_.code));
             }
             if (criteria.getCity() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCity(), Project_.city));
+                specification = specification.or(buildStringSpecification(criteria.getCity(), Project_.city));
             }
             if (criteria.getProvince() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getProvince(), Project_.province));
+                specification = specification.or(buildStringSpecification(criteria.getProvince(), Project_.province));
             }
             if (criteria.getPostalCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPostalCode(), Project_.postalCode));

@@ -10,6 +10,7 @@ export interface IInvoice {
     saleDate?: Moment;
     settlement?: number;
     creator?: string;
+    projectName?: string;
 }
 
 export class Invoice implements IInvoice {
@@ -22,7 +23,8 @@ export class Invoice implements IInvoice {
         public paid?: number,
         public saleDate?: Moment,
         public settlement?: number,
-        public creator?: string
+        public creator?: string,
+        public projectName?: string
     ) {
         this.settlement = 0;
     }

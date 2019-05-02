@@ -15,6 +15,7 @@ public class InvoiceVM implements Serializable {
 	private BigDecimal paid;
 	private Instant saleDate;
 	private String creator;
+	private String projectName;
 
 	public Long getId() {
 		return id;
@@ -80,11 +81,19 @@ public class InvoiceVM implements Serializable {
 		this.creator = creator;
 	}
 
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 	@Override
 	public String toString() {
 		return "InvoiceVM [id=" + id + ", noInvoice=" + noInvoice + ", customer=" + customer + ", totalPayment="
 				+ totalPayment + ", remainingPayment=" + remainingPayment + ", paid=" + paid + ", saleDate=" + saleDate
-				+ ", creator=" + creator + "]";
+				+ ", creator=" + creator + ", projectName=" + projectName + "]";
 	}
 
 }
