@@ -43,6 +43,10 @@ public class ProductDTO implements Serializable {
     
     private String supplierCode;
 
+    private String supplierNoTelp;
+
+    private String supplierAddress;
+
     public Long getId() {
         return id;
     }
@@ -131,7 +135,23 @@ public class ProductDTO implements Serializable {
 		this.supplierCode = supplierCode;
 	}
 
-	@Override
+    public String getSupplierNoTelp() {
+        return supplierNoTelp;
+    }
+
+    public void setSupplierNoTelp(String supplierNoTelp) {
+        this.supplierNoTelp = supplierNoTelp;
+    }
+
+    public String getSupplierAddress() {
+        return supplierAddress;
+    }
+
+    public void setSupplierAddress(String supplierAddress) {
+        this.supplierAddress = supplierAddress;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -166,6 +186,8 @@ public class ProductDTO implements Serializable {
             ", supplier=" + getSupplierId() +
             ", supplier='" + getSupplierName() + "'" +
             ", supplier='" + getSupplierCode() + "'" +
+            ", supplier='" + getSupplierAddress() + "'" +
+            ", supplier='" + getSupplierNoTelp() + "'" +
             "}";
     }
 }

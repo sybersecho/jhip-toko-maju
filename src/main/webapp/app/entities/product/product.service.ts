@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IProduct } from 'app/shared/model/product.model';
+import { ExtractProductModel } from './extract-product/extract-product-model';
+import { identifierModuleUrl } from '@angular/compiler';
 
 type EntityResponseType = HttpResponse<IProduct>;
 type EntityArrayResponseType = HttpResponse<IProduct[]>;
@@ -51,6 +53,16 @@ export class ProductService {
     findByBarcode(barcode: string): Observable<EntityResponseType> {
         const options = new HttpParams().set('barcode.equals', barcode);
         return this.http.get<IProduct>(this.resourceSearchUrlBy, { params: options, observe: 'response' });
+    }
+
+    findBySupplierCode(supplierCode: string) {
+        const options = new HttpParams().set('supplierCode.equals', supplierCode);
+        return this.http.get<IProduct>(this.resourceSearchUrlBy, { params: options, observe: 'response' });
+    }
+
+    extractProductById(id: number): Observable<HttpResponse<ExtractProductModel>> {
+        const queryUrl = this.resourceUrl + '/extract-by-product';
+        return this.http.get<ExtractProductModel>(`${queryUrl}/${id}`, { observe: 'response' });
     }
 
     protected createParams(req?: any): HttpParams {

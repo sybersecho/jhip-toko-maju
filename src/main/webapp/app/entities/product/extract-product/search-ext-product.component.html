@@ -27,7 +27,7 @@
                     >Supplier Code</label
                 >
                 <input type="text" class="form-control col-sm-7" name="supCode" id="field_supCode" [(ngModel)]="product.supplierCode" />
-                <button type="button" class="col-sm-1 btn btn-info">
+                <button type="button" class="col-sm-1 btn btn-info" (click)="searchSupplier()">
                     <fa-icon [icon]="'search'"></fa-icon>
                 </button>
             </div>

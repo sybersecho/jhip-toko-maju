@@ -149,6 +149,10 @@ public class ProductQueryService extends QueryService<Product> {
 				specification = specification.and(buildSpecification(criteria.getSupplierName(),
 						root -> root.join(Product_.supplier, JoinType.LEFT).get(Supplier_.name)));
 			}
+            if (criteria.getSupplierCode() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplierCode(),
+                    root -> root.join(Product_.supplier, JoinType.LEFT).get(Supplier_.code)));
+            }
 		}
 		return specification;
 	}
@@ -193,6 +197,10 @@ public class ProductQueryService extends QueryService<Product> {
 				specification = specification.or(buildSpecification(criteria.getSupplierName(),
 						root -> root.join(Product_.supplier, JoinType.LEFT).get(Supplier_.name)));
 			}
+            if (criteria.getSupplierCode() != null) {
+                specification = specification.or(buildSpecification(criteria.getSupplierCode(),
+                    root -> root.join(Product_.supplier, JoinType.LEFT).get(Supplier_.code)));
+            }
 		}
 		return specification;
 	}

@@ -1,4 +1,5 @@
 package com.toko.maju.web.rest;
+
 import com.toko.maju.service.ProductService;
 import com.toko.maju.web.rest.errors.BadRequestAlertException;
 import com.toko.maju.web.rest.util.HeaderUtil;
@@ -6,6 +7,7 @@ import com.toko.maju.web.rest.util.PaginationUtil;
 import com.toko.maju.service.dto.ProductDTO;
 import com.toko.maju.service.dto.ProductCriteria;
 import com.toko.maju.service.ProductQueryService;
+import com.toko.maju.web.rest.vm.ExtractProductVM;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +102,7 @@ public class ProductResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-    
+
     /**
      * GET  /products : get all the products.
      *
@@ -117,11 +119,11 @@ public class ProductResource {
     }
 
     /**
-    * GET  /products/count : count all the products.
-    *
-    * @param criteria the criterias which the requested entities should match
-    * @return the ResponseEntity with status 200 (OK) and the count in body
-    */
+     * GET  /products/count : count all the products.
+     *
+     * @param criteria the criterias which the requested entities should match
+     * @return the ResponseEntity with status 200 (OK) and the count in body
+     */
     @GetMapping("/products/count")
     public ResponseEntity<Long> countProducts(ProductCriteria criteria) {
         log.debug("REST request to count Products by criteria: {}", criteria);
@@ -158,7 +160,7 @@ public class ProductResource {
      * SEARCH  /_search/products?query=:query : search for the product corresponding
      * to the query.
      *
-     * @param query the query of the product search
+     * @param query    the query of the product search
      * @param pageable the pagination information
      * @return the result of the search
      */
@@ -168,6 +170,30 @@ public class ProductResource {
         Page<ProductDTO> page = productService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/products");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/products/extract-by-product/{id}")
+    public ResponseEntity<ExtractProductVM> getProductExtract(@PathVariable Long id) {
+        log.debug("REST request to get Product : {}", id);
+        Optional<ProductDTO> productDTO = productService.findOne(id);
+        Optional<ExtractProductVM> extractProductVM = createExtractProduct(productDTO);
+        return ResponseUtil.wrapOrNotFound(extractProductVM);
+    }
+
+    private Optional<ExtractProductVM> createExtractProduct(Optional<ProductDTO> productDTO) {
+        ExtractProductVM vm = new ExtractProductVM();
+        ProductDTO dto = productDTO.get();
+        vm.setBarcode(dto.getBarcode());
+        vm.setProductName(dto.getName());
+        vm.setSalePrice(dto.getSellingPrice());
+        vm.setUnit(dto.getUnit());
+        vm.setUnitPrice(dto.getUnitPrice());
+        vm.setSupplierAddress(dto.getSupplierAddress());
+        vm.setSupplierCode(dto.getSupplierCode());
+        vm.setSupplierNoTelp(dto.getSupplierNoTelp());
+        vm.setSupplierName(dto.getSupplierName());
+
+        return Optional.of(vm);
     }
 
 }

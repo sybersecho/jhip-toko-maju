@@ -29,8 +29,28 @@ export class SearchExtProductComponent implements OnInit {
 
     addToList() {
         if (this.bySupplier) {
+            console.log('add by supplier');
             // this.productService.findBySupplier()
+        } else {
+            console.log('add by product');
+            this.addToListByProduct();
         }
+    }
+
+    protected addToListByProduct() {
+        if (!this.product.id) {
+            return;
+        }
+
+        this.productService.extractProductById(this.product.id).subscribe(
+            res => {
+                this.eventManager.broadcast({ name: 'onAddExtractProductEvt', data: res.body });
+            },
+            error => {
+                console.log(error.message);
+                this.onError('error.somethingwrong');
+            }
+        );
     }
 
     searchBarcode() {
@@ -48,6 +68,37 @@ export class SearchExtProductComponent implements OnInit {
             },
             error => {
                 this.onError(error.message);
+            }
+        );
+    }
+
+    searchSupplier() {
+        if (!this.product.supplierCode) {
+            return;
+        }
+
+        this.productService.findBySupplierCode(this.product.supplierCode).subscribe(
+            res => {
+                console.log('body', res.body);
+
+                if (!res.body[0]) {
+                    this.onError('error.search.not.found');
+                } else {
+                    this.product.supplierCode = res.body[0].supplierCode;
+                    this.product.supplierName = res.body[0].supplierName;
+                    this.product.supplierId = res.body[0].supplierId;
+
+                    this.product.barcode = '';
+                    this.product.id = null;
+                    this.product.name = '';
+                    this.product.sellingPrice = 0;
+                    this.product.stock = 0;
+                    this.product.unitPrice = 0;
+                    this.product.warehousePrice = 0;
+                }
+            },
+            error => {
+                this.onError('error.somethingworng');
             }
         );
     }

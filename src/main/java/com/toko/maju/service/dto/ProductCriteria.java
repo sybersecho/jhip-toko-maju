@@ -2,6 +2,7 @@ package com.toko.maju.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import com.toko.maju.domain.enumeration.UnitMeasure;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
@@ -34,8 +35,10 @@ public class ProductCriteria implements Serializable {
     private StringFilter barcode;
 
     private StringFilter name;
-    
+
     private StringFilter supplierName;
+
+    private StringFilter supplierCode;
 
     private UnitMeasureFilter unit;
 
@@ -123,14 +126,23 @@ public class ProductCriteria implements Serializable {
 
 
     public StringFilter getSupplierName() {
-		return supplierName;
-	}
+        return supplierName;
+    }
 
-	public void setSupplierName(StringFilter supplierName) {
-		this.supplierName = supplierName;
-	}
+    public void setSupplierName(StringFilter supplierName) {
+        this.supplierName = supplierName;
+    }
 
-	@Override
+
+    public StringFilter getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(StringFilter supplierCode) {
+        this.supplierCode = supplierCode;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -141,46 +153,49 @@ public class ProductCriteria implements Serializable {
         final ProductCriteria that = (ProductCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(barcode, that.barcode) &&
-            Objects.equals(name, that.name) &&
-            Objects.equals(unit, that.unit) &&
-            Objects.equals(warehousePrice, that.warehousePrice) &&
-            Objects.equals(unitPrice, that.unitPrice) &&
-            Objects.equals(sellingPrice, that.sellingPrice) &&
-            Objects.equals(stock, that.stock) &&
-            Objects.equals(supplierId, that.supplierId)&&
-            Objects.equals(supplierName, that.supplierName);
+                Objects.equals(barcode, that.barcode) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(unit, that.unit) &&
+                Objects.equals(warehousePrice, that.warehousePrice) &&
+                Objects.equals(unitPrice, that.unitPrice) &&
+                Objects.equals(sellingPrice, that.sellingPrice) &&
+                Objects.equals(stock, that.stock) &&
+                Objects.equals(supplierId, that.supplierId) &&
+                Objects.equals(supplierName, that.supplierName) &&
+                Objects.equals(supplierCode, that.supplierCode);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-        id,
-        barcode,
-        name,
-        unit,
-        warehousePrice,
-        unitPrice,
-        sellingPrice,
-        stock,
-        supplierId,
-        supplierName
+            id,
+            barcode,
+            name,
+            unit,
+            warehousePrice,
+            unitPrice,
+            sellingPrice,
+            stock,
+            supplierId,
+            supplierName,
+            supplierCode
         );
     }
 
     @Override
     public String toString() {
         return "ProductCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
-                (barcode != null ? "barcode=" + barcode + ", " : "") +
-                (name != null ? "name=" + name + ", " : "") +
-                (unit != null ? "unit=" + unit + ", " : "") +
-                (warehousePrice != null ? "warehousePrice=" + warehousePrice + ", " : "") +
-                (unitPrice != null ? "unitPrice=" + unitPrice + ", " : "") +
-                (sellingPrice != null ? "sellingPrice=" + sellingPrice + ", " : "") +
-                (stock != null ? "stock=" + stock + ", " : "") +
-                (supplierId != null ? "supplierId=" + supplierId + ", " : "") +
-                (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
+            (id != null ? "id=" + id + ", " : "") +
+            (barcode != null ? "barcode=" + barcode + ", " : "") +
+            (name != null ? "name=" + name + ", " : "") +
+            (unit != null ? "unit=" + unit + ", " : "") +
+            (warehousePrice != null ? "warehousePrice=" + warehousePrice + ", " : "") +
+            (unitPrice != null ? "unitPrice=" + unitPrice + ", " : "") +
+            (sellingPrice != null ? "sellingPrice=" + sellingPrice + ", " : "") +
+            (stock != null ? "stock=" + stock + ", " : "") +
+            (supplierId != null ? "supplierId=" + supplierId + ", " : "") +
+            (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
+            (supplierCode != null ? "supplierCode=" + supplierCode + ", " : "") +
             "}";
     }
 
