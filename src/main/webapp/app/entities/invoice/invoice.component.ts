@@ -12,6 +12,8 @@ import { AccountService } from 'app/core';
 import { ITEMS_PER_PAGE, DATE_FORMAT } from 'app/shared';
 import { InvoiceService } from './invoice.service';
 import { SearchInvoice } from './search-filter.component';
+import { ExcelService } from 'app/shared/export/excel.service';
+import { ExcelModel } from 'app/shared/export/excel-model';
 
 @Component({
     selector: 'jhi-invoice',
@@ -33,6 +35,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     constructor(
         protected invoiceService: InvoiceService,
         protected jhiAlertService: JhiAlertService,
+        protected excelService: ExcelService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
@@ -96,6 +99,16 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         // console.log(moment(new Date(), DATE_FORMAT));
     }
 
+    exportToExcel(): void {
+        const excelModel = new ExcelModel();
+        excelModel.data = this.invoices;
+        excelModel.fileName = 'Daftar Penjualan';
+        excelModel.header = ['No Fraktur', 'Tanggal', 'Pelanggan', 'Project', 'Total', 'Sisa Pembayaran', 'Pembayan'];
+        excelModel.title = 'Daftar Penjualan';
+        excelModel.workSheetName = 'Penjualan';
+
+        this.excelService.generateExcel(excelModel);
+    }
     searchEvt(event) {
         this.invoices = [];
         this.searchCriteria = event;
