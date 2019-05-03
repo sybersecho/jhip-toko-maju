@@ -9,6 +9,7 @@
                 "main": "Entitas",
                 "customer": "Customer",
                 "product": "Product",
+                "extractProduct": "Extract Product",
                 "project": "Project",
                 "supplier": "Supplier",
                 "saleTransactions": "Sale Transactions",
@@ -144,6 +145,7 @@
     },
     "error": {
         "internalServerError": "Kesalahan internal server",
+        "somethingwrong": "Terjadi kesalahan",
         "server.not.reachable": "Server tidak terjangkau",
         "url.not.found": "Tidak ditemukan",
         "NotNull": "Inputan {{ fieldName }} tidak boleh kosong!",
@@ -151,7 +153,8 @@
         "userexists": "Nama login sudah digunakan!",
         "emailexists": "Email sudah digunakan!",
         "idexists": "{{ entityName }} yang baru tidak boleh menggunakan id yang sudah ada",
-        "idnull": "ID Tidak Valid"
+        "idnull": "ID Tidak Valid",
+        "search.not.found": "Tidak ada data yang ditemukan"
     },
-    "footer": "Ini bagian footer"
+    "footer": ""
 }

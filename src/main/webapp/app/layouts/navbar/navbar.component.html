@@ -40,6 +40,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="dropdown-item" routerLink="product/extract" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.extractProduct">Extract Product</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="project" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.project">Project</span>

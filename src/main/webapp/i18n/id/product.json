@@ -7,6 +7,16 @@
                 "createOrEditLabel": "Buat atau edit Product",
                 "search": "Cari Product"
             },
+            "extract": {
+                "title": "Extract Product",
+                "supName": "Nama Supplier",
+                "supCode": "Kode Supplier",
+                "supAddress": "Alamat Supplier",
+                "supNoTelp": "No Telp",
+                "actions": {
+                    "extract": "Extract"
+                }
+            },
             "created": "Product dengan id {{ param }} telah dibuat",
             "updated": "Product dengan id {{ param }} telah diperbaharui",
             "deleted": "Product dengan id {{ param }} telah dihapus",

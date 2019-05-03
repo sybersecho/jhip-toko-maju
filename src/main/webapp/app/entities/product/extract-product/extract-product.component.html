@@ -1,0 +1,80 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.product.extract.title">Products</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity extract-product" (click)="onSearch()">
+            <fa-icon [icon]="'search'"></fa-icon>
+            <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.product.home.search">
+                Search Product
+            </span>
+        </button>
+    </h2>
+    <div class="mb-3"></div>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.name">Name</span>
+                        </th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span>
+                        </th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.unitPrice">Unit Price</span>
+                        </th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
+                        </th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.extract.supCode">Supplier Name</span>
+                        </th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.extract.supName">Supplier Name</span>
+                        </th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.extract.supAddress">Supplier Address</span>
+                        </th>
+                        <th>
+                            <span jhiTranslate="jhiptokomajuApp.product.extract.supNoTelp">No Telp</span>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of products">
+                        <td>{{ product.barcode }}</td>
+                        <td>{{ product.productName }}</td>
+                        <td>{{ product.unit }}</td>
+                        <td>{{ product.unitPrice }}</td>
+                        <td>{{ product.salePrice }}</td>
+                        <td>{{ product.supplierCode }}</td>
+                        <td>{{ product.supplierName }}</td>
+                        <td>{{ product.supplierAddress }}</td>
+                        <td>{{ product.supplierNoTelp }}</td>
+                        <td>
+                            <button id="jh-remove-product" class="btn btn-primary float-right ">
+                                <fa-icon [icon]="'ban'"></fa-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr *ngIf="products.length > 0">
+                        <td colspan="9">
+                            <button id="jh-create-entity" class="btn btn-info float-right jh-create-entity extract-product">
+                                <fa-icon [icon]="'search'"></fa-icon>
+                                <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.product.extract.actions.extract">
+                                    Search Product
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

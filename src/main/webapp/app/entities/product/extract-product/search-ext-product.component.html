@@ -1,0 +1,96 @@
+<div class="modal-header">
+    <h4 class="modal-title" jhiTranslate="jhiptokomajuApp.product.home.search">Sale Item</h4>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')">
+        <span aria-hidden="true">x</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="col-sm-12">
+        <jhi-alert></jhi-alert>
+        <div class="justify-content-center">
+            <!-- <div class="col-md-12 col-sm-12"> -->
+            <div class="form-group row">
+                <label class="form-control-label col-sm-3" jhiTranslate="jhiptokomajuApp.product.barcode" for="field_barcode"
+                    >Barcode</label
+                >
+                <input type="text" class="form-control col-sm-7" name="barcode" id="field_barcode" [(ngModel)]="product.barcode" />
+                <button type="button" class="col-sm-1 btn btn-info" (click)="searchBarcode()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+            </div>
+            <div class="form-group row">
+                <label class="form-control-label  col-sm-3" jhiTranslate="jhiptokomajuApp.product.name" for="field_name">Name</label>
+                <input type="text" class="form-control col-sm-8" name="name" id="field_name" [(ngModel)]="product.name" readonly />
+            </div>
+            <div class="form-group row">
+                <label class="form-control-label col-sm-3" jhiTranslate="jhiptokomajuApp.product.extract.supCode" for="field_supCode"
+                    >Supplier Code</label
+                >
+                <input type="text" class="form-control col-sm-7" name="supCode" id="field_supCode" [(ngModel)]="product.supplierCode" />
+                <button type="button" class="col-sm-1 btn btn-info">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+            </div>
+            <div class="form-group row">
+                <label class="form-control-label col-sm-3" jhiTranslate="jhiptokomajuApp.product.extract.supName" for="field_supName"
+                    >Name</label
+                >
+                <input
+                    type="text"
+                    class="form-control col-sm-8"
+                    name="supName"
+                    id="field_supName"
+                    [(ngModel)]="product.supplierName"
+                    readonly
+                />
+            </div>
+            <div class="form-group row">
+                <label class="form-control-label col-sm-3" jhiTranslate="jhiptokomajuApp.product.unitPrice" for="field_unitPrice"
+                    >Unit Price</label
+                >
+                <input
+                    type="tel"
+                    class="form-control col-sm-8"
+                    name="unitPrice"
+                    readonly
+                    id="field_unitPrice"
+                    [(ngModel)]="product.unitPrice"
+                    [options]="{ align: 'left', prefix: '', thousands: '.', decimal: ',' }"
+                    currencyMask
+                />
+            </div>
+            <div class="form-group row">
+                <label class="form-control-label col-sm-3" jhiTranslate="jhiptokomajuApp.product.sellingPrice" for="field_sellingPrice"
+                    >Selling Price</label
+                >
+                <input
+                    type="tel"
+                    class="form-control col-sm-8"
+                    name="salePrice"
+                    readonly
+                    id="field_salePrice"
+                    [(ngModel)]="product.sellingPrice"
+                    [options]="{ align: 'left', prefix: '', thousands: '.', decimal: ',' }"
+                    currencyMask
+                />
+            </div>
+            <div class="form-group row">
+                <div class="form-check col-sm-8 offset-md-3">
+                    <input class="form-check-input" id="field_by_supplier" type="checkbox" [(ngModel)]="bySupplier" />
+                    <label class="form-check-label" for="field_by_supplier">By Supplier</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-11">
+                    <div class="row justify-content-end">
+                        <button type="button" class="btn btn-primary" (click)="addToList()">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                            <span class="d-none d-md-inline">Tambah</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>

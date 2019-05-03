@@ -9,6 +9,7 @@
                 "main": "Entities",
                 "customer": "Customer",
                 "product": "Product",
+                "extractProduct": "Extract Product",
                 "project": "Project",
                 "supplier": "Supplier",
                 "saleTransactions": "Sale Transactions",
@@ -145,6 +146,7 @@
     },
     "error": {
         "internalServerError": "Internal server error",
+        "somethingwrong": "Something Wrong",
         "server.not.reachable": "Server not reachable",
         "url.not.found": "Not found",
         "NotNull": "Field {{ fieldName }} cannot be empty!",
@@ -152,7 +154,8 @@
         "userexists": "Login name already used!",
         "emailexists": "Email is already in use!",
         "idexists": "A new {{ entityName }} cannot already have an ID",
-        "idnull": "Invalid ID"
+        "idnull": "Invalid ID",
+        "search.not.found": "No result"
     },
     "footer": "This is your footer"
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable, OnDestroy } from '@angular/core';
 import { NgbModalRef, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IInvoice } from 'app/shared/model/invoice.model';
 import { InvoiceService } from 'app/entities/invoice';
@@ -42,7 +42,7 @@ export class InvoiceDetailDialogComponent implements OnInit {
 @Injectable({
     providedIn: 'root'
 })
-export class InvoiceDetailDialogService {
+export class InvoiceDetailDialogService implements OnDestroy {
     private isOpen = false;
     protected ngbModalRef: NgbModalRef;
     constructor(private modalService: NgbModal) {}
@@ -64,5 +64,9 @@ export class InvoiceDetailDialogService {
             }
         );
         return this.ngbModalRef;
+    }
+
+    ngOnDestroy(): void {
+        this.ngbModalRef = null;
     }
 }

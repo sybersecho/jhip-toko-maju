@@ -7,6 +7,16 @@
                 "createOrEditLabel": "Create or edit a Product",
                 "search": "Search for Product"
             },
+            "extract": {
+                "title": "Extract Product",
+                "supName": "Supplier Name",
+                "supCode": "Supplier Code",
+                "supAddress": "Supplier Address",
+                "supNoTelp": "No Telp",
+                "actions": {
+                    "extract": "Extract"
+                }
+            },
             "created": "A new Product is created with identifier {{ param }}",
             "updated": "A Product is updated with identifier {{ param }}",
             "deleted": "A Product is deleted with identifier {{ param }}",
