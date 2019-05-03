@@ -8,13 +8,14 @@ import com.toko.maju.service.dto.ProductDTO;
 import com.toko.maju.service.dto.ProductCriteria;
 import com.toko.maju.service.ProductQueryService;
 import com.toko.maju.web.rest.vm.ExtractProductVM;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +23,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Product.
@@ -176,13 +175,30 @@ public class ProductResource {
     public ResponseEntity<ExtractProductVM> getProductExtract(@PathVariable Long id) {
         log.debug("REST request to get Product : {}", id);
         Optional<ProductDTO> productDTO = productService.findOne(id);
-        Optional<ExtractProductVM> extractProductVM = createExtractProduct(productDTO);
+        Optional<ExtractProductVM> extractProductVM = createOptionalExtractProduct(productDTO);
         return ResponseUtil.wrapOrNotFound(extractProductVM);
     }
 
-    private Optional<ExtractProductVM> createExtractProduct(Optional<ProductDTO> productDTO) {
+    @GetMapping("/products/extract-by-supplier/{supplierCode}")
+    public ResponseEntity<List<ExtractProductVM>> getProductExtracts(@PathVariable String supplierCode) {
+        log.debug("REST request to get Products : {}", supplierCode);
+        ProductCriteria criteria = new ProductCriteria();
+        Filter<String> stringFilter = new StringFilter().setEquals(supplierCode);
+        StringFilter filterStr = (StringFilter) stringFilter;
+
+        criteria.setSupplierCode(filterStr);
+        Page<ProductDTO> page = productQueryService.findByCriteria(criteria, Pageable.unpaged());
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/products/extract-by-supplier");
+        return ResponseEntity.ok().headers(headers).body(createFromDtos((page.getContent())));
+    }
+
+    private Optional<ExtractProductVM> createOptionalExtractProduct(Optional<ProductDTO> productDTO) {
+        return Optional.of(createVMFromDTO(productDTO.get()));
+    }
+
+    private ExtractProductVM createVMFromDTO(ProductDTO dto) {
         ExtractProductVM vm = new ExtractProductVM();
-        ProductDTO dto = productDTO.get();
         vm.setBarcode(dto.getBarcode());
         vm.setProductName(dto.getName());
         vm.setSalePrice(dto.getSellingPrice());
@@ -192,8 +208,16 @@ public class ProductResource {
         vm.setSupplierCode(dto.getSupplierCode());
         vm.setSupplierNoTelp(dto.getSupplierNoTelp());
         vm.setSupplierName(dto.getSupplierName());
+        return vm;
+    }
 
-        return Optional.of(vm);
+    private List<ExtractProductVM> createFromDtos(List<ProductDTO> dtos) {
+        List<ExtractProductVM> vms = new ArrayList<>();
+        for (ProductDTO dto : dtos) {
+            vms.add(createVMFromDTO(dto));
+        }
+        return vms;
+
     }
 
 }

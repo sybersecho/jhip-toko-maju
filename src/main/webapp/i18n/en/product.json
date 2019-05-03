@@ -15,6 +15,10 @@
                 "supNoTelp": "No Telp",
                 "actions": {
                     "extract": "Extract"
+                },
+                "messages": {
+                    "barcode.empty": "Field Barcode Empty",
+                    "supplier.empty": "Field Supplier Empty"
                 }
             },
             "created": "A new Product is created with identifier {{ param }}",

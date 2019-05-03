@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let product of products">
+                    <tr *ngFor="let product of products; let i = index">
                         <td>{{ product.barcode }}</td>
                         <td>{{ product.productName }}</td>
                         <td>{{ product.unit }}</td>
@@ -56,7 +56,7 @@
                         <td>{{ product.supplierAddress }}</td>
                         <td>{{ product.supplierNoTelp }}</td>
                         <td>
-                            <button id="jh-remove-product" class="btn btn-primary float-right ">
+                            <button id="jh-remove-product" class="btn btn-danger float-right " (click)=remove(i)>
                                 <fa-icon [icon]="'ban'"></fa-icon>
                             </button>
                         </td>

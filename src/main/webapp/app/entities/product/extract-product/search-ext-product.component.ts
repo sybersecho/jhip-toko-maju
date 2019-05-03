@@ -30,21 +30,44 @@ export class SearchExtProductComponent implements OnInit {
     addToList() {
         if (this.bySupplier) {
             console.log('add by supplier');
-            // this.productService.findBySupplier()
+            this.addToListBySupplier();
         } else {
             console.log('add by product');
             this.addToListByProduct();
         }
     }
 
+    protected addToListBySupplier() {
+        if (!this.product.supplierCode) {
+            this.onError('jhiptokomajuApp.product.extract.messages.supplier.empty');
+            return;
+        }
+
+        this.productService.extractProductBySupplier(this.product.supplierCode).subscribe(
+            res => {
+                console.log('data', res.body);
+                if (!res.body) {
+                    this.onError('error.search.not.found');
+                } else {
+                    this.eventManager.broadcast({ name: 'onExtractProductBySupplierEvt', data: res.body });
+                }
+            },
+            error => {
+                console.log(error.message);
+                this.onError('error.somethingwrong');
+            }
+        );
+    }
+
     protected addToListByProduct() {
         if (!this.product.id) {
+            this.onError('jhiptokomajuApp.product.extract.messages.barcode.empty');
             return;
         }
 
         this.productService.extractProductById(this.product.id).subscribe(
             res => {
-                this.eventManager.broadcast({ name: 'onAddExtractProductEvt', data: res.body });
+                this.eventManager.broadcast({ name: 'onExtractProductEvt', data: res.body });
             },
             error => {
                 console.log(error.message);

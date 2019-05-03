@@ -65,6 +65,11 @@ export class ProductService {
         return this.http.get<ExtractProductModel>(`${queryUrl}/${id}`, { observe: 'response' });
     }
 
+    extractProductBySupplier(supplierCode: string): Observable<HttpResponse<ExtractProductModel[]>> {
+        const queryUrl = this.resourceUrl + '/extract-by-supplier';
+        return this.http.get<ExtractProductModel[]>(`${queryUrl}/${supplierCode}`, { observe: 'response' });
+    }
+
     protected createParams(req?: any): HttpParams {
         console.log(req);
         return new HttpParams()

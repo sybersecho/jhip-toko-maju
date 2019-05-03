@@ -22,9 +22,19 @@ export class ExtractProductComponent implements OnInit, OnDestroy {
     }
 
     registerEvent() {
-        this.eventSubcriptions = this.eventManager.subscribe('onAddExtractProductEvt', response => {
+        this.eventSubcriptions = this.eventManager.subscribe('onExtractProductEvt', response => {
             this.products.push(response.data);
         });
+        this.eventSubcriptions = this.eventManager.subscribe('onExtractProductBySupplierEvt', response => {
+            const dataRes: ExtractProductModel[] = response.data;
+            dataRes.forEach(d => {
+                this.products.push(d);
+            });
+        });
+    }
+
+    remove(i) {
+        this.products.splice(i, 1);
     }
 
     onSearch() {

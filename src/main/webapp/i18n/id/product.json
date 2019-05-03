@@ -15,6 +15,10 @@
                 "supNoTelp": "No Telp",
                 "actions": {
                     "extract": "Extract"
+                },
+                "messages": {
+                    "barcode.empty": "Field Barcode kosong",
+                    "supplier.empty": "Field Supplier Kosong"
                 }
             },
             "created": "Product dengan id {{ param }} telah dibuat",
