@@ -5,3 +5,4 @@ export * from './product-detail.component';
 export * from './product.component';
 export * from './product.route';
 export * from './search-product/search-product.component';
+export * from './view-barcode/view-barcode.component';
