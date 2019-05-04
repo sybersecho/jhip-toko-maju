@@ -900,6 +900,7 @@ jhi-print {
 @media print {
     jhi-page-ribbon,
     jhi-footer,
+    ngx-loading,
     jhi-main-cashier {
         display: none;
     }

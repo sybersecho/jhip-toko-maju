@@ -138,7 +138,7 @@ public class SaleTransactionsServiceImpl implements SaleTransactionsService {
 	private List<Long> collectProductIds(SaleTransactions saleTransactions) {
 		List<Long> ids = new ArrayList<Long>();
 		for (SaleItem item : saleTransactions.getItems()) {
-			ids.add(item.getId());
+			ids.add(item.getProduct().getId());
 		}
 		return ids;
 	}

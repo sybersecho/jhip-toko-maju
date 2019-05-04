@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { ICustomer } from 'app/shared/model/customer.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-item-box',
@@ -27,7 +28,8 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
     constructor(
         protected saleService: SaleTransactionsService,
         protected jhiAlertService: JhiAlertService,
-        protected jhiEventManager: JhiEventManager
+        protected jhiEventManager: JhiEventManager,
+        protected router: Router
     ) {}
 
     ngOnInit() {}
@@ -37,7 +39,7 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
     }
 
     onPrint() {
-        // this.router.navigate(['/', { outlets: { print: 'sale/print/' + sale.noInvoice } }]);
+        this.router.navigate(['/', { outlets: { print: 'sale/print/' + this.saleTransactions.noInvoice } }]);
     }
 
     processAsOrders() {
@@ -84,8 +86,9 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
     }
 
     protected onSaveSuccess(sale: ISaleTransactions) {
+        this.saleTransactions = sale;
         if (this.printAsOrder) {
-            // this.onPrint(sale);
+            this.onPrint();
         }
         this.saleTransactions = new SaleTransactions();
         this.customer = this.defaultCustomer;
