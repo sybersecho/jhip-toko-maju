@@ -901,6 +901,8 @@ jhi-print {
     jhi-page-ribbon,
     jhi-footer,
     ngx-loading,
+    jhi-search-filter,
+    jhi-invoice,
     jhi-main-cashier {
         display: none;
     }

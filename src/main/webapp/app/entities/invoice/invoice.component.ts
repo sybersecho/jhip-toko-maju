@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -39,6 +39,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
+        protected router: Router,
         protected accountService: AccountService
     ) {
         this.invoices = [];
@@ -97,6 +98,10 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         //         (res: HttpErrorResponse) => this.onError(res.message)
         //     );
         // console.log(moment(new Date(), DATE_FORMAT));
+    }
+
+    print(noInvoice: string) {
+        this.router.navigate(['/', { outlets: { print: 'sale/print/' + noInvoice } }]);
     }
 
     exportToExcel(): void {

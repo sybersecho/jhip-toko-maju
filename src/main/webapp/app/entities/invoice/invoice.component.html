@@ -15,31 +15,27 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
                     <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-                    <th style="width: 10%" jhiSortBy="noInvoice">
+                    <th jhiSortBy="noInvoice">
                         <span jhiTranslate="jhiptokomajuApp.invoice.noInvoice">No Invoice</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th style="width: 15%" jhiSortBy="saleDate">
+                    <th jhiSortBy="saleDate">
                         <span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th style="width: 15%" jhiSortBy="customer">
+                    <th jhiSortBy="customer">
                         <span jhiTranslate="jhiptokomajuApp.invoice.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th style="width: 10%" jhiSortBy="project">
+                    <th jhiSortBy="project">
                         <span jhiTranslate="jhiptokomajuApp.saleTransactions.project">Project</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th style="width: 15%" jhiSortBy="totalPayment">
+                    <th jhiSortBy="totalPayment">
                         <span jhiTranslate="jhiptokomajuApp.invoice.totalPayment">Total Payment</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th style="width: 15%" jhiSortBy="remainingPayment">
+                    <th jhiSortBy="remainingPayment">
                         <span jhiTranslate="jhiptokomajuApp.invoice.remainingPayment">Remaining Payment</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th style="width: 15%" jhiSortBy="paid">
+                    <th jhiSortBy="paid">
                         <span jhiTranslate="jhiptokomajuApp.invoice.paid">Paid</span> <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th style="width: 10%" jhiSortBy="creator">
-                        <span jhiTranslate="jhiptokomajuApp.invoice.creator">Creator</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th></th>
                 </tr>
@@ -59,10 +55,12 @@
                     <td>{{ invoice.totalPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.paid | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ invoice.creator }}</td>
                     <td class="text-right">
-                        <button type="button" class="btn btn-info btn-sm" (click)='exportToExcel()'>
-                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <button type="button" class="btn btn-secondary btn-sm" (click)="print(invoice.noInvoice)">
+                                <fa-icon [icon]="'print'"></fa-icon>
+                            </button>
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="exportToExcel()">
+                            <fa-icon [icon]="'file-excel'"></fa-icon>
                         </button>
                     </td>
                     <!-- <td class="text-right">

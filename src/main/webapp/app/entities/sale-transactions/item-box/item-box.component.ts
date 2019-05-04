@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, AfterViewInit, EventEmitter } from '@angular/core';
 import { ISaleTransactions, SaleTransactions } from 'app/shared/model/sale-transactions.model';
-import moment = require('moment');
+import * as moment from 'moment';
 import { SaleTransactionsService } from '../sale-transactions.service';
 import { Observable } from 'rxjs';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';

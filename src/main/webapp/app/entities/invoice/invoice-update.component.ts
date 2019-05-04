@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -17,7 +17,7 @@ export class InvoiceUpdateComponent implements OnInit {
     isSaving: boolean;
     saleDate: string;
 
-    constructor(protected invoiceService: InvoiceService, protected activatedRoute: ActivatedRoute) {}
+    constructor(protected invoiceService: InvoiceService, protected activatedRoute: ActivatedRoute, protected router: Router) {}
 
     ngOnInit() {
         this.isSaving = false;
