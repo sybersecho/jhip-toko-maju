@@ -8,3 +8,6 @@ export * from './navbar/active-menu.directive';
 export * from './profiles/page-ribbon.component';
 export * from './profiles/profile.service';
 export * from './profiles/profile-info.model';
+export * from './print/print-layout.component';
+export * from './print/print-bill-layout/print-bill-layout.component';
+export * from './print/print.route';

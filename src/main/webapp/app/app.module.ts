@@ -21,7 +21,16 @@ import { JhiptokomajuAccountModule } from './account/account.module';
 import { JhiptokomajuEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
-import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
+import {
+    JhiMainComponent,
+    NavbarComponent,
+    FooterComponent,
+    PageRibbonComponent,
+    ActiveMenuDirective,
+    ErrorComponent,
+    PrintLayoutComponent,
+    PrintBillLayoutComponent
+} from './layouts';
 
 @NgModule({
     imports: [
@@ -50,7 +59,16 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         JhiptokomajuEntityModule,
         JhiptokomajuAppRoutingModule
     ],
-    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
+    declarations: [
+        JhiMainComponent,
+        NavbarComponent,
+        ErrorComponent,
+        PageRibbonComponent,
+        ActiveMenuDirective,
+        FooterComponent,
+        PrintLayoutComponent,
+        PrintBillLayoutComponent
+    ],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,

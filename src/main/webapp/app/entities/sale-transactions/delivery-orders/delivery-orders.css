@@ -10,3 +10,29 @@
     padding: 1rem;
     text-align: center;
 }
+
+@media print {
+    /* html,
+    body {
+        display: block;
+        font-family: 'Calibri';
+        margin: 0;
+    } */
+
+    @page {
+        size: 21.59cm 13.97cm;
+    }
+
+    jhi-page-ribbon,
+    jhi-footer,
+    ngx-loading,
+    jhi-search-filter,
+    jhi-invoice,
+    jhi-main-cashier {
+        display: none;
+    }
+
+    jhi-main jhi-print {
+        display: block;
+    }
+}

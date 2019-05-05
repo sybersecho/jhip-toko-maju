@@ -5,6 +5,7 @@ import { NgbDateMomentAdapter } from './util/datepicker-adapter';
 import { JhiptokomajuSharedLibsModule, JhiptokomajuSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { NgxBarcodeModule } from 'ngx-barcode';
+import {} from '../layouts/print/print-layout.component';
 
 @NgModule({
     imports: [JhiptokomajuSharedLibsModule, JhiptokomajuSharedCommonModule, NgxCurrencyModule, NgxBarcodeModule],
