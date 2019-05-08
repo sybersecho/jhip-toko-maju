@@ -28,10 +28,11 @@
             "remainingPayment": "Remaining Payment",
             "paid": "Paid",
             "saleDate": "Sale Date",
+            "settled": "Settled",
+            "statusTransaction": "Status Transaction",
             "items": "Items",
             "customer": "Customer",
             "change": "Change",
-            "settled": "Settled",
             "creator": "Creator",
             "duePayment": "Due Payment",
             "project": "Project"

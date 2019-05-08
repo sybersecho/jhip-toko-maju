@@ -6,7 +6,7 @@ import com.toko.maju.service.dto.SaleTransactionsDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity SaleTransactions and its DTO SaleTransactionsDTO.
+ * Mapper for the entity {@link SaleTransactions} and its DTO {@link SaleTransactionsDTO}.
  */
 @Mapper(componentModel = "spring", uses = {CustomerMapper.class, UserMapper.class, SaleItemMapper.class, DuePaymentMapper.class, ProjectMapper.class })
 public interface SaleTransactionsMapper extends EntityMapper<SaleTransactionsDTO, SaleTransactions> {
@@ -20,7 +20,7 @@ public interface SaleTransactionsMapper extends EntityMapper<SaleTransactionsDTO
     @Mapping(source = "customer.lastName", target = "customerLastName")
 	@Mapping(source = "customer.code", target = "customerCode")
 	@Mapping(source = "customer.address", target = "customerAddress")
-	SaleTransactionsDTO toDto(SaleTransactions saleTransactions);
+    SaleTransactionsDTO toDto(SaleTransactions saleTransactions);
 
     @Mapping(target = "items", ignore = false)
     @Mapping(source = "customerId", target = "customer")

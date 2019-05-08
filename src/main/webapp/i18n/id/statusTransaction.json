@@ -1,0 +1,11 @@
+{
+    "jhiptokomajuApp": {
+        "StatusTransaction": {
+            "null": "",
+            "PAID": "Bayar",
+            "CANCELED": "Batal",
+            "RETURNED": "Kembali",
+            "DUE": "Hutang"
+        }
+    }
+}

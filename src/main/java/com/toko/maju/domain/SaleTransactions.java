@@ -1,30 +1,24 @@
 package com.toko.maju.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
+import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.toko.maju.domain.enumeration.StatusTransaction;
 
 /**
  * A SaleTransactions.
@@ -32,241 +26,260 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "sale_transactions")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "saletransactions")
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "saletransactions")
 public class SaleTransactions implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @org.springframework.data.elasticsearch.annotations.Field(type = FieldType.Keyword)
+    private Long id;
 
-	@Column(name = "no_invoice")
-	private String noInvoice;
+    @Column(name = "no_invoice")
+    private String noInvoice;
 
-	@DecimalMin(value = "0")
-	@Column(name = "discount", precision = 10, scale = 2)
-	private BigDecimal discount;
+    @DecimalMin(value = "0")
+    @Column(name = "discount", precision = 21, scale = 2)
+    private BigDecimal discount;
 
-	@NotNull
-	@DecimalMin(value = "0")
-	@Column(name = "total_payment", precision = 10, scale = 2, nullable = false)
-	private BigDecimal totalPayment;
+    @NotNull
+    @DecimalMin(value = "0")
+    @Column(name = "total_payment", precision = 21, scale = 2, nullable = false)
+    private BigDecimal totalPayment;
 
-	@DecimalMin(value = "0")
-	@Column(name = "remaining_payment", precision = 10, scale = 2)
-	private BigDecimal remainingPayment;
+    @DecimalMin(value = "0")
+    @Column(name = "remaining_payment", precision = 21, scale = 2)
+    private BigDecimal remainingPayment;
 
-	@NotNull
-	@DecimalMin(value = "0")
-	@Column(name = "paid", precision = 10, scale = 2, nullable = false)
-	private BigDecimal paid;
+    @NotNull
+    @DecimalMin(value = "0")
+    @Column(name = "paid", precision = 21, scale = 2, nullable = false)
+    private BigDecimal paid;
 
-	@Column(name = "sale_date")
-	private Instant saleDate;
+    @Column(name = "sale_date")
+    private Instant saleDate;
 
-	@NotNull
-	@Column(name = "settled", nullable = false)
-	private Boolean settled;
+    @NotNull
+    @Column(name = "settled", nullable = false)
+    private Boolean settled;
 
-	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private Set<SaleItem> items = new HashSet<>();
-	@ManyToOne(optional = false)
-	@NotNull
-	@JsonIgnoreProperties("saleTransactions")
-	private Customer customer;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_transaction")
+    private StatusTransaction statusTransaction;
 
-	@ManyToOne(optional = false)
-	@NotNull
-	@JsonIgnoreProperties("saleTransactions")
-	private User creator;
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<SaleItem> items = new HashSet<>();
 
-	@OneToMany(mappedBy = "sale", cascade = {CascadeType.ALL})
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-//    @JsonIgnoreProperties("duePayments")
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("saleTransactions")
+    private Customer customer;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("saleTransactions")
+    private User creator;
+
+    @OneToMany(mappedBy = "sale", cascade = {CascadeType.ALL})
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    //    @JsonIgnoreProperties("duePayments")
 	@JsonManagedReference
-	private Set<DuePayment> duePayments = new HashSet<>();
+    private Set<DuePayment> duePayments = new HashSet<>();
+
     @ManyToOne
     @JsonIgnoreProperties("saleTransactions")
     private Project project;
 
-	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
-	// remove
-	public Long getId() {
-		return id;
-	}
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getNoInvoice() {
-		return noInvoice;
-	}
+    public String getNoInvoice() {
+        return noInvoice;
+    }
 
-	public SaleTransactions noInvoice(String noInvoice) {
-		this.noInvoice = noInvoice;
-		return this;
-	}
+    public SaleTransactions noInvoice(String noInvoice) {
+        this.noInvoice = noInvoice;
+        return this;
+    }
 
-	public void setNoInvoice(String noInvoice) {
-		this.noInvoice = noInvoice;
-	}
+    public void setNoInvoice(String noInvoice) {
+        this.noInvoice = noInvoice;
+    }
 
-	public BigDecimal getDiscount() {
-		return discount;
-	}
+    public BigDecimal getDiscount() {
+        return discount;
+    }
 
-	public SaleTransactions discount(BigDecimal discount) {
-		this.discount = discount;
-		return this;
-	}
+    public SaleTransactions discount(BigDecimal discount) {
+        this.discount = discount;
+        return this;
+    }
 
-	public void setDiscount(BigDecimal discount) {
-		this.discount = discount;
-	}
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
 
-	public BigDecimal getTotalPayment() {
-		return totalPayment;
-	}
+    public BigDecimal getTotalPayment() {
+        return totalPayment;
+    }
 
-	public SaleTransactions totalPayment(BigDecimal totalPayment) {
-		this.totalPayment = totalPayment;
-		return this;
-	}
+    public SaleTransactions totalPayment(BigDecimal totalPayment) {
+        this.totalPayment = totalPayment;
+        return this;
+    }
 
-	public void setTotalPayment(BigDecimal totalPayment) {
-		this.totalPayment = totalPayment;
-	}
+    public void setTotalPayment(BigDecimal totalPayment) {
+        this.totalPayment = totalPayment;
+    }
 
-	public BigDecimal getRemainingPayment() {
-		return remainingPayment;
-	}
+    public BigDecimal getRemainingPayment() {
+        return remainingPayment;
+    }
 
-	public SaleTransactions remainingPayment(BigDecimal remainingPayment) {
-		this.remainingPayment = remainingPayment;
-		return this;
-	}
+    public SaleTransactions remainingPayment(BigDecimal remainingPayment) {
+        this.remainingPayment = remainingPayment;
+        return this;
+    }
 
-	public void setRemainingPayment(BigDecimal remainingPayment) {
-		this.remainingPayment = remainingPayment;
-	}
+    public void setRemainingPayment(BigDecimal remainingPayment) {
+        this.remainingPayment = remainingPayment;
+    }
 
-	public BigDecimal getPaid() {
-		return paid;
-	}
+    public BigDecimal getPaid() {
+        return paid;
+    }
 
-	public SaleTransactions paid(BigDecimal paid) {
-		this.paid = paid;
-		return this;
-	}
+    public SaleTransactions paid(BigDecimal paid) {
+        this.paid = paid;
+        return this;
+    }
 
-	public void setPaid(BigDecimal paid) {
-		this.paid = paid;
-	}
+    public void setPaid(BigDecimal paid) {
+        this.paid = paid;
+    }
 
-	public Instant getSaleDate() {
-		return saleDate;
-	}
+    public Instant getSaleDate() {
+        return saleDate;
+    }
 
-	public SaleTransactions saleDate(Instant saleDate) {
-		this.saleDate = saleDate;
-		return this;
-	}
+    public SaleTransactions saleDate(Instant saleDate) {
+        this.saleDate = saleDate;
+        return this;
+    }
 
-	public void setSaleDate(Instant saleDate) {
-		this.saleDate = saleDate;
-	}
+    public void setSaleDate(Instant saleDate) {
+        this.saleDate = saleDate;
+    }
 
-	public Boolean isSettled() {
-		return settled;
-	}
+    public Boolean isSettled() {
+        return settled;
+    }
 
-	public SaleTransactions settled(Boolean settled) {
-		this.settled = settled;
-		return this;
-	}
+    public SaleTransactions settled(Boolean settled) {
+        this.settled = settled;
+        return this;
+    }
 
-	public void setSettled(Boolean settled) {
-		this.settled = settled;
-	}
+    public void setSettled(Boolean settled) {
+        this.settled = settled;
+    }
 
-	public Set<SaleItem> getItems() {
-		return items;
-	}
+    public StatusTransaction getStatusTransaction() {
+        return statusTransaction;
+    }
 
-	public SaleTransactions items(Set<SaleItem> saleItems) {
-		this.items = saleItems;
-		return this;
-	}
+    public SaleTransactions statusTransaction(StatusTransaction statusTransaction) {
+        this.statusTransaction = statusTransaction;
+        return this;
+    }
 
-	public SaleTransactions addItems(SaleItem saleItem) {
-		this.items.add(saleItem);
-		saleItem.setSale(this);
-		return this;
-	}
+    public void setStatusTransaction(StatusTransaction statusTransaction) {
+        this.statusTransaction = statusTransaction;
+    }
 
-	public SaleTransactions removeItems(SaleItem saleItem) {
-		this.items.remove(saleItem);
-		saleItem.setSale(null);
-		return this;
-	}
+    public Set<SaleItem> getItems() {
+        return items;
+    }
 
-	public void setItems(Set<SaleItem> saleItems) {
-		this.items = saleItems;
-	}
+    public SaleTransactions items(Set<SaleItem> saleItems) {
+        this.items = saleItems;
+        return this;
+    }
 
-	public Customer getCustomer() {
-		return customer;
-	}
+    public SaleTransactions addItems(SaleItem saleItem) {
+        this.items.add(saleItem);
+        saleItem.setSale(this);
+        return this;
+    }
 
-	public SaleTransactions customer(Customer customer) {
-		this.customer = customer;
-		return this;
-	}
+    public SaleTransactions removeItems(SaleItem saleItem) {
+        this.items.remove(saleItem);
+        saleItem.setSale(null);
+        return this;
+    }
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
+    public void setItems(Set<SaleItem> saleItems) {
+        this.items = saleItems;
+    }
 
-	public User getCreator() {
-		return creator;
-	}
+    public Customer getCustomer() {
+        return customer;
+    }
 
-	public SaleTransactions creator(User user) {
-		this.creator = user;
-		return this;
-	}
+    public SaleTransactions customer(Customer customer) {
+        this.customer = customer;
+        return this;
+    }
 
-	public void setCreator(User user) {
-		this.creator = user;
-	}
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
-	public Set<DuePayment> getDuePayments() {
-		return duePayments;
-	}
+    public User getCreator() {
+        return creator;
+    }
 
-	public SaleTransactions duePayments(Set<DuePayment> duePayments) {
-		this.duePayments = duePayments;
-		return this;
-	}
+    public SaleTransactions creator(User user) {
+        this.creator = user;
+        return this;
+    }
 
-	public SaleTransactions addDuePayment(DuePayment duePayment) {
-		this.duePayments.add(duePayment);
-		duePayment.setSale(this);
-		return this;
-	}
+    public void setCreator(User user) {
+        this.creator = user;
+    }
 
-	public SaleTransactions removeDuePayment(DuePayment duePayment) {
-		this.duePayments.remove(duePayment);
-		duePayment.setSale(null);
-		return this;
-	}
+    public Set<DuePayment> getDuePayments() {
+        return duePayments;
+    }
 
-	public void setDuePayments(Set<DuePayment> duePayments) {
-		this.duePayments = duePayments;
-	}
+    public SaleTransactions duePayments(Set<DuePayment> duePayments) {
+        this.duePayments = duePayments;
+        return this;
+    }
+
+    public SaleTransactions addDuePayment(DuePayment duePayment) {
+        this.duePayments.add(duePayment);
+        duePayment.setSale(this);
+        return this;
+    }
+
+    public SaleTransactions removeDuePayment(DuePayment duePayment) {
+        this.duePayments.remove(duePayment);
+        duePayment.setSale(null);
+        return this;
+    }
+
+    public void setDuePayments(Set<DuePayment> duePayments) {
+        this.duePayments = duePayments;
+    }
 
     public Project getProject() {
         return project;
@@ -280,10 +293,9 @@ public class SaleTransactions implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
-	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
-	// setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-	@Override
+    @Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -298,12 +310,12 @@ public class SaleTransactions implements Serializable {
 		return Objects.equals(getId(), saleTransactions.getId());
 	}
 
-	@Override
+    @Override
 	public int hashCode() {
 		return Objects.hashCode(getId());
 	}
 
-	@Override
+    @Override
 	public String toString() {
 		return "SaleTransactions{" + "id=" + getId()
 				+ ", noInvoice='" + getNoInvoice() + "'"
@@ -312,6 +324,7 @@ public class SaleTransactions implements Serializable {
 				+ ", remainingPayment=" + getRemainingPayment()
 				+ ", paid=" + getPaid()
 				+ ", saleDate='" + getSaleDate() + "'"
+                + ", statusTransaction='" + getStatusTransaction() + "'"
 				+ ", settled='" + isSettled() + "'"
 				+ ", Customer='" + getCustomer() + "'"
 				+ ", Project='" + getProject() + "'"

@@ -11,7 +11,7 @@
     <jhi-alert></jhi-alert>
     <jhi-search-filter (searchEvent)="searchEvt($event)" (clearEvent)="clearEvt($event)"></jhi-search-filter>
     <div class="table-responsive" *ngIf="invoices">
-        <table class="table table-striped">
+        <table class="table table-sm table-striped">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
                     <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
@@ -30,12 +30,12 @@
                     <th jhiSortBy="totalPayment">
                         <span jhiTranslate="jhiptokomajuApp.invoice.totalPayment">Total Payment</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th jhiSortBy="paid">
+                        <span jhiTranslate="jhiptokomajuApp.invoice.paid">Paid</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th jhiSortBy="remainingPayment">
                         <span jhiTranslate="jhiptokomajuApp.invoice.remainingPayment">Remaining Payment</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="paid">
-                        <span jhiTranslate="jhiptokomajuApp.invoice.paid">Paid</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th></th>
                 </tr>
@@ -53,8 +53,8 @@
                     <td>{{ invoice.customer }}</td>
                     <td>{{ invoice.projectName }}</td>
                     <td>{{ invoice.totalPayment | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ invoice.paid | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ invoice.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td class="text-right">
                             <button type="button" class="btn btn-secondary btn-sm" (click)="print(invoice.noInvoice)">
                                 <fa-icon [icon]="'print'"></fa-icon>

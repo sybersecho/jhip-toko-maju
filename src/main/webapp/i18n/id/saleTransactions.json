@@ -28,6 +28,7 @@
             "remainingPayment": "Sisa Pembayaran",
             "paid": "Dibayar",
             "saleDate": "Tanggal Penjualan",
+            "statusTransaction": "Status Transaction",
             "items": "Items",
             "customer": "Pelanggan",
             "change": "Kembalian",

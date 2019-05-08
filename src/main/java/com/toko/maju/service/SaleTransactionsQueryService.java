@@ -23,7 +23,7 @@ import com.toko.maju.service.dto.SaleTransactionsDTO;
 import com.toko.maju.service.mapper.SaleTransactionsMapper;
 
 /**
- * Service for executing complex queries for SaleTransactions entities in the database.
+ * Service for executing complex queries for {@link SaleTransactions} entities in the database.
  * The main input is a {@link SaleTransactionsCriteria} which gets converted to {@link Specification},
  * in a way that all the filters must apply.
  * It returns a {@link List} of {@link SaleTransactionsDTO} or a {@link Page} of {@link SaleTransactionsDTO} which fulfills the criteria.
@@ -47,7 +47,7 @@ public class SaleTransactionsQueryService extends QueryService<SaleTransactions>
     }
 
     /**
-     * Return a {@link List} of {@link SaleTransactionsDTO} which matches the criteria from the database
+     * Return a {@link List} of {@link SaleTransactionsDTO} which matches the criteria from the database.
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -59,7 +59,7 @@ public class SaleTransactionsQueryService extends QueryService<SaleTransactions>
     }
 
     /**
-     * Return a {@link Page} of {@link SaleTransactionsDTO} which matches the criteria from the database
+     * Return a {@link Page} of {@link SaleTransactionsDTO} which matches the criteria from the database.
      * @param criteria The object which holds all the filters, which the entities should match.
      * @param page The page, which should be returned.
      * @return the matching entities.
@@ -73,7 +73,7 @@ public class SaleTransactionsQueryService extends QueryService<SaleTransactions>
     }
 
     /**
-     * Return the number of matching entities in the database
+     * Return the number of matching entities in the database.
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the number of matching entities.
      */
@@ -85,7 +85,7 @@ public class SaleTransactionsQueryService extends QueryService<SaleTransactions>
     }
 
     /**
-     * Function to convert SaleTransactionsCriteria to a {@link Specification}
+     * Function to convert SaleTransactionsCriteria to a {@link Specification}.
      */
     private Specification<SaleTransactions> createSpecification(SaleTransactionsCriteria criteria) {
         Specification<SaleTransactions> specification = Specification.where(null);
@@ -113,6 +113,9 @@ public class SaleTransactionsQueryService extends QueryService<SaleTransactions>
             }
             if (criteria.getSettled() != null) {
                 specification = specification.and(buildSpecification(criteria.getSettled(), SaleTransactions_.settled));
+            }
+            if (criteria.getStatusTransaction() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatusTransaction(), SaleTransactions_.statusTransaction));
             }
             if (criteria.getItemsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemsId(),

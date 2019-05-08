@@ -95,6 +95,11 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "statusTransaction",
+            "fieldType": "StatusTransaction",
+            "fieldValues": "PAID,CANCELED,RETURNED,DUE"
         }
     ],
     "changelogDate": "20190316144520",

@@ -2,6 +2,8 @@ package com.toko.maju.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import com.toko.maju.domain.enumeration.StatusTransaction;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -12,6 +14,7 @@ import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 
+
 /**
  * Criteria class for the SaleTransactions entity. This class is used in SaleTransactionsResource to
  * receive all the possible filtering options from the Http GET request parameters.
@@ -21,6 +24,12 @@ import io.github.jhipster.service.filter.InstantFilter;
  * fix type specific filters.
  */
 public class SaleTransactionsCriteria implements Serializable {
+
+    /**
+     * Class for filtering UnitMeasure
+     */
+    public static class StatusTransactionFilter extends Filter<StatusTransaction> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -39,6 +48,8 @@ public class SaleTransactionsCriteria implements Serializable {
     private InstantFilter saleDate;
 
     private BooleanFilter settled;
+
+    private StatusTransactionFilter statusTransaction;
 
     private LongFilter itemsId;
 
@@ -114,6 +125,14 @@ public class SaleTransactionsCriteria implements Serializable {
         this.settled = settled;
     }
 
+    public StatusTransactionFilter getStatusTransaction() {
+        return statusTransaction;
+    }
+
+    public void setStatusTransaction(StatusTransactionFilter statusTransaction) {
+        this.statusTransaction = statusTransaction;
+    }
+
     public LongFilter getItemsId() {
         return itemsId;
     }
@@ -173,6 +192,7 @@ public class SaleTransactionsCriteria implements Serializable {
             Objects.equals(paid, that.paid) &&
             Objects.equals(saleDate, that.saleDate) &&
             Objects.equals(settled, that.settled) &&
+            Objects.equals(statusTransaction, that.statusTransaction) &&
             Objects.equals(itemsId, that.itemsId) &&
             Objects.equals(customerId, that.customerId) &&
             Objects.equals(creatorId, that.creatorId) &&
@@ -191,6 +211,7 @@ public class SaleTransactionsCriteria implements Serializable {
         paid,
         saleDate,
         settled,
+        statusTransaction,
         itemsId,
         customerId,
         creatorId,
@@ -210,6 +231,7 @@ public class SaleTransactionsCriteria implements Serializable {
                 (paid != null ? "paid=" + paid + ", " : "") +
                 (saleDate != null ? "saleDate=" + saleDate + ", " : "") +
                 (settled != null ? "settled=" + settled + ", " : "") +
+                (statusTransaction != null ? "statusTransaction=" + statusTransaction + ", " : "") +
                 (itemsId != null ? "itemsId=" + itemsId + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
                 (creatorId != null ? "creatorId=" + creatorId + ", " : "") +

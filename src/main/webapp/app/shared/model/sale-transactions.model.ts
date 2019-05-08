@@ -3,6 +3,12 @@ import { ISaleItem } from './sale-item.model';
 import { ICustomer } from './customer.model';
 import { IDuePayment } from './due-payment.model';
 
+export const enum StatusTransaction {
+    PAID = 'PAID',
+    CANCELED = 'CANCELED',
+    RETURNED = 'RETURNED',
+    DUE = 'DUE'
+}
 export interface ISaleTransactions {
     id?: number;
     noInvoice?: string;
@@ -23,6 +29,7 @@ export interface ISaleTransactions {
     projectName?: string;
     projectId?: number;
     settled?: boolean;
+    statusTransaction?: StatusTransaction;
 
     customer?: ICustomer;
 
@@ -64,6 +71,7 @@ export class SaleTransactions implements ISaleTransactions {
         public projectName?: string,
         public projectId?: number,
         public settled?: boolean,
+        public statusTransaction?: StatusTransaction,
         public customer?: ICustomer
     ) {
         this.items = [];
@@ -128,9 +136,12 @@ export class SaleTransactions implements ISaleTransactions {
 
     recalculate(): void {
         this.settled = false;
+        this.statusTransaction = StatusTransaction.DUE;
+        console.log('status: ', this.statusTransaction);
         if (this.paid >= this.totalPayment) {
             this.paid = this.totalPayment;
             this.settled = true;
+            this.statusTransaction = StatusTransaction.PAID;
         }
         this.calculateTotalPayment();
         // this.addToSession();
@@ -201,6 +212,7 @@ export class SaleTransactions implements ISaleTransactions {
         if (this.remainingPayment < 0) {
             this.remainingPayment = 0;
             this.settled = true;
+            this.statusTransaction = StatusTransaction.PAID;
         }
     }
 }
