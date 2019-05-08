@@ -3,6 +3,8 @@ import { ExtractProductModel } from './extract-product-model';
 import { SearcExtProductDialogService } from './search-ext-product.component';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { ExcelService } from 'app/shared/export/excel.service';
+import { ExcelModel } from 'app/shared/export/excel-model';
 
 @Component({
     selector: 'jhi-extract-product',
@@ -17,7 +19,8 @@ export class ExtractProductComponent implements OnInit, OnDestroy {
     constructor(
         protected searchServiceDialog: SearcExtProductDialogService,
         protected eventManager: JhiEventManager,
-        protected jhiAlertService: JhiAlertService
+        protected jhiAlertService: JhiAlertService,
+        protected excelService: ExcelService
     ) {
         this.products = [];
     }
@@ -68,6 +71,16 @@ export class ExtractProductComponent implements OnInit, OnDestroy {
 
     onSearch() {
         this.searchServiceDialog.open();
+    }
+
+    onExtract() {
+        const excelModel = new ExcelModel();
+        excelModel.data = this.products;
+        excelModel.fileName = 'Extract Product';
+        excelModel.header = [];
+        excelModel.title = '';
+
+        this.excelService.generateExcel(excelModel);
     }
 
     ngOnDestroy(): void {

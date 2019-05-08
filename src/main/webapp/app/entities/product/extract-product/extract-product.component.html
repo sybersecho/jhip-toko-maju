@@ -64,8 +64,8 @@
                 </tbody>
                 <tfoot>
                     <tr *ngIf="products.length > 0">
-                        <td colspan="9">
-                            <button id="jh-create-entity" class="btn btn-info float-right jh-create-entity extract-product">
+                        <td colspan="10">
+                            <button id="jh-extract-product" class="btn btn-info float-right jh-extract-product extract-product" (click)="onExtract()">
                                 <fa-icon [icon]="'search'"></fa-icon>
                                 <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.product.extract.actions.extract">
                                     Search Product
