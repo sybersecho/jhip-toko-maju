@@ -18,7 +18,9 @@
                 },
                 "messages": {
                     "barcode.empty": "Field Barcode Empty",
-                    "supplier.empty": "Field Supplier Empty"
+                    "productId.empty": "Click Search button first",
+                    "supplier.empty": "Field Supplier Empty",
+                    "product.exist": "Product exist"
                 }
             },
             "created": "A new Product is created with identifier {{ param }}",

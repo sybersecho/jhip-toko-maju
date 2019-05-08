@@ -33,7 +33,7 @@
     </div>
     <br />
     <div class="table-responsive" *ngIf="products">
-        <table class="table table-striped">
+        <table class="table table-sm table-striped">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                     <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
@@ -73,9 +73,9 @@
                     <!-- <td>{{product.barcode}}</td> -->
                     <td>{{ product.name }}</td>
                     <td jhiTranslate="{{ 'jhiptokomajuApp.UnitMeasure.' + product.unit }}">{{ product.unit }}</td>
-                    <td>{{ product.warehousePrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
-                    <td>{{ product.unitPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
-                    <td>{{ product.sellingPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</td>
+                    <td>{{ product.warehousePrice | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ product.unitPrice | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ product.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ product.stock }}</td>
                     <td>
                         <div *ngIf="product.supplierId">

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ExtractProductModel } from './extract-product-model';
 import { SearcExtProductDialogService } from './search-ext-product.component';
 import { Subscription } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-extract-product',
@@ -12,8 +12,13 @@ import { JhiEventManager } from 'ng-jhipster';
 export class ExtractProductComponent implements OnInit, OnDestroy {
     products: ExtractProductModel[];
     eventSubcriptions: Subscription;
+    isExistInList = false;
 
-    constructor(protected searchServiceDialog: SearcExtProductDialogService, protected eventManager: JhiEventManager) {
+    constructor(
+        protected searchServiceDialog: SearcExtProductDialogService,
+        protected eventManager: JhiEventManager,
+        protected jhiAlertService: JhiAlertService
+    ) {
         this.products = [];
     }
 
@@ -23,14 +28,38 @@ export class ExtractProductComponent implements OnInit, OnDestroy {
 
     registerEvent() {
         this.eventSubcriptions = this.eventManager.subscribe('onExtractProductEvt', response => {
-            this.products.push(response.data);
+            this.checkAndAdd(response.data);
+            this.notifyIfExist();
+
+            // this.products.push(;
         });
         this.eventSubcriptions = this.eventManager.subscribe('onExtractProductBySupplierEvt', response => {
             const dataRes: ExtractProductModel[] = response.data;
             dataRes.forEach(d => {
-                this.products.push(d);
+                this.checkAndAdd(d);
             });
+            this.notifyIfExist();
         });
+    }
+
+    private notifyIfExist() {
+        if (this.isExistInList) {
+            this.onError('jhiptokomajuApp.product.extract.messages.product.exist');
+            this.isExistInList = false;
+        }
+    }
+
+    protected checkAndAdd(data: ExtractProductModel) {
+        const exist = this.checkIfExist(data);
+        exist === -1 ? this.products.push(data) : (this.isExistInList = true);
+    }
+
+    protected checkIfExist(data: ExtractProductModel): number {
+        return this.products.findIndex(f => f.barcode === data.barcode);
+    }
+
+    protected onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
     }
 
     remove(i) {

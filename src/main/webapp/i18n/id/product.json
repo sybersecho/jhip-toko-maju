@@ -18,7 +18,9 @@
                 },
                 "messages": {
                     "barcode.empty": "Field Barcode kosong",
-                    "supplier.empty": "Field Supplier Kosong"
+                    "productId.empty": "Tekan tombol search untuk mencari product",
+                    "supplier.empty": "Field Supplier Kosong",
+                    "product.exist": "Product sudah terdaftar"
                 }
             },
             "created": "Product dengan id {{ param }} telah dibuat",

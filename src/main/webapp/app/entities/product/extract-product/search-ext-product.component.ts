@@ -61,7 +61,7 @@ export class SearchExtProductComponent implements OnInit {
 
     protected addToListByProduct() {
         if (!this.product.id) {
-            this.onError('jhiptokomajuApp.product.extract.messages.barcode.empty');
+            this.onError('jhiptokomajuApp.product.extract.messages.productId.empty');
             return;
         }
 
@@ -85,6 +85,7 @@ export class SearchExtProductComponent implements OnInit {
                 console.log('body', res.body);
                 if (!res.body[0]) {
                     this.onError('error.search.not.found');
+                    this.resetByBarcode();
                 } else {
                     this.product = res.body[0];
                 }
@@ -106,24 +107,38 @@ export class SearchExtProductComponent implements OnInit {
 
                 if (!res.body[0]) {
                     this.onError('error.search.not.found');
+                    this.resetBySupplier();
                 } else {
                     this.product.supplierCode = res.body[0].supplierCode;
                     this.product.supplierName = res.body[0].supplierName;
                     this.product.supplierId = res.body[0].supplierId;
-
-                    this.product.barcode = '';
-                    this.product.id = null;
-                    this.product.name = '';
-                    this.product.sellingPrice = 0;
-                    this.product.stock = 0;
-                    this.product.unitPrice = 0;
-                    this.product.warehousePrice = 0;
                 }
             },
             error => {
                 this.onError('error.somethingworng');
+                this.resetBySupplier();
             }
         );
+    }
+
+    protected resetByBarcode() {
+        this.product.id = null;
+        this.product.name = '';
+        this.product.sellingPrice = 0;
+        this.product.stock = 0;
+        this.product.unitPrice = 0;
+        this.product.warehousePrice = 0;
+        this.product.supplierCode = '';
+    }
+
+    protected resetBySupplier() {
+        this.product.barcode = '';
+        this.product.id = null;
+        this.product.name = '';
+        this.product.sellingPrice = 0;
+        this.product.stock = 0;
+        this.product.unitPrice = 0;
+        this.product.warehousePrice = 0;
     }
 
     protected onError(errorMessage: string) {
