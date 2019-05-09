@@ -19,6 +19,7 @@
                 id="field_barcode"
                 [(ngModel)]="searchBarcode"
                 (keydown.enter)="searchProduct()"
+                #barcode
             />
         </div>
         <div class="form-group">
@@ -70,6 +71,8 @@
                 [(ngModel)]="selectedItem.quantity"
                 min="1"
                 jhiMin="1"
+                #quantity
+                (keydown.enter)="addToCart(saleForm)"
             />
             <div [hidden]="!((saleForm.controls.quantity?.dirty && saleForm.controls.quantity?.invalid) || checkStock())">
                 <small

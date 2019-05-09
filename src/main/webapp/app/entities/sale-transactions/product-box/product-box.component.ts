@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { IProduct, Product } from 'app/shared/model/product.model';
 import { ProductService } from 'app/entities/product';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -24,6 +24,8 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input('sale') saleTransactions: ISaleTransactions;
     eventSubscription: Subscription;
     searchBarcode: string;
+    @ViewChild('barcode') barcodeField: ElementRef;
+    @ViewChild('quantity') quantityField: ElementRef;
 
     constructor(
         private productService: ProductService,
@@ -41,6 +43,7 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit(): void {
         this.loadCustomerProduct();
+        this.barcodeField.nativeElement.focus();
     }
 
     searchProduct() {
@@ -65,6 +68,7 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.updateToCustPrice(found);
         this.selectedItem.setProduct(found);
+        this.quantityField.nativeElement.focus();
     }
 
     protected updateToCustPrice(found: IProduct) {
@@ -97,6 +101,9 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     addToCart(form: NgForm) {
+        if (form.invalid || this.checkStock()) {
+            return;
+        }
         this.selectedItem.createItem();
         this.saleTransactions.addOrUpdate(this.selectedItem);
         this.reset();
@@ -106,6 +113,7 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     protected reset(): any {
         this.selectedItem = new SaleItem();
         this.selectedItem.quantity = 1;
+        this.barcodeField.nativeElement.focus();
     }
 
     protected onError(errorMessage: string) {
