@@ -9,6 +9,8 @@ import { JhiLanguageHelper, User, UserService } from 'app/core';
 })
 export class UserMgmtUpdateComponent implements OnInit {
     user: User;
+    doNotMatch: string;
+    confirmPassword: string;
     languages: any[];
     authorities: any[];
     isSaving: boolean;
@@ -39,7 +41,14 @@ export class UserMgmtUpdateComponent implements OnInit {
     }
 
     save() {
+        if (this.user.password !== this.confirmPassword) {
+            this.doNotMatch = 'ERROR';
+            this.isSaving = false;
+            return;
+        }
+
         this.isSaving = true;
+
         if (this.user.id !== null) {
             this.userService.update(this.user).subscribe(response => this.onSaveSuccess(response), () => this.onSaveError());
         } else {
