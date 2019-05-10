@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the {@link com.toko.maju.domain.Unit} entity.
+ * A DTO for the Unit entity.
  */
 public class UnitDTO implements Serializable {
 

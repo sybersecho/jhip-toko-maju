@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
- * Service Implementation for managing {@link Unit}.
+ * Service Implementation for managing Unit.
  */
 @Service
 @Transactional
@@ -42,8 +42,8 @@ public class UnitServiceImpl implements UnitService {
     /**
      * Save a unit.
      *
-     * @param unitDTO the entity to save.
-     * @return the persisted entity.
+     * @param unitDTO the entity to save
+     * @return the persisted entity
      */
     @Override
     public UnitDTO save(UnitDTO unitDTO) {
@@ -58,8 +58,8 @@ public class UnitServiceImpl implements UnitService {
     /**
      * Get all the units.
      *
-     * @param pageable the pagination information.
-     * @return the list of entities.
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,8 +73,8 @@ public class UnitServiceImpl implements UnitService {
     /**
      * Get one unit by id.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -87,7 +87,7 @@ public class UnitServiceImpl implements UnitService {
     /**
      * Delete the unit by id.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -99,9 +99,9 @@ public class UnitServiceImpl implements UnitService {
     /**
      * Search for the unit corresponding to the query.
      *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
+     * @param query the query of the search
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)

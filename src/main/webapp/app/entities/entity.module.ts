@@ -33,7 +33,7 @@ import { JhiptokomajuDuePaymentModule } from './due-payment/due-payment.module';
             {
                 path: 'supplier',
                 loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
-            }
+            },
             // {
             //     path: 'sale-transactions',
             //     loadChildren: './sale-transactions/sale-transactions.module#JhiptokomajuSaleTransactionsModule'
@@ -46,6 +46,14 @@ import { JhiptokomajuDuePaymentModule } from './due-payment/due-payment.module';
             //     path: 'due-payment',
             //     loadChildren: './due-payment/due-payment.module#JhiptokomajuDuePaymentModule'
             // }
+            {
+                path: 'unit',
+                loadChildren: './unit/unit.module#JhiptokomajuUnitModule'
+            },
+            {
+                path: 'unit',
+                loadChildren: './unit/unit.module#JhiptokomajuUnitModule'
+            }
             //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
     ],

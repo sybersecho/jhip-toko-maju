@@ -6,7 +6,7 @@ import com.toko.maju.service.dto.UnitDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity {@link Unit} and its DTO {@link UnitDTO}.
+ * Mapper for the entity Unit and its DTO UnitDTO.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface UnitMapper extends EntityMapper<UnitDTO, Unit> {

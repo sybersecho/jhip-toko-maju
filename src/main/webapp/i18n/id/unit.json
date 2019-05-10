@@ -1,0 +1,22 @@
+{
+    "jhiptokomajuApp": {
+        "unit": {
+            "home": {
+                "title": "Units",
+                "createLabel": "Buat Unit baru",
+                "createOrEditLabel": "Buat atau edit Unit",
+                "search": "Cari Unit"
+            },
+            "created": "Unit dengan id {{ param }} telah dibuat",
+            "updated": "Unit dengan id {{ param }} telah diperbaharui",
+            "deleted": "Unit dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Unit {{ id }}?"
+            },
+            "detail": {
+                "title": "Unit"
+            },
+            "name": "Name"
+        }
+    }
+}

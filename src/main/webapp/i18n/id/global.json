@@ -16,6 +16,7 @@
                 "saleItem": "Sale Item",
                 "invoice": "Invoice",
                 "duePayment": "Due Payment",
+                "unit": "Unit",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

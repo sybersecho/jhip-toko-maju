@@ -3,7 +3,7 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
@@ -12,7 +12,7 @@
     <property name="autoIncrement" value="true"/>
 
     <property name="floatType" value="float4" dbms="postgresql, h2"/>
-    <property name="floatType" value="float" dbms="mysql, oracle, mssql, mariadb"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
         Added the entity SaleTransactions.
@@ -26,19 +26,19 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="discount" type="decimal(21,2)">
+            <column name="discount" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="total_payment" type="decimal(21,2)">
+            <column name="total_payment" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 
-            <column name="remaining_payment" type="decimal(21,2)">
+            <column name="remaining_payment" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="paid" type="decimal(21,2)">
+            <column name="paid" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 
@@ -68,38 +68,8 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
         <dropDefaultValue tableName="sale_transactions" columnName="sale_date" columnDataType="datetime"/>
-    </changeSet>
-
-    <!--
-        Load sample data generated with Faker.js
-        - This data can be easily edited using a CSV editor (or even MS Excel) and
-          is located in the 'src/main/resources/config/liquibase/data' directory
-        - By default this data is applied when running with the JHipster 'dev' profile.
-          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
-          Spring Boot configuration key.
-    -->
-    <changeSet id="20190316144520-1-data" author="jhipster" context="faker">
-        <loadData
-                  file="config/liquibase/data/sale_transactions.csv"
-                  separator=";"
-                  tableName="sale_transactions"
-                  context="dev">
-            <column name="id" type="numeric"/>
-            <column name="no_invoice" type="string"/>
-            <column name="discount" type="numeric"/>
-            <column name="total_payment" type="numeric"/>
-            <column name="remaining_payment" type="numeric"/>
-            <column name="paid" type="numeric"/>
-            <column name="sale_date" type="date"/>
-            <column name="settled" type="boolean"/>
-            <column name="status_transaction" type="string"/>
-        </loadData>
-    </changeSet>
-
-    <changeSet id="20190316144520-1-relations" author="jhipster">
-
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

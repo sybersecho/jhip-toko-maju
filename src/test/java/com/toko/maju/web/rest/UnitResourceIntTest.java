@@ -1,6 +1,7 @@
 package com.toko.maju.web.rest;
 
 import com.toko.maju.JhiptokomajuApp;
+
 import com.toko.maju.domain.Unit;
 import com.toko.maju.repository.UnitRepository;
 import com.toko.maju.repository.search.UnitSearchRepository;
@@ -9,8 +10,9 @@ import com.toko.maju.service.dto.UnitDTO;
 import com.toko.maju.service.mapper.UnitMapper;
 import com.toko.maju.web.rest.errors.ExceptionTranslator;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,7 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
+
 
 import static com.toko.maju.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,10 +41,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link UnitResource} REST controller.
+ * Test class for the UnitResource REST controller.
+ *
+ * @see UnitResource
  */
+@RunWith(SpringRunner.class)
 @SpringBootTest(classes = JhiptokomajuApp.class)
-public class UnitResourceIT {
+public class UnitResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
@@ -81,7 +88,7 @@ public class UnitResourceIT {
 
     private Unit unit;
 
-    @BeforeEach
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         final UnitResource unitResource = new UnitResource(unitService);
@@ -105,7 +112,7 @@ public class UnitResourceIT {
         return unit;
     }
 
-    @BeforeEach
+    @Before
     public void initTest() {
         unit = createEntity(em);
     }
@@ -154,7 +161,6 @@ public class UnitResourceIT {
         // Validate the Unit in Elasticsearch
         verify(mockUnitSearchRepository, times(0)).save(unit);
     }
-
 
     @Test
     @Transactional
@@ -275,7 +281,7 @@ public class UnitResourceIT {
         // Delete the unit
         restUnitMockMvc.perform(delete("/api/units/{id}", unit.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isNoContent());
+            .andExpect(status().isOk());
 
         // Validate the database is empty
         List<Unit> unitList = unitRepository.findAll();
