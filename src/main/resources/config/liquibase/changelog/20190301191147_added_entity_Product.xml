@@ -30,10 +30,6 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="unit" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
             <column name="warehouse_price" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
@@ -54,9 +50,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="unit_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <loadData encoding="UTF-8" file="config/liquibase/product.csv" separator=";" tableName="product"/>
+
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

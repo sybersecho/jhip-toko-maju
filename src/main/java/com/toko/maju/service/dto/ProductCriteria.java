@@ -3,7 +3,6 @@ package com.toko.maju.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.toko.maju.domain.enumeration.UnitMeasure;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -22,11 +21,6 @@ import io.github.jhipster.service.filter.BigDecimalFilter;
  * fix type specific filters.
  */
 public class ProductCriteria implements Serializable {
-    /**
-     * Class for filtering UnitMeasure
-     */
-    public static class UnitMeasureFilter extends Filter<UnitMeasure> {
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -40,7 +34,7 @@ public class ProductCriteria implements Serializable {
 
     private StringFilter supplierCode;
 
-    private UnitMeasureFilter unit;
+//    private UnitMeasureFilter unit;
 
     private BigDecimalFilter warehousePrice;
 
@@ -51,6 +45,8 @@ public class ProductCriteria implements Serializable {
     private IntegerFilter stock;
 
     private LongFilter supplierId;
+
+    private LongFilter unitId;
 
     public LongFilter getId() {
         return id;
@@ -74,14 +70,6 @@ public class ProductCriteria implements Serializable {
 
     public void setName(StringFilter name) {
         this.name = name;
-    }
-
-    public UnitMeasureFilter getUnit() {
-        return unit;
-    }
-
-    public void setUnit(UnitMeasureFilter unit) {
-        this.unit = unit;
     }
 
     public BigDecimalFilter getWarehousePrice() {
@@ -124,6 +112,14 @@ public class ProductCriteria implements Serializable {
         this.supplierId = supplierId;
     }
 
+    public LongFilter getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(LongFilter unitId) {
+        this.unitId = unitId;
+    }
+
 
     public StringFilter getSupplierName() {
         return supplierName;
@@ -142,6 +138,7 @@ public class ProductCriteria implements Serializable {
         this.supplierCode = supplierCode;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -155,12 +152,12 @@ public class ProductCriteria implements Serializable {
             Objects.equals(id, that.id) &&
                 Objects.equals(barcode, that.barcode) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(unit, that.unit) &&
                 Objects.equals(warehousePrice, that.warehousePrice) &&
                 Objects.equals(unitPrice, that.unitPrice) &&
                 Objects.equals(sellingPrice, that.sellingPrice) &&
                 Objects.equals(stock, that.stock) &&
                 Objects.equals(supplierId, that.supplierId) &&
+                Objects.equals(unitId, that.unitId) &&
                 Objects.equals(supplierName, that.supplierName) &&
                 Objects.equals(supplierCode, that.supplierCode);
     }
@@ -171,12 +168,12 @@ public class ProductCriteria implements Serializable {
             id,
             barcode,
             name,
-            unit,
             warehousePrice,
             unitPrice,
             sellingPrice,
             stock,
             supplierId,
+            unitId,
             supplierName,
             supplierCode
         );
@@ -188,12 +185,12 @@ public class ProductCriteria implements Serializable {
             (id != null ? "id=" + id + ", " : "") +
             (barcode != null ? "barcode=" + barcode + ", " : "") +
             (name != null ? "name=" + name + ", " : "") +
-            (unit != null ? "unit=" + unit + ", " : "") +
             (warehousePrice != null ? "warehousePrice=" + warehousePrice + ", " : "") +
             (unitPrice != null ? "unitPrice=" + unitPrice + ", " : "") +
             (sellingPrice != null ? "sellingPrice=" + sellingPrice + ", " : "") +
             (stock != null ? "stock=" + stock + ", " : "") +
             (supplierId != null ? "supplierId=" + supplierId + ", " : "") +
+            (unitId != null ? "unitId=" + unitId + ", " : "") +
             (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
             (supplierCode != null ? "supplierCode=" + supplierCode + ", " : "") +
             "}";

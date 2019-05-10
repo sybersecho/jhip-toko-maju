@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity CustomerProduct and its DTO CustomerProductDTO.
  */
-@Mapper(componentModel = "spring", uses = { CustomerMapper.class, ProductMapper.class })
+@Mapper(componentModel = "spring", uses = { CustomerMapper.class, ProductMapper.class, UnitMapper.class })
 public interface CustomerProductMapper extends EntityMapper<CustomerProductDTO, CustomerProduct> {
 
 	@Mapping(source = "customer.id", target = "customerId")
@@ -19,7 +19,7 @@ public interface CustomerProductMapper extends EntityMapper<CustomerProductDTO, 
 	@Mapping(source = "product.unitPrice", target = "unitPrice")
     @Mapping(source = "product.sellingPrice", target = "sellingPrice")
     @Mapping(source = "product.barcode", target = "barcode")
-    @Mapping(source = "product.unit", target = "unit")
+    @Mapping(source = "product.unit.name", target = "unit")
 	@Mapping(source = "product.supplier.code", target = "supplierCode")
 	@Mapping(source = "product.supplier.name", target = "supplierName")
 	CustomerProductDTO toDto(CustomerProduct customerProduct);

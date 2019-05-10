@@ -13,8 +13,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import com.toko.maju.domain.enumeration.UnitMeasure;
-
 /**
  * A Product.
  */
@@ -25,7 +23,7 @@ import com.toko.maju.domain.enumeration.UnitMeasure;
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,11 +35,6 @@ public class Product implements Serializable {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "unit", nullable = false)
-    private UnitMeasure unit;
 
     @NotNull
     @DecimalMin(value = "0")
@@ -65,6 +58,11 @@ public class Product implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("products")
     private Supplier supplier;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("products")
+    private Unit unit;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -99,19 +97,6 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public UnitMeasure getUnit() {
-        return unit;
-    }
-
-    public Product unit(UnitMeasure unit) {
-        this.unit = unit;
-        return this;
-    }
-
-    public void setUnit(UnitMeasure unit) {
-        this.unit = unit;
     }
 
     public BigDecimal getWarehousePrice() {
@@ -177,6 +162,19 @@ public class Product implements Serializable {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public Product unit(Unit unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -4,6 +4,7 @@ import com.toko.maju.JhiptokomajuApp;
 
 import com.toko.maju.domain.Product;
 import com.toko.maju.domain.Supplier;
+import com.toko.maju.domain.Unit;
 import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.service.ProductService;
@@ -44,7 +45,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.toko.maju.domain.enumeration.UnitMeasure;
 /**
  * Test class for the ProductResource REST controller.
  *
@@ -59,9 +59,6 @@ public class ProductResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
-
-    private static final UnitMeasure DEFAULT_UNIT = UnitMeasure.KG;
-    private static final UnitMeasure UPDATED_UNIT = UnitMeasure.SAK;
 
     private static final BigDecimal DEFAULT_WAREHOUSE_PRICE = new BigDecimal(0);
     private static final BigDecimal UPDATED_WAREHOUSE_PRICE = new BigDecimal(1);
@@ -124,7 +121,6 @@ public class ProductResourceIntTest {
             .setConversionService(createFormattingConversionService())
             .setMessageConverters(jacksonMessageConverter)
             .setValidator(validator).build();
-        this.productRepository.deleteAll();
     }
 
     /**
@@ -137,11 +133,15 @@ public class ProductResourceIntTest {
         Product product = new Product()
             .barcode(DEFAULT_BARCODE)
             .name(DEFAULT_NAME)
-            .unit(DEFAULT_UNIT)
             .warehousePrice(DEFAULT_WAREHOUSE_PRICE)
             .unitPrice(DEFAULT_UNIT_PRICE)
             .sellingPrice(DEFAULT_SELLING_PRICE)
             .stock(DEFAULT_STOCK);
+        // Add required entity
+        Unit unit = UnitResourceIntTest.createEntity(em);
+        em.persist(unit);
+        em.flush();
+        product.setUnit(unit);
         return product;
     }
 
@@ -168,7 +168,6 @@ public class ProductResourceIntTest {
         Product testProduct = productList.get(productList.size() - 1);
         assertThat(testProduct.getBarcode()).isEqualTo(DEFAULT_BARCODE);
         assertThat(testProduct.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testProduct.getUnit()).isEqualTo(DEFAULT_UNIT);
         assertThat(testProduct.getWarehousePrice()).isEqualTo(DEFAULT_WAREHOUSE_PRICE);
         assertThat(testProduct.getUnitPrice()).isEqualTo(DEFAULT_UNIT_PRICE);
         assertThat(testProduct.getSellingPrice()).isEqualTo(DEFAULT_SELLING_PRICE);
@@ -226,25 +225,6 @@ public class ProductResourceIntTest {
         int databaseSizeBeforeTest = productRepository.findAll().size();
         // set the field null
         product.setName(null);
-
-        // Create the Product, which fails.
-        ProductDTO productDTO = productMapper.toDto(product);
-
-        restProductMockMvc.perform(post("/api/products")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(productDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Product> productList = productRepository.findAll();
-        assertThat(productList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkUnitIsRequired() throws Exception {
-        int databaseSizeBeforeTest = productRepository.findAll().size();
-        // set the field null
-        product.setUnit(null);
 
         // Create the Product, which fails.
         ProductDTO productDTO = productMapper.toDto(product);
@@ -347,7 +327,6 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(product.getId().intValue())))
             .andExpect(jsonPath("$.[*].barcode").value(hasItem(DEFAULT_BARCODE.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
             .andExpect(jsonPath("$.[*].warehousePrice").value(hasItem(DEFAULT_WAREHOUSE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].sellingPrice").value(hasItem(DEFAULT_SELLING_PRICE.intValue())))
@@ -367,7 +346,6 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.id").value(product.getId().intValue()))
             .andExpect(jsonPath("$.barcode").value(DEFAULT_BARCODE.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.unit").value(DEFAULT_UNIT.toString()))
             .andExpect(jsonPath("$.warehousePrice").value(DEFAULT_WAREHOUSE_PRICE.intValue()))
             .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE.intValue()))
             .andExpect(jsonPath("$.sellingPrice").value(DEFAULT_SELLING_PRICE.intValue()))
@@ -450,45 +428,6 @@ public class ProductResourceIntTest {
 
         // Get all the productList where name is null
         defaultProductShouldNotBeFound("name.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllProductsByUnitIsEqualToSomething() throws Exception {
-        // Initialize the database
-        productRepository.saveAndFlush(product);
-
-        // Get all the productList where unit equals to DEFAULT_UNIT
-        defaultProductShouldBeFound("unit.equals=" + DEFAULT_UNIT);
-
-        // Get all the productList where unit equals to UPDATED_UNIT
-        defaultProductShouldNotBeFound("unit.equals=" + UPDATED_UNIT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProductsByUnitIsInShouldWork() throws Exception {
-        // Initialize the database
-        productRepository.saveAndFlush(product);
-
-        // Get all the productList where unit in DEFAULT_UNIT or UPDATED_UNIT
-        defaultProductShouldBeFound("unit.in=" + DEFAULT_UNIT + "," + UPDATED_UNIT);
-
-        // Get all the productList where unit equals to UPDATED_UNIT
-        defaultProductShouldNotBeFound("unit.in=" + UPDATED_UNIT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProductsByUnitIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        productRepository.saveAndFlush(product);
-
-        // Get all the productList where unit is not null
-        defaultProductShouldBeFound("unit.specified=true");
-
-        // Get all the productList where unit is null
-        defaultProductShouldNotBeFound("unit.specified=false");
     }
 
     @Test
@@ -692,6 +631,25 @@ public class ProductResourceIntTest {
         defaultProductShouldNotBeFound("supplierId.equals=" + (supplierId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllProductsByUnitIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Unit unit = UnitResourceIntTest.createEntity(em);
+        em.persist(unit);
+        em.flush();
+        product.setUnit(unit);
+        productRepository.saveAndFlush(product);
+        Long unitId = unit.getId();
+
+        // Get all the productList where unit equals to unitId
+        defaultProductShouldBeFound("unitId.equals=" + unitId);
+
+        // Get all the productList where unit equals to unitId + 1
+        defaultProductShouldNotBeFound("unitId.equals=" + (unitId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -702,7 +660,6 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(product.getId().intValue())))
             .andExpect(jsonPath("$.[*].barcode").value(hasItem(DEFAULT_BARCODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
             .andExpect(jsonPath("$.[*].warehousePrice").value(hasItem(DEFAULT_WAREHOUSE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].sellingPrice").value(hasItem(DEFAULT_SELLING_PRICE.intValue())))
@@ -756,7 +713,6 @@ public class ProductResourceIntTest {
         updatedProduct
             .barcode(UPDATED_BARCODE)
             .name(UPDATED_NAME)
-            .unit(UPDATED_UNIT)
             .warehousePrice(UPDATED_WAREHOUSE_PRICE)
             .unitPrice(UPDATED_UNIT_PRICE)
             .sellingPrice(UPDATED_SELLING_PRICE)
@@ -774,7 +730,6 @@ public class ProductResourceIntTest {
         Product testProduct = productList.get(productList.size() - 1);
         assertThat(testProduct.getBarcode()).isEqualTo(UPDATED_BARCODE);
         assertThat(testProduct.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testProduct.getUnit()).isEqualTo(UPDATED_UNIT);
         assertThat(testProduct.getWarehousePrice()).isEqualTo(UPDATED_WAREHOUSE_PRICE);
         assertThat(testProduct.getUnitPrice()).isEqualTo(UPDATED_UNIT_PRICE);
         assertThat(testProduct.getSellingPrice()).isEqualTo(UPDATED_SELLING_PRICE);
@@ -841,7 +796,6 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(product.getId().intValue())))
             .andExpect(jsonPath("$.[*].barcode").value(hasItem(DEFAULT_BARCODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
             .andExpect(jsonPath("$.[*].warehousePrice").value(hasItem(DEFAULT_WAREHOUSE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].sellingPrice").value(hasItem(DEFAULT_SELLING_PRICE.intValue())))

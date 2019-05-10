@@ -3,7 +3,6 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-import com.toko.maju.domain.enumeration.UnitMeasure;
 
 /**
  * A DTO for the Product entity.
@@ -17,9 +16,6 @@ public class ProductDTO implements Serializable {
 
     @NotNull
     private String name;
-
-    @NotNull
-    private UnitMeasure unit;
 
     @NotNull
     @DecimalMin(value = "0")
@@ -40,7 +36,11 @@ public class ProductDTO implements Serializable {
     private Long supplierId;
 
     private String supplierName;
-    
+
+    private Long unitId;
+
+    private String unitName;
+
     private String supplierCode;
 
     private String supplierNoTelp;
@@ -69,14 +69,6 @@ public class ProductDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public UnitMeasure getUnit() {
-        return unit;
-    }
-
-    public void setUnit(UnitMeasure unit) {
-        this.unit = unit;
     }
 
     public BigDecimal getWarehousePrice() {
@@ -125,6 +117,22 @@ public class ProductDTO implements Serializable {
 
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
+    }
+
+    public Long getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Long unitId) {
+        this.unitId = unitId;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
     }
 
     public String getSupplierCode() {
@@ -178,13 +186,14 @@ public class ProductDTO implements Serializable {
             "id=" + getId() +
             ", barcode='" + getBarcode() + "'" +
             ", name='" + getName() + "'" +
-            ", unit='" + getUnit() + "'" +
             ", warehousePrice=" + getWarehousePrice() +
             ", unitPrice=" + getUnitPrice() +
             ", sellingPrice=" + getSellingPrice() +
             ", stock=" + getStock() +
             ", supplier=" + getSupplierId() +
             ", supplier='" + getSupplierName() + "'" +
+            ", unit=" + getUnitId() +
+            ", unit='" + getUnitName() + "'" +
             ", supplier='" + getSupplierCode() + "'" +
             ", supplier='" + getSupplierAddress() + "'" +
             ", supplier='" + getSupplierNoTelp() + "'" +

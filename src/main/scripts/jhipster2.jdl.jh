@@ -11,7 +11,6 @@ entity Customer {
 entity Product {
   barcode String required,
   name String required,
-  unit UnitMeasure required,
   warehousePrice BigDecimal required min(0),
   unitPrice BigDecimal required min(0),
   sellingPrice BigDecimal required min(0),
@@ -79,16 +78,13 @@ entity DuePayment {
   paid BigDecimal required min(0),
   totalPayment BigDecimal required min(0)
 }
+entity Unit {
+  name String required
+}
 
 enum Gender {
   MALE,
   FEMALE
-}
-
-enum UnitMeasure {
-  KG,
-  SAK,
-  M
 }
 
 enum StatusTransaction {
@@ -106,6 +102,7 @@ relationship OneToMany {
   SaleTransactions{duePayment} to DuePayment{sale(noInvoice)}
 }
 relationship ManyToOne {
+  Product{unit(name) required} to Unit,
   Project{customer(firstName) required} to Customer,
   Project{creator(login)} to User,
   Project{changer(login)} to User,
@@ -118,9 +115,9 @@ relationship ManyToOne {
   DuePayment{creator(login) required} to User
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment with mapstruct
-paginate Customer, Product, Project, Supplier with pagination
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit with mapstruct
+paginate Customer, Product, Project, Supplier, Unit with pagination
 paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment with elasticsearch
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit with elasticsearch
 filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment

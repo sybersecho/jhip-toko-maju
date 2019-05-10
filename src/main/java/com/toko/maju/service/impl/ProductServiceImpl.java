@@ -91,7 +91,8 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Product : {}", id);        productRepository.deleteById(id);
+        log.debug("Request to delete Product : {}", id);
+        productRepository.deleteById(id);
         productSearchRepository.deleteById(id);
     }
 

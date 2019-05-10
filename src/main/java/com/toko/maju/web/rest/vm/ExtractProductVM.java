@@ -1,5 +1,6 @@
 package com.toko.maju.web.rest.vm;
 
+import com.toko.maju.domain.Unit;
 import com.toko.maju.domain.enumeration.UnitMeasure;
 
 import java.math.BigDecimal;
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
 public class ExtractProductVM {
     private String barcode;
     private String productName;
-    private UnitMeasure unit;
+    private Unit unit;
     private BigDecimal unitPrice;
     private BigDecimal salePrice;
     private String supplierCode;
@@ -32,14 +33,6 @@ public class ExtractProductVM {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public UnitMeasure getUnit() {
-        return unit;
-    }
-
-    public void setUnit(UnitMeasure unit) {
-        this.unit = unit;
     }
 
     public BigDecimal getUnitPrice() {
@@ -88,6 +81,14 @@ public class ExtractProductVM {
 
     public void setSupplierNoTelp(String supplierNoTelp) {
         this.supplierNoTelp = supplierNoTelp;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     @Override

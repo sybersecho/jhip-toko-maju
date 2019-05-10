@@ -1,5 +1,27 @@
 {
-    "name": "Product",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "supplier",
+            "otherEntityName": "supplier",
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "product",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "unit",
+            "otherEntityName": "unit",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "product",
+            "otherEntityRelationshipNameUndefined": true
+        }
+    ],
     "fields": [
         {
             "fieldName": "barcode",
@@ -11,14 +33,6 @@
         {
             "fieldName": "name",
             "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "unit",
-            "fieldType": "UnitMeasure",
-            "fieldValues": "KG,SAK,M",
             "fieldValidateRules": [
                 "required"
             ]
@@ -58,23 +72,12 @@
             ]
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "relationshipName": "supplier",
-            "otherEntityName": "supplier",
-            "otherEntityField": "name",
-            "otherEntityRelationshipName": "product"
-        }
-    ],
     "changelogDate": "20190301191147",
-    "entityTableName": "product",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
+    "entityTableName": "product",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "pagination": "pagination"
 }
