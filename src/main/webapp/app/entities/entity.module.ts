@@ -51,8 +51,8 @@ import { JhiptokomajuDuePaymentModule } from './due-payment/due-payment.module';
                 loadChildren: './unit/unit.module#JhiptokomajuUnitModule'
             },
             {
-                path: 'unit',
-                loadChildren: './unit/unit.module#JhiptokomajuUnitModule'
+                path: 'cancel-transaction',
+                loadChildren: './cancel-transaction/cancel-transaction.module#JhiptokomajuCancelTransactionModule'
             }
             //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

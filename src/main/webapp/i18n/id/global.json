@@ -17,6 +17,7 @@
                 "invoice": "Invoice",
                 "duePayment": "Due Payment",
                 "unit": "Unit",
+                "cancelTransaction": "Cancel Transaction",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

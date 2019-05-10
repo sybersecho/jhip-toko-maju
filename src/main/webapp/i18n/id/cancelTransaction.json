@@ -1,0 +1,25 @@
+{
+    "jhiptokomajuApp": {
+        "cancelTransaction": {
+            "home": {
+                "title": "Cancel Transactions",
+                "createLabel": "Buat Cancel Transaction baru",
+                "createOrEditLabel": "Buat atau edit Cancel Transaction",
+                "search": "Cari Cancel Transaction"
+            },
+            "created": "Cancel Transaction dengan id {{ param }} telah dibuat",
+            "updated": "Cancel Transaction dengan id {{ param }} telah diperbaharui",
+            "deleted": "Cancel Transaction dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Cancel Transaction {{ id }}?"
+            },
+            "detail": {
+                "title": "Cancel Transaction"
+            },
+            "noInvoice": "No Invoice",
+            "cancelDate": "Cancel Date",
+            "note": "Note",
+            "saleTransactions": "Sale Transactions"
+        }
+    }
+}
