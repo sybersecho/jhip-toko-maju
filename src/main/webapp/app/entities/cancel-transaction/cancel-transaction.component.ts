@@ -1,17 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { ICancelTransaction, CancelTransaction } from 'app/shared/model/cancel-transaction.model';
+import { ICancelTransaction } from 'app/shared/model/cancel-transaction.model';
 import { AccountService } from 'app/core';
 
+import { ITEMS_PER_PAGE } from 'app/shared';
 import { CancelTransactionService } from './cancel-transaction.service';
-import { ISaleItem } from 'app/shared/model/sale-item.model';
-import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
-import { SaleTransactionsService } from '../sale-transactions';
-import { Observable } from 'rxjs';
-import moment = require('moment');
 
 @Component({
     selector: 'jhi-cancel-transaction',
@@ -20,96 +18,136 @@ import moment = require('moment');
 export class CancelTransactionComponent implements OnInit, OnDestroy {
     cancelTransactions: ICancelTransaction[];
     currentAccount: any;
+    eventSubscriber: Subscription;
+    itemsPerPage: number;
+    links: any;
+    page: any;
+    predicate: any;
+    reverse: any;
+    totalItems: number;
     currentSearch: string;
-    items: ISaleItem[];
-    sale: ISaleTransactions;
-
-    note: string;
 
     constructor(
         protected cancelTransactionService: CancelTransactionService,
-        protected saleService: SaleTransactionsService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
-        // this.currentSearch =
-        //     this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-        //         ? this.activatedRoute.snapshot.params['search']
-        //         : '';
+        this.cancelTransactions = [];
+        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.page = 0;
+        this.links = {
+            last: 0
+        };
+        this.predicate = 'id';
+        this.reverse = true;
+        this.currentSearch =
+            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
+                ? this.activatedRoute.snapshot.params['search']
+                : '';
+    }
 
-        this.items = [];
+    loadAll() {
+        if (this.currentSearch) {
+            this.cancelTransactionService
+                .search({
+                    query: this.currentSearch,
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ICancelTransaction[]>) => this.paginateCancelTransactions(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+            return;
+        }
+        this.cancelTransactionService
+            .query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<ICancelTransaction[]>) => this.paginateCancelTransactions(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    reset() {
+        this.page = 0;
+        this.cancelTransactions = [];
+        this.loadAll();
+    }
+
+    loadPage(page) {
+        this.page = page;
+        this.loadAll();
     }
 
     clear() {
-        this.items = [];
+        this.cancelTransactions = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = 'id';
+        this.reverse = true;
         this.currentSearch = '';
-        this.sale = null;
+        this.loadAll();
     }
 
     search(query) {
         if (!query) {
-            this.items = [];
-            this.sale = null;
-            return;
+            return this.clear();
         }
-        this.saleService.findPaidInvoice(query).subscribe(
-            res => {
-                this.sale = res.body[0];
-                if (!this.sale) {
-                    this.onError('error.search.not.found');
-                    this.items = [];
-                    this.sale = null;
-                    return;
-                }
-
-                this.sale.projectName = this.sale.projectId ? this.sale.projectName : '-';
-                this.paginateItemsTransaction(this.sale.items);
-            },
-            error => {
-                console.error(error.message);
-                this.onError('error.somethingwrong');
-            }
-        );
+        this.cancelTransactions = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = '_score';
+        this.reverse = false;
+        this.currentSearch = query;
+        this.loadAll();
     }
 
-    ngOnInit() {}
-
-    ngOnDestroy() {}
-
-    save() {
-        const cancelSale: ICancelTransaction = new CancelTransaction();
-        cancelSale.noInvoice = this.sale.noInvoice;
-        cancelSale.saleTransactionsId = this.sale.id;
-        cancelSale.saleTransactionsNoInvoice = this.sale.noInvoice;
-        cancelSale.note = this.note ? this.note : '-';
-        cancelSale.cancelDate = moment();
-        this.subscribeToSaveResponse(this.cancelTransactionService.create(cancelSale));
-    }
-
-    protected subscribeToSaveResponse(result: Observable<HttpResponse<ICancelTransaction>>) {
-        result.subscribe(
-            (res: HttpResponse<ICancelTransaction>) => this.onSaveSuccess(res.body),
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
-    }
-
-    saveAndPrint() {}
-
-    protected onSaveSuccess(cancel: ICancelTransaction) {
-        // this.jhiAlertService.success('jhiptokomajuApp.cancelTransaction.created', cancel.noInvoice);
-        this.sale = null;
-        this.note = '';
-        this.items = [];
-    }
-
-    protected paginateItemsTransaction(data: ISaleItem[]) {
-        this.items = [];
-        data.forEach(e => {
-            this.items.push(e);
+    ngOnInit() {
+        this.loadAll();
+        this.accountService.identity().then(account => {
+            this.currentAccount = account;
         });
+        this.registerChangeInCancelTransactions();
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    trackId(index: number, item: ICancelTransaction) {
+        return item.id;
+    }
+
+    registerChangeInCancelTransactions() {
+        this.eventSubscriber = this.eventManager.subscribe('cancelTransactionListModification', response => this.reset());
+    }
+
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+
+    protected paginateCancelTransactions(data: ICancelTransaction[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        for (let i = 0; i < data.length; i++) {
+            this.cancelTransactions.push(data[i]);
+        }
     }
 
     protected onError(errorMessage: string) {

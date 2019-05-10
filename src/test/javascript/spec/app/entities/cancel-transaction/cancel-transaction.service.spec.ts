@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new CancelTransaction(0, 'AAAAAAA', currentDate, 'AAAAAAA');
+            elemDefault = new CancelTransaction(0, 'AAAAAAA', currentDate, 'AAAAAAA', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -72,7 +72,8 @@ describe('Service Tests', () => {
                     {
                         noInvoice: 'BBBBBB',
                         cancelDate: currentDate.format(DATE_TIME_FORMAT),
-                        note: 'BBBBBB'
+                        note: 'BBBBBB',
+                        noCancelInvoice: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -96,7 +97,8 @@ describe('Service Tests', () => {
                     {
                         noInvoice: 'BBBBBB',
                         cancelDate: currentDate.format(DATE_TIME_FORMAT),
-                        note: 'BBBBBB'
+                        note: 'BBBBBB',
+                        noCancelInvoice: 'BBBBBB'
                     },
                     elemDefault
                 );

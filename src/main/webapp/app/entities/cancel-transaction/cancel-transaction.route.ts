@@ -11,6 +11,7 @@ import { CancelTransactionDetailComponent } from './cancel-transaction-detail.co
 import { CancelTransactionUpdateComponent } from './cancel-transaction-update.component';
 import { CancelTransactionDeletePopupComponent } from './cancel-transaction-delete-dialog.component';
 import { ICancelTransaction } from 'app/shared/model/cancel-transaction.model';
+import { CancelTransactionCreateComponent } from './cancel-transaction-create.component';
 
 @Injectable({ providedIn: 'root' })
 export class CancelTransactionResolve implements Resolve<ICancelTransaction> {
@@ -38,24 +39,21 @@ export const cancelTransactionRoute: Routes = [
         },
         canActivate: [UserRouteAccessService]
     },
-    {
-        path: ':id/view',
-        component: CancelTransactionDetailComponent,
-        resolve: {
-            cancelTransaction: CancelTransactionResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'jhiptokomajuApp.cancelTransaction.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    },
+    // {
+    //     path: ':id/view',
+    //     component: CancelTransactionDetailComponent,
+    //     resolve: {
+    //         cancelTransaction: CancelTransactionResolve
+    //     },
+    //     data: {
+    //         authorities: ['ROLE_USER'],
+    //         pageTitle: 'jhiptokomajuApp.cancelTransaction.home.title'
+    //     },
+    //     canActivate: [UserRouteAccessService]
+    // },
     {
         path: 'new',
-        component: CancelTransactionUpdateComponent,
-        resolve: {
-            cancelTransaction: CancelTransactionResolve
-        },
+        component: CancelTransactionCreateComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'jhiptokomajuApp.cancelTransaction.home.title'

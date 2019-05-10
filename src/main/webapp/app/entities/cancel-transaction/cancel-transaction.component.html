@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="jhiptokomajuApp.cancelTransaction.home.title">Cancel Transactions</span>
-        <!-- <button
+        <button
             id="jh-create-entity"
             class="btn btn-primary float-right jh-create-entity create-cancel-transaction"
             [routerLink]="['/cancel-transaction/new']"
@@ -10,7 +10,7 @@
             <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.cancelTransaction.home.createLabel">
                 Create new Cancel Transaction
             </span>
-        </button> -->
+        </button>
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
@@ -23,7 +23,7 @@
                         [(ngModel)]="currentSearch"
                         id="currentSearch"
                         name="currentSearch"
-                        placeholder="{{ 'jhiptokomajuApp.cancelTransaction.home.searchInvoice' | translate }}"
+                        placeholder="{{ 'jhiptokomajuApp.cancelTransaction.home.search' | translate }}"
                     />
                     <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
                         <fa-icon [icon]="'search'"></fa-icon>
@@ -36,46 +36,73 @@
         </div>
     </div>
     <br />
-    <div class="table-responsive">
-        <table class="table table-sm table-striped">
+    <div class="table-responsive" *ngIf="cancelTransactions">
+        <table class="table table-striped">
             <thead>
-                <th><span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span></th>
-                <th><span jhiTranslate="jhiptokomajuApp.invoice.customer">Customer</span></th>
-                <th><span jhiTranslate="jhiptokomajuApp.saleTransactions.project">Project</span></th>
-                <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
-                <th><span jhiTranslate="jhiptokomajuApp.product.name">Name</span></th>
-                <th><span jhiTranslate="jhiptokomajuApp.saleItem.quantity">Quantity</span></th>
-                <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
-                <th><span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span></th>
-                <th><span jhiTranslate="jhiptokomajuApp.saleItem.totalPrice">Total Price</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <th jhiSortBy="noCancelInvoice">
+                        <span jhiTranslate="jhiptokomajuApp.cancelTransaction.noCancelInvoice">No Cancel Invoice</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="cancelDate">
+                        <span jhiTranslate="jhiptokomajuApp.cancelTransaction.cancelDate">Cancel Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="noInvoice">
+                        <span jhiTranslate="jhiptokomajuApp.cancelTransaction.noInvoice">No Invoice</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th></th>
+                </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let item of items">
-                    <td>{{ sale?.saleDate | date: 'medium' }}</td>
-                    <td>{{ sale?.customerFirstName }} {{ sale.customerLastName }}</td>
-                    <td>{{ sale?.projectName }}</td>
-                    <td>{{ item.barcode }}</td>
-                    <td>{{ item.productName }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.unit }}</td>
-                    <td>{{ item.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ item.totalPrice | currency: 'IDR':'Rp. ' }}</td>
+            <tbody
+                infinite-scroll
+                (scrolled)="loadPage(page + 1)"
+                [infiniteScrollDisabled]="page >= links['last']"
+                [infiniteScrollDistance]="0"
+            >
+                <tr *ngFor="let cancelTransaction of cancelTransactions; trackBy: trackId">
+                    <td>{{ cancelTransaction.noCancelInvoice }}</td>
+                    <td>{{ cancelTransaction.cancelDate | date: 'medium' }}</td>
+                    <td>
+                        <div *ngIf="cancelTransaction.saleTransactionsId">
+                            <a [routerLink]="['/invoice', cancelTransaction.saleTransactionsNoInvoice]">{{
+                                cancelTransaction.saleTransactionsNoInvoice
+                            }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <!-- <button
+                                type="submit"
+                                [routerLink]="['/cancel-transaction', cancelTransaction.id, 'view']"
+                                class="btn btn-info btn-sm"
+                            >
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button> -->
+                            <button
+                                type="submit"
+                                [routerLink]="['/cancel-transaction', cancelTransaction.id, 'edit']"
+                                class="btn btn-primary btn-sm"
+                            >
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <!-- <button
+                                type="submit"
+                                [routerLink]="['/', 'cancel-transaction', { outlets: { popup: cancelTransaction.id + '/delete' } }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm"
+                            >
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button> -->
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="form-group row">
-        <div class="col-md-8">
-            <label class="form-control-label" jhiTranslate="jhiptokomajuApp.cancelTransaction.note" for="field_note">Note</label>
-            <textarea class="form-control" name="note" id="field_note" required> </textarea>
-        </div>
-    </div>
-    <div class="clearfix">
-        <button type="button" id="proccess" class="btn btn-sm btn-success float-left" [disabled]="!sale" (click)="save()">
-            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.process">Process</span>
-        </button>
-        <button type="button" id="proccessAndPrint" class="btn btn-success float-right" [disabled]="!sale" (click)="saveAndPrint()">
-            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
-        </button>
     </div>
 </div>

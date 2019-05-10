@@ -15,12 +15,13 @@
                 "question": "Apakah anda yakin ingin menghapus Cancel Transaction {{ id }}?"
             },
             "detail": {
-                "title": "Cancel Transaction"
+                "title": "Pembatalan Transaksi"
             },
-            "noInvoice": "No Invoice",
-            "cancelDate": "Cancel Date",
-            "note": "Note",
-            "saleTransactions": "Sale Transactions"
+            "noInvoice": "No Faktur",
+            "cancelDate": "Tanggal",
+            "note": "Catatan",
+            "noCancelInvoice": "No Pembatalan Fraktur",
+            "saleTransactions": "Penjulan"
         }
     }
 }

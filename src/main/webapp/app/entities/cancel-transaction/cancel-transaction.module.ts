@@ -11,7 +11,8 @@ import {
     CancelTransactionDeletePopupComponent,
     CancelTransactionDeleteDialogComponent,
     cancelTransactionRoute,
-    cancelTransactionPopupRoute
+    cancelTransactionPopupRoute,
+    CancelTransactionCreateComponent
 } from './';
 
 const ENTITY_STATES = [...cancelTransactionRoute, ...cancelTransactionPopupRoute];
@@ -23,13 +24,15 @@ const ENTITY_STATES = [...cancelTransactionRoute, ...cancelTransactionPopupRoute
         CancelTransactionDetailComponent,
         CancelTransactionUpdateComponent,
         CancelTransactionDeleteDialogComponent,
-        CancelTransactionDeletePopupComponent
+        CancelTransactionDeletePopupComponent,
+        CancelTransactionCreateComponent
     ],
     entryComponents: [
         CancelTransactionComponent,
         CancelTransactionUpdateComponent,
         CancelTransactionDeleteDialogComponent,
-        CancelTransactionDeletePopupComponent
+        CancelTransactionDeletePopupComponent,
+        CancelTransactionCreateComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

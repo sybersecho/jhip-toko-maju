@@ -1,0 +1,71 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.cancelTransaction.home.title">Cancel Transactions</span>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="currentSearch"
+                        id="currentSearch"
+                        name="currentSearch"
+                        placeholder="{{ 'jhiptokomajuApp.cancelTransaction.home.searchInvoice' | translate }}"
+                    />
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <th><span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span></th>
+                <th><span jhiTranslate="jhiptokomajuApp.invoice.customer">Customer</span></th>
+                <th><span jhiTranslate="jhiptokomajuApp.saleTransactions.project">Project</span></th>
+                <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+                <th><span jhiTranslate="jhiptokomajuApp.product.name">Name</span></th>
+                <th><span jhiTranslate="jhiptokomajuApp.saleItem.quantity">Quantity</span></th>
+                <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
+                <th><span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span></th>
+                <th><span jhiTranslate="jhiptokomajuApp.saleItem.totalPrice">Total Price</span></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <td>{{ sale?.saleDate | date: 'medium' }}</td>
+                    <td>{{ sale?.customerFirstName }} {{ sale.customerLastName }}</td>
+                    <td>{{ sale?.projectName }}</td>
+                    <td>{{ item.barcode }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.unit }}</td>
+                    <td>{{ item.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ item.totalPrice | currency: 'IDR':'Rp. ' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-8">
+            <label class="form-control-label" jhiTranslate="jhiptokomajuApp.cancelTransaction.note" for="field_note">Note</label>
+            <textarea class="form-control" name="note" id="field_note" required> </textarea>
+        </div>
+    </div>
+    <div class="clearfix">
+        <button type="button" id="proccess" class="btn btn-sm btn-success float-left" [disabled]="!sale" (click)="save()">
+            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.process">Process</span>
+        </button>
+        <button type="button" id="proccessAndPrint" class="btn btn-success float-right" [disabled]="!sale" (click)="saveAndPrint()">
+            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
+        </button>
+    </div>
+</div>

@@ -1,15 +1,14 @@
 package com.toko.maju.service.impl;
 
-import com.toko.maju.domain.Product;
-import com.toko.maju.domain.SaleItem;
-import com.toko.maju.domain.SaleTransactions;
+import com.toko.maju.domain.*;
 import com.toko.maju.domain.enumeration.StatusTransaction;
 import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.SaleTransactionsRepository;
+import com.toko.maju.repository.SequenceNumberRepository;
 import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
+import com.toko.maju.repository.search.SequenceNumberSearchRepository;
 import com.toko.maju.service.CancelTransactionService;
-import com.toko.maju.domain.CancelTransaction;
 import com.toko.maju.repository.CancelTransactionRepository;
 import com.toko.maju.repository.search.CancelTransactionSearchRepository;
 import com.toko.maju.service.ProductQueryService;
@@ -57,6 +56,12 @@ public class CancelTransactionServiceImpl implements CancelTransactionService {
     @Autowired
     private  final ProductSearchRepository productSearchRepository = null;
 
+    @Autowired
+    private final SequenceNumberRepository sequenceNumberRepository = null;
+
+    @Autowired
+    private final SequenceNumberSearchRepository sequenceNumberSearchRepository = null;
+
     private final CancelTransactionSearchRepository cancelTransactionSearchRepository;
 
     public CancelTransactionServiceImpl(CancelTransactionRepository cancelTransactionRepository, CancelTransactionMapper cancelTransactionMapper, CancelTransactionSearchRepository cancelTransactionSearchRepository) {
@@ -87,6 +92,16 @@ public class CancelTransactionServiceImpl implements CancelTransactionService {
         log.debug("update product quantity");
         updateQty(allById, sale.getItems());
 
+//        set cancel invoice number
+        SequenceNumber currentInvoiceNo = sequenceNumberRepository.findByType("cancelInvoice");
+        int currentValue = currentInvoiceNo.getNextValue();
+        String noCanclelInvoice = generateInvoiceNo(currentInvoiceNo);
+        currentInvoiceNo.setNextValue(++currentValue);
+        sequenceNumberRepository.save(currentInvoiceNo);
+        sequenceNumberSearchRepository.save(currentInvoiceNo);
+
+        cancelTransaction.setNoCancelInvoice(noCanclelInvoice);
+
         log.debug("save all");
         cancelTransaction = cancelTransactionRepository.save(cancelTransaction);
         allById = productRepository.saveAll(allById);
@@ -100,6 +115,14 @@ public class CancelTransactionServiceImpl implements CancelTransactionService {
         CancelTransactionDTO result = cancelTransactionMapper.toDto(cancelTransaction);
 
         return result;
+    }
+
+    private String generateInvoiceNo(SequenceNumber currentInvoice) {
+        StringBuilder build = new StringBuilder();
+        build.append(currentInvoice.getCodeType());
+        build.append(String.format("%06d", currentInvoice.getNextValue()));
+        log.debug("new Invoice No: " + build.toString());
+        return build.toString();
     }
 
     private void updateQty(List<Product> products, Set<SaleItem> items) {

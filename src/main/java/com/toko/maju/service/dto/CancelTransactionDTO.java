@@ -20,7 +20,6 @@ public class CancelTransactionDTO implements Serializable {
     @NotNull
     private String note;
 
-    @NotNull
     private String noCancelInvoice;
 
 

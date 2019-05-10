@@ -5,6 +5,7 @@ export interface ICancelTransaction {
     noInvoice?: string;
     cancelDate?: Moment;
     note?: string;
+    noCancelInvoice?: string;
     saleTransactionsNoInvoice?: string;
     saleTransactionsId?: number;
 }
@@ -15,6 +16,7 @@ export class CancelTransaction implements ICancelTransaction {
         public noInvoice?: string,
         public cancelDate?: Moment,
         public note?: string,
+        public noCancelInvoice?: string,
         public saleTransactionsNoInvoice?: string,
         public saleTransactionsId?: number
     ) {}

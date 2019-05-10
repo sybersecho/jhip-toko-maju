@@ -20,6 +20,7 @@
             "noInvoice": "No Invoice",
             "cancelDate": "Cancel Date",
             "note": "Note",
+            "noCancelInvoice": "No Cancel Invoice",
             "saleTransactions": "Sale Transactions"
         }
     }

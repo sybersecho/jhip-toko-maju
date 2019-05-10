@@ -17,6 +17,10 @@
                 <dd>
                     <span>{{cancelTransaction.note}}</span>
                 </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.cancelTransaction.noCancelInvoice">No Cancel Invoice</span></dt>
+                <dd>
+                    <span>{{cancelTransaction.noCancelInvoice}}</span>
+                </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.cancelTransaction.saleTransactions">Sale Transactions</span></dt>
                 <dd>
                     <div *ngIf="cancelTransaction.saleTransactionsId">

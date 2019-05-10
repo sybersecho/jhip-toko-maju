@@ -1,38 +1,59 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-cancel-transaction-heading" jhiTranslate="jhiptokomajuApp.cancelTransaction.home.createOrEditLabel">
-                Create or edit a Cancel Transaction
+            <h2>
+                <span jhiTranslate="jhiptokomajuApp.cancelTransaction.home.title">Cancel Transaction</span>
+                <strong>{{ cancelTransaction.noCancelInvoice }}</strong>
             </h2>
+            <hr />
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!cancelTransaction.id">
+                <div class="form-group" [hidden]="true">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" [(ngModel)]="cancelTransaction.id" readonly />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.cancelTransaction.noInvoice" for="field_noInvoice"
+                <div class="form-group row">
+                    <label class="form-control-label col-md-2 col-sm-12" jhiTranslate="jhiptokomajuApp.cancelTransaction.noInvoice" for="field_noInvoice"
                         >No Invoice</label
                     >
                     <input
                         type="text"
-                        class="form-control"
+                        class="form-control col-md-10 col-sm-12"
                         name="noInvoice"
                         id="field_noInvoice"
                         [(ngModel)]="cancelTransaction.noInvoice"
-                        required
+                        readonly
                     />
-                    <div [hidden]="!(editForm.controls.noInvoice?.dirty && editForm.controls.noInvoice?.invalid)">
-                        <small
-                            class="form-text text-danger"
-                            [hidden]="!editForm.controls.noInvoice?.errors?.required"
-                            jhiTranslate="entity.validation.required"
-                        >
-                            This field is required.
-                        </small>
-                    </div>
                 </div>
-                <div class="form-group">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <th><span jhiTranslate="jhiptokomajuApp.invoice.saleDate">Sale Date</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.invoice.customer">Customer</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.saleTransactions.project">Project</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.product.name">Name</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.saleItem.quantity">Quantity</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span></th>
+                            <th><span jhiTranslate="jhiptokomajuApp.saleItem.totalPrice">Total Price</span></th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of items">
+                                <td>{{ sale?.saleDate | date: 'medium' }}</td>
+                                <td>{{ sale?.customerFirstName }} {{ sale.customerLastName }}</td>
+                                <td>{{ sale?.projectName }}</td>
+                                <td>{{ item.barcode }}</td>
+                                <td>{{ item.productName }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.unit }}</td>
+                                <td>{{ item.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
+                                <td>{{ item.totalPrice | currency: 'IDR':'Rp. ' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhiptokomajuApp.cancelTransaction.cancelDate" for="field_cancelDate"
                         >Cancel Date</label
                     >
@@ -63,10 +84,11 @@
                             This field should be a date and time.
                         </small>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhiptokomajuApp.cancelTransaction.note" for="field_note">Note</label>
-                    <input type="text" class="form-control" name="note" id="field_note" [(ngModel)]="cancelTransaction.note" required />
+                    <textarea class="form-control" name="note" id="field_note" [(ngModel)]="cancelTransaction.note" required> </textarea>
+                    <!-- <input type="text" class="form-control" name="note" id="field_note" [(ngModel)]="cancelTransaction.note" required /> -->
                     <div [hidden]="!(editForm.controls.note?.dirty && editForm.controls.note?.invalid)">
                         <small
                             class="form-text text-danger"
@@ -77,8 +99,33 @@
                         </small>
                     </div>
                 </div>
+                <!-- <div class="form-group">
+                    <label
+                        class="form-control-label"
+                        jhiTranslate="jhiptokomajuApp.cancelTransaction.noCancelInvoice"
+                        for="field_noCancelInvoice"
+                        >No Cancel Invoice</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="noCancelInvoice"
+                        id="field_noCancelInvoice"
+                        [(ngModel)]="cancelTransaction.noCancelInvoice"
+                        required
+                    />
+                    <div [hidden]="!(editForm.controls.noCancelInvoice?.dirty && editForm.controls.noCancelInvoice?.invalid)">
+                        <small
+                            class="form-text text-danger"
+                            [hidden]="!editForm.controls.noCancelInvoice?.errors?.required"
+                            jhiTranslate="entity.validation.required"
+                        >
+                            This field is required.
+                        </small>
+                    </div>
+                </div> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label
                         class="form-control-label"
                         jhiTranslate="jhiptokomajuApp.cancelTransaction.saleTransactions"
@@ -98,7 +145,7 @@
                             >{{ saleTransactionsOption.noInvoice }}</option
                         >
                     </select>
-                </div>
+                </div> -->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
