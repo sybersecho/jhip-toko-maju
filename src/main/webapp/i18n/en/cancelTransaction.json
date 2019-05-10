@@ -5,7 +5,8 @@
                 "title": "Cancel Transactions",
                 "createLabel": "Create a new Cancel Transaction",
                 "createOrEditLabel": "Create or edit a Cancel Transaction",
-                "search": "Search for Cancel Transaction"
+                "search": "Search for Cancel Transaction",
+                "searchInvoice": "Search for Invoice Transaction"
             },
             "created": "A new Cancel Transaction is created with identifier {{ param }}",
             "updated": "A Cancel Transaction is updated with identifier {{ param }}",

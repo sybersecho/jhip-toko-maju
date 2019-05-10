@@ -2,10 +2,11 @@
     "jhiptokomajuApp": {
         "cancelTransaction": {
             "home": {
-                "title": "Cancel Transactions",
+                "title": "Pembatalan Penjualan",
                 "createLabel": "Buat Cancel Transaction baru",
                 "createOrEditLabel": "Buat atau edit Cancel Transaction",
-                "search": "Cari Cancel Transaction"
+                "search": "Cari Cancel Transaction",
+                "searchInvoice": "Cari No Fraktur"
             },
             "created": "Cancel Transaction dengan id {{ param }} telah dibuat",
             "updated": "Cancel Transaction dengan id {{ param }} telah diperbaharui",
