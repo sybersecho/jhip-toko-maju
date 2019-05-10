@@ -15,19 +15,21 @@
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></dt>
                 <dd>
-                    <span jhiTranslate="{{ 'jhiptokomajuApp.UnitMeasure.' + product.unit }}">{{ product.unit }}</span>
+                    <div *ngIf="product.unitId">
+                        {{ product.unitName }}
+                    </div>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.product.warehousePrice">Warehouse Price</span></dt>
                 <dd>
-                    <span>{{ product.warehousePrice | currency: 'IDR':'Rp. ':'4.2-2' }}</span>
+                    <span>{{ product.warehousePrice | currency: 'IDR':'Rp. ' }}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.product.unitPrice">Unit Price</span></dt>
                 <dd>
-                    <span>{{ product.unitPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</span>
+                    <span>{{ product.unitPrice | currency: 'IDR':'Rp. ' }}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span></dt>
                 <dd>
-                    <span>{{ product.sellingPrice | currency: 'IDR':'Rp. ':'4.2-2' }}</span>
+                    <span>{{ product.sellingPrice | currency: 'IDR':'Rp. ' }}</span>
                 </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span></dt>
                 <dd>

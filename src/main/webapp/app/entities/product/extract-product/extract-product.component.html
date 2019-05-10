@@ -11,70 +11,75 @@
     <div class="mb-3"></div>
     <jhi-alert></jhi-alert>
     <div class="row">
-        <div class="table-responsive">
-            <table class="table table-sm table-striped">
-                <thead>
-                    <tr>
-                        <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
 
-                        <th>
-                            <span jhiTranslate="jhiptokomajuApp.product.name">Name</span>
-                        </th>
-                        <th>
-                            <span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span>
-                        </th>
-                        <th>
-                            <span jhiTranslate="jhiptokomajuApp.product.unitPrice">Unit Price</span>
-                        </th>
-                        <th>
-                            <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
-                        </th>
-                        <th>
-                            <span jhiTranslate="jhiptokomajuApp.product.extract.supCode">Supplier Name</span>
-                        </th>
-                        <th>
-                            <span jhiTranslate="jhiptokomajuApp.product.extract.supName">Supplier Name</span>
-                        </th>
-                        <th>
-                            <span jhiTranslate="jhiptokomajuApp.product.extract.supAddress">Supplier Address</span>
-                        </th>
-                        <th>
-                            <span jhiTranslate="jhiptokomajuApp.product.extract.supNoTelp">No Telp</span>
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let product of products; let i = index">
-                        <td>{{ product.barcode }}</td>
-                        <td>{{ product.productName }}</td>
-                        <td>{{ product.unit }}</td>
-                        <td>{{ product.unitPrice | currency: 'IDR':'Rp. ' }}</td>
-                        <td>{{ product.salePrice | currency: 'IDR':'Rp. ' }}</td>
-                        <td>{{ product.supplierCode }}</td>
-                        <td>{{ product.supplierName }}</td>
-                        <td>{{ product.supplierAddress }}</td>
-                        <td>{{ product.supplierNoTelp }}</td>
-                        <td>
-                            <button id="jh-remove-product" class="btn btn-danger float-right " (click)=remove(i)>
-                                <fa-icon [icon]="'ban'"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr *ngIf="products.length > 0">
-                        <td colspan="10">
-                            <button id="jh-extract-product" class="btn btn-info float-right jh-extract-product extract-product" (click)="onExtract()">
-                                <fa-icon [icon]="'search'"></fa-icon>
-                                <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.product.extract.actions.extract">
-                                    Search Product
-                                </span>
-                            </button>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.name">Name</span>
+                            </th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span>
+                            </th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.unitPrice">Unit Price</span>
+                            </th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
+                            </th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.extract.supCode">Supplier Name</span>
+                            </th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.extract.supName">Supplier Name</span>
+                            </th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.extract.supAddress">Supplier Address</span>
+                            </th>
+                            <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.extract.supNoTelp">No Telp</span>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of products; let i = index">
+                            <td>{{ product.barcode }}</td>
+                            <td>{{ product.productName }}</td>
+                            <td>{{ product.unit }}</td>
+                            <td>{{ product.unitPrice | currency: 'IDR':'Rp. ' }}</td>
+                            <td>{{ product.salePrice | currency: 'IDR':'Rp. ' }}</td>
+                            <td>{{ product.supplierCode }}</td>
+                            <td>{{ product.supplierName }}</td>
+                            <td>{{ product.supplierAddress }}</td>
+                            <td>{{ product.supplierNoTelp }}</td>
+                            <td>
+                                <button id="jh-remove-product" class="btn btn-danger float-right " (click)="remove(i)">
+                                    <fa-icon [icon]="'ban'"></fa-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr *ngIf="products.length > 0">
+                            <td colspan="10">
+                                <button
+                                    id="jh-extract-product"
+                                    class="btn btn-info float-right jh-extract-product extract-product"
+                                    (click)="onExtract()"
+                                >
+                                    <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.product.extract.actions.extract">
+                                        Search Product
+                                    </span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 </div>

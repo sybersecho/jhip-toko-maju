@@ -8,6 +8,8 @@ import { IProduct } from 'app/shared/model/product.model';
 import { ProductService } from './product.service';
 import { ISupplier } from 'app/shared/model/supplier.model';
 import { SupplierService } from 'app/entities/supplier';
+import { IUnit } from 'app/shared/model/unit.model';
+import { UnitService } from 'app/entities/unit';
 
 @Component({
     selector: 'jhi-product-update',
@@ -19,10 +21,13 @@ export class ProductUpdateComponent implements OnInit {
 
     suppliers: ISupplier[];
 
+    units: IUnit[];
+
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected productService: ProductService,
         protected supplierService: SupplierService,
+        protected unitService: UnitService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -38,6 +43,13 @@ export class ProductUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplier[]>) => response.body)
             )
             .subscribe((res: ISupplier[]) => (this.suppliers = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.unitService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IUnit[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IUnit[]>) => response.body)
+            )
+            .subscribe((res: IUnit[]) => (this.units = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -71,6 +83,10 @@ export class ProductUpdateComponent implements OnInit {
     }
 
     trackSupplierById(index: number, item: ISupplier) {
+        return item.id;
+    }
+
+    trackUnitById(index: number, item: IUnit) {
         return item.id;
     }
 }

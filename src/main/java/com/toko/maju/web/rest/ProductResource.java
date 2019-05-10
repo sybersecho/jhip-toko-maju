@@ -202,7 +202,7 @@ public class ProductResource {
         vm.setBarcode(dto.getBarcode());
         vm.setProductName(dto.getName());
         vm.setSalePrice(dto.getSellingPrice());
-//        vm.setUnit(dto.getUnitId());
+        vm.setUnit(dto.getUnitName());
         vm.setUnitPrice(dto.getUnitPrice());
         vm.setSupplierAddress(dto.getSupplierAddress());
         vm.setSupplierCode(dto.getSupplierCode());

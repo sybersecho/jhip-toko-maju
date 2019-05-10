@@ -1,4 +1,5 @@
-import { UnitMeasure, IProduct, Product } from './product.model';
+import { IProduct, Product } from './product.model';
+import { IUnit } from './unit.model';
 
 export interface ISaleItem {
     id?: number;
@@ -6,7 +7,7 @@ export interface ISaleItem {
     totalPrice?: number;
     sellingPrice?: number;
     productName?: string;
-    unit?: UnitMeasure;
+    unit?: String;
     productId?: number;
     saleNoInvoice?: string;
     saleId?: number;
@@ -28,7 +29,7 @@ export class SaleItem implements ISaleItem {
         public productId?: number,
         public saleNoInvoice?: string,
         public saleId?: number,
-        public unit?: UnitMeasure,
+        public unit?: String,
         public sellingPrice?: number,
         public barcode?: string,
         public product?: IProduct
@@ -57,7 +58,7 @@ export class SaleItem implements ISaleItem {
         this.productName = product.name;
         this.productId = product.id;
         this.sellingPrice = product.sellingPrice;
-        this.unit = product.unit;
+        this.unit = product.unitName;
         this.barcode = product.barcode;
     }
 

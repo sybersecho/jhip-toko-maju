@@ -43,7 +43,7 @@
                     <th jhiSortBy="name">
                         <span jhiTranslate="jhiptokomajuApp.product.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="unit">
+                    <th jhiSortBy="unitName">
                         <span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span> <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="warehousePrice">
@@ -68,14 +68,18 @@
             <tbody>
                 <tr *ngFor="let product of products; trackBy: trackId">
                     <td>
-                        <a [routerLink]="['/product', product.id, 'view']">{{ product.barcode }}</a>
+                        {{ product.barcode }}
                     </td>
-                    <!-- <td>{{product.barcode}}</td> -->
+                    <!-- <td>{{ product.barcode }}</td> -->
                     <td>{{ product.name }}</td>
-                    <td jhiTranslate="{{ 'jhiptokomajuApp.UnitMeasure.' + product.unit }}">{{ product.unit }}</td>
-                    <td>{{ product.warehousePrice | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ product.unitPrice | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ product.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
+                    <td>
+                        <div *ngIf="product.unitId">
+                            {{ product.unitName }}
+                        </div>
+                    </td>
+                    <td>{{ product.warehousePrice }}</td>
+                    <td>{{ product.unitPrice }}</td>
+                    <td>{{ product.sellingPrice }}</td>
                     <td>{{ product.stock }}</td>
                     <td>
                         <div *ngIf="product.supplierId">

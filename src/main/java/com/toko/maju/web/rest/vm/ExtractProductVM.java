@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public class ExtractProductVM {
     private String barcode;
     private String productName;
-    private Unit unit;
+    private String unit;
     private BigDecimal unitPrice;
     private BigDecimal salePrice;
     private String supplierCode;
@@ -83,11 +83,11 @@ public class ExtractProductVM {
         this.supplierNoTelp = supplierNoTelp;
     }
 
-    public Unit getUnit() {
+    public String getUnit() {
         return unit;
     }
 
-    public void setUnit(Unit unit) {
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 
