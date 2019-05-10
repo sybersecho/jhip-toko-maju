@@ -81,6 +81,16 @@ public class UserService {
             });
     }
 
+    public Optional<User> changeUserPassword(String login, String password) {
+        log.debug("change password for {}", login);
+        return userRepository.findOneByLogin(login)
+            .map(user -> {
+               user.setPassword(passwordEncoder.encode(password));
+               this.clearUserCaches(user);
+               return user;
+            });
+    }
+
     public Optional<User> requestPasswordReset(String mail) {
         return userRepository.findOneByEmailIgnoreCase(mail)
             .filter(User::getActivated)
@@ -302,4 +312,6 @@ public class UserService {
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
     }
+
+
 }

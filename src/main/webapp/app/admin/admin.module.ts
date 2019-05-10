@@ -17,7 +17,8 @@ import {
     JhiHealthModalComponent,
     JhiHealthCheckComponent,
     JhiConfigurationComponent,
-    JhiDocsComponent
+    JhiDocsComponent,
+    PasswordChangeComponent
 } from './';
 
 @NgModule({
@@ -37,10 +38,11 @@ import {
         JhiHealthCheckComponent,
         JhiHealthModalComponent,
         JhiDocsComponent,
-        JhiMetricsMonitoringComponent
+        JhiMetricsMonitoringComponent,
+        PasswordChangeComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
-    entryComponents: [UserMgmtDeleteDialogComponent, JhiHealthModalComponent],
+    entryComponents: [UserMgmtDeleteDialogComponent, JhiHealthModalComponent, PasswordChangeComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhiptokomajuAdminModule {

@@ -12,6 +12,7 @@ import com.toko.maju.web.rest.errors.*;
 import com.toko.maju.web.rest.vm.KeyAndPasswordVM;
 import com.toko.maju.web.rest.vm.ManagedUserVM;
 
+import com.toko.maju.web.rest.vm.LoginAndPasswordVM;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -165,6 +166,20 @@ public class AccountResource {
         }
         Optional<User> user =
             userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
+
+        if (!user.isPresent()) {
+            throw new InternalServerErrorException("No user was found for this reset key");
+        }
+    }
+
+    @PostMapping(path = "/account/change-user-password")
+    public void changePassword(@RequestBody LoginAndPasswordVM loginAndPassword){
+        if (!checkPasswordLength(loginAndPassword.getPassword())) {
+            throw new InvalidPasswordException();
+        }
+
+        Optional<User> user =
+            userService.changeUserPassword(loginAndPassword.getLogin(), loginAndPassword.getPassword());
 
         if (!user.isPresent()) {
             throw new InternalServerErrorException("No user was found for this reset key");

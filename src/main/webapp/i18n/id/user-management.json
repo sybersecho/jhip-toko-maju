@@ -14,6 +14,9 @@
         "detail": {
             "title": "Pengguna"
         },
+        "action": {
+            "changePassword": "Ubah Password"
+        },
         "login": "Login",
         "firstName": "Nama Depan",
         "lastName": "Nama Belakang",

@@ -48,7 +48,12 @@ import {
     faPrint,
     faFilePdf,
     faFileExcel,
-    faFileCsv
+    faFileCsv,
+    faLock,
+    faLockOpen,
+    faUserLock,
+    faUnlockAlt,
+    faUnlock
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -95,4 +100,9 @@ library.add(faPrint);
 library.add(faFilePdf);
 library.add(faFileExcel);
 library.add(faFileCsv);
+library.add(faLock);
+library.add(faLockOpen);
+library.add(faUserLock);
+library.add(faUnlockAlt);
+library.add(faUnlock);
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
