@@ -20,7 +20,12 @@ entity Product {
 entity Project {
   name String required,
   address String required,
-  code String required unique minlength(4) maxlength(10)
+  code String required unique minlength(4) maxlength(10),
+  city String,
+  province String,
+  postalCode String,
+  createdDate Instant,
+  modifiedDate Instant
 }
 entity Supplier {
   name String required,
@@ -43,16 +48,21 @@ entity SaleTransactions {
   remainingPayment BigDecimal min(0),
   paid BigDecimal required min(0),
   saleDate Instant,
-  settled Boolean required
+  settled Boolean required,
+  statusTransaction StatusTransaction
 }
 entity SaleItem {
   quantity Integer min(0),
-  totalPrice BigDecimal min(0)
+  totalPrice BigDecimal min(0),
+  sellingPrice BigDecimal required min(0),
+  productName String required
 }
 entity SequenceNumber {
   type String required unique,
   nextValue Integer,
-  incrementValue Integer
+  incrementValue Integer,
+  display String required,
+  codeType String required
 }
 entity Invoice {
   noInvoice BigDecimal,
@@ -66,7 +76,8 @@ entity DuePayment {
   remainingPayment BigDecimal,
   createdDate Instant required,
   settled Boolean required,
-  paid BigDecimal required min(0)
+  paid BigDecimal required min(0),
+  totalPayment BigDecimal required min(0)
 }
 
 enum Gender {
@@ -80,6 +91,13 @@ enum UnitMeasure {
   M
 }
 
+enum StatusTransaction {
+  PAID,
+  CANCELED,
+  RETURNED,
+  DUE
+}
+
 relationship OneToMany {
   Supplier{product} to Product{supplier(name)},
   Customer{product} to CustomerProduct{customer(firstName) required},
@@ -89,10 +107,13 @@ relationship OneToMany {
 }
 relationship ManyToOne {
   Project{customer(firstName) required} to Customer,
+  Project{creator(login)} to User,
+  Project{changer(login)} to User,
   CustomerProduct{product(name) required} to Product,
   ProjectProduct{product(name) required} to Product,
   SaleTransactions{customer(firstName) required} to Customer,
   SaleTransactions{creator(login) required} to User,
+  SaleTransactions{project(name)} to Project,
   SaleItem{product(name) required} to Product,
   DuePayment{creator(login) required} to User
 }
