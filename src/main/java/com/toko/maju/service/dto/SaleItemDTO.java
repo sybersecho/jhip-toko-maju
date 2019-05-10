@@ -1,13 +1,8 @@
 package com.toko.maju.service.dto;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
-import com.toko.maju.domain.enumeration.UnitMeasure;
 
 /**
  * A DTO for the SaleItem entity.
@@ -36,10 +31,9 @@ public class SaleItemDTO implements Serializable {
 
     private Long productId;
 
-    private UnitMeasure unit;
-
     private String barcode;
 
+    private String unit;
 
     public Long getId() {
         return id;
@@ -73,14 +67,6 @@ public class SaleItemDTO implements Serializable {
         this.sellingPrice = sellingPrice;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
     public Long getSaleId() {
         return saleId;
     }
@@ -105,11 +91,19 @@ public class SaleItemDTO implements Serializable {
         this.productId = productId;
     }
 
-	public UnitMeasure getUnit() {
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+	public String getUnit() {
 		return unit;
 	}
 
-	public void setUnit(UnitMeasure unit) {
+	public void setUnit(String unit) {
 		this.unit = unit;
 	}
 
