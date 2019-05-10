@@ -8,7 +8,7 @@
                 "search": "Search for Cancel Transaction",
                 "searchInvoice": "Search for Invoice Transaction"
             },
-            "created": "A new Cancel Transaction is created with identifier {{ param }}",
+            "created": "Transaction with  Invoice {{ param }} has been canceled",
             "updated": "A Cancel Transaction is updated with identifier {{ param }}",
             "deleted": "A Cancel Transaction is deleted with identifier {{ param }}",
             "delete": {

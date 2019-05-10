@@ -8,7 +8,7 @@
                 "search": "Cari Cancel Transaction",
                 "searchInvoice": "Cari No Fraktur"
             },
-            "created": "Cancel Transaction dengan id {{ param }} telah dibuat",
+            "created": "Transaksi {{ param }} telah dibatalkan",
             "updated": "Cancel Transaction dengan id {{ param }} telah diperbaharui",
             "deleted": "Cancel Transaction dengan id {{ param }} telah dihapus",
             "delete": {

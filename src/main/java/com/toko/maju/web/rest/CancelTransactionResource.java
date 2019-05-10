@@ -61,7 +61,7 @@ public class CancelTransactionResource {
         }
         CancelTransactionDTO result = cancelTransactionService.save(cancelTransactionDTO);
         return ResponseEntity.created(new URI("/api/cancel-transactions/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getNoInvoice()))
             .body(result);
     }
 

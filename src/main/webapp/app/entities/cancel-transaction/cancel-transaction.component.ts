@@ -1,15 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { ICancelTransaction } from 'app/shared/model/cancel-transaction.model';
+import { ICancelTransaction, CancelTransaction } from 'app/shared/model/cancel-transaction.model';
 import { AccountService } from 'app/core';
 
 import { CancelTransactionService } from './cancel-transaction.service';
 import { ISaleItem } from 'app/shared/model/sale-item.model';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 import { SaleTransactionsService } from '../sale-transactions';
+import { Observable } from 'rxjs';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-cancel-transaction',
@@ -22,7 +24,7 @@ export class CancelTransactionComponent implements OnInit, OnDestroy {
     items: ISaleItem[];
     sale: ISaleTransactions;
 
-    note: String;
+    note: string;
 
     constructor(
         protected cancelTransactionService: CancelTransactionService,
@@ -53,19 +55,21 @@ export class CancelTransactionComponent implements OnInit, OnDestroy {
             this.sale = null;
             return;
         }
-        this.saleService.findByInvoice(query).subscribe(
+        this.saleService.findPaidInvoice(query).subscribe(
             res => {
-                if (!res.body[0]) {
+                this.sale = res.body[0];
+                if (!this.sale) {
                     this.onError('error.search.not.found');
                     this.items = [];
                     this.sale = null;
                     return;
                 }
-                this.sale = res.body[0];
+
                 this.sale.projectName = this.sale.projectId ? this.sale.projectName : '-';
                 this.paginateItemsTransaction(this.sale.items);
             },
             error => {
+                console.error(error.message);
                 this.onError('error.somethingwrong');
             }
         );
@@ -73,8 +77,32 @@ export class CancelTransactionComponent implements OnInit, OnDestroy {
 
     ngOnInit() {}
 
-    ngOnDestroy() {
-        // this.eventManager.destroy(this.eventSubscriber);
+    ngOnDestroy() {}
+
+    save() {
+        const cancelSale: ICancelTransaction = new CancelTransaction();
+        cancelSale.noInvoice = this.sale.noInvoice;
+        cancelSale.saleTransactionsId = this.sale.id;
+        cancelSale.saleTransactionsNoInvoice = this.sale.noInvoice;
+        cancelSale.note = this.note ? this.note : '-';
+        cancelSale.cancelDate = moment();
+        this.subscribeToSaveResponse(this.cancelTransactionService.create(cancelSale));
+    }
+
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<ICancelTransaction>>) {
+        result.subscribe(
+            (res: HttpResponse<ICancelTransaction>) => this.onSaveSuccess(res.body),
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
+
+    saveAndPrint() {}
+
+    protected onSaveSuccess(cancel: ICancelTransaction) {
+        // this.jhiAlertService.success('jhiptokomajuApp.cancelTransaction.created', cancel.noInvoice);
+        this.sale = null;
+        this.note = '';
+        this.items = [];
     }
 
     protected paginateItemsTransaction(data: ISaleItem[]) {

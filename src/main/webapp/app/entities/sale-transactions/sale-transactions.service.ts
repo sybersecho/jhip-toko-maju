@@ -47,6 +47,14 @@ export class SaleTransactionsService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    findPaidInvoice(invoiceNo: string): Observable<EntityResponseType> {
+        // throw new Error("Method not implemented.");
+        const options = new HttpParams().set('noInvoice.equals', invoiceNo).set('statusTransaction.equals', 'PAID');
+        return this.http
+            .get<ISaleTransactions>(this.resourceUrl, { params: options, observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
