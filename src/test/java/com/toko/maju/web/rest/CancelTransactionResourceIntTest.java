@@ -63,6 +63,9 @@ public class CancelTransactionResourceIntTest {
     private static final String DEFAULT_NOTE = "AAAAAAAAAA";
     private static final String UPDATED_NOTE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_NO_CANCEL_INVOICE = "AAAAAAAAAA";
+    private static final String UPDATED_NO_CANCEL_INVOICE = "BBBBBBBBBB";
+
     @Autowired
     private CancelTransactionRepository cancelTransactionRepository;
 
@@ -124,7 +127,8 @@ public class CancelTransactionResourceIntTest {
         CancelTransaction cancelTransaction = new CancelTransaction()
             .noInvoice(DEFAULT_NO_INVOICE)
             .cancelDate(DEFAULT_CANCEL_DATE)
-            .note(DEFAULT_NOTE);
+            .note(DEFAULT_NOTE)
+            .noCancelInvoice(DEFAULT_NO_CANCEL_INVOICE);
         return cancelTransaction;
     }
 
@@ -152,6 +156,7 @@ public class CancelTransactionResourceIntTest {
         assertThat(testCancelTransaction.getNoInvoice()).isEqualTo(DEFAULT_NO_INVOICE);
         assertThat(testCancelTransaction.getCancelDate()).isEqualTo(DEFAULT_CANCEL_DATE);
         assertThat(testCancelTransaction.getNote()).isEqualTo(DEFAULT_NOTE);
+        assertThat(testCancelTransaction.getNoCancelInvoice()).isEqualTo(DEFAULT_NO_CANCEL_INVOICE);
 
         // Validate the CancelTransaction in Elasticsearch
         verify(mockCancelTransactionSearchRepository, times(1)).save(testCancelTransaction);
@@ -239,6 +244,25 @@ public class CancelTransactionResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNoCancelInvoiceIsRequired() throws Exception {
+        int databaseSizeBeforeTest = cancelTransactionRepository.findAll().size();
+        // set the field null
+        cancelTransaction.setNoCancelInvoice(null);
+
+        // Create the CancelTransaction, which fails.
+        CancelTransactionDTO cancelTransactionDTO = cancelTransactionMapper.toDto(cancelTransaction);
+
+        restCancelTransactionMockMvc.perform(post("/api/cancel-transactions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(cancelTransactionDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<CancelTransaction> cancelTransactionList = cancelTransactionRepository.findAll();
+        assertThat(cancelTransactionList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCancelTransactions() throws Exception {
         // Initialize the database
         cancelTransactionRepository.saveAndFlush(cancelTransaction);
@@ -250,7 +274,8 @@ public class CancelTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(cancelTransaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].noInvoice").value(hasItem(DEFAULT_NO_INVOICE.toString())))
             .andExpect(jsonPath("$.[*].cancelDate").value(hasItem(DEFAULT_CANCEL_DATE.toString())))
-            .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())));
+            .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())))
+            .andExpect(jsonPath("$.[*].noCancelInvoice").value(hasItem(DEFAULT_NO_CANCEL_INVOICE.toString())));
     }
     
     @Test
@@ -266,7 +291,8 @@ public class CancelTransactionResourceIntTest {
             .andExpect(jsonPath("$.id").value(cancelTransaction.getId().intValue()))
             .andExpect(jsonPath("$.noInvoice").value(DEFAULT_NO_INVOICE.toString()))
             .andExpect(jsonPath("$.cancelDate").value(DEFAULT_CANCEL_DATE.toString()))
-            .andExpect(jsonPath("$.note").value(DEFAULT_NOTE.toString()));
+            .andExpect(jsonPath("$.note").value(DEFAULT_NOTE.toString()))
+            .andExpect(jsonPath("$.noCancelInvoice").value(DEFAULT_NO_CANCEL_INVOICE.toString()));
     }
 
     @Test
@@ -388,6 +414,45 @@ public class CancelTransactionResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCancelTransactionsByNoCancelInvoiceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        cancelTransactionRepository.saveAndFlush(cancelTransaction);
+
+        // Get all the cancelTransactionList where noCancelInvoice equals to DEFAULT_NO_CANCEL_INVOICE
+        defaultCancelTransactionShouldBeFound("noCancelInvoice.equals=" + DEFAULT_NO_CANCEL_INVOICE);
+
+        // Get all the cancelTransactionList where noCancelInvoice equals to UPDATED_NO_CANCEL_INVOICE
+        defaultCancelTransactionShouldNotBeFound("noCancelInvoice.equals=" + UPDATED_NO_CANCEL_INVOICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCancelTransactionsByNoCancelInvoiceIsInShouldWork() throws Exception {
+        // Initialize the database
+        cancelTransactionRepository.saveAndFlush(cancelTransaction);
+
+        // Get all the cancelTransactionList where noCancelInvoice in DEFAULT_NO_CANCEL_INVOICE or UPDATED_NO_CANCEL_INVOICE
+        defaultCancelTransactionShouldBeFound("noCancelInvoice.in=" + DEFAULT_NO_CANCEL_INVOICE + "," + UPDATED_NO_CANCEL_INVOICE);
+
+        // Get all the cancelTransactionList where noCancelInvoice equals to UPDATED_NO_CANCEL_INVOICE
+        defaultCancelTransactionShouldNotBeFound("noCancelInvoice.in=" + UPDATED_NO_CANCEL_INVOICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCancelTransactionsByNoCancelInvoiceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        cancelTransactionRepository.saveAndFlush(cancelTransaction);
+
+        // Get all the cancelTransactionList where noCancelInvoice is not null
+        defaultCancelTransactionShouldBeFound("noCancelInvoice.specified=true");
+
+        // Get all the cancelTransactionList where noCancelInvoice is null
+        defaultCancelTransactionShouldNotBeFound("noCancelInvoice.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllCancelTransactionsBySaleTransactionsIsEqualToSomething() throws Exception {
         // Initialize the database
         SaleTransactions saleTransactions = SaleTransactionsResourceIntTest.createEntity(em);
@@ -414,7 +479,8 @@ public class CancelTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(cancelTransaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].noInvoice").value(hasItem(DEFAULT_NO_INVOICE)))
             .andExpect(jsonPath("$.[*].cancelDate").value(hasItem(DEFAULT_CANCEL_DATE.toString())))
-            .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE)));
+            .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE)))
+            .andExpect(jsonPath("$.[*].noCancelInvoice").value(hasItem(DEFAULT_NO_CANCEL_INVOICE)));
 
         // Check, that the count call also returns 1
         restCancelTransactionMockMvc.perform(get("/api/cancel-transactions/count?sort=id,desc&" + filter))
@@ -464,7 +530,8 @@ public class CancelTransactionResourceIntTest {
         updatedCancelTransaction
             .noInvoice(UPDATED_NO_INVOICE)
             .cancelDate(UPDATED_CANCEL_DATE)
-            .note(UPDATED_NOTE);
+            .note(UPDATED_NOTE)
+            .noCancelInvoice(UPDATED_NO_CANCEL_INVOICE);
         CancelTransactionDTO cancelTransactionDTO = cancelTransactionMapper.toDto(updatedCancelTransaction);
 
         restCancelTransactionMockMvc.perform(put("/api/cancel-transactions")
@@ -479,6 +546,7 @@ public class CancelTransactionResourceIntTest {
         assertThat(testCancelTransaction.getNoInvoice()).isEqualTo(UPDATED_NO_INVOICE);
         assertThat(testCancelTransaction.getCancelDate()).isEqualTo(UPDATED_CANCEL_DATE);
         assertThat(testCancelTransaction.getNote()).isEqualTo(UPDATED_NOTE);
+        assertThat(testCancelTransaction.getNoCancelInvoice()).isEqualTo(UPDATED_NO_CANCEL_INVOICE);
 
         // Validate the CancelTransaction in Elasticsearch
         verify(mockCancelTransactionSearchRepository, times(1)).save(testCancelTransaction);
@@ -541,7 +609,8 @@ public class CancelTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(cancelTransaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].noInvoice").value(hasItem(DEFAULT_NO_INVOICE)))
             .andExpect(jsonPath("$.[*].cancelDate").value(hasItem(DEFAULT_CANCEL_DATE.toString())))
-            .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE)));
+            .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE)))
+            .andExpect(jsonPath("$.[*].noCancelInvoice").value(hasItem(DEFAULT_NO_CANCEL_INVOICE)));
     }
 
     @Test

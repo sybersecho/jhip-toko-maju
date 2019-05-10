@@ -81,6 +81,11 @@ entity DuePayment {
 entity Unit {
   name String required
 }
+entity CancelTransaction {
+  noInvoice String required,
+  cancelDate Instant required,
+  note String required
+}
 
 enum Gender {
   MALE,
@@ -94,6 +99,9 @@ enum StatusTransaction {
   DUE
 }
 
+relationship OneToOne {
+  CancelTransaction{saleTransactions(noInvoice)} to SaleTransactions
+}
 relationship OneToMany {
   Supplier{product} to Product{supplier(name)},
   Customer{product} to CustomerProduct{customer(firstName) required},
@@ -115,9 +123,9 @@ relationship ManyToOne {
   DuePayment{creator(login) required} to User
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit with mapstruct
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction with mapstruct
 paginate Customer, Product, Project, Supplier, Unit with pagination
-paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment
+paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction with infinite-scroll
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction

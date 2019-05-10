@@ -33,6 +33,10 @@
             <column name="note" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+
+            <column name="no_cancel_invoice" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="sale_transactions_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_cancel_transaction_sale_transactions_id" />
             </column>

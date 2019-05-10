@@ -9,7 +9,8 @@
             "otherEntityField": "noInvoice",
             "ownerSide": true,
             "useJPADerivedIdentifier": false,
-            "otherEntityRelationshipName": "cancelTransaction"
+            "otherEntityRelationshipName": "cancelTransaction",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [
@@ -29,6 +30,13 @@
         },
         {
             "fieldName": "note",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "noCancelInvoice",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"

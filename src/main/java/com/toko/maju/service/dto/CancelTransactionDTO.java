@@ -20,6 +20,9 @@ public class CancelTransactionDTO implements Serializable {
     @NotNull
     private String note;
 
+    @NotNull
+    private String noCancelInvoice;
+
 
     private Long saleTransactionsId;
 
@@ -55,6 +58,14 @@ public class CancelTransactionDTO implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getNoCancelInvoice() {
+        return noCancelInvoice;
+    }
+
+    public void setNoCancelInvoice(String noCancelInvoice) {
+        this.noCancelInvoice = noCancelInvoice;
     }
 
     public Long getSaleTransactionsId() {
@@ -101,6 +112,7 @@ public class CancelTransactionDTO implements Serializable {
             ", noInvoice='" + getNoInvoice() + "'" +
             ", cancelDate='" + getCancelDate() + "'" +
             ", note='" + getNote() + "'" +
+            ", noCancelInvoice='" + getNoCancelInvoice() + "'" +
             ", saleTransactions=" + getSaleTransactionsId() +
             ", saleTransactions='" + getSaleTransactionsNoInvoice() + "'" +
             "}";

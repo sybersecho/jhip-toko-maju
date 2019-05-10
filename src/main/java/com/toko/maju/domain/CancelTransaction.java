@@ -39,6 +39,10 @@ public class CancelTransaction implements Serializable {
     @Column(name = "note", nullable = false)
     private String note;
 
+    @NotNull
+    @Column(name = "no_cancel_invoice", nullable = false)
+    private String noCancelInvoice;
+
     @OneToOne
     @JoinColumn(unique = true)
     private SaleTransactions saleTransactions;
@@ -91,6 +95,19 @@ public class CancelTransaction implements Serializable {
         this.note = note;
     }
 
+    public String getNoCancelInvoice() {
+        return noCancelInvoice;
+    }
+
+    public CancelTransaction noCancelInvoice(String noCancelInvoice) {
+        this.noCancelInvoice = noCancelInvoice;
+        return this;
+    }
+
+    public void setNoCancelInvoice(String noCancelInvoice) {
+        this.noCancelInvoice = noCancelInvoice;
+    }
+
     public SaleTransactions getSaleTransactions() {
         return saleTransactions;
     }
@@ -132,6 +149,7 @@ public class CancelTransaction implements Serializable {
             ", noInvoice='" + getNoInvoice() + "'" +
             ", cancelDate='" + getCancelDate() + "'" +
             ", note='" + getNote() + "'" +
+            ", noCancelInvoice='" + getNoCancelInvoice() + "'" +
             "}";
     }
 }

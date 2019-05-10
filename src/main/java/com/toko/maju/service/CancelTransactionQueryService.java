@@ -102,6 +102,9 @@ public class CancelTransactionQueryService extends QueryService<CancelTransactio
             if (criteria.getNote() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNote(), CancelTransaction_.note));
             }
+            if (criteria.getNoCancelInvoice() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getNoCancelInvoice(), CancelTransaction_.noCancelInvoice));
+            }
             if (criteria.getSaleTransactionsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSaleTransactionsId(),
                     root -> root.join(CancelTransaction_.saleTransactions, JoinType.LEFT).get(SaleTransactions_.id)));

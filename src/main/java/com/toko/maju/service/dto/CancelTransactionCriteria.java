@@ -31,6 +31,8 @@ public class CancelTransactionCriteria implements Serializable {
 
     private StringFilter note;
 
+    private StringFilter noCancelInvoice;
+
     private LongFilter saleTransactionsId;
 
     public LongFilter getId() {
@@ -65,6 +67,14 @@ public class CancelTransactionCriteria implements Serializable {
         this.note = note;
     }
 
+    public StringFilter getNoCancelInvoice() {
+        return noCancelInvoice;
+    }
+
+    public void setNoCancelInvoice(StringFilter noCancelInvoice) {
+        this.noCancelInvoice = noCancelInvoice;
+    }
+
     public LongFilter getSaleTransactionsId() {
         return saleTransactionsId;
     }
@@ -88,6 +98,7 @@ public class CancelTransactionCriteria implements Serializable {
             Objects.equals(noInvoice, that.noInvoice) &&
             Objects.equals(cancelDate, that.cancelDate) &&
             Objects.equals(note, that.note) &&
+            Objects.equals(noCancelInvoice, that.noCancelInvoice) &&
             Objects.equals(saleTransactionsId, that.saleTransactionsId);
     }
 
@@ -98,6 +109,7 @@ public class CancelTransactionCriteria implements Serializable {
         noInvoice,
         cancelDate,
         note,
+        noCancelInvoice,
         saleTransactionsId
         );
     }
@@ -109,6 +121,7 @@ public class CancelTransactionCriteria implements Serializable {
                 (noInvoice != null ? "noInvoice=" + noInvoice + ", " : "") +
                 (cancelDate != null ? "cancelDate=" + cancelDate + ", " : "") +
                 (note != null ? "note=" + note + ", " : "") +
+                (noCancelInvoice != null ? "noCancelInvoice=" + noCancelInvoice + ", " : "") +
                 (saleTransactionsId != null ? "saleTransactionsId=" + saleTransactionsId + ", " : "") +
             "}";
     }
