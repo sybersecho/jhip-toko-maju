@@ -11,7 +11,7 @@ import { ISaleItem } from 'app/shared/model/sale-item.model';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 import { SaleTransactionsService } from '../sale-transactions';
 import { Observable } from 'rxjs';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-cancel-transaction-create',
