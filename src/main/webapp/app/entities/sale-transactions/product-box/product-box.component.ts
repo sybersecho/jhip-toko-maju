@@ -58,6 +58,8 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
     clearSelectedProduct() {
         this.selectedItem.setProduct(new Product());
+        this.barcodeField.nativeElement.value = '';
+        this.quantityField.nativeElement.value = 1;
     }
 
     protected foundProduct(found: IProduct): void {
@@ -113,6 +115,8 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     protected reset(): any {
         this.selectedItem = new SaleItem();
         this.selectedItem.quantity = 1;
+        this.quantityField.nativeElement.value = 1;
+        this.barcodeField.nativeElement.value = '';
         this.barcodeField.nativeElement.focus();
     }
 
