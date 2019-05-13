@@ -111,6 +111,10 @@ public class ReturnTransactionQueryService extends QueryService<ReturnTransactio
                 specification = specification.and(buildSpecification(criteria.getSupplierId(),
                     root -> root.join(ReturnTransaction_.supplier, JoinType.LEFT).get(Supplier_.id)));
             }
+            if (criteria.getReturnItemId() != null) {
+                specification = specification.and(buildSpecification(criteria.getReturnItemId(),
+                    root -> root.join(ReturnTransaction_.returnItems, JoinType.LEFT).get(ReturnItem_.id)));
+            }
         }
         return specification;
     }

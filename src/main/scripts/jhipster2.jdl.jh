@@ -84,7 +84,19 @@ entity Unit {
 entity CancelTransaction {
   noInvoice String required,
   cancelDate Instant required,
-  note String required
+  note String required,
+  noCancelInvoice String required
+}
+entity ReturnTransaction {
+  created_date Instant,
+  transactionType TransactionType required
+}
+entity ReturnItem {
+  barcode String required,
+  productName String required,
+  quantity Integer required,
+  unitPrice BigDecimal required min(0),
+  productStatus ProductStatus required
 }
 
 enum Gender {
@@ -99,6 +111,16 @@ enum StatusTransaction {
   DUE
 }
 
+enum TransactionType {
+  SHOP,
+  SUPPLIER
+}
+
+enum ProductStatus {
+  GOOD,
+  BAD
+}
+
 relationship OneToOne {
   CancelTransaction{saleTransactions(noInvoice)} to SaleTransactions
 }
@@ -107,7 +129,8 @@ relationship OneToMany {
   Customer{product} to CustomerProduct{customer(firstName) required},
   Project{product} to ProjectProduct{project(name) required},
   SaleTransactions{items} to SaleItem{sale(noInvoice) required},
-  SaleTransactions{duePayment} to DuePayment{sale(noInvoice)}
+  SaleTransactions{duePayment} to DuePayment{sale(noInvoice)},
+  ReturnTransaction{returnItem} to ReturnItem{returnTransaction required}
 }
 relationship ManyToOne {
   Product{unit(name) required} to Unit,
@@ -120,12 +143,16 @@ relationship ManyToOne {
   SaleTransactions{creator(login) required} to User,
   SaleTransactions{project(name)} to Project,
   SaleItem{product(name) required} to Product,
-  DuePayment{creator(login) required} to User
+  DuePayment{creator(login) required} to User,
+  ReturnTransaction{creator(login)} to User,
+  ReturnTransaction{customer(code)} to Customer,
+  ReturnTransaction{supplier(code)} to Supplier,
+  ReturnItem{product(barcode) required} to Product
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction with mapstruct
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem with mapstruct
 paginate Customer, Product, Project, Supplier, Unit with pagination
-paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction
+paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem with infinite-scroll
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem

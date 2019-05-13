@@ -1,6 +1,7 @@
 package com.toko.maju.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -11,6 +12,8 @@ import javax.validation.constraints.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 import com.toko.maju.domain.enumeration.TransactionType;
@@ -43,11 +46,16 @@ public class ReturnTransaction implements Serializable {
     private User creator;
 
     @ManyToOne
+    @JsonIgnoreProperties("returnTransactions")
     private Customer customer;
 
     @ManyToOne
+    @JsonIgnoreProperties("returnTransactions")
     private Supplier supplier;
 
+    @OneToMany(mappedBy = "returnTransaction")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<ReturnItem> returnItems = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -120,6 +128,31 @@ public class ReturnTransaction implements Serializable {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public Set<ReturnItem> getReturnItems() {
+        return returnItems;
+    }
+
+    public ReturnTransaction returnItems(Set<ReturnItem> returnItems) {
+        this.returnItems = returnItems;
+        return this;
+    }
+
+    public ReturnTransaction addReturnItem(ReturnItem returnItem) {
+        this.returnItems.add(returnItem);
+        returnItem.setReturnTransaction(this);
+        return this;
+    }
+
+    public ReturnTransaction removeReturnItem(ReturnItem returnItem) {
+        this.returnItems.remove(returnItem);
+        returnItem.setReturnTransaction(null);
+        return this;
+    }
+
+    public void setReturnItems(Set<ReturnItem> returnItems) {
+        this.returnItems = returnItems;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

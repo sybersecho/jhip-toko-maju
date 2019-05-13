@@ -6,6 +6,7 @@ import com.toko.maju.domain.ReturnTransaction;
 import com.toko.maju.domain.User;
 import com.toko.maju.domain.Customer;
 import com.toko.maju.domain.Supplier;
+import com.toko.maju.domain.ReturnItem;
 import com.toko.maju.repository.ReturnTransactionRepository;
 import com.toko.maju.repository.search.ReturnTransactionSearchRepository;
 import com.toko.maju.service.ReturnTransactionService;
@@ -359,6 +360,25 @@ public class ReturnTransactionResourceIntTest {
 
         // Get all the returnTransactionList where supplier equals to supplierId + 1
         defaultReturnTransactionShouldNotBeFound("supplierId.equals=" + (supplierId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllReturnTransactionsByReturnItemIsEqualToSomething() throws Exception {
+        // Initialize the database
+        ReturnItem returnItem = ReturnItemResourceIntTest.createEntity(em);
+        em.persist(returnItem);
+        em.flush();
+        returnTransaction.addReturnItem(returnItem);
+        returnTransactionRepository.saveAndFlush(returnTransaction);
+        Long returnItemId = returnItem.getId();
+
+        // Get all the returnTransactionList where returnItem equals to returnItemId
+        defaultReturnTransactionShouldBeFound("returnItemId.equals=" + returnItemId);
+
+        // Get all the returnTransactionList where returnItem equals to returnItemId + 1
+        defaultReturnTransactionShouldNotBeFound("returnItemId.equals=" + (returnItemId + 1));
     }
 
     /**

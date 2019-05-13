@@ -8,19 +8,31 @@
             "relationshipType": "many-to-one",
             "otherEntityField": "login",
             "ownerSide": true,
-            "otherEntityRelationshipName": "returnTransaction"
+            "otherEntityRelationshipName": "returnTransaction",
+            "otherEntityRelationshipNameUndefined": false
         },
         {
             "relationshipName": "customer",
             "otherEntityName": "customer",
             "relationshipType": "many-to-one",
-            "otherEntityField": "code"
+            "otherEntityField": "code",
+            "otherEntityRelationshipNameUndefined": false,
+            "otherEntityRelationshipName": "returnTransaction"
         },
         {
             "relationshipName": "supplier",
             "otherEntityName": "supplier",
             "relationshipType": "many-to-one",
-            "otherEntityField": "code"
+            "otherEntityField": "code",
+            "otherEntityRelationshipNameUndefined": false,
+            "otherEntityRelationshipName": "returnTransaction"
+        },
+        {
+            "relationshipName": "returnItem",
+            "otherEntityName": "returnItem",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "returnTransaction",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [

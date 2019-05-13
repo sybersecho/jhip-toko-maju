@@ -22,6 +22,7 @@ public interface ReturnTransactionMapper extends EntityMapper<ReturnTransactionD
     @Mapping(source = "creatorId", target = "creator")
     @Mapping(source = "customerId", target = "customer")
     @Mapping(source = "supplierId", target = "supplier")
+    @Mapping(target = "returnItems", ignore = true)
     ReturnTransaction toEntity(ReturnTransactionDTO returnTransactionDTO);
 
     default ReturnTransaction fromId(Long id) {

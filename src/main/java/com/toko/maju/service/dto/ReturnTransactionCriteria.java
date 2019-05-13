@@ -41,6 +41,8 @@ public class ReturnTransactionCriteria implements Serializable {
 
     private LongFilter supplierId;
 
+    private LongFilter returnItemId;
+
     public LongFilter getId() {
         return id;
     }
@@ -89,6 +91,14 @@ public class ReturnTransactionCriteria implements Serializable {
         this.supplierId = supplierId;
     }
 
+    public LongFilter getReturnItemId() {
+        return returnItemId;
+    }
+
+    public void setReturnItemId(LongFilter returnItemId) {
+        this.returnItemId = returnItemId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -105,7 +115,8 @@ public class ReturnTransactionCriteria implements Serializable {
             Objects.equals(transactionType, that.transactionType) &&
             Objects.equals(creatorId, that.creatorId) &&
             Objects.equals(customerId, that.customerId) &&
-            Objects.equals(supplierId, that.supplierId);
+            Objects.equals(supplierId, that.supplierId) &&
+            Objects.equals(returnItemId, that.returnItemId);
     }
 
     @Override
@@ -116,7 +127,8 @@ public class ReturnTransactionCriteria implements Serializable {
         transactionType,
         creatorId,
         customerId,
-        supplierId
+        supplierId,
+        returnItemId
         );
     }
 
@@ -129,6 +141,7 @@ public class ReturnTransactionCriteria implements Serializable {
                 (creatorId != null ? "creatorId=" + creatorId + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
                 (supplierId != null ? "supplierId=" + supplierId + ", " : "") +
+                (returnItemId != null ? "returnItemId=" + returnItemId + ", " : "") +
             "}";
     }
 
