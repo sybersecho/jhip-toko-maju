@@ -46,6 +46,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="dropdown-item" routerLink="product/import" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.importProduct">Import Product</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="project" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.project">Project</span>

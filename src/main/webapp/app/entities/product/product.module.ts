@@ -15,7 +15,8 @@ import {
     SearchProductComponent,
     ViewBarcodeComponent,
     ExtractProductComponent,
-    SearchExtProductComponent
+    SearchExtProductComponent,
+    ImportProductComponent
 } from './';
 
 const ENTITY_STATES = [...productRoute, ...productPopupRoute];
@@ -31,7 +32,8 @@ const ENTITY_STATES = [...productRoute, ...productPopupRoute];
         SearchProductComponent,
         ViewBarcodeComponent,
         ExtractProductComponent,
-        SearchExtProductComponent
+        SearchExtProductComponent,
+        ImportProductComponent
     ],
     entryComponents: [
         ProductComponent,
@@ -40,7 +42,8 @@ const ENTITY_STATES = [...productRoute, ...productPopupRoute];
         ProductDeletePopupComponent,
         ViewBarcodeComponent,
         ExtractProductComponent,
-        SearchExtProductComponent
+        SearchExtProductComponent,
+        ImportProductComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     exports: [SearchProductComponent],

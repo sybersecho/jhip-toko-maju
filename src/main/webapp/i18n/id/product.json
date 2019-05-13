@@ -23,6 +23,15 @@
                     "product.exist": "Product sudah terdaftar"
                 }
             },
+            "import": {
+                "title": "Import Product",
+                "infoLable": "Pilih excel File",
+                "importButton": "Import",
+                "messages": {
+                    "file.empty": "Belum ada file yang di pilih",
+                    "file.not.xls": "Harus excel file"
+                }
+            },
             "created": "Product dengan id {{ param }} telah dibuat",
             "updated": "Product dengan id {{ param }} telah diperbaharui",
             "deleted": "Product dengan id {{ param }} telah dihapus",

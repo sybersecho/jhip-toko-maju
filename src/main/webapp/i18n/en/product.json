@@ -23,6 +23,15 @@
                     "product.exist": "Product exist"
                 }
             },
+            "import": {
+                "title": "Import Product",
+                "infoLable": "Select Excel File",
+                "importButton": "Import",
+                "messages": {
+                    "file.empty": "No file selected",
+                    "file.not.xls": "Shoul be excel extention file"
+                }
+            },
             "created": "A new Product is created with identifier {{ param }}",
             "updated": "A Product is updated with identifier {{ param }}",
             "deleted": "A Product is deleted with identifier {{ param }}",

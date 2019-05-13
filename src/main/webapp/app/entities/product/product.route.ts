@@ -13,6 +13,7 @@ import { ProductUpdateComponent } from './product-update.component';
 import { ProductDeletePopupComponent } from './product-delete-dialog.component';
 import { IProduct } from 'app/shared/model/product.model';
 import { ExtractProductComponent } from './extract-product/extract-product.component';
+import { ImportProductComponent } from './import-product/import-product.component';
 
 @Injectable({ providedIn: 'root' })
 export class ProductResolve implements Resolve<IProduct> {
@@ -75,6 +76,15 @@ export const productRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'jhiptokomajuApp.product.extract.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'product/import',
+        component: ImportProductComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhiptokomajuApp.product.import.title'
         },
         canActivate: [UserRouteAccessService]
     },
