@@ -93,6 +93,18 @@
                             <span jhiTranslate="global.menu.entities.cancelTransaction">Cancel Transaction</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="return-toko" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.returnToko">Return Toko</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="return-supplier" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.returnSupplier">Return Supplier</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

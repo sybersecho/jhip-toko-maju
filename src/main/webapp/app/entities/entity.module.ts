@@ -7,6 +7,7 @@ import { JhiptokomajuSupplierModule } from './supplier/supplier.module';
 import { JhiptokomajuSaleTransactionsModule } from './sale-transactions/sale-transactions.module';
 import { JhiptokomajuInvoiceModule } from './invoice/invoice.module';
 import { JhiptokomajuDuePaymentModule } from './due-payment/due-payment.module';
+import { JhiptokomajuReturnTransactionModule } from './return-transaction/return-transaction.module';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { JhiptokomajuDuePaymentModule } from './due-payment/due-payment.module';
         JhiptokomajuSaleTransactionsModule,
         JhiptokomajuInvoiceModule,
         JhiptokomajuDuePaymentModule,
+        JhiptokomajuReturnTransactionModule,
         RouterModule.forChild([
             // {
             //     path: 'customer',
@@ -53,6 +55,14 @@ import { JhiptokomajuDuePaymentModule } from './due-payment/due-payment.module';
             {
                 path: 'cancel-transaction',
                 loadChildren: './cancel-transaction/cancel-transaction.module#JhiptokomajuCancelTransactionModule'
+                // },
+                // {
+                //     path: 'return-transaction',
+                //     loadChildren: './return-transaction/return-transaction.module#JhiptokomajuReturnTransactionModule'
+                // },
+                // {
+                //     path: 'return-item',
+                //     loadChildren: './return-item/return-item.module#JhiptokomajuReturnItemModule'
             }
             //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

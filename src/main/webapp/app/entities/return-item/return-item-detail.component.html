@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="returnItem">
+            <h2><span jhiTranslate="jhiptokomajuApp.returnItem.detail.title">Return Item</span> {{returnItem.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.barcode">Barcode</span></dt>
+                <dd>
+                    <span>{{returnItem.barcode}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.productName">Product Name</span></dt>
+                <dd>
+                    <span>{{returnItem.productName}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.quantity">Quantity</span></dt>
+                <dd>
+                    <span>{{returnItem.quantity}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.unitPrice">Unit Price</span></dt>
+                <dd>
+                    <span>{{returnItem.unitPrice}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.productStatus">Product Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'jhiptokomajuApp.ProductStatus.' + returnItem.productStatus}}">{{returnItem.productStatus}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.product">Product</span></dt>
+                <dd>
+                    <div *ngIf="returnItem.productId">
+                        <a [routerLink]="['/product', returnItem.productId, 'view']">{{returnItem.productBarcode}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.returnTransaction">Return Transaction</span></dt>
+                <dd>
+                    <div *ngIf="returnItem.returnTransactionId">
+                        <a [routerLink]="['/return-transaction', returnItem.returnTransactionId, 'view']">{{returnItem.returnTransactionId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/return-item', returnItem.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

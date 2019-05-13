@@ -1,0 +1,28 @@
+{
+    "jhiptokomajuApp": {
+        "returnItem": {
+            "home": {
+                "title": "Return Items",
+                "createLabel": "Buat Return Item baru",
+                "createOrEditLabel": "Buat atau edit Return Item",
+                "search": "Cari Return Item"
+            },
+            "created": "Return Item dengan id {{ param }} telah dibuat",
+            "updated": "Return Item dengan id {{ param }} telah diperbaharui",
+            "deleted": "Return Item dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Return Item {{ id }}?"
+            },
+            "detail": {
+                "title": "Return Item"
+            },
+            "barcode": "Barcode",
+            "productName": "Product Name",
+            "quantity": "Quantity",
+            "unitPrice": "Unit Price",
+            "productStatus": "Product Status",
+            "product": "Product",
+            "returnTransaction": "Return Transaction"
+        }
+    }
+}

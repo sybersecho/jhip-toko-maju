@@ -1,0 +1,39 @@
+{
+    "jhiptokomajuApp": {
+        "returnTransaction": {
+            "home": {
+                "title": "Pengembalian Transaksi",
+                "createLabel": "Buat Pengembalian Transaksi baru",
+                "createOrEditLabel": "Buat atau edit Pengembalian Transaksi",
+                "search": "Cari Pengembalian Transaksi"
+            },
+            "toko": {
+                "title": "Pengembalian Toko",
+                "createLabel": "Buat Pengambalian Toko baru",
+                "createOrEditLabel": "Buat atau edit Pengembalian Toko",
+                "search": "Cari Pengembalian Toko"
+            },
+            "supply": {
+                "title": "Pengembalian Supplir",
+                "createLabel": "Buat Pengambalian Supplir baru",
+                "createOrEditLabel": "Buat atau edit Pengembalian Supplier",
+                "search": "Cari Pengembalian Supplier"
+            },
+            "created": "Return Transaction dengan id {{ param }} telah dibuat",
+            "updated": "Return Transaction dengan id {{ param }} telah diperbaharui",
+            "deleted": "Return Transaction dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Return Transaction {{ id }}?"
+            },
+            "detail": {
+                "title": "Return Transaction"
+            },
+            "created_date": "Created Date",
+            "transactionType": "Transaction Type",
+            "creator": "Creator",
+            "customer": "Customer",
+            "supplier": "Supplier",
+            "returnItem": "Return Item"
+        }
+    }
+}

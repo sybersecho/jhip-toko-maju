@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-return-transaction-heading" jhiTranslate="jhiptokomajuApp.returnTransaction.home.createOrEditLabel">Create or edit a Return Transaction</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!returnTransaction.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="returnTransaction.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.created_date" for="field_created_date">Created Date</label>
+                    <div class="d-flex">
+                        <input id="field_created_date" type="datetime-local" class="form-control" name="created_date" [(ngModel)]="created_date" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.transactionType" for="field_transactionType">Transaction Type</label>
+                    <select class="form-control" name="transactionType" [(ngModel)]="returnTransaction.transactionType" id="field_transactionType"  required>
+                        <option value="SHOP">{{'jhiptokomajuApp.TransactionType.SHOP' | translate}}</option>
+                        <option value="SUPPLIER">{{'jhiptokomajuApp.TransactionType.SUPPLIER' | translate}}</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.transactionType?.dirty && editForm.controls.transactionType?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.transactionType?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.creator" for="field_creator">Creator</label>
+                    <select class="form-control" id="field_creator" name="creator" [(ngModel)]="returnTransaction.creatorId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.customer" for="field_customer">Customer</label>
+                    <select class="form-control" id="field_customer" name="customer" [(ngModel)]="returnTransaction.customerId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="customerOption.id" *ngFor="let customerOption of customers; trackBy: trackCustomerById">{{customerOption.code}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.supplier" for="field_supplier">Supplier</label>
+                    <select class="form-control" id="field_supplier" name="supplier" [(ngModel)]="returnTransaction.supplierId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplierOption.id" *ngFor="let supplierOption of suppliers; trackBy: trackSupplierById">{{supplierOption.code}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

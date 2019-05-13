@@ -1,0 +1,9 @@
+{
+    "jhiptokomajuApp": {
+        "TransactionType": {
+            "null": "",
+            "SHOP": "SHOP",
+            "SUPPLIER": "SUPPLIER"
+        }
+    }
+}

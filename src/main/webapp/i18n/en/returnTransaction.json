@@ -1,0 +1,39 @@
+{
+    "jhiptokomajuApp": {
+        "returnTransaction": {
+            "home": {
+                "title": "Return Transactions",
+                "createLabel": "Create a new Return Transaction",
+                "createOrEditLabel": "Create or edit a Return Transaction",
+                "search": "Search for Return Transaction"
+            },
+            "toko": {
+                "title": "Return Toko",
+                "createLabel": "Create a new Return Toko",
+                "createOrEditLabel": "Create or edit a Return Toko",
+                "search": "Search for Return Toko"
+            },
+            "supply": {
+                "title": "Return Supplier",
+                "createLabel": "Create a new Return Supplier",
+                "createOrEditLabel": "Create or edit a Return Supplier",
+                "search": "Search for Return Supplir"
+            },
+            "created": "A new Return Transaction is created with identifier {{ param }}",
+            "updated": "A Return Transaction is updated with identifier {{ param }}",
+            "deleted": "A Return Transaction is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Return Transaction {{ id }}?"
+            },
+            "detail": {
+                "title": "Return Transaction"
+            },
+            "created_date": "Created Date",
+            "transactionType": "Transaction Type",
+            "creator": "Creator",
+            "customer": "Customer",
+            "supplier": "Supplier",
+            "returnItem": "Return Item"
+        }
+    }
+}

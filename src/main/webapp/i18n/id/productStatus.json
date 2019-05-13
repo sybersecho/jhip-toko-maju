@@ -1,0 +1,9 @@
+{
+    "jhiptokomajuApp": {
+        "ProductStatus": {
+            "null": "",
+            "GOOD": "GOOD",
+            "BAD": "BAD"
+        }
+    }
+}

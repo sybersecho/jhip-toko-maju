@@ -19,6 +19,9 @@
                 "duePayment": "Due Payment",
                 "unit": "Unit",
                 "cancelTransaction": "Cancel Transaction",
+                "returnToko": "Pengembalian Toko",
+                "returnSupplier": "Pengembalian Supplier",
+                "returnItem": "Return Item",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
