@@ -70,6 +70,12 @@ public class ReturnItemResourceIntTest {
     private static final ProductStatus DEFAULT_PRODUCT_STATUS = ProductStatus.GOOD;
     private static final ProductStatus UPDATED_PRODUCT_STATUS = ProductStatus.BAD;
 
+    private static final String DEFAULT_UNIT = "AAAAAAAAAA";
+    private static final String UPDATED_UNIT = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_TOTAL_ITEM_PRICE = new BigDecimal(0);
+    private static final BigDecimal UPDATED_TOTAL_ITEM_PRICE = new BigDecimal(1);
+
     @Autowired
     private ReturnItemRepository returnItemRepository;
 
@@ -133,7 +139,9 @@ public class ReturnItemResourceIntTest {
             .productName(DEFAULT_PRODUCT_NAME)
             .quantity(DEFAULT_QUANTITY)
             .unitPrice(DEFAULT_UNIT_PRICE)
-            .productStatus(DEFAULT_PRODUCT_STATUS);
+            .productStatus(DEFAULT_PRODUCT_STATUS)
+            .unit(DEFAULT_UNIT)
+            .totalItemPrice(DEFAULT_TOTAL_ITEM_PRICE);
         // Add required entity
         Product product = ProductResourceIntTest.createEntity(em);
         em.persist(product);
@@ -173,6 +181,8 @@ public class ReturnItemResourceIntTest {
         assertThat(testReturnItem.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testReturnItem.getUnitPrice()).isEqualTo(DEFAULT_UNIT_PRICE);
         assertThat(testReturnItem.getProductStatus()).isEqualTo(DEFAULT_PRODUCT_STATUS);
+        assertThat(testReturnItem.getUnit()).isEqualTo(DEFAULT_UNIT);
+        assertThat(testReturnItem.getTotalItemPrice()).isEqualTo(DEFAULT_TOTAL_ITEM_PRICE);
 
         // Validate the ReturnItem in Elasticsearch
         verify(mockReturnItemSearchRepository, times(1)).save(testReturnItem);
@@ -298,6 +308,44 @@ public class ReturnItemResourceIntTest {
 
     @Test
     @Transactional
+    public void checkUnitIsRequired() throws Exception {
+        int databaseSizeBeforeTest = returnItemRepository.findAll().size();
+        // set the field null
+        returnItem.setUnit(null);
+
+        // Create the ReturnItem, which fails.
+        ReturnItemDTO returnItemDTO = returnItemMapper.toDto(returnItem);
+
+        restReturnItemMockMvc.perform(post("/api/return-items")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(returnItemDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<ReturnItem> returnItemList = returnItemRepository.findAll();
+        assertThat(returnItemList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkTotalItemPriceIsRequired() throws Exception {
+        int databaseSizeBeforeTest = returnItemRepository.findAll().size();
+        // set the field null
+        returnItem.setTotalItemPrice(null);
+
+        // Create the ReturnItem, which fails.
+        ReturnItemDTO returnItemDTO = returnItemMapper.toDto(returnItem);
+
+        restReturnItemMockMvc.perform(post("/api/return-items")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(returnItemDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<ReturnItem> returnItemList = returnItemRepository.findAll();
+        assertThat(returnItemList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllReturnItems() throws Exception {
         // Initialize the database
         returnItemRepository.saveAndFlush(returnItem);
@@ -311,7 +359,9 @@ public class ReturnItemResourceIntTest {
             .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME.toString())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].productStatus").value(hasItem(DEFAULT_PRODUCT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].productStatus").value(hasItem(DEFAULT_PRODUCT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
+            .andExpect(jsonPath("$.[*].totalItemPrice").value(hasItem(DEFAULT_TOTAL_ITEM_PRICE.intValue())));
     }
     
     @Test
@@ -329,7 +379,9 @@ public class ReturnItemResourceIntTest {
             .andExpect(jsonPath("$.productName").value(DEFAULT_PRODUCT_NAME.toString()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
             .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE.intValue()))
-            .andExpect(jsonPath("$.productStatus").value(DEFAULT_PRODUCT_STATUS.toString()));
+            .andExpect(jsonPath("$.productStatus").value(DEFAULT_PRODUCT_STATUS.toString()))
+            .andExpect(jsonPath("$.unit").value(DEFAULT_UNIT.toString()))
+            .andExpect(jsonPath("$.totalItemPrice").value(DEFAULT_TOTAL_ITEM_PRICE.intValue()));
     }
 
     @Test
@@ -556,6 +608,84 @@ public class ReturnItemResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllReturnItemsByUnitIsEqualToSomething() throws Exception {
+        // Initialize the database
+        returnItemRepository.saveAndFlush(returnItem);
+
+        // Get all the returnItemList where unit equals to DEFAULT_UNIT
+        defaultReturnItemShouldBeFound("unit.equals=" + DEFAULT_UNIT);
+
+        // Get all the returnItemList where unit equals to UPDATED_UNIT
+        defaultReturnItemShouldNotBeFound("unit.equals=" + UPDATED_UNIT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReturnItemsByUnitIsInShouldWork() throws Exception {
+        // Initialize the database
+        returnItemRepository.saveAndFlush(returnItem);
+
+        // Get all the returnItemList where unit in DEFAULT_UNIT or UPDATED_UNIT
+        defaultReturnItemShouldBeFound("unit.in=" + DEFAULT_UNIT + "," + UPDATED_UNIT);
+
+        // Get all the returnItemList where unit equals to UPDATED_UNIT
+        defaultReturnItemShouldNotBeFound("unit.in=" + UPDATED_UNIT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReturnItemsByUnitIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        returnItemRepository.saveAndFlush(returnItem);
+
+        // Get all the returnItemList where unit is not null
+        defaultReturnItemShouldBeFound("unit.specified=true");
+
+        // Get all the returnItemList where unit is null
+        defaultReturnItemShouldNotBeFound("unit.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllReturnItemsByTotalItemPriceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        returnItemRepository.saveAndFlush(returnItem);
+
+        // Get all the returnItemList where totalItemPrice equals to DEFAULT_TOTAL_ITEM_PRICE
+        defaultReturnItemShouldBeFound("totalItemPrice.equals=" + DEFAULT_TOTAL_ITEM_PRICE);
+
+        // Get all the returnItemList where totalItemPrice equals to UPDATED_TOTAL_ITEM_PRICE
+        defaultReturnItemShouldNotBeFound("totalItemPrice.equals=" + UPDATED_TOTAL_ITEM_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReturnItemsByTotalItemPriceIsInShouldWork() throws Exception {
+        // Initialize the database
+        returnItemRepository.saveAndFlush(returnItem);
+
+        // Get all the returnItemList where totalItemPrice in DEFAULT_TOTAL_ITEM_PRICE or UPDATED_TOTAL_ITEM_PRICE
+        defaultReturnItemShouldBeFound("totalItemPrice.in=" + DEFAULT_TOTAL_ITEM_PRICE + "," + UPDATED_TOTAL_ITEM_PRICE);
+
+        // Get all the returnItemList where totalItemPrice equals to UPDATED_TOTAL_ITEM_PRICE
+        defaultReturnItemShouldNotBeFound("totalItemPrice.in=" + UPDATED_TOTAL_ITEM_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReturnItemsByTotalItemPriceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        returnItemRepository.saveAndFlush(returnItem);
+
+        // Get all the returnItemList where totalItemPrice is not null
+        defaultReturnItemShouldBeFound("totalItemPrice.specified=true");
+
+        // Get all the returnItemList where totalItemPrice is null
+        defaultReturnItemShouldNotBeFound("totalItemPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllReturnItemsByProductIsEqualToSomething() throws Exception {
         // Initialize the database
         Product product = ProductResourceIntTest.createEntity(em);
@@ -603,7 +733,9 @@ public class ReturnItemResourceIntTest {
             .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME)))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].productStatus").value(hasItem(DEFAULT_PRODUCT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].productStatus").value(hasItem(DEFAULT_PRODUCT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT)))
+            .andExpect(jsonPath("$.[*].totalItemPrice").value(hasItem(DEFAULT_TOTAL_ITEM_PRICE.intValue())));
 
         // Check, that the count call also returns 1
         restReturnItemMockMvc.perform(get("/api/return-items/count?sort=id,desc&" + filter))
@@ -655,7 +787,9 @@ public class ReturnItemResourceIntTest {
             .productName(UPDATED_PRODUCT_NAME)
             .quantity(UPDATED_QUANTITY)
             .unitPrice(UPDATED_UNIT_PRICE)
-            .productStatus(UPDATED_PRODUCT_STATUS);
+            .productStatus(UPDATED_PRODUCT_STATUS)
+            .unit(UPDATED_UNIT)
+            .totalItemPrice(UPDATED_TOTAL_ITEM_PRICE);
         ReturnItemDTO returnItemDTO = returnItemMapper.toDto(updatedReturnItem);
 
         restReturnItemMockMvc.perform(put("/api/return-items")
@@ -672,6 +806,8 @@ public class ReturnItemResourceIntTest {
         assertThat(testReturnItem.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testReturnItem.getUnitPrice()).isEqualTo(UPDATED_UNIT_PRICE);
         assertThat(testReturnItem.getProductStatus()).isEqualTo(UPDATED_PRODUCT_STATUS);
+        assertThat(testReturnItem.getUnit()).isEqualTo(UPDATED_UNIT);
+        assertThat(testReturnItem.getTotalItemPrice()).isEqualTo(UPDATED_TOTAL_ITEM_PRICE);
 
         // Validate the ReturnItem in Elasticsearch
         verify(mockReturnItemSearchRepository, times(1)).save(testReturnItem);
@@ -736,7 +872,9 @@ public class ReturnItemResourceIntTest {
             .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME)))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].productStatus").value(hasItem(DEFAULT_PRODUCT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].productStatus").value(hasItem(DEFAULT_PRODUCT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT)))
+            .andExpect(jsonPath("$.[*].totalItemPrice").value(hasItem(DEFAULT_TOTAL_ITEM_PRICE.intValue())));
     }
 
     @Test

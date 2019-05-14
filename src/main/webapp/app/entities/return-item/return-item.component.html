@@ -35,6 +35,8 @@
             <th jhiSortBy="quantity"><span jhiTranslate="jhiptokomajuApp.returnItem.quantity">Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="unitPrice"><span jhiTranslate="jhiptokomajuApp.returnItem.unitPrice">Unit Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productStatus"><span jhiTranslate="jhiptokomajuApp.returnItem.productStatus">Product Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="unit"><span jhiTranslate="jhiptokomajuApp.returnItem.unit">Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="totalItemPrice"><span jhiTranslate="jhiptokomajuApp.returnItem.totalItemPrice">Total Item Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productBarcode"><span jhiTranslate="jhiptokomajuApp.returnItem.product">Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="returnTransactionId"><span jhiTranslate="jhiptokomajuApp.returnItem.returnTransaction">Return Transaction</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
@@ -48,6 +50,8 @@
                 <td>{{returnItem.quantity}}</td>
                 <td>{{returnItem.unitPrice}}</td>
                 <td jhiTranslate="{{'jhiptokomajuApp.ProductStatus.' + returnItem.productStatus}}">{{returnItem.productStatus}}</td>
+                <td>{{returnItem.unit}}</td>
+                <td>{{returnItem.totalItemPrice}}</td>
                 <td>
                     <div *ngIf="returnItem.productId">
                         <a [routerLink]="['../product', returnItem.productId , 'view' ]" >{{returnItem.productBarcode}}</a>

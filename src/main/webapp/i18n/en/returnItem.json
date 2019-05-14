@@ -21,6 +21,8 @@
             "quantity": "Quantity",
             "unitPrice": "Unit Price",
             "productStatus": "Product Status",
+            "unit": "Unit",
+            "totalItemPrice": "Total Item Price",
             "product": "Product",
             "returnTransaction": "Return Transaction"
         }

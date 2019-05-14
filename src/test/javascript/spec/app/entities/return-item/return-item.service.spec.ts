@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(ReturnItemService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new ReturnItem(0, 'AAAAAAA', 'AAAAAAA', 0, 0, ProductStatus.GOOD);
+            elemDefault = new ReturnItem(0, 'AAAAAAA', 'AAAAAAA', 0, 0, ProductStatus.GOOD, 'AAAAAAA', 0);
         });
 
         describe('Service methods', async () => {
@@ -59,7 +59,9 @@ describe('Service Tests', () => {
                         productName: 'BBBBBB',
                         quantity: 1,
                         unitPrice: 1,
-                        productStatus: 'BBBBBB'
+                        productStatus: 'BBBBBB',
+                        unit: 'BBBBBB',
+                        totalItemPrice: 1
                     },
                     elemDefault
                 );
@@ -80,7 +82,9 @@ describe('Service Tests', () => {
                         productName: 'BBBBBB',
                         quantity: 1,
                         unitPrice: 1,
-                        productStatus: 'BBBBBB'
+                        productStatus: 'BBBBBB',
+                        unit: 'BBBBBB',
+                        totalItemPrice: 1
                     },
                     elemDefault
                 );

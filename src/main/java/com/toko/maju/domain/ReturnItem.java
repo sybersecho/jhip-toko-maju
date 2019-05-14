@@ -52,6 +52,15 @@ public class ReturnItem implements Serializable {
     @Column(name = "product_status", nullable = false)
     private ProductStatus productStatus;
 
+    @NotNull
+    @Column(name = "unit", nullable = false)
+    private String unit;
+
+    @NotNull
+    @DecimalMin(value = "0")
+    @Column(name = "total_item_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalItemPrice;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("returnItems")
@@ -136,6 +145,32 @@ public class ReturnItem implements Serializable {
         this.productStatus = productStatus;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public ReturnItem unit(String unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public BigDecimal getTotalItemPrice() {
+        return totalItemPrice;
+    }
+
+    public ReturnItem totalItemPrice(BigDecimal totalItemPrice) {
+        this.totalItemPrice = totalItemPrice;
+        return this;
+    }
+
+    public void setTotalItemPrice(BigDecimal totalItemPrice) {
+        this.totalItemPrice = totalItemPrice;
+    }
+
     public Product getProduct() {
         return product;
     }
@@ -192,6 +227,8 @@ public class ReturnItem implements Serializable {
             ", quantity=" + getQuantity() +
             ", unitPrice=" + getUnitPrice() +
             ", productStatus='" + getProductStatus() + "'" +
+            ", unit='" + getUnit() + "'" +
+            ", totalItemPrice=" + getTotalItemPrice() +
             "}";
     }
 }

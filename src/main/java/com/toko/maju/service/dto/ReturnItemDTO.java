@@ -28,6 +28,13 @@ public class ReturnItemDTO implements Serializable {
     @NotNull
     private ProductStatus productStatus;
 
+    @NotNull
+    private String unit;
+
+    @NotNull
+    @DecimalMin(value = "0")
+    private BigDecimal totalItemPrice;
+
 
     private Long productId;
 
@@ -81,6 +88,22 @@ public class ReturnItemDTO implements Serializable {
 
     public void setProductStatus(ProductStatus productStatus) {
         this.productStatus = productStatus;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public BigDecimal getTotalItemPrice() {
+        return totalItemPrice;
+    }
+
+    public void setTotalItemPrice(BigDecimal totalItemPrice) {
+        this.totalItemPrice = totalItemPrice;
     }
 
     public Long getProductId() {
@@ -137,6 +160,8 @@ public class ReturnItemDTO implements Serializable {
             ", quantity=" + getQuantity() +
             ", unitPrice=" + getUnitPrice() +
             ", productStatus='" + getProductStatus() + "'" +
+            ", unit='" + getUnit() + "'" +
+            ", totalItemPrice=" + getTotalItemPrice() +
             ", product=" + getProductId() +
             ", product='" + getProductBarcode() + "'" +
             ", returnTransaction=" + getReturnTransactionId() +

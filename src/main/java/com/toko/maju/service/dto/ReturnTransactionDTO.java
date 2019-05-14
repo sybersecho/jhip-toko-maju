@@ -2,6 +2,7 @@ package com.toko.maju.service.dto;
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import com.toko.maju.domain.enumeration.TransactionType;
 
@@ -16,6 +17,9 @@ public class ReturnTransactionDTO implements Serializable {
 
     @NotNull
     private TransactionType transactionType;
+
+    @NotNull
+    private BigDecimal totalPriceReturn;
 
 
     private Long creatorId;
@@ -52,6 +56,14 @@ public class ReturnTransactionDTO implements Serializable {
 
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public BigDecimal getTotalPriceReturn() {
+        return totalPriceReturn;
+    }
+
+    public void setTotalPriceReturn(BigDecimal totalPriceReturn) {
+        this.totalPriceReturn = totalPriceReturn;
     }
 
     public Long getCreatorId() {
@@ -129,6 +141,7 @@ public class ReturnTransactionDTO implements Serializable {
             "id=" + getId() +
             ", created_date='" + getCreated_date() + "'" +
             ", transactionType='" + getTransactionType() + "'" +
+            ", totalPriceReturn=" + getTotalPriceReturn() +
             ", creator=" + getCreatorId() +
             ", creator='" + getCreatorLogin() + "'" +
             ", customer=" + getCustomerId() +

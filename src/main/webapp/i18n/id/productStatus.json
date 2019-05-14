@@ -2,8 +2,8 @@
     "jhiptokomajuApp": {
         "ProductStatus": {
             "null": "",
-            "GOOD": "GOOD",
-            "BAD": "BAD"
+            "GOOD": "Baik",
+            "BAD": "Rusak"
         }
     }
 }

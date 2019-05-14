@@ -11,6 +11,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,6 +41,10 @@ public class ReturnTransaction implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type", nullable = false)
     private TransactionType transactionType;
+
+    @NotNull
+    @Column(name = "total_price_return", precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalPriceReturn;
 
     @ManyToOne
     @JsonIgnoreProperties("returnTransactions")
@@ -89,6 +94,19 @@ public class ReturnTransaction implements Serializable {
 
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public BigDecimal getTotalPriceReturn() {
+        return totalPriceReturn;
+    }
+
+    public ReturnTransaction totalPriceReturn(BigDecimal totalPriceReturn) {
+        this.totalPriceReturn = totalPriceReturn;
+        return this;
+    }
+
+    public void setTotalPriceReturn(BigDecimal totalPriceReturn) {
+        this.totalPriceReturn = totalPriceReturn;
     }
 
     public User getCreator() {
@@ -182,6 +200,7 @@ public class ReturnTransaction implements Serializable {
             "id=" + getId() +
             ", created_date='" + getCreated_date() + "'" +
             ", transactionType='" + getTransactionType() + "'" +
+            ", totalPriceReturn=" + getTotalPriceReturn() +
             "}";
     }
 }

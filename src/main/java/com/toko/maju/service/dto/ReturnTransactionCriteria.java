@@ -10,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 
 /**
@@ -34,6 +35,8 @@ public class ReturnTransactionCriteria implements Serializable {
     private InstantFilter created_date;
 
     private TransactionTypeFilter transactionType;
+
+    private BigDecimalFilter totalPriceReturn;
 
     private LongFilter creatorId;
 
@@ -65,6 +68,14 @@ public class ReturnTransactionCriteria implements Serializable {
 
     public void setTransactionType(TransactionTypeFilter transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public BigDecimalFilter getTotalPriceReturn() {
+        return totalPriceReturn;
+    }
+
+    public void setTotalPriceReturn(BigDecimalFilter totalPriceReturn) {
+        this.totalPriceReturn = totalPriceReturn;
     }
 
     public LongFilter getCreatorId() {
@@ -113,6 +124,7 @@ public class ReturnTransactionCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(created_date, that.created_date) &&
             Objects.equals(transactionType, that.transactionType) &&
+            Objects.equals(totalPriceReturn, that.totalPriceReturn) &&
             Objects.equals(creatorId, that.creatorId) &&
             Objects.equals(customerId, that.customerId) &&
             Objects.equals(supplierId, that.supplierId) &&
@@ -125,6 +137,7 @@ public class ReturnTransactionCriteria implements Serializable {
         id,
         created_date,
         transactionType,
+        totalPriceReturn,
         creatorId,
         customerId,
         supplierId,
@@ -138,6 +151,7 @@ public class ReturnTransactionCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (created_date != null ? "created_date=" + created_date + ", " : "") +
                 (transactionType != null ? "transactionType=" + transactionType + ", " : "") +
+                (totalPriceReturn != null ? "totalPriceReturn=" + totalPriceReturn + ", " : "") +
                 (creatorId != null ? "creatorId=" + creatorId + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
                 (supplierId != null ? "supplierId=" + supplierId + ", " : "") +

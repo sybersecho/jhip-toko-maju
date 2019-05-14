@@ -10,6 +10,8 @@ export interface IReturnItem {
     quantity?: number;
     unitPrice?: number;
     productStatus?: ProductStatus;
+    unit?: string;
+    totalItemPrice?: number;
     productBarcode?: string;
     productId?: number;
     returnTransactionId?: number;
@@ -23,6 +25,8 @@ export class ReturnItem implements IReturnItem {
         public quantity?: number,
         public unitPrice?: number,
         public productStatus?: ProductStatus,
+        public unit?: string,
+        public totalItemPrice?: number,
         public productBarcode?: string,
         public productId?: number,
         public returnTransactionId?: number

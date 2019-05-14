@@ -29,6 +29,21 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.totalPriceReturn" for="field_totalPriceReturn">Total Price Return</label>
+                    <input type="number" class="form-control" name="totalPriceReturn" id="field_totalPriceReturn"
+                        [(ngModel)]="returnTransaction.totalPriceReturn" required/>
+                    <div [hidden]="!(editForm.controls.totalPriceReturn?.dirty && editForm.controls.totalPriceReturn?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.totalPriceReturn?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.totalPriceReturn?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.creator" for="field_creator">Creator</label>

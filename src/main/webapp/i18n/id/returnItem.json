@@ -20,7 +20,9 @@
             "productName": "Product Name",
             "quantity": "Quantity",
             "unitPrice": "Unit Price",
-            "productStatus": "Product Status",
+            "productStatus": "Status",
+            "unit": "Unit",
+            "totalItemPrice": "Total Item Price",
             "product": "Product",
             "returnTransaction": "Return Transaction"
         }

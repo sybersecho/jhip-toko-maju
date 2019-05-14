@@ -7,3 +7,4 @@ export * from './return-transaction.route';
 export * from './return-toko.component';
 export * from './customer-info-box/customer-info-box.component';
 export * from './select-product-box/select-product-box.component';
+export * from './item-list-box/item-list-box.component';

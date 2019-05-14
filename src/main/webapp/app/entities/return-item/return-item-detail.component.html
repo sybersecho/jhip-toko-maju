@@ -25,6 +25,14 @@
                 <dd>
                     <span jhiTranslate="{{'jhiptokomajuApp.ProductStatus.' + returnItem.productStatus}}">{{returnItem.productStatus}}</span>
                 </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.unit">Unit</span></dt>
+                <dd>
+                    <span>{{returnItem.unit}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.returnItem.totalItemPrice">Total Item Price</span></dt>
+                <dd>
+                    <span>{{returnItem.totalItemPrice}}</span>
+                </dd>
                 <dt><span jhiTranslate="jhiptokomajuApp.returnItem.product">Product</span></dt>
                 <dd>
                     <div *ngIf="returnItem.productId">

@@ -32,6 +32,7 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="created_date"><span jhiTranslate="jhiptokomajuApp.returnTransaction.created_date">Created Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="transactionType"><span jhiTranslate="jhiptokomajuApp.returnTransaction.transactionType">Transaction Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="totalPriceReturn"><span jhiTranslate="jhiptokomajuApp.returnTransaction.totalPriceReturn">Total Price Return</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="creatorLogin"><span jhiTranslate="jhiptokomajuApp.returnTransaction.creator">Creator</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="customerCode"><span jhiTranslate="jhiptokomajuApp.returnTransaction.customer">Customer</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplierCode"><span jhiTranslate="jhiptokomajuApp.returnTransaction.supplier">Supplier</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -43,6 +44,7 @@
                 <td><a [routerLink]="['/return-transaction', returnTransaction.id, 'view' ]">{{returnTransaction.id}}</a></td>
                 <td>{{returnTransaction.created_date | date:'medium'}}</td>
                 <td jhiTranslate="{{'jhiptokomajuApp.TransactionType.' + returnTransaction.transactionType}}">{{returnTransaction.transactionType}}</td>
+                <td>{{returnTransaction.totalPriceReturn}}</td>
                 <td>
                     {{returnTransaction.creatorLogin}}
                 </td>

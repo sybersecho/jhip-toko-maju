@@ -47,6 +47,13 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "totalPriceReturn",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20190513152016",

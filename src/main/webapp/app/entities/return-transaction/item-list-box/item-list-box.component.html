@@ -1,0 +1,61 @@
+<form name="itemsForm" role="form" novalidate (ngSubmit)="save()" #itemsForm="ngForm">
+    <div class="table">
+        <table class="table table-sm table-striped">
+            <thead>
+                <th style="width: 10%" class="text-center">
+                    <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span>
+                </th>
+                <th style="width: 35%"><span jhiTranslate="jhiptokomajuApp.product.name">Product Name</span></th>
+                <th style="width: 10%" class="text-center">
+                    <span jhiTranslate="jhiptokomajuApp.saleTransactions.quantity">Quantity</span>
+                </th>
+                <th style="width: 10%"><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
+                <th style="width: 15%">
+                    <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
+                </th>
+                <th style="width: 10%"><span jhiTranslate="jhiptokomajuApp.returnItem.productStatus">Product Status</span></th>
+                <th style="width: 15%"><span jhiTranslate="global.field.total">Total</span></th>
+                <th style="width: 5%"></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of returnToko.returnItems; let i = index">
+                    <td>{{ item.barcode }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td>
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="quantity{{ i }}"
+                            id="field_quantity"
+                            [(ngModel)]="item.quantity"
+                            min="1"
+                            jhiMin="1"
+                        />
+                        <!-- (change)="onChangeQuantity(i, item.quantity)" -->
+                    </td>
+                    <td>{{ item.unit }}</td>
+                    <td>{{ item.unitPrice | currency: 'IDR':'Rp. ' }}</td>
+                    <td>
+                        <select
+                            class="form-control"
+                            name="productStatus{{ i }}"
+                            [(ngModel)]="item.productStatus"
+                            id="field_productStatus"
+                            required
+                        >
+                            <option value="GOOD">{{ 'jhiptokomajuApp.ProductStatus.GOOD' | translate }}</option>
+                            <option value="BAD">{{ 'jhiptokomajuApp.ProductStatus.BAD' | translate }}</option>
+                        </select>
+                    </td>
+                    <td>{{ item.totalItemPrice | currency: 'IDR':'Rp. ' }}</td>
+                    <!-- (click)="onDeleteItem(i)"" -->
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

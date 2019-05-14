@@ -42,6 +42,14 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="unit" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="total_item_price" type="decimal(10,2)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="product_id" type="bigint">
                 <constraints nullable="false" />
             </column>

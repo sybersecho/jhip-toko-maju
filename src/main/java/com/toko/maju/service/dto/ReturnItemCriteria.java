@@ -41,6 +41,10 @@ public class ReturnItemCriteria implements Serializable {
 
     private ProductStatusFilter productStatus;
 
+    private StringFilter unit;
+
+    private BigDecimalFilter totalItemPrice;
+
     private LongFilter productId;
 
     private LongFilter returnTransactionId;
@@ -93,6 +97,22 @@ public class ReturnItemCriteria implements Serializable {
         this.productStatus = productStatus;
     }
 
+    public StringFilter getUnit() {
+        return unit;
+    }
+
+    public void setUnit(StringFilter unit) {
+        this.unit = unit;
+    }
+
+    public BigDecimalFilter getTotalItemPrice() {
+        return totalItemPrice;
+    }
+
+    public void setTotalItemPrice(BigDecimalFilter totalItemPrice) {
+        this.totalItemPrice = totalItemPrice;
+    }
+
     public LongFilter getProductId() {
         return productId;
     }
@@ -126,6 +146,8 @@ public class ReturnItemCriteria implements Serializable {
             Objects.equals(quantity, that.quantity) &&
             Objects.equals(unitPrice, that.unitPrice) &&
             Objects.equals(productStatus, that.productStatus) &&
+            Objects.equals(unit, that.unit) &&
+            Objects.equals(totalItemPrice, that.totalItemPrice) &&
             Objects.equals(productId, that.productId) &&
             Objects.equals(returnTransactionId, that.returnTransactionId);
     }
@@ -139,6 +161,8 @@ public class ReturnItemCriteria implements Serializable {
         quantity,
         unitPrice,
         productStatus,
+        unit,
+        totalItemPrice,
         productId,
         returnTransactionId
         );
@@ -153,6 +177,8 @@ public class ReturnItemCriteria implements Serializable {
                 (quantity != null ? "quantity=" + quantity + ", " : "") +
                 (unitPrice != null ? "unitPrice=" + unitPrice + ", " : "") +
                 (productStatus != null ? "productStatus=" + productStatus + ", " : "") +
+                (unit != null ? "unit=" + unit + ", " : "") +
+                (totalItemPrice != null ? "totalItemPrice=" + totalItemPrice + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +
                 (returnTransactionId != null ? "returnTransactionId=" + returnTransactionId + ", " : "") +
             "}";

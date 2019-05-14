@@ -108,6 +108,12 @@ public class ReturnItemQueryService extends QueryService<ReturnItem> {
             if (criteria.getProductStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getProductStatus(), ReturnItem_.productStatus));
             }
+            if (criteria.getUnit() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getUnit(), ReturnItem_.unit));
+            }
+            if (criteria.getTotalItemPrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalItemPrice(), ReturnItem_.totalItemPrice));
+            }
             if (criteria.getProductId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProductId(),
                     root -> root.join(ReturnItem_.product, JoinType.LEFT).get(Product_.id)));

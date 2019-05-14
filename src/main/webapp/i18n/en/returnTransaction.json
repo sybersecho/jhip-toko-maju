@@ -30,6 +30,7 @@
             },
             "created_date": "Created Date",
             "transactionType": "Transaction Type",
+            "totalPriceReturn": "Total Price Return",
             "creator": "Creator",
             "customer": "Customer",
             "supplier": "Supplier",

@@ -103,6 +103,8 @@ export class SelectProductBoxComponent implements OnInit, OnDestroy {
             1,
             product.sellingPrice,
             ProductStatus.GOOD,
+            product.unitName,
+            0,
             product.barcode,
             product.id,
             null

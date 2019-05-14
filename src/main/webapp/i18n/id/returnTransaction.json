@@ -28,8 +28,9 @@
             "detail": {
                 "title": "Return Transaction"
             },
-            "created_date": "Created Date",
+            "created_date": "Tanggal",
             "transactionType": "Transaction Type",
+            "totalPriceReturn": "Total",
             "creator": "Creator",
             "customer": "Customer",
             "supplier": "Supplier",

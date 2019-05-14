@@ -89,14 +89,17 @@ entity CancelTransaction {
 }
 entity ReturnTransaction {
   created_date Instant,
-  transactionType TransactionType required
+  transactionType TransactionType required,
+  totalPriceReturn BigDecimal required
 }
 entity ReturnItem {
   barcode String required,
   productName String required,
   quantity Integer required,
   unitPrice BigDecimal required min(0),
-  productStatus ProductStatus required
+  productStatus ProductStatus required,
+  unit String required,
+  totalItemPrice BigDecimal required min(0)
 }
 
 enum Gender {
