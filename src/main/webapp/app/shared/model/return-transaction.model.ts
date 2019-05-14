@@ -31,5 +31,7 @@ export class ReturnTransaction implements IReturnTransaction {
         public supplierCode?: string,
         public supplierId?: number,
         public returnItems?: IReturnItem[]
-    ) {}
+    ) {
+        this.returnItems = [];
+    }
 }

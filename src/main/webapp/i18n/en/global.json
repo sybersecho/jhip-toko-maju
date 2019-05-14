@@ -125,6 +125,7 @@
             "addAll": "Add All",
             "saveAll": "Save All",
             "addToCart": "Add to Cart",
+            "addToList": "Add to List",
             "process": "Process",
             "processAndPrint": "Process & Print",
             "processAsOrders": "Process as Delivery Orders"

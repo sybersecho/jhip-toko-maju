@@ -1,3 +1,73 @@
-<p>
-  select-product-box works!
-</p>
+<form name="productForm" role="form" novalidate (ngSubmit)="addItem(productForm)" #productForm="ngForm">
+    <jhi-alert-error></jhi-alert-error>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.barcode" for="field_barcode">Barcode</label>
+            <a
+                class="fa-pull-right"
+                jhiTranslate="jhiptokomajuApp.product.home.search"
+                [routerLink]="['/', { outlets: { popup: 'sale/search-product' } }]"
+                replaceUrl="true"
+                queryParamsHandling="merge"
+            >
+                Search Product
+            </a>
+            <input
+                type="text"
+                class="form-control"
+                name="barcode"
+                id="field_barcode"
+                #barcode
+                [(ngModel)]="returnItem.barcode"
+                (keydown.enter)="searchProduct()"
+            />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.name" for="field_name">Name</label>
+            <a class="fa-pull-right" (click)="resetForm()"> Clear</a>
+            <input type="text" class="form-control" name="name" id="field_name" [(ngModel)]="returnItem.productName" readonly />
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.sellingPrice" for="field_sellingPrice"
+                        >Selling Price</label
+                    >
+                    <input
+                        type="tel"
+                        class="form-control"
+                        name="sellingPrice"
+                        id="field_sellingPrice"
+                        [options]="{ prefix: '', thousands: '.', precision: 0 }"
+                        [(ngModel)]="returnItem.unitPrice"
+                        currencyMask
+                    />
+                </div>
+            </div>
+            <div class="col-md-6  col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.saleItem.quantity" for="field_quantity">Quantity</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="quantity"
+                        id="field_quantity"
+                        [(ngModel)]="returnItem.quantity"
+                        min="1"
+                        jhiMin="1"
+                        #quantity
+                        (keydown.enter)="addItem(productForm)"
+                    />
+                </div>
+            </div>
+        </div>
+        <button
+            type="button"
+            class="btn btn-success btn-lg btn-block"
+            [disabled]="productForm.form.invalid || !aProductSelected"
+            (click)="addItem(productForm)"
+        >
+            <span jhiTranslate="entity.action.addToList">Add To List</span>
+        </button>
+    </div>
+</form>
