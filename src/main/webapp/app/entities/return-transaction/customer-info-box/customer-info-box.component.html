@@ -2,34 +2,70 @@
     <div class="col-sm-12 text-right">
         <div class="form-group">
             <!-- <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button> -->
-            <a jhiTranslate="jhiptokomajuApp.customer.home.search">Cari Customer</a>
+            <a
+                jhiTranslate="jhiptokomajuApp.customer.home.search"
+                [routerLink]="['/', { outlets: { popup: 'sale/search-customer' } }]"
+                replaceUrl="true"
+                queryParamsHandling="merge"
+                >Cari Customer</a
+            >
         </div>
     </div>
     <div class="col-sm-6">
         <div class="form-group row">
-            <label class="col-md-3 col-sm-12 form-control-label" jhiTranslate="jhiptokomajuApp.customer.code" for="field_customerCode"
+            <label
+                class="col-md-3 col-sm-12 form-control-label col-form-label-sm"
+                jhiTranslate="jhiptokomajuApp.customer.code"
+                for="field_customerCode"
                 >Code</label
             >
             <div class="col-md-9 col-sm-12">
-                <input type="text" class="form-control" name="customerCode" id="field_customerCode" [ngModel]="customer?.code" readonly />
+                <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    name="customerCode"
+                    id="field_customerCode"
+                    [ngModel]="customer?.code"
+                    readonly
+                />
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-3 col-sm-12 form-control-label" jhiTranslate="jhiptokomajuApp.customer.fullName" for="field_fullName"
+            <label
+                class="col-md-3 col-sm-12 form-control-label col-form-label-sm"
+                jhiTranslate="jhiptokomajuApp.customer.fullName"
+                for="field_fullName"
                 >Full Name</label
             >
             <div class="col-md-9 col-sm-12">
-                <input type="text" class="form-control" name="fullName" id="field_fullName" [ngModel]="getCustomerFullName()" readonly />
+                <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    name="fullName"
+                    id="field_fullName"
+                    [ngModel]="getCustomerFullName()"
+                    readonly
+                />
             </div>
         </div>
     </div>
     <div class="col-sm-6">
         <div class="form-group row">
-            <label class="col-md-4 form-control-label" jhiTranslate="jhiptokomajuApp.customer.address" for="field_address">
+            <label
+                class="col-md-4 form-control-label col-form-label-sm"
+                jhiTranslate="jhiptokomajuApp.customer.address"
+                for="field_address"
+            >
                 Address
             </label>
             <div class="col-md-8">
-                <textarea class="form-control" id="field_address" name="address" [ngModel]="customer?.address" readonly></textarea>
+                <textarea
+                    class="form-control form-control-sm"
+                    id="field_address"
+                    name="address"
+                    [ngModel]="customer?.address"
+                    readonly
+                ></textarea>
             </div>
 
             <!--

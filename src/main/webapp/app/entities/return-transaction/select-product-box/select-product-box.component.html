@@ -2,7 +2,7 @@
     <jhi-alert-error></jhi-alert-error>
     <div class="col-md-12">
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jhiptokomajuApp.product.barcode" for="field_barcode">Barcode</label>
+            <label class="form-control-label col-form-label-sm" jhiTranslate="jhiptokomajuApp.product.barcode" for="field_barcode">Barcode</label>
             <a
                 class="fa-pull-right"
                 jhiTranslate="jhiptokomajuApp.product.home.search"
@@ -41,6 +41,7 @@
                         [options]="{ prefix: '', thousands: '.', precision: 0 }"
                         [(ngModel)]="returnItem.unitPrice"
                         currencyMask
+                        (keydown.enter)="addItem(productForm)"
                     />
                 </div>
             </div>

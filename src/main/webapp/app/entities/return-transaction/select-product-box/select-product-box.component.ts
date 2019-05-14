@@ -42,7 +42,9 @@ export class SelectProductBoxComponent implements OnInit, OnDestroy {
     }
 
     addItem(form: NgForm) {
-        this.returnToko.returnItems.push(this.returnItem);
+        this.returnItem.createItem();
+        this.returnToko.addItem(this.returnItem);
+        this.returnToko.calculateTotalReturn();
         console.log('returned, ', this.returnToko);
         this.resetForm();
     }

@@ -1,24 +1,36 @@
-import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { IReturnTransaction } from 'app/shared/model/return-transaction.model';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-customer-info-box',
     templateUrl: './customer-info-box.component.html',
     styles: []
 })
-export class CustomerInfoBoxComponent implements OnInit, AfterViewInit, OnChanges {
+export class CustomerInfoBoxComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     customer?: ICustomer;
     // tslint:disable-next-line: no-input-rename
     @Input('customer') customerId: number;
     // tslint:disable-next-line: no-input-rename
     @Input('returnT') returnToko: IReturnTransaction;
+    eventSubscription: Subscription;
 
-    constructor(protected customerService: CustomerService, protected jhiAlertService: JhiAlertService) {}
+    constructor(
+        protected customerService: CustomerService,
+        protected jhiAlertService: JhiAlertService,
+        protected eventManager: JhiEventManager
+    ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.registerEvent();
+    }
+
+    ngOnDestroy(): void {
+        this.eventManager.destroy(this.eventSubscription);
+    }
 
     getCustomerFullName(): string {
         if (!this.customer) {
@@ -48,6 +60,14 @@ export class CustomerInfoBoxComponent implements OnInit, AfterViewInit, OnChange
                 this.onError('error.somethingwrong');
             }
         );
+    }
+
+    protected registerEvent() {
+        this.eventSubscription = this.eventManager.subscribe('onSelectCustomerEvent', response => {
+            this.customer = response.data;
+            this.returnToko.customerCode = this.customer.code;
+            this.returnToko.customerId = this.customer.id;
+        });
     }
 
     protected onError(errorMessage: string) {

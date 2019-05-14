@@ -18,6 +18,11 @@ export interface IReturnTransaction {
     supplierCode?: string;
     supplierId?: number;
     returnItems?: IReturnItem[];
+
+    addItem(item: IReturnItem);
+    calculateTotalReturn();
+    removeItemAt(itemPos: number);
+    updateQuantity(i: number, itemQuantity: number);
 }
 
 export class ReturnTransaction implements IReturnTransaction {
@@ -35,5 +40,53 @@ export class ReturnTransaction implements IReturnTransaction {
         public returnItems?: IReturnItem[]
     ) {
         this.returnItems = [];
+    }
+
+    addItem(item: IReturnItem) {
+        const exist = this.isItemExis(item.barcode);
+        if (exist) {
+            const index = this.returnItems.indexOf(exist);
+            this.updateItem(item, index);
+        } else {
+            this.returnItems.push(item);
+        }
+    }
+
+    removeItemAt(index: number) {
+        this.returnItems.splice(index, 1);
+        this.calculateTotalReturn();
+    }
+
+    updateQuantity(i: number, quantity: number) {
+        const changeItem = this.returnItems[i];
+        changeItem.quantity = quantity;
+        changeItem.createItem();
+        this.returnItems[i] = changeItem;
+
+        this.calculateTotalReturn();
+    }
+
+    protected updateItem(item: IReturnItem, index: number): void {
+        const currentItem = this.returnItems[index];
+        currentItem.quantity += item.quantity;
+        currentItem.unitPrice = item.unitPrice;
+        currentItem.createItem();
+        this.returnItems[index] = currentItem;
+        this.calculateTotalReturn();
+    }
+
+    calculateTotalReturn() {
+        this.totalPriceReturn = 0;
+        this.returnItems.forEach(item => {
+            this.totalPriceReturn += item.totalItemPrice;
+        });
+    }
+
+    protected atIndex(barcode: string): number {
+        throw new Error('Method not implemented.');
+    }
+
+    protected isItemExis(barcode: string) {
+        return this.returnItems.filter(item => item.barcode === barcode)[0];
     }
 }

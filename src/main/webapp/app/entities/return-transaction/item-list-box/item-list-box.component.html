@@ -1,11 +1,11 @@
 <form name="itemsForm" role="form" novalidate (ngSubmit)="save()" #itemsForm="ngForm">
     <div class="table">
         <table class="table table-sm table-striped">
-            <thead>
+            <thead style="font-size: 15px">
                 <th style="width: 10%" class="text-center">
                     <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span>
                 </th>
-                <th style="width: 35%"><span jhiTranslate="jhiptokomajuApp.product.name">Product Name</span></th>
+                <th style="width: 30%"><span jhiTranslate="jhiptokomajuApp.product.name">Product Name</span></th>
                 <th style="width: 10%" class="text-center">
                     <span jhiTranslate="jhiptokomajuApp.saleTransactions.quantity">Quantity</span>
                 </th>
@@ -14,10 +14,10 @@
                     <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
                 </th>
                 <th style="width: 10%"><span jhiTranslate="jhiptokomajuApp.returnItem.productStatus">Product Status</span></th>
-                <th style="width: 15%"><span jhiTranslate="global.field.total">Total</span></th>
+                <th style="width: 20%"><span jhiTranslate="global.field.total">Total</span></th>
                 <th style="width: 5%"></th>
             </thead>
-            <tbody>
+            <tbody style="font-size: 15px">
                 <tr *ngFor="let item of returnToko.returnItems; let i = index">
                     <td>{{ item.barcode }}</td>
                     <td>{{ item.productName }}</td>
@@ -30,8 +30,8 @@
                             [(ngModel)]="item.quantity"
                             min="1"
                             jhiMin="1"
+                            (change)="onChangeQuantity(i, item.quantity)"
                         />
-                        <!-- (change)="onChangeQuantity(i, item.quantity)" -->
                     </td>
                     <td>{{ item.unit }}</td>
                     <td>{{ item.unitPrice | currency: 'IDR':'Rp. ' }}</td>
@@ -48,14 +48,35 @@
                         </select>
                     </td>
                     <td>{{ item.totalItemPrice | currency: 'IDR':'Rp. ' }}</td>
-                    <!-- (click)="onDeleteItem(i)"" -->
                     <td>
-                        <button type="button" class="btn btn-sm btn-danger">
+                        <button type="button" class="btn btn-sm btn-danger" (click)="onDeleteItem(i)">
                             <fa-icon [icon]="'times'"></fa-icon>
                         </button>
                     </td>
                 </tr>
             </tbody>
+            <tfoot *ngIf="returnToko.returnItems.length > 0">
+                <tr>
+                    <th colspan="2" class="text-left">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="cash" [(ngModel)]="cashReturn" />
+                            <label class="form-check-label" for="cash">
+                                Pengembalian Tunai
+                            </label>
+                        </div>
+                    </th>
+                    <th colspan="4" class="text-right">Total</th>
+                    <th colspan="2" id="subtotal">{{ returnToko.totalPriceReturn | currency: 'IDR':'Rp. ' }}</th>
+                </tr>
+            </tfoot>
         </table>
+    </div>
+    <div class="clearfix" *ngIf="returnToko.returnItems.length > 0">
+        <button type="button" class="btn btn-sm btn-success float-left">
+            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.process">Process</span>
+        </button>
+        <button type="button" class="btn btn-sm btn-success float-right">
+            <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.processAndPrint">Process & Print</span>
+        </button>
     </div>
 </form>

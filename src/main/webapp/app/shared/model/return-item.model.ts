@@ -15,6 +15,8 @@ export interface IReturnItem {
     productBarcode?: string;
     productId?: number;
     returnTransactionId?: number;
+
+    createItem(): void;
 }
 
 export class ReturnItem implements IReturnItem {
@@ -31,4 +33,8 @@ export class ReturnItem implements IReturnItem {
         public productId?: number,
         public returnTransactionId?: number
     ) {}
+
+    createItem(): void {
+        this.totalItemPrice = this.quantity * this.unitPrice;
+    }
 }
