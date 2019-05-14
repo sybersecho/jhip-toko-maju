@@ -109,4 +109,10 @@ public class CustomerServiceImpl implements CustomerService {
         return customerSearchRepository.search(queryStringQuery(query), pageable)
             .map(customerMapper::toDto);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<CustomerDTO> findTopById() {
+        return customerRepository.findTopByOrderByIdAsc().map(customerMapper::toDto);
+    }
 }

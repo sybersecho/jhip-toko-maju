@@ -14,8 +14,8 @@
                 "search": "Cari Pengembalian Toko"
             },
             "supply": {
-                "title": "Pengembalian Supplir",
-                "createLabel": "Buat Pengambalian Supplir baru",
+                "title": "Pengembalian Supplier",
+                "createLabel": "Buat Pengambalian Supplier baru",
                 "createOrEditLabel": "Buat atau edit Pengembalian Supplier",
                 "search": "Cari Pengembalian Supplier"
             },

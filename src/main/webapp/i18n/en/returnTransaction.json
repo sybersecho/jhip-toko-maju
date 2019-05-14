@@ -17,7 +17,7 @@
                 "title": "Return Supplier",
                 "createLabel": "Create a new Return Supplier",
                 "createOrEditLabel": "Create or edit a Return Supplier",
-                "search": "Search for Return Supplir"
+                "search": "Search for Return Supplier"
             },
             "created": "A new Return Transaction is created with identifier {{ param }}",
             "updated": "A Return Transaction is updated with identifier {{ param }}",

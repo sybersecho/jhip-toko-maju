@@ -53,4 +53,6 @@ public interface CustomerService {
      * @return the list of entities
      */
     Page<CustomerDTO> search(String query, Pageable pageable);
+
+    Optional<CustomerDTO> findTopById();
 }

@@ -11,6 +11,7 @@ import { ReturnTransactionDetailComponent } from './return-transaction-detail.co
 import { ReturnTransactionUpdateComponent } from './return-transaction-update.component';
 import { ReturnTransactionDeletePopupComponent } from './return-transaction-delete-dialog.component';
 import { IReturnTransaction } from 'app/shared/model/return-transaction.model';
+import { ReturnTokoComponent } from './return-toko.component';
 
 @Injectable({ providedIn: 'root' })
 export class ReturnTransactionResolve implements Resolve<IReturnTransaction> {
@@ -31,7 +32,7 @@ export class ReturnTransactionResolve implements Resolve<IReturnTransaction> {
 export const returnTransactionRoute: Routes = [
     {
         path: 'return-toko',
-        component: ReturnTransactionComponent,
+        component: ReturnTokoComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'jhiptokomajuApp.returnTransaction.toko.title'

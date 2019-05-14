@@ -6,6 +6,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { ICustomerProduct } from 'app/shared/model/customer-product.model';
+import { filter, map } from 'rxjs/operators';
 
 type EntityResponseType = HttpResponse<ICustomer>;
 type EntityArrayResponseType = HttpResponse<ICustomer[]>;
@@ -28,6 +29,10 @@ export class CustomerService {
 
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<ICustomer>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    findFirst(): Observable<EntityResponseType> {
+        return this.http.get<ICustomer>(this.resourceUrl + '/first', { observe: 'response' });
     }
 
     query(req?: any): Observable<EntityArrayResponseType> {

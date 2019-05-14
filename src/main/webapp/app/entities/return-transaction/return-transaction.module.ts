@@ -11,7 +11,10 @@ import {
     ReturnTransactionDeletePopupComponent,
     ReturnTransactionDeleteDialogComponent,
     returnTransactionRoute,
-    returnTransactionPopupRoute
+    returnTransactionPopupRoute,
+    ReturnTokoComponent,
+    CustomerInfoBoxComponent,
+    SelectProductBoxComponent
 } from './';
 
 const ENTITY_STATES = [...returnTransactionRoute, ...returnTransactionPopupRoute];
@@ -23,13 +26,19 @@ const ENTITY_STATES = [...returnTransactionRoute, ...returnTransactionPopupRoute
         ReturnTransactionDetailComponent,
         ReturnTransactionUpdateComponent,
         ReturnTransactionDeleteDialogComponent,
-        ReturnTransactionDeletePopupComponent
+        ReturnTransactionDeletePopupComponent,
+        ReturnTokoComponent,
+        CustomerInfoBoxComponent,
+        SelectProductBoxComponent
     ],
     entryComponents: [
         ReturnTransactionComponent,
         ReturnTransactionUpdateComponent,
         ReturnTransactionDeleteDialogComponent,
-        ReturnTransactionDeletePopupComponent
+        ReturnTransactionDeletePopupComponent,
+        ReturnTokoComponent,
+        CustomerInfoBoxComponent,
+        SelectProductBoxComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -155,4 +155,12 @@ public class CustomerResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/customers/first")
+    public ResponseEntity<CustomerDTO> getTopCustomer() {
+        log.debug("REST request to get top Customer : {}");
+        Optional<CustomerDTO> customerDTO = customerService.findTopById();
+        return ResponseUtil.wrapOrNotFound(customerDTO);
+    }
+
+
 }
