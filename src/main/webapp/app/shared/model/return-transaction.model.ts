@@ -18,6 +18,7 @@ export interface IReturnTransaction {
     supplierCode?: string;
     supplierId?: number;
     returnItems?: IReturnItem[];
+    cashReturn?: Boolean;
 
     addItem(item: IReturnItem);
     calculateTotalReturn();
@@ -37,9 +38,11 @@ export class ReturnTransaction implements IReturnTransaction {
         public customerId?: number,
         public supplierCode?: string,
         public supplierId?: number,
-        public returnItems?: IReturnItem[]
+        public returnItems?: IReturnItem[],
+        public cashReturn?: Boolean
     ) {
         this.returnItems = [];
+        this.cashReturn = false;
     }
 
     addItem(item: IReturnItem) {
@@ -80,10 +83,6 @@ export class ReturnTransaction implements IReturnTransaction {
         this.returnItems.forEach(item => {
             this.totalPriceReturn += item.totalItemPrice;
         });
-    }
-
-    protected atIndex(barcode: string): number {
-        throw new Error('Method not implemented.');
     }
 
     protected isItemExis(barcode: string) {

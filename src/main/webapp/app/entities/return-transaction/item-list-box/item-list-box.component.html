@@ -59,8 +59,8 @@
                 <tr>
                     <th colspan="2" class="text-left">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="cash" [(ngModel)]="cashReturn" />
-                            <label class="form-check-label" for="cash">
+                            <input class="form-check-input" type="checkbox"  id="cashReturn" [(ngModel)]="returnToko.cashReturn" [ngModelOptions]="{standalone: true}"/>
+                            <label class="form-check-label" for="cashReturn">
                                 Pengembalian Tunai
                             </label>
                         </div>
@@ -72,7 +72,7 @@
         </table>
     </div>
     <div class="clearfix" *ngIf="returnToko.returnItems.length > 0">
-        <button type="button" class="btn btn-sm btn-success float-left">
+        <button type="button" class="btn btn-sm btn-success float-left" (click)="save()">
             <span jhiTranslate="jhiptokomajuApp.saleTransactions.action.process">Process</span>
         </button>
         <button type="button" class="btn btn-sm btn-success float-right">

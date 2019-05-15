@@ -3,7 +3,10 @@ import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 import com.toko.maju.domain.enumeration.TransactionType;
 
 /**
@@ -33,6 +36,8 @@ public class ReturnTransactionDTO implements Serializable {
     private Long supplierId;
 
     private String supplierCode;
+
+    private Set<ReturnItemDTO> returnItems = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -114,6 +119,14 @@ public class ReturnTransactionDTO implements Serializable {
         this.supplierCode = supplierCode;
     }
 
+    public Set<ReturnItemDTO> getReturnItems() {
+        return returnItems;
+    }
+
+    public void setReturnItems(Set<ReturnItemDTO> returnItems) {
+        this.returnItems = returnItems;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -148,6 +161,7 @@ public class ReturnTransactionDTO implements Serializable {
             ", customer='" + getCustomerCode() + "'" +
             ", supplier=" + getSupplierId() +
             ", supplier='" + getSupplierCode() + "'" +
+            ", items=" + getReturnItems() +
             "}";
     }
 }

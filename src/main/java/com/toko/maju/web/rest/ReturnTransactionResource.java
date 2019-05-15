@@ -6,6 +6,7 @@ import com.toko.maju.web.rest.util.PaginationUtil;
 import com.toko.maju.service.dto.ReturnTransactionDTO;
 import com.toko.maju.service.dto.ReturnTransactionCriteria;
 import com.toko.maju.service.ReturnTransactionQueryService;
+import com.toko.maju.web.rest.vm.ReturnTransactionVM;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,17 +50,18 @@ public class ReturnTransactionResource {
     /**
      * POST  /return-transactions : Create a new returnTransaction.
      *
-     * @param returnTransactionDTO the returnTransactionDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new returnTransactionDTO, or with status 400 (Bad Request) if the returnTransaction has already an ID
+     * @param returnTransactionVM the returnTransactionVM to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new returnTransactionVM, or with status 400 (Bad Request) if the returnTransaction has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/return-transactions")
-    public ResponseEntity<ReturnTransactionDTO> createReturnTransaction(@Valid @RequestBody ReturnTransactionDTO returnTransactionDTO) throws URISyntaxException {
-        log.debug("REST request to save ReturnTransaction : {}", returnTransactionDTO);
-        if (returnTransactionDTO.getId() != null) {
+    public ResponseEntity<ReturnTransactionDTO> createReturnTransaction(@Valid @RequestBody ReturnTransactionVM returnTransactionVM) throws URISyntaxException {
+        log.debug("REST request to save ReturnTransaction : {}", returnTransactionVM);
+        if (returnTransactionVM.getId() != null) {
             throw new BadRequestAlertException("A new returnTransaction cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ReturnTransactionDTO result = returnTransactionService.save(returnTransactionDTO);
+        log.debug("is case return: {}",returnTransactionVM.getCashReturn());
+        ReturnTransactionDTO result = returnTransactionService.save(returnTransactionVM);
         return ResponseEntity.created(new URI("/api/return-transactions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

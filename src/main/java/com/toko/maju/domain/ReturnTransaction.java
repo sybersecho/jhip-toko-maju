@@ -58,7 +58,7 @@ public class ReturnTransaction implements Serializable {
     @JsonIgnoreProperties("returnTransactions")
     private Supplier supplier;
 
-    @OneToMany(mappedBy = "returnTransaction")
+    @OneToMany(mappedBy = "returnTransaction", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ReturnItem> returnItems = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
