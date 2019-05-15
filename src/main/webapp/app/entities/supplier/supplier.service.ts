@@ -28,6 +28,10 @@ export class SupplierService {
         return this.http.get<ISupplier>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    findFirst(): Observable<EntityResponseType> {
+        return this.http.get<ISupplier>(this.resourceUrl + '/first', { observe: 'response' });
+    }
+
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<ISupplier[]>(this.resourceUrl, { params: options, observe: 'response' });

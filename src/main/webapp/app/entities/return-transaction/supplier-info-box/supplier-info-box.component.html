@@ -1,13 +1,12 @@
 <div class="row">
     <div class="col-sm-12 text-right">
         <div class="form-group">
-            <!-- <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button> -->
             <a
-                jhiTranslate="jhiptokomajuApp.customer.home.search"
-                [routerLink]="['/', { outlets: { popup: 'sale/search-customer' } }]"
+                jhiTranslate="jhiptokomajuApp.supplier.home.search"
+                [routerLink]="['/', { outlets: { popup: 'supplier/search-supplier' } }]"
                 replaceUrl="true"
                 queryParamsHandling="merge"
-                >Cari Customer</a
+                >Cari Supplier</a
             >
         </div>
     </div>
@@ -15,17 +14,17 @@
         <div class="form-group row">
             <label
                 class="col-md-3 col-sm-12 form-control-label col-form-label-sm"
-                jhiTranslate="jhiptokomajuApp.customer.code"
-                for="field_customerCode"
+                jhiTranslate="jhiptokomajuApp.supplier.code"
+                for="field_code"
                 >Code</label
             >
             <div class="col-md-9 col-sm-12">
                 <input
                     type="text"
                     class="form-control form-control-sm"
-                    name="customerCode"
-                    id="field_customerCode"
-                    [ngModel]="customer?.code"
+                    name="code"
+                    id="field_code"
+                    [ngModel]="supplier?.code"
                     readonly
                 />
             </div>
@@ -33,17 +32,17 @@
         <div class="form-group row">
             <label
                 class="col-md-3 col-sm-12 form-control-label col-form-label-sm"
-                jhiTranslate="jhiptokomajuApp.customer.fullName"
-                for="field_fullName"
-                >Full Name</label
+                jhiTranslate="jhiptokomajuApp.supplier.name"
+                for="field_name"
+                > Name</label
             >
             <div class="col-md-9 col-sm-12">
                 <input
                     type="text"
                     class="form-control form-control-sm"
-                    name="fullName"
-                    id="field_fullName"
-                    [ngModel]="getCustomerFullName()"
+                    name="name"
+                    id="field_name"
+                    [ngModel]="supplier?.name"
                     readonly
                 />
             </div>
@@ -63,7 +62,7 @@
                     class="form-control form-control-sm"
                     id="field_address"
                     name="address"
-                    [ngModel]="customer?.address"
+                    [ngModel]="supplier?.address"
                     readonly
                 ></textarea>
             </div>

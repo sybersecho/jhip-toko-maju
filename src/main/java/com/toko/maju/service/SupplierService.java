@@ -53,4 +53,6 @@ public interface SupplierService {
      * @return the list of entities
      */
     Page<SupplierDTO> search(String query, Pageable pageable);
+
+    Optional<SupplierDTO> findTopById();
 }

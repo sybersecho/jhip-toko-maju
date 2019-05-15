@@ -8,3 +8,5 @@ export * from './return-toko.component';
 export * from './customer-info-box/customer-info-box.component';
 export * from './select-product-box/select-product-box.component';
 export * from './item-list-box/item-list-box.component';
+export * from './return-supplier.component';
+export * from './supplier-info-box/supplier-info-box.component';

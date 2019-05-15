@@ -155,4 +155,11 @@ public class SupplierResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/suppliers/first")
+    public ResponseEntity<SupplierDTO> getTopCustomer() {
+        log.debug("REST request to get top Supplier");
+        Optional<SupplierDTO> supplierDTO = supplierService.findTopById();
+        return ResponseUtil.wrapOrNotFound(supplierDTO);
+    }
+
 }

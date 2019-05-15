@@ -110,7 +110,7 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
         if (!badProducts.isEmpty()) {
             // TODO:: GET AND UPDATE BAD PRODUCT
         }
-        
+
         ReturnTransactionDTO result = returnTransactionMapper.toDto(returnTransaction);
         returnTransactionSearchRepository.save(returnTransaction);
         return result;

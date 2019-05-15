@@ -109,4 +109,9 @@ public class SupplierServiceImpl implements SupplierService {
         return supplierSearchRepository.search(queryStringQuery(query), pageable)
             .map(supplierMapper::toDto);
     }
+
+    @Override
+    public Optional<SupplierDTO> findTopById() {
+        return supplierRepository.findTopByOrderByIdAsc().map(supplierMapper::toDto);
+    }
 }

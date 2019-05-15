@@ -1,34 +1,34 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IReturnTransaction, ReturnTransaction, TransactionType } from 'app/shared/model/return-transaction.model';
-import { CustomerService } from '../customer';
-import { ICustomer } from 'app/shared/model/customer.model';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { AccountService } from 'app/core';
 import { Subscription } from 'rxjs';
+import { SupplierService } from '../supplier';
+import { ISupplier } from 'app/shared/model/supplier.model';
 
 @Component({
-    selector: 'jhi-return-toko',
-    templateUrl: './return-toko.component.html',
+    selector: 'jhi-return-supplier',
+    templateUrl: './return-supplier.component.html',
     styles: []
 })
-export class ReturnTokoComponent implements OnInit, OnDestroy {
-    returnToko: IReturnTransaction;
+export class ReturnSupplierComponent implements OnInit, OnDestroy {
+    returnSupplier: IReturnTransaction;
     currentAccount: any;
     eventSubcriptions: Subscription;
 
     constructor(
-        protected customerService: CustomerService,
+        protected supplierService: SupplierService,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
         protected jhiEventManager: JhiEventManager
     ) {
-        this.returnToko = new ReturnTransaction();
-        this.returnToko.transactionType = TransactionType.SHOP;
+        this.returnSupplier = new ReturnTransaction();
+        this.returnSupplier.transactionType = TransactionType.SUPPLIER;
     }
 
     ngOnInit() {
-        this.loadFirstCustomer();
-        console.log('return: ', this.returnToko);
+        this.loadFirstSupplier();
+        console.log('return: ', this.returnSupplier);
         this.accountService.identity().then(account => {
             this.currentAccount = account;
             this.setCreator();
@@ -37,20 +37,20 @@ export class ReturnTokoComponent implements OnInit, OnDestroy {
     }
 
     private setCreator() {
-        this.returnToko.creatorId = this.currentAccount.id;
-        this.returnToko.creatorLogin = this.currentAccount.login;
+        this.returnSupplier.creatorId = this.currentAccount.id;
+        this.returnSupplier.creatorLogin = this.currentAccount.login;
     }
 
     ngOnDestroy() {
         this.jhiEventManager.destroy(this.eventSubcriptions);
     }
 
-    protected loadFirstCustomer() {
-        this.customerService.findFirst().subscribe(
+    protected loadFirstSupplier() {
+        this.supplierService.findFirst().subscribe(
             res => {
-                const customer: ICustomer = res.body;
-                this.returnToko.customerId = customer.id;
-                this.returnToko.customerCode = customer.code;
+                const supplier: ISupplier = res.body;
+                this.returnSupplier.supplierId = supplier.id;
+                this.returnSupplier.supplierCode = supplier.code;
             },
             error => {
                 console.error(error.message);
@@ -65,9 +65,9 @@ export class ReturnTokoComponent implements OnInit, OnDestroy {
 
     protected registerEvent() {
         this.eventSubcriptions = this.jhiEventManager.subscribe('onSaveReturnTransaction', res => {
-            this.returnToko = res.content;
-            this.returnToko.transactionType = TransactionType.SHOP;
-            this.loadFirstCustomer();
+            this.returnSupplier = res.content;
+            this.returnSupplier.transactionType = TransactionType.SUPPLIER;
+            this.loadFirstSupplier();
             this.setCreator();
         });
     }
