@@ -38,6 +38,8 @@ public class ReturnTransactionCriteria implements Serializable {
 
     private BigDecimalFilter totalPriceReturn;
 
+    private StringFilter noTransaction;
+
     private LongFilter creatorId;
 
     private LongFilter customerId;
@@ -76,6 +78,14 @@ public class ReturnTransactionCriteria implements Serializable {
 
     public void setTotalPriceReturn(BigDecimalFilter totalPriceReturn) {
         this.totalPriceReturn = totalPriceReturn;
+    }
+
+    public StringFilter getNoTransaction() {
+        return noTransaction;
+    }
+
+    public void setNoTransaction(StringFilter noTransaction) {
+        this.noTransaction = noTransaction;
     }
 
     public LongFilter getCreatorId() {
@@ -125,6 +135,7 @@ public class ReturnTransactionCriteria implements Serializable {
             Objects.equals(created_date, that.created_date) &&
             Objects.equals(transactionType, that.transactionType) &&
             Objects.equals(totalPriceReturn, that.totalPriceReturn) &&
+            Objects.equals(noTransaction, that.noTransaction) &&
             Objects.equals(creatorId, that.creatorId) &&
             Objects.equals(customerId, that.customerId) &&
             Objects.equals(supplierId, that.supplierId) &&
@@ -138,6 +149,7 @@ public class ReturnTransactionCriteria implements Serializable {
         created_date,
         transactionType,
         totalPriceReturn,
+        noTransaction,
         creatorId,
         customerId,
         supplierId,
@@ -152,6 +164,7 @@ public class ReturnTransactionCriteria implements Serializable {
                 (created_date != null ? "created_date=" + created_date + ", " : "") +
                 (transactionType != null ? "transactionType=" + transactionType + ", " : "") +
                 (totalPriceReturn != null ? "totalPriceReturn=" + totalPriceReturn + ", " : "") +
+                (noTransaction != null ? "noTransaction=" + noTransaction + ", " : "") +
                 (creatorId != null ? "creatorId=" + creatorId + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
                 (supplierId != null ? "supplierId=" + supplierId + ", " : "") +

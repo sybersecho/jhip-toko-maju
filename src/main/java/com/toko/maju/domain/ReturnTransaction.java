@@ -29,7 +29,7 @@ import com.toko.maju.domain.enumeration.TransactionType;
 public class ReturnTransaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,6 +45,10 @@ public class ReturnTransaction implements Serializable {
     @NotNull
     @Column(name = "total_price_return", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalPriceReturn;
+
+    @NotNull
+    @Column(name = "no_transaction", nullable = false)
+    private String noTransaction;
 
     @ManyToOne
     @JsonIgnoreProperties("returnTransactions")
@@ -107,6 +111,19 @@ public class ReturnTransaction implements Serializable {
 
     public void setTotalPriceReturn(BigDecimal totalPriceReturn) {
         this.totalPriceReturn = totalPriceReturn;
+    }
+
+    public String getNoTransaction() {
+        return noTransaction;
+    }
+
+    public ReturnTransaction noTransaction(String noTransaction) {
+        this.noTransaction = noTransaction;
+        return this;
+    }
+
+    public void setNoTransaction(String noTransaction) {
+        this.noTransaction = noTransaction;
     }
 
     public User getCreator() {
@@ -201,6 +218,7 @@ public class ReturnTransaction implements Serializable {
             ", created_date='" + getCreated_date() + "'" +
             ", transactionType='" + getTransactionType() + "'" +
             ", totalPriceReturn=" + getTotalPriceReturn() +
+            ", noTransaction='" + getNoTransaction() + "'" +
             "}";
     }
 }

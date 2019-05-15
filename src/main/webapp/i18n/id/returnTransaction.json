@@ -32,6 +32,7 @@
             "created_date": "Tanggal",
             "transactionType": "Transaction Type",
             "totalPriceReturn": "Total",
+            "noTransaction": "No Transaction",
             "creator": "Creator",
             "customer": "Customer",
             "supplier": "Supplier",

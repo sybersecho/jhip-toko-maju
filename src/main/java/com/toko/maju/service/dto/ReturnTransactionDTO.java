@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import com.toko.maju.domain.enumeration.TransactionType;
 
 /**
@@ -23,6 +22,9 @@ public class ReturnTransactionDTO implements Serializable {
 
     @NotNull
     private BigDecimal totalPriceReturn;
+
+    // @NotNull
+    private String noTransaction;
 
 
     private Long creatorId;
@@ -69,6 +71,14 @@ public class ReturnTransactionDTO implements Serializable {
 
     public void setTotalPriceReturn(BigDecimal totalPriceReturn) {
         this.totalPriceReturn = totalPriceReturn;
+    }
+
+    public String getNoTransaction() {
+        return noTransaction;
+    }
+
+    public void setNoTransaction(String noTransaction) {
+        this.noTransaction = noTransaction;
     }
 
     public Long getCreatorId() {
@@ -155,6 +165,7 @@ public class ReturnTransactionDTO implements Serializable {
             ", created_date='" + getCreated_date() + "'" +
             ", transactionType='" + getTransactionType() + "'" +
             ", totalPriceReturn=" + getTotalPriceReturn() +
+            ", noTransaction='" + getNoTransaction() + "'" +
             ", creator=" + getCreatorId() +
             ", creator='" + getCreatorLogin() + "'" +
             ", customer=" + getCustomerId() +

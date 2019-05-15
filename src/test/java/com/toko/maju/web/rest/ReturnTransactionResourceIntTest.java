@@ -68,6 +68,9 @@ public class ReturnTransactionResourceIntTest {
     private static final BigDecimal DEFAULT_TOTAL_PRICE_RETURN = new BigDecimal(1);
     private static final BigDecimal UPDATED_TOTAL_PRICE_RETURN = new BigDecimal(2);
 
+    private static final String DEFAULT_NO_TRANSACTION = "AAAAAAAAAA";
+    private static final String UPDATED_NO_TRANSACTION = "BBBBBBBBBB";
+
     @Autowired
     private ReturnTransactionRepository returnTransactionRepository;
 
@@ -129,7 +132,8 @@ public class ReturnTransactionResourceIntTest {
         ReturnTransaction returnTransaction = new ReturnTransaction()
             .created_date(DEFAULT_CREATED_DATE)
             .transactionType(DEFAULT_TRANSACTION_TYPE)
-            .totalPriceReturn(DEFAULT_TOTAL_PRICE_RETURN);
+            .totalPriceReturn(DEFAULT_TOTAL_PRICE_RETURN)
+            .noTransaction(DEFAULT_NO_TRANSACTION);
         return returnTransaction;
     }
 
@@ -157,6 +161,7 @@ public class ReturnTransactionResourceIntTest {
         assertThat(testReturnTransaction.getCreated_date()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testReturnTransaction.getTransactionType()).isEqualTo(DEFAULT_TRANSACTION_TYPE);
         assertThat(testReturnTransaction.getTotalPriceReturn()).isEqualTo(DEFAULT_TOTAL_PRICE_RETURN);
+        assertThat(testReturnTransaction.getNoTransaction()).isEqualTo(DEFAULT_NO_TRANSACTION);
 
         // Validate the ReturnTransaction in Elasticsearch
         verify(mockReturnTransactionSearchRepository, times(1)).save(testReturnTransaction);
@@ -225,6 +230,25 @@ public class ReturnTransactionResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNoTransactionIsRequired() throws Exception {
+        int databaseSizeBeforeTest = returnTransactionRepository.findAll().size();
+        // set the field null
+        returnTransaction.setNoTransaction(null);
+
+        // Create the ReturnTransaction, which fails.
+        ReturnTransactionDTO returnTransactionDTO = returnTransactionMapper.toDto(returnTransaction);
+
+        restReturnTransactionMockMvc.perform(post("/api/return-transactions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(returnTransactionDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<ReturnTransaction> returnTransactionList = returnTransactionRepository.findAll();
+        assertThat(returnTransactionList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllReturnTransactions() throws Exception {
         // Initialize the database
         returnTransactionRepository.saveAndFlush(returnTransaction);
@@ -236,7 +260,8 @@ public class ReturnTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(returnTransaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].created_date").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].transactionType").value(hasItem(DEFAULT_TRANSACTION_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].totalPriceReturn").value(hasItem(DEFAULT_TOTAL_PRICE_RETURN.intValue())));
+            .andExpect(jsonPath("$.[*].totalPriceReturn").value(hasItem(DEFAULT_TOTAL_PRICE_RETURN.intValue())))
+            .andExpect(jsonPath("$.[*].noTransaction").value(hasItem(DEFAULT_NO_TRANSACTION.toString())));
     }
     
     @Test
@@ -252,7 +277,8 @@ public class ReturnTransactionResourceIntTest {
             .andExpect(jsonPath("$.id").value(returnTransaction.getId().intValue()))
             .andExpect(jsonPath("$.created_date").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.transactionType").value(DEFAULT_TRANSACTION_TYPE.toString()))
-            .andExpect(jsonPath("$.totalPriceReturn").value(DEFAULT_TOTAL_PRICE_RETURN.intValue()));
+            .andExpect(jsonPath("$.totalPriceReturn").value(DEFAULT_TOTAL_PRICE_RETURN.intValue()))
+            .andExpect(jsonPath("$.noTransaction").value(DEFAULT_NO_TRANSACTION.toString()));
     }
 
     @Test
@@ -374,6 +400,45 @@ public class ReturnTransactionResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllReturnTransactionsByNoTransactionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        returnTransactionRepository.saveAndFlush(returnTransaction);
+
+        // Get all the returnTransactionList where noTransaction equals to DEFAULT_NO_TRANSACTION
+        defaultReturnTransactionShouldBeFound("noTransaction.equals=" + DEFAULT_NO_TRANSACTION);
+
+        // Get all the returnTransactionList where noTransaction equals to UPDATED_NO_TRANSACTION
+        defaultReturnTransactionShouldNotBeFound("noTransaction.equals=" + UPDATED_NO_TRANSACTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReturnTransactionsByNoTransactionIsInShouldWork() throws Exception {
+        // Initialize the database
+        returnTransactionRepository.saveAndFlush(returnTransaction);
+
+        // Get all the returnTransactionList where noTransaction in DEFAULT_NO_TRANSACTION or UPDATED_NO_TRANSACTION
+        defaultReturnTransactionShouldBeFound("noTransaction.in=" + DEFAULT_NO_TRANSACTION + "," + UPDATED_NO_TRANSACTION);
+
+        // Get all the returnTransactionList where noTransaction equals to UPDATED_NO_TRANSACTION
+        defaultReturnTransactionShouldNotBeFound("noTransaction.in=" + UPDATED_NO_TRANSACTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReturnTransactionsByNoTransactionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        returnTransactionRepository.saveAndFlush(returnTransaction);
+
+        // Get all the returnTransactionList where noTransaction is not null
+        defaultReturnTransactionShouldBeFound("noTransaction.specified=true");
+
+        // Get all the returnTransactionList where noTransaction is null
+        defaultReturnTransactionShouldNotBeFound("noTransaction.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllReturnTransactionsByCreatorIsEqualToSomething() throws Exception {
         // Initialize the database
         User creator = UserResourceIntTest.createEntity(em);
@@ -457,7 +522,8 @@ public class ReturnTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(returnTransaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].created_date").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].transactionType").value(hasItem(DEFAULT_TRANSACTION_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].totalPriceReturn").value(hasItem(DEFAULT_TOTAL_PRICE_RETURN.intValue())));
+            .andExpect(jsonPath("$.[*].totalPriceReturn").value(hasItem(DEFAULT_TOTAL_PRICE_RETURN.intValue())))
+            .andExpect(jsonPath("$.[*].noTransaction").value(hasItem(DEFAULT_NO_TRANSACTION)));
 
         // Check, that the count call also returns 1
         restReturnTransactionMockMvc.perform(get("/api/return-transactions/count?sort=id,desc&" + filter))
@@ -507,7 +573,8 @@ public class ReturnTransactionResourceIntTest {
         updatedReturnTransaction
             .created_date(UPDATED_CREATED_DATE)
             .transactionType(UPDATED_TRANSACTION_TYPE)
-            .totalPriceReturn(UPDATED_TOTAL_PRICE_RETURN);
+            .totalPriceReturn(UPDATED_TOTAL_PRICE_RETURN)
+            .noTransaction(UPDATED_NO_TRANSACTION);
         ReturnTransactionDTO returnTransactionDTO = returnTransactionMapper.toDto(updatedReturnTransaction);
 
         restReturnTransactionMockMvc.perform(put("/api/return-transactions")
@@ -522,6 +589,7 @@ public class ReturnTransactionResourceIntTest {
         assertThat(testReturnTransaction.getCreated_date()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testReturnTransaction.getTransactionType()).isEqualTo(UPDATED_TRANSACTION_TYPE);
         assertThat(testReturnTransaction.getTotalPriceReturn()).isEqualTo(UPDATED_TOTAL_PRICE_RETURN);
+        assertThat(testReturnTransaction.getNoTransaction()).isEqualTo(UPDATED_NO_TRANSACTION);
 
         // Validate the ReturnTransaction in Elasticsearch
         verify(mockReturnTransactionSearchRepository, times(1)).save(testReturnTransaction);
@@ -584,7 +652,8 @@ public class ReturnTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(returnTransaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].created_date").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].transactionType").value(hasItem(DEFAULT_TRANSACTION_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].totalPriceReturn").value(hasItem(DEFAULT_TOTAL_PRICE_RETURN.intValue())));
+            .andExpect(jsonPath("$.[*].totalPriceReturn").value(hasItem(DEFAULT_TOTAL_PRICE_RETURN.intValue())))
+            .andExpect(jsonPath("$.[*].noTransaction").value(hasItem(DEFAULT_NO_TRANSACTION)));
     }
 
     @Test

@@ -44,6 +44,17 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.noTransaction" for="field_noTransaction">No Transaction</label>
+                    <input type="text" class="form-control" name="noTransaction" id="field_noTransaction"
+                        [(ngModel)]="returnTransaction.noTransaction" required/>
+                    <div [hidden]="!(editForm.controls.noTransaction?.dirty && editForm.controls.noTransaction?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.noTransaction?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="jhiptokomajuApp.returnTransaction.creator" for="field_creator">Creator</label>

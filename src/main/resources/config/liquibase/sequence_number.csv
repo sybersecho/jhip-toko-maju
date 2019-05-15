@@ -1,3 +1,5 @@
 ID;SEQ_TYPE;NEXT_VALUE;INCREMENT_VALUE;DISPLAY;CODE_TYPE
 1;invoice;1;10;Penjualan;INV
 2;cancelInvoice;1;10;Pembatalan Penjualan;CENINV
+3;returnToko;1;10;Pengambalian Toko;RECSH
+4;returnSupllier;1;10;Pengambalian Suppier;RECSP

@@ -11,6 +11,7 @@ export interface IReturnTransaction {
     created_date?: Moment;
     transactionType?: TransactionType;
     totalPriceReturn?: number;
+    noTransaction?: string;
     creatorLogin?: string;
     creatorId?: number;
     customerCode?: string;
@@ -32,6 +33,7 @@ export class ReturnTransaction implements IReturnTransaction {
         public created_date?: Moment,
         public transactionType?: TransactionType,
         public totalPriceReturn?: number,
+        public noTransaction?: string,
         public creatorLogin?: string,
         public creatorId?: number,
         public customerCode?: string,

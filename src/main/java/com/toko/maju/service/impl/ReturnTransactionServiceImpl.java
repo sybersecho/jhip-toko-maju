@@ -2,9 +2,13 @@ package com.toko.maju.service.impl;
 
 import com.toko.maju.domain.Product;
 import com.toko.maju.domain.ReturnItem;
+import com.toko.maju.domain.SequenceNumber;
 import com.toko.maju.domain.enumeration.ProductStatus;
+import com.toko.maju.domain.enumeration.TransactionType;
 import com.toko.maju.repository.ProductRepository;
+import com.toko.maju.repository.SequenceNumberRepository;
 import com.toko.maju.repository.search.ProductSearchRepository;
+import com.toko.maju.repository.search.SequenceNumberSearchRepository;
 import com.toko.maju.service.ReturnTransactionService;
 import com.toko.maju.domain.ReturnTransaction;
 import com.toko.maju.repository.ReturnTransactionRepository;
@@ -46,6 +50,12 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
     @Autowired
     private final ProductSearchRepository productSearchRepository = null;
 
+    @Autowired
+    private final SequenceNumberRepository sequenceNumberRepository = null;
+
+    @Autowired
+    private final SequenceNumberSearchRepository sequenceNumberSearchRepository = null;
+
     public ReturnTransactionServiceImpl(ReturnTransactionRepository returnTransactionRepository, ReturnTransactionMapper returnTransactionMapper, ReturnTransactionSearchRepository returnTransactionSearchRepository) {
         this.returnTransactionRepository = returnTransactionRepository;
         this.returnTransactionMapper = returnTransactionMapper;
@@ -63,6 +73,16 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
     public ReturnTransactionDTO save(ReturnTransactionDTO returnTransactionDTO) {
         log.debug("Request to save ReturnTransaction : {}", returnTransactionDTO);
         ReturnTransaction returnTransaction = returnTransactionMapper.toEntity(returnTransactionDTO);
+
+//        set no transaction
+        SequenceNumber currentNoTransaction = (returnTransaction.getTransactionType() == TransactionType.SHOP) ?
+            sequenceNumberRepository.findByType("returnToko") : sequenceNumberRepository.findByType("returnSupllier");
+        int currentValue = currentNoTransaction.getNextValue();
+        String noTransaction = generateNoTransaction(currentNoTransaction);
+        currentNoTransaction.setNextValue(++currentValue);
+        sequenceNumberRepository.save(currentNoTransaction);
+
+        returnTransaction.setNoTransaction(noTransaction);
         returnTransaction = returnTransactionRepository.save(returnTransaction);
         // get ReturnItem
         Set<ReturnItem> items = returnTransaction.getReturnItems();
@@ -71,25 +91,37 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
         Map<Long, Integer> badProducts = new HashMap<>();
         filterItems(items, goodProducts, badProducts);
 
+        if (!goodProducts.isEmpty()) {
+            // load products by good ids
+            Set<Product> products = productRepository.findAllById(goodProducts.keySet()).stream().collect(Collectors.toCollection(HashSet::new));
 
-        // load products by good ids
-        Set<Product> products = productRepository.findAllById(goodProducts.keySet()).stream().collect(Collectors.toCollection(HashSet::new));
-
-        // update good product qty
-        log.debug("Items: {}", products);
-        log.debug("good product: {}", goodProducts.keySet());
-        products = updateQty(goodProducts, products);
-        log.debug("Updated Product: {}", products);
-        // TODO:: GET AND UPDATE BAD PRODUCT
-
-        // update product
-        productRepository.saveAll(products);
-        productSearchRepository.saveAll(products);
+            // update good product qty
+            log.debug("Items: {}", products);
+            log.debug("good product: {}", goodProducts.keySet());
+            products = updateQty(goodProducts, products);
+            log.debug("Updated Product: {}", products);
 
 
+            // update product
+            productRepository.saveAll(products);
+            productSearchRepository.saveAll(products);
+        }
+
+        if (!badProducts.isEmpty()) {
+            // TODO:: GET AND UPDATE BAD PRODUCT
+        }
+        
         ReturnTransactionDTO result = returnTransactionMapper.toDto(returnTransaction);
         returnTransactionSearchRepository.save(returnTransaction);
         return result;
+    }
+
+    private String generateNoTransaction(SequenceNumber currentNoTransaction) {
+        StringBuilder build = new StringBuilder();
+        build.append(currentNoTransaction.getCodeType());
+        build.append(String.format("%06d", currentNoTransaction.getNextValue()));
+        log.debug("new No Transaction: " + build.toString());
+        return build.toString();
     }
 
     private void filterItems(Set<ReturnItem> items, Map<Long, Integer> goodProducts, Map<Long, Integer> badProducts) {

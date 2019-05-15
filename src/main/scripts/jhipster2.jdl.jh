@@ -90,7 +90,8 @@ entity CancelTransaction {
 entity ReturnTransaction {
   created_date Instant,
   transactionType TransactionType required,
-  totalPriceReturn BigDecimal required
+  totalPriceReturn BigDecimal required,
+  noTransaction String required
 }
 entity ReturnItem {
   barcode String required,

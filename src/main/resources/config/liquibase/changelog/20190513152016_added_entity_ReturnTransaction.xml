@@ -34,6 +34,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="no_transaction" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="creator_id" type="bigint">
                 <constraints nullable="true" />
             </column>
