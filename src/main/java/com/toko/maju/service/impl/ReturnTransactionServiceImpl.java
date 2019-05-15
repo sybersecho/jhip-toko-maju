@@ -1,5 +1,10 @@
 package com.toko.maju.service.impl;
 
+import com.toko.maju.domain.Product;
+import com.toko.maju.domain.ReturnItem;
+import com.toko.maju.domain.enumeration.ProductStatus;
+import com.toko.maju.repository.ProductRepository;
+import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.service.ReturnTransactionService;
 import com.toko.maju.domain.ReturnTransaction;
 import com.toko.maju.repository.ReturnTransactionRepository;
@@ -9,12 +14,14 @@ import com.toko.maju.service.mapper.ReturnTransactionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -33,6 +40,12 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
 
     private final ReturnTransactionSearchRepository returnTransactionSearchRepository;
 
+    @Autowired
+    private final ProductRepository productRepository = null;
+
+    @Autowired
+    private final ProductSearchRepository productSearchRepository = null;
+
     public ReturnTransactionServiceImpl(ReturnTransactionRepository returnTransactionRepository, ReturnTransactionMapper returnTransactionMapper, ReturnTransactionSearchRepository returnTransactionSearchRepository) {
         this.returnTransactionRepository = returnTransactionRepository;
         this.returnTransactionMapper = returnTransactionMapper;
@@ -46,13 +59,55 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
      * @return the persisted entity
      */
     @Override
+    @Transactional
     public ReturnTransactionDTO save(ReturnTransactionDTO returnTransactionDTO) {
         log.debug("Request to save ReturnTransaction : {}", returnTransactionDTO);
         ReturnTransaction returnTransaction = returnTransactionMapper.toEntity(returnTransactionDTO);
         returnTransaction = returnTransactionRepository.save(returnTransaction);
+        // get ReturnItem
+        Set<ReturnItem> items = returnTransaction.getReturnItems();
+        //create bad and good product
+        Map<Long, Integer> goodProducts = new HashMap<>();
+        Map<Long, Integer> badProducts = new HashMap<>();
+        filterItems(items, goodProducts, badProducts);
+
+
+        // load products by good ids
+        Set<Product> products = productRepository.findAllById(goodProducts.keySet()).stream().collect(Collectors.toCollection(HashSet::new));
+
+        // update good product qty
+        log.debug("Items: {}", products);
+        log.debug("good product: {}", goodProducts.keySet());
+        products = updateQty(goodProducts, products);
+        log.debug("Updated Product: {}", products);
+        // TODO:: GET AND UPDATE BAD PRODUCT
+
+        // update product
+        productRepository.saveAll(products);
+        productSearchRepository.saveAll(products);
+
+
         ReturnTransactionDTO result = returnTransactionMapper.toDto(returnTransaction);
         returnTransactionSearchRepository.save(returnTransaction);
         return result;
+    }
+
+    private void filterItems(Set<ReturnItem> items, Map<Long, Integer> goodProducts, Map<Long, Integer> badProducts) {
+        items.forEach(item -> {
+            if (ProductStatus.GOOD == item.getProductStatus()) {
+                goodProducts.put(item.getProduct().getId(), item.getQuantity());
+            } else
+                badProducts.put(item.getProduct().getId(), item.getQuantity());
+        });
+    }
+
+    private Set<Product> updateQty(Map<Long, Integer> items, Set<Product> products) {
+        products.forEach(product -> {
+            log.debug("product before: {}", product);
+            product.setStock(product.getStock() + items.get(product.getId()));
+            log.debug("product after: {}", product);
+        });
+        return products;
     }
 
     /**
@@ -99,7 +154,7 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
     /**
      * Search for the returnTransaction corresponding to the query.
      *
-     * @param query the query of the search
+     * @param query    the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */

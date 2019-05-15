@@ -62,6 +62,8 @@ public class ReturnTransactionResource {
         }
         log.debug("is case return: {}",returnTransactionVM.getCashReturn());
         ReturnTransactionDTO result = returnTransactionService.save(returnTransactionVM);
+
+        // TODO:: SAVE CASE RETURN IF TRUE
         return ResponseEntity.created(new URI("/api/return-transactions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

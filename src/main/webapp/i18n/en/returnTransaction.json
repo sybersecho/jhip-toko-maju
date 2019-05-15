@@ -19,9 +19,10 @@
                 "createOrEditLabel": "Create or edit a Return Supplier",
                 "search": "Search for Return Supplier"
             },
-            "created": "A new Return Transaction is created with identifier {{ param }}",
+            "created": "Transaksi berhasil ditambahkan",
             "updated": "A Return Transaction is updated with identifier {{ param }}",
             "deleted": "A Return Transaction is deleted with identifier {{ param }}",
+            "saved": "Tranaction saved",
             "delete": {
                 "question": "Are you sure you want to delete Return Transaction {{ id }}?"
             },

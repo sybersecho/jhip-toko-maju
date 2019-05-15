@@ -44,6 +44,7 @@ export class ItemListBoxComponent implements OnInit, OnChanges {
         this.returnToko = new ReturnTransaction();
         this.returnToko.calculateTotalReturn();
         this.jhiEventManager.broadcast({ name: 'onSaveReturnToko', content: this.returnToko });
+        // this.jhiAlertService.success('jhiptokomajuApp.returnTransaction.saved', null, null);
     }
 
     protected onSaveError(errorMessage: string) {

@@ -19,9 +19,10 @@
                 "createOrEditLabel": "Buat atau edit Pengembalian Supplier",
                 "search": "Cari Pengembalian Supplier"
             },
-            "created": "Return Transaction dengan id {{ param }} telah dibuat",
+            "created": "Transaksi berhasil ditambahkan",
             "updated": "Return Transaction dengan id {{ param }} telah diperbaharui",
             "deleted": "Return Transaction dengan id {{ param }} telah dihapus",
+            "saved": "Transaksi berhasil ditambahkan",
             "delete": {
                 "question": "Apakah anda yakin ingin menghapus Return Transaction {{ id }}?"
             },
