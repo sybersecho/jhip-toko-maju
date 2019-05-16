@@ -33,6 +33,7 @@
             "transactionType": "Transaction Type",
             "totalPriceReturn": "Total",
             "noTransaction": "No Transaction",
+            "cashReturned": "Cash Returned",
             "creator": "Creator",
             "customer": "Customer",
             "supplier": "Supplier",

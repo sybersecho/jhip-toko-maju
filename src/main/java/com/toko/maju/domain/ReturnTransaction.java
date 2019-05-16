@@ -50,6 +50,10 @@ public class ReturnTransaction implements Serializable {
     @Column(name = "no_transaction", nullable = false)
     private String noTransaction;
 
+    @NotNull
+    @Column(name = "cash_returned", nullable = false)
+    private Boolean cashReturned;
+
     @ManyToOne
     @JsonIgnoreProperties("returnTransactions")
     private User creator;
@@ -124,6 +128,19 @@ public class ReturnTransaction implements Serializable {
 
     public void setNoTransaction(String noTransaction) {
         this.noTransaction = noTransaction;
+    }
+
+    public Boolean isCashReturned() {
+        return cashReturned;
+    }
+
+    public ReturnTransaction cashReturned(Boolean cashReturned) {
+        this.cashReturned = cashReturned;
+        return this;
+    }
+
+    public void setCashReturned(Boolean cashReturned) {
+        this.cashReturned = cashReturned;
     }
 
     public User getCreator() {
@@ -219,6 +236,7 @@ public class ReturnTransaction implements Serializable {
             ", transactionType='" + getTransactionType() + "'" +
             ", totalPriceReturn=" + getTotalPriceReturn() +
             ", noTransaction='" + getNoTransaction() + "'" +
+            ", cashReturned='" + isCashReturned() + "'" +
             "}";
     }
 }

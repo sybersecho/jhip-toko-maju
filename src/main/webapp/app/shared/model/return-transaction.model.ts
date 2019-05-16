@@ -12,6 +12,7 @@ export interface IReturnTransaction {
     transactionType?: TransactionType;
     totalPriceReturn?: number;
     noTransaction?: string;
+    cashReturned?: boolean;
     creatorLogin?: string;
     creatorId?: number;
     customerCode?: string;
@@ -19,7 +20,6 @@ export interface IReturnTransaction {
     supplierCode?: string;
     supplierId?: number;
     returnItems?: IReturnItem[];
-    cashReturn?: Boolean;
 
     addItem(item: IReturnItem);
     calculateTotalReturn();
@@ -34,17 +34,17 @@ export class ReturnTransaction implements IReturnTransaction {
         public transactionType?: TransactionType,
         public totalPriceReturn?: number,
         public noTransaction?: string,
+        public cashReturned?: boolean,
         public creatorLogin?: string,
         public creatorId?: number,
         public customerCode?: string,
         public customerId?: number,
         public supplierCode?: string,
         public supplierId?: number,
-        public returnItems?: IReturnItem[],
-        public cashReturn?: Boolean
+        public returnItems?: IReturnItem[]
     ) {
         this.returnItems = [];
-        this.cashReturn = false;
+        this.cashReturned = this.cashReturned || false;
     }
 
     addItem(item: IReturnItem) {

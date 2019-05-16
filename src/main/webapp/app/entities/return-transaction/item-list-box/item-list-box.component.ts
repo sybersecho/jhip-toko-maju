@@ -14,7 +14,7 @@ import { ReturnTransactionService } from '..';
 export class ItemListBoxComponent implements OnInit, OnChanges {
     // tslint:disable-next-line: no-input-rename
     @Input('returnT') returnToko: IReturnTransaction;
-    cashReturn = false;
+    // cashReturn = false;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

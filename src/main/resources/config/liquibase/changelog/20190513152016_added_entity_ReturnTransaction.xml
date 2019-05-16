@@ -38,6 +38,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="cash_returned" type="boolean">
+                <constraints nullable="false" />
+            </column>
+
             <column name="creator_id" type="bigint">
                 <constraints nullable="true" />
             </column>

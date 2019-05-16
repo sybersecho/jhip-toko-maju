@@ -40,6 +40,8 @@ public class ReturnTransactionCriteria implements Serializable {
 
     private StringFilter noTransaction;
 
+    private BooleanFilter cashReturned;
+
     private LongFilter creatorId;
 
     private LongFilter customerId;
@@ -86,6 +88,14 @@ public class ReturnTransactionCriteria implements Serializable {
 
     public void setNoTransaction(StringFilter noTransaction) {
         this.noTransaction = noTransaction;
+    }
+
+    public BooleanFilter getCashReturned() {
+        return cashReturned;
+    }
+
+    public void setCashReturned(BooleanFilter cashReturned) {
+        this.cashReturned = cashReturned;
     }
 
     public LongFilter getCreatorId() {
@@ -136,6 +146,7 @@ public class ReturnTransactionCriteria implements Serializable {
             Objects.equals(transactionType, that.transactionType) &&
             Objects.equals(totalPriceReturn, that.totalPriceReturn) &&
             Objects.equals(noTransaction, that.noTransaction) &&
+            Objects.equals(cashReturned, that.cashReturned) &&
             Objects.equals(creatorId, that.creatorId) &&
             Objects.equals(customerId, that.customerId) &&
             Objects.equals(supplierId, that.supplierId) &&
@@ -150,6 +161,7 @@ public class ReturnTransactionCriteria implements Serializable {
         transactionType,
         totalPriceReturn,
         noTransaction,
+        cashReturned,
         creatorId,
         customerId,
         supplierId,
@@ -165,6 +177,7 @@ public class ReturnTransactionCriteria implements Serializable {
                 (transactionType != null ? "transactionType=" + transactionType + ", " : "") +
                 (totalPriceReturn != null ? "totalPriceReturn=" + totalPriceReturn + ", " : "") +
                 (noTransaction != null ? "noTransaction=" + noTransaction + ", " : "") +
+                (cashReturned != null ? "cashReturned=" + cashReturned + ", " : "") +
                 (creatorId != null ? "creatorId=" + creatorId + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
                 (supplierId != null ? "supplierId=" + supplierId + ", " : "") +

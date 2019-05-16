@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new ReturnTransaction(0, currentDate, TransactionType.SHOP, 0, 'AAAAAAA');
+            elemDefault = new ReturnTransaction(0, currentDate, TransactionType.SHOP, 0, 'AAAAAAA', false);
         });
 
         describe('Service methods', async () => {
@@ -73,7 +73,8 @@ describe('Service Tests', () => {
                         created_date: currentDate.format(DATE_TIME_FORMAT),
                         transactionType: 'BBBBBB',
                         totalPriceReturn: 1,
-                        noTransaction: 'BBBBBB'
+                        noTransaction: 'BBBBBB',
+                        cashReturned: true
                     },
                     elemDefault
                 );
@@ -98,7 +99,8 @@ describe('Service Tests', () => {
                         created_date: currentDate.format(DATE_TIME_FORMAT),
                         transactionType: 'BBBBBB',
                         totalPriceReturn: 1,
-                        noTransaction: 'BBBBBB'
+                        noTransaction: 'BBBBBB',
+                        cashReturned: true
                     },
                     elemDefault
                 );

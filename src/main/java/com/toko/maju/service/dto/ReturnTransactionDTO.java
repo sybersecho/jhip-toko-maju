@@ -26,6 +26,9 @@ public class ReturnTransactionDTO implements Serializable {
     // @NotNull
     private String noTransaction;
 
+    @NotNull
+    private Boolean cashReturned;
+
 
     private Long creatorId;
 
@@ -79,6 +82,14 @@ public class ReturnTransactionDTO implements Serializable {
 
     public void setNoTransaction(String noTransaction) {
         this.noTransaction = noTransaction;
+    }
+
+    public Boolean isCashReturned() {
+        return cashReturned;
+    }
+
+    public void setCashReturned(Boolean cashReturned) {
+        this.cashReturned = cashReturned;
     }
 
     public Long getCreatorId() {
@@ -166,6 +177,7 @@ public class ReturnTransactionDTO implements Serializable {
             ", transactionType='" + getTransactionType() + "'" +
             ", totalPriceReturn=" + getTotalPriceReturn() +
             ", noTransaction='" + getNoTransaction() + "'" +
+            ", cashReturned='" + isCashReturned() + "'" +
             ", creator=" + getCreatorId() +
             ", creator='" + getCreatorLogin() + "'" +
             ", customer=" + getCustomerId() +

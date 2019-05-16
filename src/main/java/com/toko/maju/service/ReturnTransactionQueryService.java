@@ -105,6 +105,9 @@ public class ReturnTransactionQueryService extends QueryService<ReturnTransactio
             if (criteria.getNoTransaction() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNoTransaction(), ReturnTransaction_.noTransaction));
             }
+            if (criteria.getCashReturned() != null) {
+                specification = specification.and(buildSpecification(criteria.getCashReturned(), ReturnTransaction_.cashReturned));
+            }
             if (criteria.getCreatorId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCreatorId(),
                     root -> root.join(ReturnTransaction_.creator, JoinType.LEFT).get(User_.id)));

@@ -38,5 +38,4 @@ public interface ReturnTransactionMapper extends EntityMapper<ReturnTransactionD
     default void linkItems(@MappingTarget ReturnTransaction returnTransaction) {
         returnTransaction.getReturnItems().forEach(item -> item.setReturnTransaction(returnTransaction));
     }
-
 }

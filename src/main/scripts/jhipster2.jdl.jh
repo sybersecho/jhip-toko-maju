@@ -91,7 +91,8 @@ entity ReturnTransaction {
   created_date Instant,
   transactionType TransactionType required,
   totalPriceReturn BigDecimal required,
-  noTransaction String required
+  noTransaction String required,
+  cashReturned Boolean required
 }
 entity ReturnItem {
   barcode String required,
