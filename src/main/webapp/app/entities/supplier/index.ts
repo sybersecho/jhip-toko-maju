@@ -4,3 +4,4 @@ export * from './supplier-delete-dialog.component';
 export * from './supplier-detail.component';
 export * from './supplier.component';
 export * from './supplier.route';
+export * from './supplier-search-dialog.component';

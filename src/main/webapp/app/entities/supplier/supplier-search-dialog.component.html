@@ -1,0 +1,73 @@
+<div>
+    <div class="modal-header">
+        <h4 class="modal-title" jhiTranslate="jhiptokomajuApp.supplier.home.search">Cari Supplir</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="col-sm-12">
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 mr-1">
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="searchKeyword"
+                    id="searchKeyword"
+                    name="searchKeyword"
+                    placeholder="{{ 'jhiptokomajuApp.product.home.search' | translate }}"
+                />
+                <button class="input-group-append btn btn-info" (click)="search(searchKeyword)">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+                <button class="input-group-append btn btn-danger" (click)="clearSearch()" *ngIf="searchKeyword">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th><span jhiTranslate="jhiptokomajuApp.supplier.code">Code</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.supplier.name">Name</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.supplier.address">Address</span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <ng-container *ngIf="suppliers && suppliers.length > 0; else noSupplier">
+                    <tbody>
+                        <tr *ngFor="let supplier of suppliers">
+                            <td>{{ supplier.code }}</td>
+                            <td>{{ supplier.name }}</td>
+                            <td>{{ supplier.address }}</td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-info btn-sm"
+                                        [ngbTooltip]="addTooltip"
+                                        (click)="onSelect(supplier)"
+                                    >
+                                        <fa-icon [icon]="'plus'"></fa-icon>
+                                        <ng-template #addTooltip>
+                                            <span class="d-none d-md-inline" jhiTranslate="entity.action.add">Add</span>
+                                        </ng-template>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+                <ng-template #noSupplier>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                no record found
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+            </table>
+        </div>
+    </div>
+</div>

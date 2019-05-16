@@ -20,34 +20,6 @@ import { JhiptokomajuReturnTransactionModule } from './return-transaction/return
         JhiptokomajuDuePaymentModule,
         JhiptokomajuReturnTransactionModule,
         RouterModule.forChild([
-            // {
-            //     path: 'customer',
-            //     loadChildren: './customer/customer.module#JhiptokomajuCustomerModule'
-            // },
-            //     {
-            //         path: 'product',
-            //         loadChildren: './product/product.module#JhiptokomajuProductModule'
-            //     },
-            //     {
-            //         path: 'project',
-            //         loadChildren: './project/project.module#JhiptokomajuProjectModule'
-            //     },
-            {
-                path: 'supplier',
-                loadChildren: './supplier/supplier.module#JhiptokomajuSupplierModule'
-            },
-            // {
-            //     path: 'sale-transactions',
-            //     loadChildren: './sale-transactions/sale-transactions.module#JhiptokomajuSaleTransactionsModule'
-            // }
-            // {
-            //     path: 'invoice',
-            //     loadChildren: './invoice/invoice.module#JhiptokomajuInvoiceModule'
-            // }
-            // {
-            //     path: 'due-payment',
-            //     loadChildren: './due-payment/due-payment.module#JhiptokomajuDuePaymentModule'
-            // }
             {
                 path: 'unit',
                 loadChildren: './unit/unit.module#JhiptokomajuUnitModule'
@@ -55,14 +27,6 @@ import { JhiptokomajuReturnTransactionModule } from './return-transaction/return
             {
                 path: 'cancel-transaction',
                 loadChildren: './cancel-transaction/cancel-transaction.module#JhiptokomajuCancelTransactionModule'
-                // },
-                // {
-                //     path: 'return-transaction',
-                //     loadChildren: './return-transaction/return-transaction.module#JhiptokomajuReturnTransactionModule'
-                // },
-                // {
-                //     path: 'return-item',
-                //     loadChildren: './return-item/return-item.module#JhiptokomajuReturnItemModule'
             }
             //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

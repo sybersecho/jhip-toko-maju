@@ -2,8 +2,9 @@ import { Component, OnInit, Input, AfterViewInit, OnChanges, OnDestroy, SimpleCh
 import { ISupplier } from 'app/shared/model/supplier.model';
 import { IReturnTransaction } from 'app/shared/model/return-transaction.model';
 import { Subscription } from 'rxjs';
-import { SupplierService } from 'app/entities/supplier';
+import { SupplierService, SearchSupplierDialogService } from 'app/entities/supplier';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'jhi-supplier-info-box',
@@ -17,10 +18,12 @@ export class SupplierInfoBoxComponent implements OnInit, AfterViewInit, OnChange
     // tslint:disable-next-line: no-input-rename
     @Input('returnT') returnSupplier: IReturnTransaction;
     eventSubscription: Subscription;
+    modalRef: NgbModalRef;
 
     constructor(
         protected supplierService: SupplierService,
         protected jhiAlertService: JhiAlertService,
+        protected searchSupplierDialogService: SearchSupplierDialogService,
         protected eventManager: JhiEventManager
     ) {}
 
@@ -28,8 +31,14 @@ export class SupplierInfoBoxComponent implements OnInit, AfterViewInit, OnChange
         this.registerEvent();
     }
 
+    searchSupplier() {
+        console.log('search supplier');
+        this.modalRef = this.searchSupplierDialogService.open();
+    }
+
     ngOnDestroy(): void {
         this.eventManager.destroy(this.eventSubscription);
+        this.modalRef = null;
     }
 
     ngAfterViewInit(): void {
@@ -58,8 +67,8 @@ export class SupplierInfoBoxComponent implements OnInit, AfterViewInit, OnChange
     protected registerEvent() {
         this.eventSubscription = this.eventManager.subscribe('onSelectSupplierEvent', response => {
             this.supplier = response.data;
-            this.returnSupplier.customerCode = this.supplier.code;
-            this.returnSupplier.customerId = this.supplier.id;
+            this.returnSupplier.supplierCode = this.supplier.code;
+            this.returnSupplier.supplierId = this.supplier.id;
         });
     }
 

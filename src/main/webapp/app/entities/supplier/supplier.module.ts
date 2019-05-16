@@ -10,6 +10,7 @@ import {
     SupplierUpdateComponent,
     SupplierDeletePopupComponent,
     SupplierDeleteDialogComponent,
+    SupplierSearchDialogComponent,
     supplierRoute,
     supplierPopupRoute
 } from './';
@@ -23,9 +24,16 @@ const ENTITY_STATES = [...supplierRoute, ...supplierPopupRoute];
         SupplierDetailComponent,
         SupplierUpdateComponent,
         SupplierDeleteDialogComponent,
-        SupplierDeletePopupComponent
+        SupplierDeletePopupComponent,
+        SupplierSearchDialogComponent
     ],
-    entryComponents: [SupplierComponent, SupplierUpdateComponent, SupplierDeleteDialogComponent, SupplierDeletePopupComponent],
+    entryComponents: [
+        SupplierComponent,
+        SupplierUpdateComponent,
+        SupplierDeleteDialogComponent,
+        SupplierDeletePopupComponent,
+        SupplierSearchDialogComponent
+    ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

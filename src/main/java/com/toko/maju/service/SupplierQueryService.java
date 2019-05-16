@@ -91,25 +91,25 @@ public class SupplierQueryService extends QueryService<Supplier> {
         Specification<Supplier> specification = Specification.where(null);
         if (criteria != null) {
             if (criteria.getId() != null) {
-                specification = specification.and(buildSpecification(criteria.getId(), Supplier_.id));
+                specification = specification.or(buildSpecification(criteria.getId(), Supplier_.id));
             }
             if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), Supplier_.name));
+                specification = specification.or(buildStringSpecification(criteria.getName(), Supplier_.name));
             }
             if (criteria.getCode() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCode(), Supplier_.code));
+                specification = specification.or(buildStringSpecification(criteria.getCode(), Supplier_.code));
             }
             if (criteria.getAddress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAddress(), Supplier_.address));
+                specification = specification.or(buildStringSpecification(criteria.getAddress(), Supplier_.address));
             }
             if (criteria.getNoTelp() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getNoTelp(), Supplier_.noTelp));
+                specification = specification.or(buildStringSpecification(criteria.getNoTelp(), Supplier_.noTelp));
             }
             if (criteria.getBankAccount() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankAccount(), Supplier_.bankAccount));
+                specification = specification.or(buildStringSpecification(criteria.getBankAccount(), Supplier_.bankAccount));
             }
             if (criteria.getBankName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankName(), Supplier_.bankName));
+                specification = specification.or(buildStringSpecification(criteria.getBankName(), Supplier_.bankName));
             }
             if (criteria.getProductId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProductId(),

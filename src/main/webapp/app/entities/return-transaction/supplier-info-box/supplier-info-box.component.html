@@ -1,13 +1,8 @@
 <div class="row">
     <div class="col-sm-12 text-right">
         <div class="form-group">
-            <a
-                jhiTranslate="jhiptokomajuApp.supplier.home.search"
-                [routerLink]="['/', { outlets: { popup: 'supplier/search-supplier' } }]"
-                replaceUrl="true"
-                queryParamsHandling="merge"
-                >Cari Supplier</a
-            >
+            <!-- <button type="button" class="btn btn-sm btn-link" ></button> -->
+            <a jhiTranslate="jhiptokomajuApp.supplier.home.search" (click)="searchSupplier()">Cari Supplier</a>
         </div>
     </div>
     <div class="col-sm-6">
@@ -19,14 +14,7 @@
                 >Code</label
             >
             <div class="col-md-9 col-sm-12">
-                <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    name="code"
-                    id="field_code"
-                    [ngModel]="supplier?.code"
-                    readonly
-                />
+                <input type="text" class="form-control form-control-sm" name="code" id="field_code" [ngModel]="supplier?.code" readonly />
             </div>
         </div>
         <div class="form-group row">
@@ -34,17 +22,11 @@
                 class="col-md-3 col-sm-12 form-control-label col-form-label-sm"
                 jhiTranslate="jhiptokomajuApp.supplier.name"
                 for="field_name"
-                > Name</label
+            >
+                Name</label
             >
             <div class="col-md-9 col-sm-12">
-                <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    name="name"
-                    id="field_name"
-                    [ngModel]="supplier?.name"
-                    readonly
-                />
+                <input type="text" class="form-control form-control-sm" name="name" id="field_name" [ngModel]="supplier?.name" readonly />
             </div>
         </div>
     </div>

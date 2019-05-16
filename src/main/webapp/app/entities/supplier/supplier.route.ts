@@ -31,7 +31,7 @@ export class SupplierResolve implements Resolve<ISupplier> {
 
 export const supplierRoute: Routes = [
     {
-        path: '',
+        path: 'supplier',
         component: SupplierComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -44,7 +44,7 @@ export const supplierRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/view',
+        path: 'supplier/:id/view',
         component: SupplierDetailComponent,
         resolve: {
             supplier: SupplierResolve
@@ -56,7 +56,7 @@ export const supplierRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'new',
+        path: 'supplier/new',
         component: SupplierUpdateComponent,
         resolve: {
             supplier: SupplierResolve
@@ -68,7 +68,7 @@ export const supplierRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/edit',
+        path: 'supplier/:id/edit',
         component: SupplierUpdateComponent,
         resolve: {
             supplier: SupplierResolve
@@ -83,7 +83,7 @@ export const supplierRoute: Routes = [
 
 export const supplierPopupRoute: Routes = [
     {
-        path: ':id/delete',
+        path: 'supplier/:id/delete',
         component: SupplierDeletePopupComponent,
         resolve: {
             supplier: SupplierResolve
