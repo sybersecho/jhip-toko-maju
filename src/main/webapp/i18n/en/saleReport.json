@@ -1,0 +1,24 @@
+{
+    "jhiptokomajuApp": {
+        "saleReport": {
+            "home": {
+                "title": "Sale Reports",
+                "createLabel": "Create a new Sale Report",
+                "createOrEditLabel": "Create or edit a Sale Report",
+                "search": "Search for Sale Report"
+            },
+            "customer": {
+                "title": "Sale Report Customer"
+            },
+            "created": "A new Sale Report is created with identifier {{ param }}",
+            "updated": "A Sale Report is updated with identifier {{ param }}",
+            "deleted": "A Sale Report is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Sale Report {{ id }}?"
+            },
+            "detail": {
+                "title": "Sale Report"
+            }
+        }
+    }
+}

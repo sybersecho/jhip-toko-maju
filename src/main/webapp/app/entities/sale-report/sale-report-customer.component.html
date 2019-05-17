@@ -1,0 +1,90 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.saleReport.customer.title">Sale Reports</span>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group w-100 mt-3">
+                <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" required />
+                <input type="date" class="form-control ml-1" name="end" [(ngModel)]="endDate" required />
+                <button class="input-group-append btn btn-info" (click)="search()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive mt-3">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.noInvoice">No Invoice</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.customer">Customer</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.totalPayment">Total Payment</span>
+                    </th>
+
+                    <th><span jhiTranslate="jhiptokomajuApp.saleTransactions.discount">Discount</span></th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.paid">Paid</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.remainingPayment">Remaining Payment</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.saleDate">Sale Date</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let report of saleReports; let i = index">
+                    <td>{{ report.noInvoice }}</td>
+                    <td>{{ report.customerFullName }}</td>
+                    <td>{{ report.totalPayment | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ report.discount | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ report.paid | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ report.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ report.createdDate }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr *ngIf="saleReports.length > 0">
+                    <th colspan="2"></th>
+                    <th>
+                        {{ totalTransaction | currency: 'IDR':'Rp. ' }}
+                    </th>
+                    <th>
+                        {{ totalDiscount | currency: 'IDR':'Rp. ' }}
+                    </th>
+                    <th>
+                        {{ totalPaid | currency: 'IDR':'Rp. ' }}
+                    </th>
+                    <th>
+                        {{ totalRemainingPayment | currency: 'IDR':'Rp. ' }}
+                    </th>
+                    <th colspan="2">
+                        <!-- {{ totalTransaction | currency: 'IDR':'Rp. ' }} -->
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="justify-content-center" *ngIf="saleReports.length > 0">
+        <div class="col-md-12">
+            <div class="clearfix">
+                <button type="button" class="btn btn-sm btn-success float-left">
+                    <fa-icon [icon]="'print'"></fa-icon>
+                    <span jhiTranslate="entity.action.print">Print</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-success float-right" (click)="exportToExcel()">
+                    <fa-icon [icon]="'file-excel'"></fa-icon>
+                    <span jhiTranslate="entity.action.extractToExcel">Extract To Excel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

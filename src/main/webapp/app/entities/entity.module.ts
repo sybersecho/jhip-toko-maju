@@ -31,6 +31,10 @@ import { JhiptokomajuSupplierStockModule } from './supplier-stock/supplier-stock
             {
                 path: 'cancel-transaction',
                 loadChildren: './cancel-transaction/cancel-transaction.module#JhiptokomajuCancelTransactionModule'
+            },
+            {
+                path: 'sale-report',
+                loadChildren: './sale-report/sale-report.module#JhiptokomajuSaleReportModule'
             }
             //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
