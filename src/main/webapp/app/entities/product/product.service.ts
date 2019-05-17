@@ -60,6 +60,11 @@ export class ProductService {
         return this.http.get<IProduct>(this.resourceSearchUrlBy, { params: options, observe: 'response' });
     }
 
+    findBySupplierId(supplierId: number): Observable<EntityArrayResponseType> {
+        const options = new HttpParams().set('supplierId.equals', supplierId + '');
+        return this.http.get<IProduct[]>(this.resourceUrl, { params: options, observe: 'response' });
+    }
+
     extractProductById(id: number): Observable<HttpResponse<ExtractProductModel>> {
         const queryUrl = this.resourceUrl + '/extract-by-product';
         return this.http.get<ExtractProductModel>(`${queryUrl}/${id}`, { observe: 'response' });

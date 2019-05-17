@@ -1,0 +1,21 @@
+{
+    "jhiptokomajuApp": {
+        "supplierStock": {
+            "home": {
+                "title": "Supplier Stocks",
+                "createLabel": "Buat Supplier Stock baru",
+                "createOrEditLabel": "Buat atau edit Supplier Stock",
+                "search": "Cari Supplier Stock"
+            },
+            "created": "Supplier Stock dengan id {{ param }} telah dibuat",
+            "updated": "Supplier Stock dengan id {{ param }} telah diperbaharui",
+            "deleted": "Supplier Stock dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Supplier Stock {{ id }}?"
+            },
+            "detail": {
+                "title": "Supplier Stock"
+            }
+        }
+    }
+}

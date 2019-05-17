@@ -1,0 +1,21 @@
+{
+    "jhiptokomajuApp": {
+        "supplierStock": {
+            "home": {
+                "title": "Supplier Stocks",
+                "createLabel": "Create a new Supplier Stock",
+                "createOrEditLabel": "Create or edit a Supplier Stock",
+                "search": "Search for Supplier Stock"
+            },
+            "created": "A new Supplier Stock is created with identifier {{ param }}",
+            "updated": "A Supplier Stock is updated with identifier {{ param }}",
+            "deleted": "A Supplier Stock is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Supplier Stock {{ id }}?"
+            },
+            "detail": {
+                "title": "Supplier Stock"
+            }
+        }
+    }
+}

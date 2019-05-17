@@ -24,6 +24,7 @@
                 "returnItem": "Return Item",
                 "badStockProduct": "Bad Stock Product",
                 "productStock": "Product Stock",
+                "supplierStock": "Supplier Stock",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

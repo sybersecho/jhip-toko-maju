@@ -1,15 +1,20 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="jhiptokomajuApp.productStock.home.title">Product Stocks</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-product-stock" (click)="onSearchProduct()">
+        <span jhiTranslate="jhiptokomajuApp.supplierStock.home.title">Supplier Stocks</span>
+        <button
+            id="jh-create-entity"
+            class="btn btn-primary float-right jh-create-entity create-supplier-stock"
+            (click)="onSearchSupplierProduct()"
+        >
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.productStock.home.search">
-                Search Stock Product
+            <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.supplierStock.home.search">
+                Search Supplier Stock
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="table-responsive" *ngIf="productStocks">
+
+    <div class="table-responsive">
         <table class="table table-sm table-striped">
             <thead>
                 <tr>
