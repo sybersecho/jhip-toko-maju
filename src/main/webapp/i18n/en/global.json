@@ -23,6 +23,7 @@
                 "returnSupplier": "Return Supplier",
                 "returnItem": "Return Item",
                 "badStockProduct": "Bad Stock Product",
+                "productStock": "Product Stock",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -129,7 +130,9 @@
             "addToList": "Add to List",
             "process": "Process",
             "processAndPrint": "Process & Print",
-            "processAsOrders": "Process as Delivery Orders"
+            "processAsOrders": "Process as Delivery Orders",
+            "print": "Print",
+            "extractToExcel": "Extract to Excel"
         },
         "detail": {
             "field": "Field",
@@ -164,6 +167,9 @@
         "idexists": "A new {{ entityName }} cannot already have an ID",
         "idnull": "Invalid ID",
         "search.not.found": "No result"
+    },
+    "warning": {
+        "productExist": "Product already selected"
     },
     "footer": "This is your footer"
 }

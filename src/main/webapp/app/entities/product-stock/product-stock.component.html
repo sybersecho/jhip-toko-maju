@@ -1,0 +1,62 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.productStock.home.title">Product Stocks</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-product-stock" (click)="onSearchProduct()">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.productStock.home.search">
+                Search Stock Product
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="table-responsive" *ngIf="productStocks">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><span jhiTranslate="global.field.no">No</span></th>
+                    <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+                    <th><span jhiTranslate="jhiptokomajuApp.product.name">Name</span></th>
+                    <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
+                    <th><span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody
+                infinite-scroll
+                (scrolled)="loadPage(page + 1)"
+                [infiniteScrollDisabled]="page >= links['last']"
+                [infiniteScrollDistance]="0"
+            >
+                <tr *ngFor="let product of products; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ product.barcode }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.unitName }}</td>
+                    <td>{{ product.stock }}</td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-danger btn-sm" (click)="onDelete(i)">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot *ngIf="products && products.length > 0">
+                <tr>
+                    <th colspan="6">
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-sm btn-success float-left">
+                                <fa-icon [icon]="'print'"></fa-icon>
+                                <span jhiTranslate="entity.action.print">Print</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-success float-right" (click)="exportToExcel()">
+                                <fa-icon [icon]="'file-excel'"></fa-icon>
+                                <span jhiTranslate="entity.action.extractToExcel">Extract To Excel</span>
+                            </button>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

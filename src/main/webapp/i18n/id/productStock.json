@@ -1,0 +1,21 @@
+{
+    "jhiptokomajuApp": {
+        "productStock": {
+            "home": {
+                "title": "Product Stocks",
+                "createLabel": "Buat Product Stock baru",
+                "createOrEditLabel": "Buat atau edit Product Stock",
+                "search": "Cari Product Stock"
+            },
+            "created": "Product Stock dengan id {{ param }} telah dibuat",
+            "updated": "Product Stock dengan id {{ param }} telah diperbaharui",
+            "deleted": "Product Stock dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Product Stock {{ id }}?"
+            },
+            "detail": {
+                "title": "Product Stock"
+            }
+        }
+    }
+}

@@ -23,6 +23,7 @@
                 "returnSupplier": "Pengembalian Supplier",
                 "returnItem": "Return Item",
                 "badStockProduct": "Bad Stock Product",
+                "productStock": "Product Stock",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -129,7 +130,9 @@
             "addToList": "Tambah Ke List",
             "process": "Proses",
             "processAndPrint": "Proses dan Print",
-            "processAsOrders": "Proses Sebagai Surat Jalan"
+            "processAsOrders": "Proses Sebagai Surat Jalan",
+            "print": "Cetak",
+            "extractToExcel": "Extract to Excel"
         },
         "detail": {
             "field": "Inputan",
@@ -163,6 +166,9 @@
         "idexists": "{{ entityName }} yang baru tidak boleh menggunakan id yang sudah ada",
         "idnull": "ID Tidak Valid",
         "search.not.found": "Tidak ada data yang ditemukan"
+    },
+    "warning": {
+        "productExist": "Sudah terdaftar"
     },
     "footer": ""
 }
