@@ -17,6 +17,7 @@
     <include file="config/liquibase/changelog/20190510200342_added_entity_CancelTransaction.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190513152016_added_entity_ReturnTransaction.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190513152648_added_entity_ReturnItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190517134336_added_entity_BadStockProduct.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190301191147_added_entity_constraints_Product.xml" relativeToChangelogFile="false"/>
 

@@ -1,16 +1,15 @@
 package com.toko.maju.service.impl;
 
-import com.toko.maju.domain.Product;
-import com.toko.maju.domain.ReturnItem;
-import com.toko.maju.domain.SequenceNumber;
+import com.toko.maju.domain.*;
 import com.toko.maju.domain.enumeration.ProductStatus;
 import com.toko.maju.domain.enumeration.TransactionType;
+import com.toko.maju.repository.BadStockProductRepository;
 import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.SequenceNumberRepository;
+import com.toko.maju.repository.search.BadStockProductSearchRepository;
 import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.repository.search.SequenceNumberSearchRepository;
 import com.toko.maju.service.ReturnTransactionService;
-import com.toko.maju.domain.ReturnTransaction;
 import com.toko.maju.repository.ReturnTransactionRepository;
 import com.toko.maju.repository.search.ReturnTransactionSearchRepository;
 import com.toko.maju.service.dto.ReturnTransactionDTO;
@@ -56,6 +55,13 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
     @Autowired
     private final SequenceNumberSearchRepository sequenceNumberSearchRepository = null;
 
+    @Autowired
+    private final BadStockProductRepository badStockProductRepository = null;
+
+    @Autowired
+    private final BadStockProductSearchRepository badStockProductSearchRepository = null;
+
+
     public ReturnTransactionServiceImpl(ReturnTransactionRepository returnTransactionRepository, ReturnTransactionMapper returnTransactionMapper, ReturnTransactionSearchRepository returnTransactionSearchRepository) {
         this.returnTransactionRepository = returnTransactionRepository;
         this.returnTransactionMapper = returnTransactionMapper;
@@ -88,27 +94,54 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
         Set<ReturnItem> items = returnTransaction.getReturnItems();
         //create bad and good product
         Map<Long, Integer> goodProducts = new HashMap<>();
-        Map<Long, Integer> badProducts = new HashMap<>();
+        Map<String, Integer> badProducts = new HashMap<>();
         filterItems(items, goodProducts, badProducts);
 
-        if (!goodProducts.isEmpty()) {
-            // load products by good ids
-            Set<Product> products = productRepository.findAllById(goodProducts.keySet()).stream().collect(Collectors.toCollection(HashSet::new));
+        if (returnTransaction.getTransactionType() == TransactionType.SHOP) {
 
-            // update good product qty
-            log.debug("Items: {}", products);
-            log.debug("good product: {}", goodProducts.keySet());
-            products = updateQty(goodProducts, products);
-            log.debug("Updated Product: {}", products);
+            if (!goodProducts.isEmpty()) {
+                // load products by good ids
+                Set<Product> products = productRepository.findAllById(goodProducts.keySet()).stream().collect(Collectors.toCollection(HashSet::new));
 
+                // update good product qty
+                log.debug("Items: {}", products);
+                log.debug("good product: {}", goodProducts.keySet());
 
-            // update product
-            productRepository.saveAll(products);
-            productSearchRepository.saveAll(products);
-        }
+                products = plusQty(goodProducts, products);
+                log.debug("Updated Product: {}", products);
 
-        if (!badProducts.isEmpty()) {
-            // TODO:: GET AND UPDATE BAD PRODUCT
+                // update product
+                productRepository.saveAll(products);
+                productSearchRepository.saveAll(products);
+            }
+
+            if (!badProducts.isEmpty()) {
+                log.debug("bad products....");
+                // TODO:: GET AND UPDATE BAD PRODUCT
+                log.debug("bad product barcode: {}", badProducts.keySet());
+
+                badProducts.forEach((k, v) -> {
+                    BadStockProduct bs = badStockProductRepository.findByBarcode(k);
+                    if (bs == null) {
+                        log.debug("not found, create new BS product");
+                        ReturnItem item = items.stream().filter(it -> it.getBarcode() == k).findFirst().get();
+                        log.debug("found item: {}", item);
+                        bs = new BadStockProduct();
+                        bs.barcode(item.getBarcode());
+                        bs.productName(item.getProductName());
+                        bs.quantity(item.getQuantity());
+                        log.debug("save new BS: {}", bs);
+                        badStockProductRepository.save(bs);
+                        badStockProductSearchRepository.save(bs);
+                    } else {
+                        bs.setQuantity(bs.getQuantity() + v);
+                        log.debug("update BS: {}", bs);
+                        badStockProductRepository.save(bs);
+                        badStockProductSearchRepository.save(bs);
+                    }
+
+                });
+            }
         }
 
         ReturnTransactionDTO result = returnTransactionMapper.toDto(returnTransaction);
@@ -124,19 +157,28 @@ public class ReturnTransactionServiceImpl implements ReturnTransactionService {
         return build.toString();
     }
 
-    private void filterItems(Set<ReturnItem> items, Map<Long, Integer> goodProducts, Map<Long, Integer> badProducts) {
+    private void filterItems(Set<ReturnItem> items, Map<Long, Integer> goodProducts, Map<String, Integer> badProducts) {
         items.forEach(item -> {
             if (ProductStatus.GOOD == item.getProductStatus()) {
                 goodProducts.put(item.getProduct().getId(), item.getQuantity());
             } else
-                badProducts.put(item.getProduct().getId(), item.getQuantity());
+                badProducts.put(item.getBarcode(), item.getQuantity());
         });
     }
 
-    private Set<Product> updateQty(Map<Long, Integer> items, Set<Product> products) {
+    private Set<Product> plusQty(Map<Long, Integer> items, Set<Product> products) {
         products.forEach(product -> {
             log.debug("product before: {}", product);
             product.setStock(product.getStock() + items.get(product.getId()));
+            log.debug("product after: {}", product);
+        });
+        return products;
+    }
+
+    private Set<Product> minusQty(Map<Long, Integer> items, Set<Product> products) {
+        products.forEach(product -> {
+            log.debug("product before: {}", product);
+            product.setStock(product.getStock() - items.get(product.getId()));
             log.debug("product after: {}", product);
         });
         return products;

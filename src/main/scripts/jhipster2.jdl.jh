@@ -103,6 +103,11 @@ entity ReturnItem {
   unit String required,
   totalItemPrice BigDecimal required min(0)
 }
+entity BadStockProduct {
+  barcode String required,
+  productName String required,
+  quantity Integer required min(0)
+}
 
 enum Gender {
   MALE,
@@ -155,9 +160,9 @@ relationship ManyToOne {
   ReturnItem{product(barcode) required} to Product
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem with mapstruct
-paginate Customer, Product, Project, Supplier, Unit with pagination
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct with mapstruct
+paginate Customer, Product, Project, Supplier, Unit, BadStockProduct with pagination
 paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct
