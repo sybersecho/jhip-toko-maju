@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "stockOrder": {
+            "home": {
+                "title": "Stock Orders",
+                "createLabel": "Buat Stock Order baru",
+                "createOrEditLabel": "Buat atau edit Stock Order",
+                "search": "Cari Stock Order"
+            },
+            "input": {
+                "title": "Input Stock Order"
+            },
+            "process": {
+                "title": "Process Stock Order"
+            },
+            "created": "Stock Order dengan id {{ param }} telah dibuat",
+            "updated": "Stock Order dengan id {{ param }} telah diperbaharui",
+            "deleted": "Stock Order dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Stock Order {{ id }}?"
+            },
+            "detail": {
+                "title": "Stock Order"
+            }
+        }
+    }
+}

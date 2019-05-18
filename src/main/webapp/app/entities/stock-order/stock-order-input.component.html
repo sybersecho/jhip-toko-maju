@@ -1,0 +1,67 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.stockOrder.input.title">Stock Orders</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity search-product" (click)="onSearchProduct()">
+            <fa-icon [icon]="'search'"></fa-icon>
+            <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.product.home.search">
+                Create new Stock Order
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row mt-3">
+        <div class="col-md-12 col-sm-12">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.product.name">Product Name</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.product.unitPrice">Unit Price</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.saleTransactions.quantity">Quantity</span></th>
+                        <th><span jhiTranslate="global.field.total">Total</span></th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of stockOrders; let i = index">
+                            <td>{{ order.barcode }}</td>
+                            <td>{{ order.name }}</td>
+                            <td>{{ order.unitName }}</td>
+                            <td>{{ order.unitPrice | currency: 'IDR':'Rp. ' }}</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="quantity{{ i }}"
+                                    id="field_quantity"
+                                    [(ngModel)]="order.quantity"
+                                    min="1"
+                                    jhiMin="1"
+                                    (change)="onChangeQuantity(i)"
+                                />
+                            </td>
+                            <td>{{ order.totalPrice | currency: 'IDR':'Rp. ' }}</td>
+                            <td>
+                                <button id="jh-remove-product" class="btn btn-danger float-right " (click)="onDelete(i)">
+                                    <fa-icon [icon]="'ban'"></fa-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr *ngIf="stockOrders && stockOrders.length > 0">
+                            <th colspan="5"></th>
+                            <th>{{ totalOrder | currency: 'IDR':'Rp. ' }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="text-right" *ngIf="stockOrders && stockOrders.length > 0">
+                <button id="jh-extract-product" class="btn btn-info float-right jh-extract-product extract-product" (click)="onExtract()">
+                    <fa-icon [icon]="'file-excel'"></fa-icon>
+                    <span jhiTranslate="entity.action.extractToExcel">Extract To Excel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

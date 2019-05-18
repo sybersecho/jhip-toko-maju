@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "stockOrder": {
+            "home": {
+                "title": "Stock Orders",
+                "createLabel": "Create a new Stock Order",
+                "createOrEditLabel": "Create or edit a Stock Order",
+                "search": "Search for Stock Order"
+            },
+            "input": {
+                "title": "Input Stock Order"
+            },
+            "process": {
+                "title": "Process Stock Order"
+            },
+            "created": "A new Stock Order is created with identifier {{ param }}",
+            "updated": "A Stock Order is updated with identifier {{ param }}",
+            "deleted": "A Stock Order is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Stock Order {{ id }}?"
+            },
+            "detail": {
+                "title": "Stock Order"
+            }
+        }
+    }
+}

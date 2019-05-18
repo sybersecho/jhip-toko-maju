@@ -27,6 +27,9 @@
                 "supplierStock": "Supplier Stock",
                 "saleReportProduct": "Sale Report Product",
                 "saleReportCustomer": "Sale Report Customer",
+                "stockOrder": "Stock Order",
+                "stockOrderInput": "Input Stock Order",
+                "stockOrderProcess": "Process Stock Order",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
