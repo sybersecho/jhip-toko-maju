@@ -1,7 +1,10 @@
 package com.toko.maju.service.impl;
 
+import com.toko.maju.domain.Product;
 import com.toko.maju.domain.User;
+import com.toko.maju.repository.ProductRepository;
 import com.toko.maju.repository.UserRepository;
+import com.toko.maju.repository.search.ProductSearchRepository;
 import com.toko.maju.security.SecurityUtils;
 import com.toko.maju.service.StockOrderProcessService;
 import com.toko.maju.domain.StockOrderProcess;
@@ -18,8 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -40,6 +42,12 @@ public class StockOrderProcessServiceImpl implements StockOrderProcessService {
 
     @Autowired
     private final UserRepository userRepository = null;
+
+    @Autowired
+    private final ProductRepository productRepository = null;
+
+    @Autowired
+    private final ProductSearchRepository productSearchRepository = null;
 
     public StockOrderProcessServiceImpl(StockOrderProcessRepository stockOrderProcessRepository, StockOrderProcessMapper stockOrderProcessMapper, StockOrderProcessSearchRepository stockOrderProcessSearchRepository) {
         this.stockOrderProcessRepository = stockOrderProcessRepository;
@@ -126,11 +134,30 @@ public class StockOrderProcessServiceImpl implements StockOrderProcessService {
         String login = SecurityUtils.getCurrentUserLogin().get();
         User u = userRepository.findOneByLogin(login).get();
         stockOrderProcesses.forEach(it -> it.setCreator(u));
-        // TODO
-        // get product by barcode
-        // ubah qty
-        // update
+        
+        HashMap<String, Integer> productRequests = new HashMap<>();
+        createProductRequest(productRequests, stockOrderProcesses);
+        log.debug("product keys: {}", productRequests.keySet());
+
+        List<Product> products = productRepository.findByBarcodeIn(productRequests.keySet());
+        if(!products.isEmpty()){
+            log.debug("found {} products", products.size());
+            products.forEach(it -> {
+                it.setStock(it.getStock() - productRequests.get(it.getBarcode()));
+            });
+            products = productRepository.saveAll(products);
+            productSearchRepository.saveAll(products);
+
+            log.debug("Updated products {}", products);
+        }
+
         stockOrderProcessSearchRepository.saveAll(stockOrderProcesses);
         return stockOrderProcessMapper.toDto(stockOrderProcesses);
+    }
+
+    private void createProductRequest(HashMap<String, Integer> productRequests, List<StockOrderProcess> stockOrderProcesses) {
+        stockOrderProcesses.forEach(it -> {
+            productRequests.put(it.getBarcode(), it.getQuantityApprove());
+        });
     }
 }
