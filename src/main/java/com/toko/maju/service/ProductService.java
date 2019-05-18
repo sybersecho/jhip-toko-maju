@@ -2,9 +2,11 @@ package com.toko.maju.service;
 
 import com.toko.maju.service.dto.ProductDTO;
 
+import com.toko.maju.web.rest.vm.ImportProductVM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,4 +55,6 @@ public interface ProductService {
      * @return the list of entities
      */
     Page<ProductDTO> search(String query, Pageable pageable);
+
+    List<ProductDTO> importProduct(List<ImportProductVM> importProductVMs);
 }

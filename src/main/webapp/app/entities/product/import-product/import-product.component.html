@@ -57,7 +57,22 @@
                             </th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr *ngFor="let data of arrayLoad">
+                            <td>{{ data.barcode }}</td>
+                            <td>{{ data.productName }}</td>
+                            <td>{{ data.unit }}</td>
+                            <td>{{ data.warehousePrice }}</td>
+                            <td>{{ data.unitPrice }}</td>
+                            <td>{{ data.salePrice }}</td>
+                            <td>{{ data.supplierCode }}</td>
+                            <td>{{ data.supplierName }}</td>
+                        </tr>
+                    </tbody>
                 </table>
+            </div>
+            <div class="text-right" *ngIf="arrayLoad && arrayLoad.length > 0">
+                <button type="button" class="btn btn-success" (click)="save()">Save</button>
             </div>
         </div>
     </div>

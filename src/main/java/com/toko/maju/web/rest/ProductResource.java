@@ -8,6 +8,7 @@ import com.toko.maju.service.dto.ProductDTO;
 import com.toko.maju.service.dto.ProductCriteria;
 import com.toko.maju.service.ProductQueryService;
 import com.toko.maju.web.rest.vm.ExtractProductVM;
+import com.toko.maju.web.rest.vm.ImportProductVM;
 import io.github.jhipster.service.filter.Filter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -193,6 +194,21 @@ public class ProductResource {
         return ResponseEntity.ok().headers(headers).body(createFromDtos((page.getContent())));
     }
 
+    @PutMapping("/products/import-product")
+    public ResponseEntity<List<ProductDTO>> updateProduct(@Valid @RequestBody List<ImportProductVM> importProductVMs) throws URISyntaxException {
+        log.debug("REST request to import Product : {}", importProductVMs);
+        if (importProductVMs.size() <= 0) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        List<ProductDTO> productDTOs =  productService.importProduct(importProductVMs);
+        
+        if(productDTOs.isEmpty()){
+            throw new BadRequestAlertException("Invalid request", ENTITY_NAME, "idnull");
+        }
+        return ResponseEntity.ok()
+            .body(productDTOs);
+    }
+
     private Optional<ExtractProductVM> createOptionalExtractProduct(Optional<ProductDTO> productDTO) {
         return Optional.of(createVMFromDTO(productDTO.get()));
     }
@@ -208,6 +224,7 @@ public class ProductResource {
         vm.setSupplierCode(dto.getSupplierCode());
         vm.setSupplierNoTelp(dto.getSupplierNoTelp());
         vm.setSupplierName(dto.getSupplierName());
+        vm.setWarehousePrice(dto.getWarehousePrice());
         return vm;
     }
 

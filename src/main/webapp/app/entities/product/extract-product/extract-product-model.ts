@@ -8,6 +8,7 @@ export class ExtractProductModel {
     public supplierName?: string;
     public supplierAddress?: string;
     public supplierNoTelp?: string;
+    public warehousePrice?: number;
 
     constructor() {}
 }

@@ -15,6 +15,7 @@ public class ExtractProductVM {
     private String supplierName;
     private String supplierAddress;
     private String supplierNoTelp;
+    private BigDecimal warehousePrice;
 
     public ExtractProductVM() {
     }
@@ -91,18 +92,27 @@ public class ExtractProductVM {
         this.unit = unit;
     }
 
+    public BigDecimal getWarehousePrice() {
+        return warehousePrice;
+    }
+
+    public void setWarehousePrice(BigDecimal warehousePrice) {
+        this.warehousePrice = warehousePrice;
+    }
+
     @Override
     public String toString() {
         return "ExtractProductVM{" +
             "barcode='" + barcode + '\'' +
             ", productName='" + productName + '\'' +
-            ", unit=" + unit +
+            ", unit='" + unit + '\'' +
             ", unitPrice=" + unitPrice +
             ", salePrice=" + salePrice +
             ", supplierCode='" + supplierCode + '\'' +
             ", supplierName='" + supplierName + '\'' +
             ", supplierAddress='" + supplierAddress + '\'' +
             ", supplierNoTelp='" + supplierNoTelp + '\'' +
+            ", warehousePrice=" + warehousePrice +
             '}';
     }
 }

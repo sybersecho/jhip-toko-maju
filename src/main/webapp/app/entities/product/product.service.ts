@@ -75,6 +75,10 @@ export class ProductService {
         return this.http.get<ExtractProductModel[]>(`${queryUrl}/${supplierCode}`, { observe: 'response' });
     }
 
+    importProduct(dataLoaded: any[]): Observable<EntityArrayResponseType> {
+        return this.http.put<IProduct[]>(this.resourceUrl + '/import-product', dataLoaded, { observe: 'response' });
+    }
+
     protected createParams(req?: any): HttpParams {
         console.log(req);
         return new HttpParams()

@@ -31,7 +31,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
-    invoiceExcel: invoiceExcel[];
+    invoiceExcel: InvoiceExcel[];
 
     constructor(
         protected invoiceService: InvoiceService,

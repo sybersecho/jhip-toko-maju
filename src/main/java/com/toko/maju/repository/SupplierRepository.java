@@ -15,4 +15,6 @@ import java.util.Optional;
 public interface SupplierRepository extends JpaRepository<Supplier, Long>, JpaSpecificationExecutor<Supplier> {
 
     Optional<Supplier> findTopByOrderByIdAsc();
+
+    Supplier findByCode(String supplierCode);
 }
