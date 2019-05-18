@@ -4,16 +4,14 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { JhiLanguageHelper } from 'app/core';
 
 import { JhiptokomajuSharedModule } from 'app/shared';
-import { StockOrderComponent, stockOrderRoute } from './';
-import { StockOrderInputComponent } from './stock-order-input.component';
-import { StockOrderProcessComponent } from './stock-order-process.component';
+import { StockOrderComponent, stockOrderRoute, StockOrderInputComponent, StockOrderProcessComponent, StockOrderReceiveComponent } from './';
 
 const ENTITY_STATES = [...stockOrderRoute];
 
 @NgModule({
     imports: [JhiptokomajuSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [StockOrderComponent, StockOrderInputComponent, StockOrderProcessComponent],
-    entryComponents: [StockOrderComponent, StockOrderInputComponent, StockOrderProcessComponent],
+    declarations: [StockOrderComponent, StockOrderInputComponent, StockOrderProcessComponent, StockOrderReceiveComponent],
+    entryComponents: [StockOrderComponent, StockOrderInputComponent, StockOrderProcessComponent, StockOrderReceiveComponent],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

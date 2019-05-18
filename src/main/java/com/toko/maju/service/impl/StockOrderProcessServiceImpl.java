@@ -126,6 +126,10 @@ public class StockOrderProcessServiceImpl implements StockOrderProcessService {
         String login = SecurityUtils.getCurrentUserLogin().get();
         User u = userRepository.findOneByLogin(login).get();
         stockOrderProcesses.forEach(it -> it.setCreator(u));
+        // TODO
+        // get product by barcode
+        // ubah qty
+        // update
         stockOrderProcessSearchRepository.saveAll(stockOrderProcesses);
         return stockOrderProcessMapper.toDto(stockOrderProcesses);
     }

@@ -6,6 +6,9 @@ import { JhiAlertService } from 'ng-jhipster';
 import { ExcelToJsonService } from 'app/shared/import/excel-to-json.service';
 import { StockOrderProcess, IStockOrderProcess } from 'app/shared/model/stock-order-process.model';
 import { StockOrderProcessService } from './stock-order-process.service';
+import { IStockOrderReceive, StockOrderReceive } from 'app/shared/model/stock-order-receive.model';
+import { ExcelModel } from 'app/shared/export/excel-model';
+import { ExcelService } from 'app/shared/export/excel.service';
 
 @Component({
     selector: 'jhi-stock-order-process',
@@ -19,18 +22,21 @@ export class StockOrderProcessComponent implements OnInit {
     barcodes: string[];
     products: IProduct[];
     stockOrderProcess: IStockOrderProcess[];
+    stockOrderRecives: IStockOrderReceive[];
 
     constructor(
         protected productService: ProductService,
         protected stockOrderProcessService: StockOrderProcessService,
         protected jhiAlertService: JhiAlertService,
-        protected importExcelService: ExcelToJsonService
+        protected importExcelService: ExcelToJsonService,
+        protected excelService: ExcelService
     ) {}
 
     ngOnInit() {
         this.barcodes = [];
         this.products = [];
         this.stockOrderProcess = [];
+        this.stockOrderRecives = [];
     }
 
     incomingfile(event) {
@@ -40,11 +46,36 @@ export class StockOrderProcessComponent implements OnInit {
     saveAndExport() {
         this.stockOrderProcessService.creates(this.stockOrderProcess).subscribe(
             res => {
-                console.log('response, ', res);
-                this.stockOrderProcess = [];
+                this.onSucessSave(res.body);
             },
             err => this.onError(err.message)
         );
+    }
+
+    onSucessSave(orderProcess: IStockOrderProcess[]) {
+        this.createOrderReceive(orderProcess);
+        this.extractOrderReceive();
+        this.jhiAlertService.success('jhiptokomajuApp.stockOrder.process.created', null, null);
+        this.stockOrderProcess = [];
+        this.stockOrderRecives = [];
+    }
+
+    protected extractOrderReceive() {
+        const excelModel = new ExcelModel();
+        excelModel.data = this.stockOrderRecives;
+        excelModel.fileName = 'Stock Orders Receive';
+        excelModel.header = [];
+        excelModel.title = '';
+
+        this.excelService.generateExcel(excelModel);
+    }
+
+    protected createOrderReceive(orderProcess: IStockOrderProcess[]) {
+        this.stockOrderRecives = [];
+        orderProcess.forEach(it => {
+            const orderReceive = new StockOrderReceive(it.barcode, it.name, it.quantityApprove);
+            this.stockOrderRecives.push(orderReceive);
+        });
     }
 
     importFile() {

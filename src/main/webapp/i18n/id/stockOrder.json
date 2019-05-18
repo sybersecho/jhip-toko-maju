@@ -8,10 +8,16 @@
                 "search": "Cari Stock Order"
             },
             "input": {
-                "title": "Input Stock Order"
+                "title": "Input Stock Order",
+                "created": "Stock Order dibuat"
             },
             "process": {
-                "title": "Process Stock Order"
+                "title": "Process Stock Order",
+                "created": "Stock Order diprocess"
+            },
+            "receive": {
+                "title": "Receive Stock Order",
+                "created": "Stock Order disimpan"
             },
             "created": "Stock Order disimpan",
             "updated": "Stock Order dengan id {{ param }} telah diperbaharui",

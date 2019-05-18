@@ -8,10 +8,16 @@
                 "search": "Search for Stock Order"
             },
             "input": {
-                "title": "Input Stock Order"
+                "title": "Input Stock Order",
+                "created": "Stock Order Created"
             },
             "process": {
-                "title": "Process Stock Order"
+                "title": "Process Stock Order",
+                "created": "Stock Order proceed"
+            },
+            "receive": {
+                "title": "Receive Stock Order",
+                "created": "Stock Order saved"
             },
             "created": "Stock Order saved",
             "updated": "A Stock Order is updated with identifier {{ param }}",
