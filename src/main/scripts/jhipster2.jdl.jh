@@ -108,6 +108,21 @@ entity BadStockProduct {
   productName String required,
   quantity Integer required min(0)
 }
+entity StockOrder {
+  siteLocation String required,
+  createdDate Instant required,
+  processed Boolean required,
+  processedDate Instant
+}
+entity StockOrderRequest {
+  barcode String,
+  name String,
+  unitName String,
+  unitPrice BigDecimal,
+  quantity Integer,
+  totalPrice BigDecimal,
+  createdDate Instant
+}
 
 enum Gender {
   MALE,
@@ -157,12 +172,15 @@ relationship ManyToOne {
   ReturnTransaction{creator(login)} to User,
   ReturnTransaction{customer(code)} to Customer,
   ReturnTransaction{supplier(code)} to Supplier,
-  ReturnItem{product(barcode) required} to Product
+  ReturnItem{product(barcode) required} to Product,
+  StockOrder{creator(login)} to User,
+  StockOrder{approval(login)} to User,
+  StockOrderRequest{stockOrder} to StockOrder
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct with mapstruct
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest with mapstruct
 paginate Customer, Product, Project, Supplier, Unit, BadStockProduct with pagination
-paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct
+paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, StockOrder, StockOrderRequest with infinite-scroll
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest

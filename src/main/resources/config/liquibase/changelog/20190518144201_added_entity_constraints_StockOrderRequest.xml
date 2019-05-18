@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity StockOrderRequest.
+    -->
+    <changeSet id="20190518144201-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="stock_order_id"
+                                 baseTableName="stock_order_request"
+                                 constraintName="fk_stock_order_request_stock_order_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="stock_order"/>
+
+    </changeSet>
+</databaseChangeLog>
