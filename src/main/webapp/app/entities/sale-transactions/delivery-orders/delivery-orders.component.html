@@ -8,17 +8,51 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 text-left">
-                    <span>
-                        Tanggal: <span class="font-weight-bold"> {{ saleTransaction.saleDate | date: 'medium' }}</span>
-                    </span>
-                    <span *ngIf="saleTransaction.projectId">
-                        Project: <span class="font-weight-bold"> {{ saleTransaction.projectName }}</span>
-                    </span>
-                    <hr />
+                <div class="col-sm-12 clearfix">
+                    <div class="float-left"><strong class="font-weight-bold">Informasi Penjualan</strong></div>
+                    <div class="float-right"><strong class="font-weight-bold">Informasi Pelanggan</strong></div>
                 </div>
+                <!-- <div class="col-sm-12 text-left">
+                        <span>
+                            Tanggal: <span class="font-weight-bold"> {{ saleTransaction.saleDate | date: 'medium' }}</span>
+                        </span>
+                        <span *ngIf="saleTransaction.projectId">
+                            Project: <span class="font-weight-bold"> {{ saleTransaction.projectName }}</span>
+                        </span>
+                        <hr />
+                    </div> -->
+                <!-- <hr /> -->
             </div>
+            <div class="row">
+                <div class="col-sm-12 clearfix">
+                    <div class="float-left">
+                        <span>
+                            No Fraktur #<span class="font-weight-bold"> {{ saleTransaction.noInvoice }}</span
+                            ><br />
+                        </span>
+                        <span>
+                            Tanggal: <span class="font-weight-bold"> {{ saleTransaction.saleDate | date: 'medium' }}</span>
+                        </span>
+                        <span *ngIf="saleTransaction.projectId">
+                            Project: <span class="font-weight-bold"> {{ saleTransaction.projectName }}</span>
+                        </span>
+                    </div>
+                    <div class="float-right">
+                        <span class="font-weight-bold">
+                            {{ saleTransaction.customerFirstName }} {{ saleTransaction.customerLastName }} </span
+                        ><br />
+                        <span class="font-weight-light">
+                            {{ saleTransaction.customerAddress }}
+                        </span>
+                    </div>
+                </div>
+                <!-- <div class="col-sm-12 text-left">
 
+                            <hr />
+                        </div> -->
+                <!-- <hr /> -->
+            </div>
+            <hr />
             <div class="row">
                 <div class="col-sm-12">
                     <div *ngFor="let item of items; let i = index">

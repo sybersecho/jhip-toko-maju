@@ -9,7 +9,7 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { IInvoice } from 'app/shared/model/invoice.model';
 import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE, DATE_FORMAT } from 'app/shared';
+import { ITEMS_PER_PAGE, DATE_FORMAT, DATE_TIME_S_FORMAT } from 'app/shared';
 import { InvoiceService } from './invoice.service';
 import { SearchInvoice } from './search-filter.component';
 import { ExcelService } from 'app/shared/export/excel.service';
@@ -31,6 +31,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    invoiceExcel: invoiceExcel[];
 
     constructor(
         protected invoiceService: InvoiceService,
@@ -43,6 +44,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         protected accountService: AccountService
     ) {
         this.invoices = [];
+        this.invoiceExcel = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
@@ -106,7 +108,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     exportToExcel(): void {
         const excelModel = new ExcelModel();
-        excelModel.data = this.invoices;
+        excelModel.data = this.invoiceExcel;
         excelModel.fileName = 'Daftar Penjualan';
         excelModel.header = ['No Fraktur', 'Tanggal', 'Pelanggan', 'Project', 'Total', 'Sisa Pembayaran', 'Pembayan'];
         excelModel.title = 'Daftar Penjualan';
@@ -194,8 +196,21 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.invoices = [];
+        this.invoiceExcel = [];
         for (let i = 0; i < data.length; i++) {
             data[i].projectName = data[i].projectName ? data[i].projectName : '-';
+            this.invoiceExcel.push(
+                new InvoiceExcel(
+                    data[i].noInvoice,
+                    data[i].customer,
+                    data[i].totalPayment,
+                    data[i].remainingPayment,
+                    data[i].paid,
+                    data[i].saleDate.format(DATE_TIME_S_FORMAT),
+                    data[i].paid,
+                    data[i].projectName
+                )
+            );
             this.invoices.push(data[i]);
         }
     }
@@ -203,4 +218,17 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
+}
+
+class InvoiceExcel {
+    constructor(
+        public noInvoice?: number,
+        public customer?: string,
+        public totalPayment?: number,
+        public remainingPayment?: number,
+        public paid?: number,
+        public saleDate?: string,
+        public settlement?: number,
+        public projectName?: string
+    ) {}
 }
