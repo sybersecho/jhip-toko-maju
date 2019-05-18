@@ -1,0 +1,88 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.saleReport.product.title">Sale Reports</span>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group w-100 mt-3">
+                <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" required />
+                <input type="date" class="form-control ml-1" name="end" [(ngModel)]="endDate" required />
+                <button class="input-group-append btn btn-info" (click)="search()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive mt-3">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
+
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.product.name">Name</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.product.sellingPrice">Selling Price</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleItem.quantity">Quanity</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleItem.totalPrice">Total Price</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.saleDate">Sale Date</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let report of saleReports; let i = index">
+                    <td>{{ report.barcode }}</td>
+                    <td>{{ report.name }}</td>
+                    <td>{{ report.unitName }}</td>
+                    <td>{{ report.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ report.quantity }}</td>
+                    <td>{{ report.totalPrice | currency: 'IDR':'Rp. ' }}</td>
+                    <td>{{ report.createdDate }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr *ngIf="saleReports.length > 0">
+                    <th colspan="5"></th>
+                    <th>
+                        {{ totalTransaction | currency: 'IDR':'Rp. ' }}
+                    </th>
+                    <!--  <th>
+                        {{ totalDiscount | currency: 'IDR':'Rp. ' }}
+                    </th>
+                    <th>
+                        {{ totalPaid | currency: 'IDR':'Rp. ' }}
+                    </th>
+                    <th>
+                        {{ totalRemainingPayment | currency: 'IDR':'Rp. ' }}
+                    </th> -->
+                    <th colspan="1"></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="justify-content-center" *ngIf="saleReports.length > 0">
+        <div class="col-md-12">
+            <div class="clearfix">
+                <button type="button" class="btn btn-sm btn-success float-left">
+                    <fa-icon [icon]="'print'"></fa-icon>
+                    <span jhiTranslate="entity.action.print">Print</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-success float-right" (click)="exportToExcel()">
+                    <fa-icon [icon]="'file-excel'"></fa-icon>
+                    <span jhiTranslate="entity.action.extractToExcel">Extract To Excel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

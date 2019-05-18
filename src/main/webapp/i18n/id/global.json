@@ -25,7 +25,8 @@
                 "badStockProduct": "Bad Stock Product",
                 "productStock": "Product Stock",
                 "supplierStock": "Supplier Stock",
-                "saleReport": "Sale Report",
+                "saleReportCustomer": "Laporan Penjualan Customer",
+                "saleReportProduct": "Laporan Penjualan Product",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

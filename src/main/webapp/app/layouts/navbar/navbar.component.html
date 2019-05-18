@@ -211,15 +211,39 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supplier-stock" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a
+                            class="dropdown-item"
+                            routerLink="supplier-stock"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.supplierStock">Supplier Stock</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="sale-report/customer" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a
+                            class="dropdown-item"
+                            routerLink="sale-report/customer"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.saleReport">Sale Report</span>
+                            <span jhiTranslate="global.menu.entities.saleReportCustomer">Sale Report</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            routerLink="sale-report/product"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.saleReportProduct">Sale Report</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

@@ -10,6 +10,9 @@
             "customer": {
                 "title": "Laporan Penjualan Customer"
             },
+            "product": {
+                "title": "Laporan Penjualan Product"
+            },
             "created": "Sale Report dengan id {{ param }} telah dibuat",
             "updated": "Sale Report dengan id {{ param }} telah diperbaharui",
             "deleted": "Sale Report dengan id {{ param }} telah dihapus",

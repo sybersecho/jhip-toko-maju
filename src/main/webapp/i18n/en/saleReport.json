@@ -10,6 +10,9 @@
             "customer": {
                 "title": "Sale Report Customer"
             },
+            "product": {
+                "title": "Sale Report Product"
+            },
             "created": "A new Sale Report is created with identifier {{ param }}",
             "updated": "A Sale Report is updated with identifier {{ param }}",
             "deleted": "A Sale Report is deleted with identifier {{ param }}",

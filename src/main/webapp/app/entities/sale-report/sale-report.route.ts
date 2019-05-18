@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { UserRouteAccessService } from 'app/core';
 import { SaleReportComponent } from './sale-report.component';
 import { SaleReportCustomerComponent } from './sale-report-customer.component';
+import { SaleReportProductComponent } from './sale-report-product.component';
 
 export const saleReportRoute: Routes = [
     {
@@ -18,6 +19,15 @@ export const saleReportRoute: Routes = [
     {
         path: 'customer',
         component: SaleReportCustomerComponent,
+        data: {
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'jhiptokomajuApp.saleReport.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'product',
+        component: SaleReportProductComponent,
         data: {
             authorities: ['ROLE_ADMIN'],
             pageTitle: 'jhiptokomajuApp.saleReport.home.title'

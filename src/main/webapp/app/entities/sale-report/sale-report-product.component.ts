@@ -1,27 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { ISaleReport, SaleReport } from 'app/shared/model/sale-report.model';
+import { DatePipe } from '@angular/common';
 import { SaleTransactionsService } from '../sale-transactions';
+import { ExcelService } from 'app/shared/export/excel.service';
 import * as moment from 'moment';
 import { HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 import { DATE_TIME_S_FORMAT } from 'app/shared';
 import { ExcelModel } from 'app/shared/export/excel-model';
-import { ExcelService } from 'app/shared/export/excel.service';
+import { ISaleReportProduct, SaleReportProduct } from 'app/shared/model/sale-report-product.model';
 
 @Component({
-    selector: 'jhi-sale-report-customer',
-    templateUrl: './sale-report-customer.component.html',
+    selector: 'jhi-sale-report-product',
+    templateUrl: './sale-report-product.component.html',
     styles: []
 })
-export class SaleReportCustomerComponent implements OnInit {
+export class SaleReportProductComponent implements OnInit {
     fromDate: string;
     endDate: string;
-    saleReports: ISaleReport[];
+    saleReports: ISaleReportProduct[];
     totalTransaction: number;
-    totalDiscount: number;
-    totalPaid: number;
-    totalRemainingPayment: number;
 
     constructor(
         protected datePipe: DatePipe,
@@ -38,9 +36,6 @@ export class SaleReportCustomerComponent implements OnInit {
     }
 
     protected resetTotals() {
-        this.totalDiscount = 0;
-        this.totalPaid = 0;
-        this.totalRemainingPayment = 0;
         this.totalTransaction = 0;
     }
 
@@ -78,23 +73,19 @@ export class SaleReportCustomerComponent implements OnInit {
     }
 
     protected addToList(sale: ISaleTransactions): void {
-        const report = new SaleReport(
-            sale.noInvoice,
-            sale.customerFirstName + ' ' + sale.customerLastName,
-            sale.totalPayment,
-            sale.discount,
-            sale.paid,
-            sale.remainingPayment,
-            sale.creatorLogin,
-            sale.saleDate.format(DATE_TIME_S_FORMAT)
-        );
-
-        this.totalDiscount += report.discount;
-        this.totalPaid += report.paid;
-        this.totalRemainingPayment += report.remainingPayment;
-        this.totalTransaction += report.totalPayment;
-
-        this.saleReports.push(report);
+        sale.items.forEach(item => {
+            const report = new SaleReportProduct(
+                item.barcode,
+                item.productName,
+                item.unit,
+                item.sellingPrice,
+                item.quantity,
+                item.totalPrice,
+                sale.saleDate.format(DATE_TIME_S_FORMAT)
+            );
+            this.totalTransaction += report.totalPrice;
+            this.saleReports.push(report);
+        });
     }
 
     exportToExcel(): void {
