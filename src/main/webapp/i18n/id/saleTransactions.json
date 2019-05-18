@@ -2,7 +2,7 @@
     "jhiptokomajuApp": {
         "saleTransactions": {
             "home": {
-                "title": "Sale Transactions",
+                "title": "Penjualan",
                 "createLabel": "Buat Sale Transactions baru",
                 "createOrEditLabel": "Buat atau edit Sale Transactions",
                 "search": "Cari Sale Transactions"

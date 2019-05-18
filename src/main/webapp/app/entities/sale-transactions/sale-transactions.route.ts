@@ -54,7 +54,7 @@ export const saleTransactionsRoute: Routes = [
         // component: SaleTransactionsComponent,
         component: MainCashierComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
         },
         resolve: {
@@ -69,7 +69,7 @@ export const saleTransactionsRoute: Routes = [
             saleTransactions: SaleTransactionsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const saleTransactionsRoute: Routes = [
             saleTransactions: SaleTransactionsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -93,7 +93,7 @@ export const saleTransactionsRoute: Routes = [
             saleTransactions: SaleTransactionsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -108,7 +108,7 @@ export const saleTransactionsPopupRoute: Routes = [
             saleTransactions: SaleTransactionsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -121,7 +121,7 @@ export const saleTransactionsPopupRoute: Routes = [
             customers: CustomersResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -130,11 +130,8 @@ export const saleTransactionsPopupRoute: Routes = [
     {
         path: 'sale/search-product',
         component: SearchProductPopupComponent,
-        // resolve: {
-        //     products: ProductsResolve
-        // },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.saleTransactions.home.title'
         },
         canActivate: [UserRouteAccessService],

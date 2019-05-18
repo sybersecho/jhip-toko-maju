@@ -37,7 +37,7 @@ export const unitRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             defaultSort: 'id,asc',
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
@@ -50,7 +50,7 @@ export const unitRoute: Routes = [
             unit: UnitResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +62,7 @@ export const unitRoute: Routes = [
             unit: UnitResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +74,7 @@ export const unitRoute: Routes = [
             unit: UnitResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +89,7 @@ export const unitPopupRoute: Routes = [
             unit: UnitResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService],

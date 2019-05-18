@@ -71,9 +71,8 @@
                                     class="btn btn-info float-right jh-extract-product extract-product"
                                     (click)="onExtract()"
                                 >
-                                    <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.product.extract.actions.extract">
-                                        Search Product
-                                    </span>
+                                    <fa-icon [icon]="'file-excel'"></fa-icon>
+                                    <span jhiTranslate="entity.action.extractToExcel">Extract To Excel</span>
                                 </button>
                             </td>
                         </tr>

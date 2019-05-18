@@ -7,7 +7,7 @@ export const productStockRoute: Routes = [
         path: 'product-stock',
         component: ProductStockComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.productStock.home.title'
         },
         canActivate: [UserRouteAccessService]

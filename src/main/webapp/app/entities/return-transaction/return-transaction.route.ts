@@ -35,7 +35,7 @@ export const returnTransactionRoute: Routes = [
         path: 'return-toko',
         component: ReturnTokoComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.returnTransaction.toko.title'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const returnTransactionRoute: Routes = [
         path: 'return-supplier',
         component: ReturnSupplierComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.returnTransaction.supply.title'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const returnTransactionRoute: Routes = [
             returnTransaction: ReturnTransactionResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.returnTransaction.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -68,7 +68,7 @@ export const returnTransactionRoute: Routes = [
             returnTransaction: ReturnTransactionResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.returnTransaction.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const returnTransactionRoute: Routes = [
             returnTransaction: ReturnTransactionResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.returnTransaction.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -95,7 +95,7 @@ export const returnTransactionPopupRoute: Routes = [
             returnTransaction: ReturnTransactionResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.returnTransaction.home.title'
         },
         canActivate: [UserRouteAccessService],

@@ -201,7 +201,7 @@ public class ProductResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         List<ProductDTO> productDTOs =  productService.importProduct(importProductVMs);
-        
+
         if(productDTOs.isEmpty()){
             throw new BadRequestAlertException("Invalid request", ENTITY_NAME, "idnull");
         }

@@ -33,7 +33,7 @@ export const duePaymentRoute: Routes = [
         path: 'due-payment',
         component: DuePaymentComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.duePayment.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const duePaymentRoute: Routes = [
             duePayment: DuePaymentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.duePayment.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const duePaymentRoute: Routes = [
             duePayment: DuePaymentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.duePayment.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const duePaymentRoute: Routes = [
             duePayment: DuePaymentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.duePayment.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const duePaymentPopupRoute: Routes = [
             duePayment: DuePaymentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.duePayment.home.title'
         },
         canActivate: [UserRouteAccessService],

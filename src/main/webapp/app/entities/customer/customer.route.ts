@@ -103,7 +103,7 @@ export const customerRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             defaultSort: 'id,asc',
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
@@ -117,7 +117,7 @@ export const customerRoute: Routes = [
             customer: CustomerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
         canActivateChild: [UserRouteAccessService]
@@ -129,7 +129,7 @@ export const customerRoute: Routes = [
             entity: CustomerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -144,7 +144,7 @@ export const customerRoute: Routes = [
             projects: CustomerProjectResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -156,7 +156,7 @@ export const customerRoute: Routes = [
             customer: CustomerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -168,7 +168,7 @@ export const customerRoute: Routes = [
             customer: CustomerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -183,7 +183,7 @@ export const customerPopupRoute: Routes = [
             customer: CustomerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.customer.home.title'
         },
         canActivate: [UserRouteAccessService],

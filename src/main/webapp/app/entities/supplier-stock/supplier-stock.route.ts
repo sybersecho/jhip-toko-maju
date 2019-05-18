@@ -13,7 +13,7 @@ export const supplierStockRoute: Routes = [
         path: 'supplier-stock',
         component: SupplierStockComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.supplierStock.home.title'
         },
         canActivate: [UserRouteAccessService]

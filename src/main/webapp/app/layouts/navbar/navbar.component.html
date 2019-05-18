@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark navbar-expand-md bg-dark">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-        <span class="logo-img"></span>
+        <!-- <span class="logo-img"></span> -->
         <span jhiTranslate="global.title" class="navbar-title">Jhiptokomaju</span>
     </a>
     <a
@@ -25,7 +25,7 @@
                     </span>
                 </a>
             </li>
-            <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+            <!-- Manage -->
             <li
                 *ngSwitchCase="true"
                 ngbDropdown
@@ -33,15 +33,21 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
             >
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+                <a
+                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SUPERUSER']"
+                    class="nav-link dropdown-toggle"
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    id="manage-menu"
+                >
                     <span>
                         <fa-icon icon="th-list"></fa-icon>
-                        <span jhiTranslate="global.menu.entities.main">
-                            Entities
+                        <span>
+                            Manages
                         </span>
                     </span>
                 </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="manage-menu">
                     <li>
                         <a
                             class="dropdown-item"
@@ -69,25 +75,13 @@
                     <li>
                         <a
                             class="dropdown-item"
-                            routerLink="product/extract"
+                            routerLink="supplier"
                             routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }"
                             (click)="collapseNavbar()"
                         >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.extractProduct">Extract Product</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            routerLink="product/import"
-                            routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }"
-                            (click)="collapseNavbar()"
-                        >
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.importProduct">Import Product</span>
+                            <span jhiTranslate="global.menu.entities.supplier">Supplier</span>
                         </a>
                     </li>
                     <li>
@@ -105,15 +99,41 @@
                     <li>
                         <a
                             class="dropdown-item"
-                            routerLink="supplier"
+                            routerLink="unit"
                             routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }"
                             (click)="collapseNavbar()"
                         >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.supplier">Supplier</span>
+                            <span jhiTranslate="global.menu.entities.unit">Unit</span>
                         </a>
                     </li>
+                </ul>
+            </li>
+            <!-- /Manage -->
+            <!-- transaction -->
+            <li
+                *ngSwitchCase="true"
+                ngbDropdown
+                class="nav-item dropdown pointer"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                <a
+                    *jhiHasAnyAuthority="['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER']"
+                    class="nav-link dropdown-toggle"
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    id="transaction-menu"
+                >
+                    <span>
+                        <fa-icon icon="th-list"></fa-icon>
+                        <span>
+                            Transaction
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="transaction-menu">
                     <li>
                         <a
                             class="dropdown-item"
@@ -129,18 +149,6 @@
                     <li>
                         <a
                             class="dropdown-item"
-                            routerLink="invoice"
-                            routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }"
-                            (click)="collapseNavbar()"
-                        >
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.invoice">Invoice</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
                             routerLink="due-payment"
                             routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }"
@@ -148,30 +156,6 @@
                         >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.duePayment">Due Payment</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            routerLink="unit"
-                            routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }"
-                            (click)="collapseNavbar()"
-                        >
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.unit">Unit</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            routerLink="cancel-transaction"
-                            routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }"
-                            (click)="collapseNavbar()"
-                        >
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.cancelTransaction">Cancel Transaction</span>
                         </a>
                     </li>
                     <li>
@@ -201,6 +185,56 @@
                     <li>
                         <a
                             class="dropdown-item"
+                            routerLink="invoice"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.invoice">Invoice</span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a
+                            class="dropdown-item"
+                            routerLink="cancel-transaction"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.cancelTransaction">Cancel Transaction</span>
+                        </a>
+                    </li> -->
+                </ul>
+            </li>
+            <!-- /transaction -->
+            <!-- Inventory -->
+            <li
+                *ngSwitchCase="true"
+                ngbDropdown
+                class="nav-item dropdown pointer"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                <a
+                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SUPERUSER']"
+                    class="nav-link dropdown-toggle"
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    id="inventory-menu"
+                >
+                    <span>
+                        <fa-icon icon="th-list"></fa-icon>
+                        <span>
+                            Inventory
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="inventory-menu">
+                    <li>
+                        <a
+                            class="dropdown-item"
                             routerLink="product-stock"
                             routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }"
@@ -225,6 +259,57 @@
                     <li>
                         <a
                             class="dropdown-item"
+                            routerLink="product/extract"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.extractProduct">Extract Product</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                            class="dropdown-item"
+                            routerLink="product/import"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.importProduct">Import Product</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- /Inventory -->
+            <!-- report -->
+            <li
+                *ngSwitchCase="true"
+                ngbDropdown
+                class="nav-item dropdown pointer"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                <a
+                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SUPERUSER', 'ROLE_CASHIER']"
+                    class="nav-link dropdown-toggle"
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    id="report-menu"
+                >
+                    <span>
+                        <fa-icon icon="th-list"></fa-icon>
+                        <span>
+                            Report
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
+                    <li>
+                        <a
+                            class="dropdown-item"
                             routerLink="sale-report/customer"
                             routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }"
@@ -246,6 +331,26 @@
                             <span jhiTranslate="global.menu.entities.saleReportProduct">Sale Report</span>
                         </a>
                     </li>
+                </ul>
+            </li>
+            <!-- report -->
+            <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+            <li
+                *ngSwitchCase="true"
+                ngbDropdown
+                class="nav-item dropdown pointer"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                <a *ngIf="false" class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+                    <span>
+                        <fa-icon icon="th-list"></fa-icon>
+                        <span jhiTranslate="global.menu.entities.main">
+                            Entities
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

@@ -34,7 +34,7 @@ export const cancelTransactionRoute: Routes = [
         path: '',
         component: CancelTransactionComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.cancelTransaction.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -55,7 +55,7 @@ export const cancelTransactionRoute: Routes = [
         path: 'new',
         component: CancelTransactionCreateComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.cancelTransaction.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -67,7 +67,7 @@ export const cancelTransactionRoute: Routes = [
             cancelTransaction: CancelTransactionResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.cancelTransaction.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -82,7 +82,7 @@ export const cancelTransactionPopupRoute: Routes = [
             cancelTransaction: CancelTransactionResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_CASHIER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.cancelTransaction.home.title'
         },
         canActivate: [UserRouteAccessService],

@@ -62,9 +62,9 @@
                             <td>{{ data.barcode }}</td>
                             <td>{{ data.productName }}</td>
                             <td>{{ data.unit }}</td>
-                            <td>{{ data.warehousePrice }}</td>
-                            <td>{{ data.unitPrice }}</td>
-                            <td>{{ data.salePrice }}</td>
+                            <td>{{ data.warehousePrice | currency: 'IDR':'Rp. ' }}</td>
+                            <td>{{ data.unitPrice | currency: 'IDR':'Rp. ' }}</td>
+                            <td>{{ data.salePrice | currency: 'IDR':'Rp. ' }}</td>
                             <td>{{ data.supplierCode }}</td>
                             <td>{{ data.supplierName }}</td>
                         </tr>
