@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StockOrder } from 'app/shared/model/stock-order.model';
 import { StockOrderService } from './stock-order.service';
+import { StockOrderComponent } from './stock-order.component';
 import { IStockOrder } from 'app/shared/model/stock-order.model';
 import { StockOrderInputComponent } from './stock-order-input.component';
 import { StockOrderProcessComponent } from './stock-order-process.component';
@@ -27,15 +28,15 @@ export class StockOrderResolve implements Resolve<IStockOrder> {
 }
 
 export const stockOrderRoute: Routes = [
-    // {
-    //     path: '',
-    //     component: StockOrderInputComponent,
-    //     data: {
-    //         authorities: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
-    //         pageTitle: 'jhiptokomajuApp.stockOrder.home.title'
-    //     },
-    //     canActivate: [UserRouteAccessService]
-    // },
+    {
+        path: '',
+        component: StockOrderComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jhiptokomajuApp.stockOrder.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
     {
         path: 'input',
         component: StockOrderInputComponent,
@@ -53,29 +54,5 @@ export const stockOrderRoute: Routes = [
             pageTitle: 'jhiptokomajuApp.stockOrder.process.title'
         },
         canActivate: [UserRouteAccessService]
-        // },
-        // {
-        //     path: 'new',
-        //     component: StockOrderUpdateComponent,
-        //     resolve: {
-        //         stockOrder: StockOrderResolve
-        //     },
-        //     data: {
-        //         authorities: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
-        //         pageTitle: 'jhiptokomajuApp.stockOrder.home.title'
-        //     },
-        //     canActivate: [UserRouteAccessService]
-        // },
-        // {
-        //     path: ':id/edit',
-        //     component: StockOrderUpdateComponent,
-        //     resolve: {
-        //         stockOrder: StockOrderResolve
-        //     },
-        //     data: {
-        //         authorities: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
-        //         pageTitle: 'jhiptokomajuApp.stockOrder.home.title'
-        //     },
-        //     canActivate: [UserRouteAccessService]
     }
 ];

@@ -13,7 +13,7 @@
             "process": {
                 "title": "Process Stock Order"
             },
-            "created": "A new Stock Order is created with identifier {{ param }}",
+            "created": "Stock Order saved",
             "updated": "A Stock Order is updated with identifier {{ param }}",
             "deleted": "A Stock Order is deleted with identifier {{ param }}",
             "delete": {
@@ -21,7 +21,13 @@
             },
             "detail": {
                 "title": "Stock Order"
-            }
+            },
+            "siteLocation": "Site Location",
+            "createdDate": "Created Date",
+            "processed": "Processed",
+            "processedDate": "Processed Date",
+            "creator": "Creator",
+            "approval": "Approval"
         }
     }
 }

@@ -1,0 +1,31 @@
+{
+    "jhiptokomajuApp": {
+        "stockOrderRequest": {
+            "home": {
+                "title": "Stock Order Requests",
+                "createLabel": "Create a new Stock Order Request",
+                "createOrEditLabel": "Create or edit a Stock Order Request",
+                "search": "Search for Stock Order Request"
+            },
+            "created": "A new Stock Order Request is created with identifier {{ param }}",
+            "updated": "A Stock Order Request is updated with identifier {{ param }}",
+            "deleted": "A Stock Order Request is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Stock Order Request {{ id }}?"
+            },
+            "detail": {
+                "title": "Stock Order Request"
+            },
+            "barcode": "Barcode",
+            "name": "Name",
+            "unitName": "Unit Name",
+            "unitPrice": "Unit Price",
+            "quantity": "Quantity",
+            "totalPrice": "Total Price",
+            "createdDate": "Created Date",
+            "stockOrder": "Stock Order",
+            "stockInHand": "Stock in Hand",
+            "adjust": "Adjust"
+        }
+    }
+}

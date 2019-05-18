@@ -1,10 +1,12 @@
 package com.toko.maju.service;
 
+import com.toko.maju.domain.StockOrderRequest;
 import com.toko.maju.service.dto.StockOrderRequestDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,4 +55,6 @@ public interface StockOrderRequestService {
      * @return the list of entities
      */
     Page<StockOrderRequestDTO> search(String query, Pageable pageable);
+
+    Iterable<StockOrderRequestDTO> saveAll(List<StockOrderRequestDTO> orderRequestDTOS);
 }

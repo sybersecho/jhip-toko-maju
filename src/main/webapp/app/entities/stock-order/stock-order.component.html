@@ -30,12 +30,28 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="siteLocation"><span jhiTranslate="jhiptokomajuApp.stockOrder.siteLocation">Site Location</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdDate"><span jhiTranslate="jhiptokomajuApp.stockOrder.createdDate">Created Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="processed"><span jhiTranslate="jhiptokomajuApp.stockOrder.processed">Processed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="processedDate"><span jhiTranslate="jhiptokomajuApp.stockOrder.processedDate">Processed Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="creatorLogin"><span jhiTranslate="jhiptokomajuApp.stockOrder.creator">Creator</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="approvalLogin"><span jhiTranslate="jhiptokomajuApp.stockOrder.approval">Approval</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let stockOrder of stockOrders ;trackBy: trackId">
                 <td><a [routerLink]="['/stock-order', stockOrder.id, 'view' ]">{{stockOrder.id}}</a></td>
+                <td>{{stockOrder.siteLocation}}</td>
+                <td>{{stockOrder.createdDate | date:'medium'}}</td>
+                <td>{{stockOrder.processed}}</td>
+                <td>{{stockOrder.processedDate | date:'medium'}}</td>
+                <td>
+                    {{stockOrder.creatorLogin}}
+                </td>
+                <td>
+                    {{stockOrder.approvalLogin}}
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

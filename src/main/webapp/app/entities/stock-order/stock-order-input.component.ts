@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { StockOrder } from 'app/shared/model/stock-order.model';
+import { StockOrder, IStockOrder } from 'app/shared/model/stock-order.model';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SearchProductStockDialogService } from '../product-stock';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
@@ -7,6 +7,10 @@ import { Subscription } from 'rxjs';
 import { IProduct } from 'app/shared/model/product.model';
 import { ExcelModel } from 'app/shared/export/excel-model';
 import { ExcelService } from 'app/shared/export/excel.service';
+import { StockOrderService } from './stock-order.service';
+import * as moment from 'moment';
+import { AccountService } from 'app/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'jhi-stock-order-input',
@@ -14,24 +18,28 @@ import { ExcelService } from 'app/shared/export/excel.service';
     styles: []
 })
 export class StockOrderInputComponent implements OnInit, OnDestroy {
-    stockOrders: StockOrder[];
+    stockOrder: IStockOrder;
     modalRef: NgbModalRef;
     eventSubscription: Subscription;
-    totalOrder: number;
+    currentAccount: any;
+    inputForm: NgForm;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
+        protected stockOrderService: StockOrderService,
         protected eventManager: JhiEventManager,
         protected searchProductStockDialogService: SearchProductStockDialogService,
+        protected accountService: AccountService,
         protected excelService: ExcelService
     ) {
-        this.stockOrders = [];
-        this.totalOrder = 0;
+        this.stockOrder = new StockOrder();
     }
 
     ngOnInit() {
         this.registerEvents();
-        this.calculateTotalOrder();
+        this.accountService.identity().then(account => {
+            this.currentAccount = account;
+        });
     }
 
     ngOnDestroy() {
@@ -44,24 +52,11 @@ export class StockOrderInputComponent implements OnInit, OnDestroy {
     }
 
     onChangeQuantity(i: number) {
-        const changed: StockOrder = this.stockOrders[i];
-        changed.totalPrice = changed.quantity * changed.unitPrice;
-        this.stockOrders[i] = changed;
-        if (changed.quantity <= 0) {
-            this.onDelete(i);
-        }
-        this.calculateTotalOrder();
+        this.stockOrder.changeQuantity(i);
     }
 
     onDelete(i: number) {
-        this.stockOrders.splice(i, 1);
-    }
-
-    calculateTotalOrder() {
-        this.totalOrder = 0;
-        this.stockOrders.forEach(it => {
-            this.totalOrder += it.totalPrice;
-        });
+        this.stockOrder.removeRequest(i);
     }
 
     registerEvents() {
@@ -69,36 +64,38 @@ export class StockOrderInputComponent implements OnInit, OnDestroy {
     }
 
     protected addProduct(selectedProduct: IProduct) {
-        if (this.exist(selectedProduct.barcode)) {
+        const result = this.stockOrder.addStockRequest(selectedProduct);
+        if (!result) {
             this.jhiAlertService.warning('warning.productExist', null, null);
-            return;
         }
-
-        const order = new StockOrder(
-            selectedProduct.barcode,
-            selectedProduct.name,
-            selectedProduct.unitName,
-            selectedProduct.unitPrice,
-            1,
-            selectedProduct.unitPrice
-        );
-
-        this.stockOrders.push(order);
-        this.calculateTotalOrder();
     }
 
     onExtract() {
         const excelModel = new ExcelModel();
-        excelModel.data = this.stockOrders;
+        excelModel.data = this.stockOrder.stockOrderRequests;
         excelModel.fileName = 'Stock Orders';
         excelModel.header = [];
         excelModel.title = '';
 
         this.excelService.generateExcel(excelModel);
-        this.stockOrders = [];
+        this.stockOrder = new StockOrder();
+        this.inputForm.resetForm();
     }
 
-    protected exist(barcode: string): Boolean {
-        return this.stockOrders.findIndex(p => p.barcode === barcode) > -1;
+    saveAndExtract(form: NgForm) {
+        this.inputForm = form;
+        this.stockOrder.createdDate = moment();
+        this.stockOrder.creatorId = this.currentAccount.id;
+        this.stockOrder.creatorLogin = this.currentAccount.login;
+        this.stockOrderService.create(this.stockOrder).subscribe(res => this.onSuccess(res.body), error => this.onError(error.message));
+    }
+
+    protected onSuccess(order: IStockOrder): void {
+        this.onExtract();
+    }
+
+    protected onError(message: any): void {
+        console.error(message);
+        this.jhiAlertService.error('error.somethingwrong');
     }
 }

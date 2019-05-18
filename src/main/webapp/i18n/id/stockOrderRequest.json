@@ -1,0 +1,31 @@
+{
+    "jhiptokomajuApp": {
+        "stockOrderRequest": {
+            "home": {
+                "title": "Stock Order Requests",
+                "createLabel": "Buat Stock Order Request baru",
+                "createOrEditLabel": "Buat atau edit Stock Order Request",
+                "search": "Cari Stock Order Request"
+            },
+            "created": "Stock Order Request dengan id {{ param }} telah dibuat",
+            "updated": "Stock Order Request dengan id {{ param }} telah diperbaharui",
+            "deleted": "Stock Order Request dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Stock Order Request {{ id }}?"
+            },
+            "detail": {
+                "title": "Stock Order Request"
+            },
+            "barcode": "Barcode",
+            "name": "Name",
+            "unitName": "Unit Name",
+            "unitPrice": "Unit Price",
+            "quantity": "Quantity",
+            "totalPrice": "Total Price",
+            "createdDate": "Created Date",
+            "stockOrder": "Stock Order",
+            "stockInHand": "Stock in Hand",
+            "adjust": "Adjust"
+        }
+    }
+}

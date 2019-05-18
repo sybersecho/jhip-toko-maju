@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -109,5 +110,13 @@ public class StockOrderRequestServiceImpl implements StockOrderRequestService {
         log.debug("Request to search for a page of StockOrderRequests for query {}", query);
         return stockOrderRequestSearchRepository.search(queryStringQuery(query), pageable)
             .map(stockOrderRequestMapper::toDto);
+    }
+
+    @Override
+    public List<StockOrderRequestDTO> saveAll(List<StockOrderRequestDTO> orderRequestDTOS) {
+        log.debug("Request to save: {}", orderRequestDTOS);
+        final List<StockOrderRequest> result = stockOrderRequestRepository.saveAll(stockOrderRequestMapper.toEntity(orderRequestDTOS));
+        stockOrderRequestSearchRepository.saveAll(result);
+        return stockOrderRequestMapper.toDto(result);
     }
 }

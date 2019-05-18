@@ -55,6 +55,11 @@ export class ProductService {
         return this.http.get<IProduct>(this.resourceSearchUrlBy, { params: options, observe: 'response' });
     }
 
+    findByBarcodes(barcodes: string[]): Observable<EntityArrayResponseType> {
+        const options = new HttpParams().set('barcode.in', barcodes.toString());
+        return this.http.get<IProduct[]>(this.resourceUrl, { params: options, observe: 'response' });
+    }
+
     findBySupplierCode(supplierCode: string) {
         const options = new HttpParams().set('supplierCode.equals', supplierCode);
         return this.http.get<IProduct>(this.resourceSearchUrlBy, { params: options, observe: 'response' });

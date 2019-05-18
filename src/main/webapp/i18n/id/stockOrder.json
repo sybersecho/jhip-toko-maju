@@ -13,7 +13,7 @@
             "process": {
                 "title": "Process Stock Order"
             },
-            "created": "Stock Order dengan id {{ param }} telah dibuat",
+            "created": "Stock Order disimpan",
             "updated": "Stock Order dengan id {{ param }} telah diperbaharui",
             "deleted": "Stock Order dengan id {{ param }} telah dihapus",
             "delete": {
@@ -21,7 +21,13 @@
             },
             "detail": {
                 "title": "Stock Order"
-            }
+            },
+            "siteLocation": "Site Location",
+            "createdDate": "Created Date",
+            "processed": "Processed",
+            "processedDate": "Processed Date",
+            "creator": "Creator",
+            "approval": "Approval"
         }
     }
 }

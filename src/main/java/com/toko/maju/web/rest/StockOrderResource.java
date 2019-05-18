@@ -1,14 +1,20 @@
 package com.toko.maju.web.rest;
+import com.toko.maju.domain.StockOrderRequest;
+import com.toko.maju.service.StockOrderRequestQueryService;
+import com.toko.maju.service.StockOrderRequestService;
 import com.toko.maju.service.StockOrderService;
+import com.toko.maju.service.dto.StockOrderRequestDTO;
 import com.toko.maju.web.rest.errors.BadRequestAlertException;
 import com.toko.maju.web.rest.util.HeaderUtil;
 import com.toko.maju.web.rest.util.PaginationUtil;
 import com.toko.maju.service.dto.StockOrderDTO;
 import com.toko.maju.service.dto.StockOrderCriteria;
 import com.toko.maju.service.StockOrderQueryService;
+import com.toko.maju.web.rest.vm.StockOrderVM;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -41,6 +47,12 @@ public class StockOrderResource {
 
     private final StockOrderQueryService stockOrderQueryService;
 
+    @Autowired
+    private final StockOrderRequestService stockOrderRequestService = null;
+
+//    @Autowired
+//    private final Stockorderre
+
     public StockOrderResource(StockOrderService stockOrderService, StockOrderQueryService stockOrderQueryService) {
         this.stockOrderService = stockOrderService;
         this.stockOrderQueryService = stockOrderQueryService;
@@ -49,17 +61,20 @@ public class StockOrderResource {
     /**
      * POST  /stock-orders : Create a new stockOrder.
      *
-     * @param stockOrderDTO the stockOrderDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new stockOrderDTO, or with status 400 (Bad Request) if the stockOrder has already an ID
+     * @param stockOrderVM the stockOrderVM to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new stockOrderVM, or with status 400 (Bad Request) if the stockOrder has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/stock-orders")
-    public ResponseEntity<StockOrderDTO> createStockOrder(@Valid @RequestBody StockOrderDTO stockOrderDTO) throws URISyntaxException {
-        log.debug("REST request to save StockOrder : {}", stockOrderDTO);
-        if (stockOrderDTO.getId() != null) {
+    public ResponseEntity<StockOrderDTO> createStockOrder(@Valid @RequestBody StockOrderVM stockOrderVM) throws URISyntaxException {
+        log.debug("REST request to save StockOrder : {}", stockOrderVM);
+        if (stockOrderVM.getId() != null) {
             throw new BadRequestAlertException("A new stockOrder cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StockOrderDTO result = stockOrderService.save(stockOrderDTO);
+        StockOrderDTO result = stockOrderService.save(stockOrderVM);
+        stockOrderVM.setCurrentDate();
+        stockOrderVM.setOrder(result);
+        stockOrderRequestService.saveAll(stockOrderVM.getStockOrderRequests());
         return ResponseEntity.created(new URI("/api/stock-orders/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

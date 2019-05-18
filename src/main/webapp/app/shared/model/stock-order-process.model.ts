@@ -1,19 +1,20 @@
-export interface IStockOrder {
+import { Moment } from 'moment';
+export interface IStockOrderProcess {
     barcode?: string;
     name?: string;
-    unitName?: string;
-    unitPrice?: number;
-    quantity?: number;
-    totalPrice?: number;
+    quantityRequest?: number;
+    stockInHand?: number;
+    quantityApprove?: number;
+    createdDate?: Moment;
 }
 
-export class StockOrder implements IStockOrder {
+export class StockOrderProcess implements IStockOrderProcess {
     constructor(
         public barcode?: string,
         public name?: string,
-        public unitName?: string,
-        public unitPrice?: number,
-        public quantity?: number,
-        public totalPrice?: number
+        public quantityRequest?: number,
+        public stockInHand?: number,
+        public quantityApprove?: number,
+        public createdDate?: Moment
     ) {}
 }

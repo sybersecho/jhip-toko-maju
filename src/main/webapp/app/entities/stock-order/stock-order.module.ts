@@ -4,7 +4,9 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { JhiLanguageHelper } from 'app/core';
 
 import { JhiptokomajuSharedModule } from 'app/shared';
-import { StockOrderComponent, stockOrderRoute, StockOrderInputComponent, StockOrderProcessComponent } from './';
+import { StockOrderComponent, stockOrderRoute } from './';
+import { StockOrderInputComponent } from './stock-order-input.component';
+import { StockOrderProcessComponent } from './stock-order-process.component';
 
 const ENTITY_STATES = [...stockOrderRoute];
 
