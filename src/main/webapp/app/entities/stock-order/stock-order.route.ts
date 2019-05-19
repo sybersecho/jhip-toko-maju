@@ -10,6 +10,7 @@ import { StockOrderComponent } from './stock-order.component';
 import { IStockOrder } from 'app/shared/model/stock-order.model';
 import { StockOrderInputComponent } from './stock-order-input.component';
 import { StockOrderProcessComponent } from './stock-order-process.component';
+import { StockOrderReceiveComponent } from './stock-order-receive.component';
 
 @Injectable({ providedIn: 'root' })
 export class StockOrderResolve implements Resolve<IStockOrder> {
@@ -52,6 +53,15 @@ export const stockOrderRoute: Routes = [
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.stockOrder.process.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'receive',
+        component: StockOrderReceiveComponent,
+        data: {
+            authorities: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERUSER'],
+            pageTitle: 'jhiptokomajuApp.stockOrder.receive.title'
         },
         canActivate: [UserRouteAccessService]
     }
