@@ -9,12 +9,16 @@ import { ISaleReport } from 'app/shared/model/sale-report.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'jhi-sale-report',
     templateUrl: './sale-report.component.html'
 })
 export class SaleReportComponent implements OnInit, OnDestroy {
+    fromDate: string;
+    endDate: string;
+
     saleReports: ISaleReport[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -31,93 +35,105 @@ export class SaleReportComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected datePipe: DatePipe
     ) {
-        this.saleReports = [];
-        this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
+        // this.saleReports = [];
+        // this.itemsPerPage = ITEMS_PER_PAGE;
+        // this.page = 0;
+        // this.links = {
+        //     last: 0
+        // };
+        // this.predicate = 'id';
+        // this.reverse = true;
+        // this.currentSearch =
+        //     this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
+        //         ? this.activatedRoute.snapshot.params['search']
+        //         : '';
     }
 
     loadAll() {
-        if (this.currentSearch) {
-            return;
-        }
+        // if (this.currentSearch) {
+        //     return;
+        // }
     }
 
     reset() {
-        this.page = 0;
-        this.saleReports = [];
-        this.loadAll();
+        // this.page = 0;
+        // this.saleReports = [];
+        // this.loadAll();
     }
 
     loadPage(page) {
-        this.page = page;
-        this.loadAll();
+        // this.page = page;
+        // this.loadAll();
     }
 
     clear() {
-        this.saleReports = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = 'id';
-        this.reverse = true;
-        this.currentSearch = '';
-        this.loadAll();
+        // this.saleReports = [];
+        // this.links = {
+        //     last: 0
+        // };
+        // this.page = 0;
+        // this.predicate = 'id';
+        // this.reverse = true;
+        // this.currentSearch = '';
+        // this.loadAll();
     }
 
     search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.saleReports = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
-        this.currentSearch = query;
-        this.loadAll();
+        // if (!query) {
+        //     return this.clear();
+        // }
+        // this.saleReports = [];
+        // this.links = {
+        //     last: 0
+        // };
+        // this.page = 0;
+        // this.predicate = '_score';
+        // this.reverse = false;
+        // this.currentSearch = query;
+        // this.loadAll();
     }
 
     ngOnInit() {
-        this.loadAll();
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInSaleReports();
+        this.currentMonth();
+        this.loadReport();
+    }
+
+    protected currentMonth() {
+        const dateFormat = 'yyyy-MM-dd';
+        // 'yyyy-MM-dd';
+        const today = new Date();
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        this.fromDate = this.datePipe.transform(firstDay, dateFormat);
+        this.endDate = this.datePipe.transform(lastDay, dateFormat);
+    }
+
+    loadReport() {
+        // throw new Error("Method not implemented.");
     }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
+        // this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: ISaleReport) {
-        // return item.id;
-    }
+    // trackId(index: number, item: ISaleReport) {
+    //     // return item.id;
+    // }
 
     registerChangeInSaleReports() {
         this.eventSubscriber = this.eventManager.subscribe('saleReportListModification', response => this.reset());
     }
 
-    sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
-    }
+    // sort() {
+    //     const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+    //     if (this.predicate !== 'id') {
+    //         result.push('id');
+    //     }
+    //     return result;
+    // }
 
     protected paginateSaleReports(data: ISaleReport[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));

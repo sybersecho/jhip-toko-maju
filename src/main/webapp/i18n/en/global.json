@@ -25,6 +25,7 @@
                 "badStockProduct": "Bad Stock Product",
                 "productStock": "Product Stock",
                 "supplierStock": "Supplier Stock",
+                "saleReportDetail": "Sale Report Detail",
                 "saleReportProduct": "Sale Report Product",
                 "saleReportCustomer": "Sale Report Customer",
                 "stockOrder": "Stock Order",

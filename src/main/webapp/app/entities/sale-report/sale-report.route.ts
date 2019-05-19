@@ -8,7 +8,7 @@ import { SaleReportProductComponent } from './sale-report-product.component';
 
 export const saleReportRoute: Routes = [
     {
-        path: '',
+        path: 'detail',
         component: SaleReportComponent,
         data: {
             authorities: ['ROLE_USER'],

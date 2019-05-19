@@ -1,67 +1,22 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="jhiptokomajuApp.saleReport.home.title">Sale Reports</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-sale-report" [routerLink]="['/sale-report/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down"  jhiTranslate="jhiptokomajuApp.saleReport.home.createLabel">
-            Create new Sale Report
-            </span>
-        </button>
+        <span jhiTranslate="jhiptokomajuApp.saleReport.detail.title">Sale Reports</span>
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jhiptokomajuApp.saleReport.home.search' | translate }}">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
+        <div class="col-md-4">
+            <div class="input-group w-100 mt-3">
+                <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" required />
+                <input type="date" class="form-control ml-1" name="end" [(ngModel)]="endDate" required />
+                <button class="input-group-append btn btn-info" (click)="search()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+            </div>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive" *ngIf="saleReports">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let saleReport of saleReports ;trackBy: trackId">
-                <td><a [routerLink]="['/sale-report', saleReport.id, 'view' ]">{{saleReport.id}}</a></td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/sale-report', saleReport.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/sale-report', saleReport.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'sale-report', { outlets: { popup: saleReport.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
+    <div class="table-responsive mt-3">
+        <table class="table table-sm table-striped">
+
         </table>
     </div>
 </div>

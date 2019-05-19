@@ -20,7 +20,7 @@
                 "question": "Apakah anda yakin ingin menghapus Sale Report {{ id }}?"
             },
             "detail": {
-                "title": "Sale Report"
+                "title": "Sale Report Detail"
             }
         }
     }
