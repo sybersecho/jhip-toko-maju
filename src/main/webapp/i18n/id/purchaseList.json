@@ -1,0 +1,28 @@
+{
+    "jhiptokomajuApp": {
+        "purchaseList": {
+            "home": {
+                "title": "Purchase Lists",
+                "createLabel": "Buat Purchase List baru",
+                "createOrEditLabel": "Buat atau edit Purchase List",
+                "search": "Cari Purchase List"
+            },
+            "created": "Purchase List dengan id {{ param }} telah dibuat",
+            "updated": "Purchase List dengan id {{ param }} telah diperbaharui",
+            "deleted": "Purchase List dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Purchase List {{ id }}?"
+            },
+            "detail": {
+                "title": "Purchase List"
+            },
+            "barcode": "Barcode",
+            "name": "Name",
+            "unit": "Unit",
+            "unitPrice": "Unit Price",
+            "quantity": "Quantity",
+            "total": "Total",
+            "purchase": "Purchase"
+        }
+    }
+}

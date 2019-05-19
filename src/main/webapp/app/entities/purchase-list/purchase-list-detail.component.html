@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="purchaseList">
+            <h2><span jhiTranslate="jhiptokomajuApp.purchaseList.detail.title">Purchase List</span> {{purchaseList.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="jhiptokomajuApp.purchaseList.barcode">Barcode</span></dt>
+                <dd>
+                    <span>{{purchaseList.barcode}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.purchaseList.name">Name</span></dt>
+                <dd>
+                    <span>{{purchaseList.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.purchaseList.unit">Unit</span></dt>
+                <dd>
+                    <span>{{purchaseList.unit}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.purchaseList.unitPrice">Unit Price</span></dt>
+                <dd>
+                    <span>{{purchaseList.unitPrice}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.purchaseList.quantity">Quantity</span></dt>
+                <dd>
+                    <span>{{purchaseList.quantity}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.purchaseList.total">Total</span></dt>
+                <dd>
+                    <span>{{purchaseList.total}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.purchaseList.purchase">Purchase</span></dt>
+                <dd>
+                    <div *ngIf="purchaseList.purchaseId">
+                        <a [routerLink]="['/purchase', purchaseList.purchaseId, 'view']">{{purchaseList.purchaseId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/purchase-list', purchaseList.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

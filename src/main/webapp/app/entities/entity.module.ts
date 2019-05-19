@@ -10,6 +10,7 @@ import { JhiptokomajuDuePaymentModule } from './due-payment/due-payment.module';
 import { JhiptokomajuReturnTransactionModule } from './return-transaction/return-transaction.module';
 import { JhiptokomajuProductStockModule } from './product-stock/product-stock.module';
 import { JhiptokomajuSupplierStockModule } from './supplier-stock/supplier-stock.module';
+import { JhiptokomajuPurchaseModule } from './purchase/purchase.module';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { JhiptokomajuSupplierStockModule } from './supplier-stock/supplier-stock
         JhiptokomajuReturnTransactionModule,
         JhiptokomajuProductStockModule,
         JhiptokomajuSupplierStockModule,
+        JhiptokomajuPurchaseModule,
         RouterModule.forChild([
             {
                 path: 'unit',
@@ -47,6 +49,14 @@ import { JhiptokomajuSupplierStockModule } from './supplier-stock/supplier-stock
                 // {
                 //     path: 'stock-order-request',
                 //     loadChildren: './stock-order-request/stock-order-request.module#JhiptokomajuStockOrderRequestModule'
+                // },
+                // {
+                //     path: 'purchase',
+                //     loadChildren: './purchase/purchase.module#JhiptokomajuPurchaseModule'
+            },
+            {
+                path: 'purchase-list',
+                loadChildren: './purchase-list/purchase-list.module#JhiptokomajuPurchaseListModule'
             }
             //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

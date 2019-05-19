@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "purchase": {
+            "home": {
+                "title": "Barang Masuk",
+                "createLabel": "Buat Purchase baru",
+                "createOrEditLabel": "Buat atau edit Purchase",
+                "search": "Cari Purchase"
+            },
+            "created": "Barang Masuk di simpan",
+            "updated": "Purchase dengan id {{ param }} telah diperbaharui",
+            "deleted": "Purchase dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Purchase {{ id }}?"
+            },
+            "detail": {
+                "title": "Purchase"
+            },
+            "totalPayment": "Total Payment",
+            "createdDate": "Tanggal",
+            "note": "Note",
+            "supplier": "Supplier",
+            "creator": "Creator",
+            "purchaseList": "Purchase List"
+        }
+    }
+}

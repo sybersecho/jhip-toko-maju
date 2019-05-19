@@ -1,0 +1,28 @@
+{
+    "jhiptokomajuApp": {
+        "purchaseList": {
+            "home": {
+                "title": "Purchase Lists",
+                "createLabel": "Create a new Purchase List",
+                "createOrEditLabel": "Create or edit a Purchase List",
+                "search": "Search for Purchase List"
+            },
+            "created": "A new Purchase List is created with identifier {{ param }}",
+            "updated": "A Purchase List is updated with identifier {{ param }}",
+            "deleted": "A Purchase List is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Purchase List {{ id }}?"
+            },
+            "detail": {
+                "title": "Purchase List"
+            },
+            "barcode": "Barcode",
+            "name": "Name",
+            "unit": "Unit",
+            "unitPrice": "Unit Price",
+            "quantity": "Quantity",
+            "total": "Total",
+            "purchase": "Purchase"
+        }
+    }
+}

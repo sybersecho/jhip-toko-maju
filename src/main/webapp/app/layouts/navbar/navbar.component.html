@@ -317,6 +317,18 @@
                             <span jhiTranslate="global.menu.entities.stockOrderReceive">Receive Stock Order</span>
                         </a>
                     </li>
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            routerLink="purchase"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.purchase">Purchase</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <!-- /Inventory -->
@@ -400,9 +412,27 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="stock-order" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a
+                            class="dropdown-item"
+                            routerLink="stock-order"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.stockOrder">Stock Order</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            routerLink="purchase-list"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.purchaseList">Purchase List</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

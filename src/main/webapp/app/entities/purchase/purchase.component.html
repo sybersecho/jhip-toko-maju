@@ -1,0 +1,148 @@
+<div>
+    <!-- <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.purchase.home.title">Purchases</span>
+    </h2> -->
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            <div class="form-group">
+                <a jhiTranslate="jhiptokomajuApp.supplier.home.search" (click)="searchSupplier()">Cari Supplier</a>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group row">
+                <label
+                    class="col-md-3 col-sm-12 form-control-label col-form-label-sm"
+                    jhiTranslate="jhiptokomajuApp.supplier.code"
+                    for="field_code"
+                    >Code</label
+                >
+                <div class="col-md-9 col-sm-12">
+                    <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        name="code"
+                        id="field_code"
+                        [ngModel]="supplier?.code"
+                        readonly
+                    />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label
+                    class="col-md-3 col-sm-12 form-control-label col-form-label-sm"
+                    jhiTranslate="jhiptokomajuApp.supplier.name"
+                    for="field_name"
+                >
+                    Name</label
+                >
+                <div class="col-md-9 col-sm-12">
+                    <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        name="name"
+                        id="field_name"
+                        [ngModel]="supplier?.name"
+                        readonly
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group row">
+                <label
+                    class="col-md-4 form-control-label col-form-label-sm"
+                    jhiTranslate="jhiptokomajuApp.customer.address"
+                    for="field_address"
+                >
+                    Address
+                </label>
+                <div class="col-md-8">
+                    <textarea
+                        class="form-control form-control-sm"
+                        id="field_address"
+                        name="address"
+                        [ngModel]="supplier?.address"
+                        readonly
+                    ></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            <div class="form-group">
+                <a jhiTranslate="jhiptokomajuApp.product.home.search" (click)="searchProductOfSupplier()">Cari Product</a>
+            </div>
+        </div>
+    </div>
+    <form name="purchaseForm" role="form" novalidate #purchaseForm="ngForm">
+        <div class="table-responsive">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th><span jhiTranslate="jhiptokomajuApp.purchaseList.barcode">Barcode</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.purchaseList.name">Name</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.purchaseList.unit">Unit</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.purchaseList.unitPrice">Unit Price</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.purchaseList.quantity">Quantity</span></th>
+                        <th><span jhiTranslate="jhiptokomajuApp.purchaseList.total">Total</span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let purchaseList of purchase?.purchaseLists; let i = index">
+                        <td>{{ purchaseList.barcode }}</td>
+                        <td>{{ purchaseList.name }}</td>
+                        <td>{{ purchaseList.unit }}</td>
+                        <td>
+                            <input
+                                type="tel"
+                                class="form-control"
+                                name="discount"
+                                id="field_discount"
+                                [(ngModel)]="purchaseList.unitPrice"
+                                min="0"
+                                jhiMin="0"
+                                (ngModelChange)="changeUnitPrice()"
+                                [options]="{ prefix: '', thousands: '.', precision: 0 }"
+                                currencyMask
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="quantity{{ i }}"
+                                id="field_quantity"
+                                [(ngModel)]="purchaseList.quantity"
+                                min="1"
+                                jhiMin="1"
+                                (change)="onChangeQuantity(i)"
+                            />
+                        </td>
+                        <td>{{ purchaseList.total | currency: 'IDR':'Rp. ' }}</td>
+                        <td>
+                            <button id="jh-remove-product" class="btn btn-danger float-right " (click)="onDelete(i)">
+                                <fa-icon [icon]="'ban'"></fa-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr *ngIf="purchase.purchaseLists && purchase.purchaseLists.length">
+                        <th colspan="5"></th>
+                        <th>{{ purchase?.totalPayment | currency: 'IDR':'Rp. ' }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="purchase?.purchaseLists && purchase?.purchaseLists.length">
+            <div class="text-right">
+                <button class="btn btn-success" [disabled]="purchaseForm.invalid" (click)="save()">
+                    Process
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

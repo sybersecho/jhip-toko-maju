@@ -31,6 +31,8 @@
                 "stockOrderInput": "Input Stock Order",
                 "stockOrderProcess": "Process Stock Order",
                 "stockOrderReceive": "Receive Stock Order",
+                "purchase": "Barang Masuk",
+                "purchaseList": "Purchase List",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

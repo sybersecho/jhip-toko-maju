@@ -22,6 +22,8 @@
     <include file="config/liquibase/changelog/20190518144201_added_entity_StockOrderRequest.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190518202338_added_entity_StockOrderProcess.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190518234704_added_entity_StockOrderReceive.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190519005043_added_entity_Purchase.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190519005601_added_entity_PurchaseList.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190301191147_added_entity_constraints_Product.xml" relativeToChangelogFile="false"/>
 
@@ -38,5 +40,7 @@
     <include file="config/liquibase/changelog/20190518144201_added_entity_constraints_StockOrderRequest.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190518202338_added_entity_constraints_StockOrderProcess.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190518234704_added_entity_constraints_StockOrderReceive.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190519005043_added_entity_constraints_Purchase.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190519005601_added_entity_constraints_PurchaseList.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
