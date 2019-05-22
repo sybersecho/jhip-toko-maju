@@ -28,12 +28,17 @@
                 "saleReportDetail": "Laporan Penjualan Detail",
                 "saleReportCustomer": "Laporan Penjualan Customer",
                 "saleReportProduct": "Laporan Penjualan Product",
+                "saleReportProject": "Laporan Penjualan Project",
                 "stockOrder": "Stock Order",
                 "stockOrderInput": "Input Stock Order",
                 "stockOrderProcess": "Process Stock Order",
                 "stockOrderReceive": "Receive Stock Order",
                 "purchase": "Barang Masuk",
                 "purchaseList": "Purchase List",
+                "report": "Laporan",
+                "reportStockOrder": "Laporan Stock Order",
+                "reportStockReceive": "Laporan Stock Receive",
+                "reportPayment": "Laporan Pembayaran",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

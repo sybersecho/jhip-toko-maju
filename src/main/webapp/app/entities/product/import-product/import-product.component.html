@@ -38,6 +38,9 @@
                                 <span jhiTranslate="jhiptokomajuApp.product.name">Name</span>
                             </th>
                             <th>
+                                <span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span>
+                            </th>
+                            <th>
                                 <span jhiTranslate="jhiptokomajuApp.product.unit">Unit</span>
                             </th>
                             <th>
@@ -61,6 +64,7 @@
                         <tr *ngFor="let data of arrayLoad">
                             <td>{{ data.barcode }}</td>
                             <td>{{ data.productName }}</td>
+                            <td>{{ data.stock }}</td>
                             <td>{{ data.unit }}</td>
                             <td>{{ data.warehousePrice | currency: 'IDR':'Rp. ' }}</td>
                             <td>{{ data.unitPrice | currency: 'IDR':'Rp. ' }}</td>

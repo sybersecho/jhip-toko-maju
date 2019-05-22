@@ -18,8 +18,10 @@
         <table class="table table-sm table-striped">
             <thead>
                 <tr>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.saleDate">Sale Date</span>
+                    </th>
                     <th><span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span></th>
-
                     <th>
                         <span jhiTranslate="jhiptokomajuApp.product.name">Name</span>
                     </th>
@@ -35,20 +37,17 @@
                     <th>
                         <span jhiTranslate="jhiptokomajuApp.saleItem.totalPrice">Total Price</span>
                     </th>
-                    <th>
-                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.saleDate">Sale Date</span>
-                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let report of saleReports; let i = index">
+                    <td>{{ report.createdDate }}</td>
                     <td>{{ report.barcode }}</td>
                     <td>{{ report.name }}</td>
                     <td>{{ report.unitName }}</td>
                     <td>{{ report.sellingPrice | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ report.quantity }}</td>
                     <td>{{ report.totalPrice | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ report.createdDate }}</td>
                 </tr>
             </tbody>
             <tfoot>

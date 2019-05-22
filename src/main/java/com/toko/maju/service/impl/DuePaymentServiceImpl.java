@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -163,6 +164,13 @@ public class DuePaymentServiceImpl implements DuePaymentService {
         duePayments = duePaymentRepository.saveAll(duePayments);
         duePaymentSearchRepository.saveAll(duePayments);
         SaleTransactionsSearchRepository.saveAll(saleTransactions);
+        return duePaymentMapper.toDto(duePayments);
+    }
+
+    @Override
+    public List<DuePaymentDTO> findBySaleIds(Set<Long> saleIds) {
+        log.debug("search by ids: {}", saleIds);
+        List<DuePayment> duePayments = duePaymentRepository.findBySaleIdIn(saleIds);
         return duePaymentMapper.toDto(duePayments);
     }
 

@@ -54,11 +54,9 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
     projectChange(project): void {
         this.selectedProjectId = project;
-        console.log('current sale on change, ', this.saleTransactions);
     }
 
     ngOnDestroy() {
-        console.log('current sale before destroy, ', this.saleTransactions);
         this.jhiEventManager.destroy(this.eventSubcriptions);
         this.cartService.setSale(this.saleTransactions);
         this.cartService.setProject(this.selectedProjectId);

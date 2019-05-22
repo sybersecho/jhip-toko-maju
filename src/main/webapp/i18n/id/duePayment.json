@@ -5,7 +5,7 @@
                 "title": "Due Payments",
                 "createLabel": "Buat Due Payment baru",
                 "createOrEditLabel": "Buat atau edit Due Payment",
-                "search": "Cari Due Payment"
+                "search": "Cari Penjualan"
             },
             "created": "Due Payment dengan id {{ param }} telah dibuat",
             "updated": "Due Payment dengan id {{ param }} telah diperbaharui",

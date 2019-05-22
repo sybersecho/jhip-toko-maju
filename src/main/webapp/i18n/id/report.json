@@ -1,0 +1,30 @@
+{
+    "jhiptokomajuApp": {
+        "report": {
+            "home": {
+                "title": "Reports",
+                "createLabel": "Buat Report baru",
+                "createOrEditLabel": "Buat atau edit Report",
+                "search": "Cari Report"
+            },
+            "payment": {
+                "title": "Laporan Pembayaran"
+            },
+            "created": "Report dengan id {{ param }} telah dibuat",
+            "updated": "Report dengan id {{ param }} telah diperbaharui",
+            "deleted": "Report dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Report {{ id }}?"
+            },
+            "stockOrder": {
+                "title": "Laporan Stock Order"
+            },
+            "stocekReceive": {
+                "title": "Laporan Stock Receive"
+            },
+            "detail": {
+                "title": "Report"
+            }
+        }
+    }
+}

@@ -22,6 +22,7 @@ export class SaleReportCustomerComponent implements OnInit {
     totalDiscount: number;
     totalPaid: number;
     totalRemainingPayment: number;
+    filter: any;
 
     constructor(
         protected datePipe: DatePipe,
@@ -29,6 +30,7 @@ export class SaleReportCustomerComponent implements OnInit {
         protected excelService: ExcelService
     ) {
         this.saleReports = [];
+        this.filter = 'all';
         this.resetTotals();
     }
 
@@ -49,7 +51,13 @@ export class SaleReportCustomerComponent implements OnInit {
         this.loadReport();
     }
 
+    filterBy(key: any): void {
+        this.filter = key;
+        this.loadReport();
+    }
+
     protected loadReport(): void {
+        this.saleReports = [];
         this.saleTransactionsService
             .queryByDate({
                 from: moment(this.fromDate)
@@ -69,7 +77,25 @@ export class SaleReportCustomerComponent implements OnInit {
 
     protected paginateSaleTransaction(sales: ISaleTransactions[], headers: HttpHeaders): void {
         this.resetTotals();
-        this.createReportModel(sales);
+        const copyOf = this.filterSale(sales);
+        this.createReportModel(copyOf);
+    }
+
+    filterSale(sales: ISaleTransactions[]): ISaleTransactions[] {
+        const copyOf: ISaleTransactions[] = [];
+        if (this.filter === 'all') {
+            return sales;
+        }
+
+        for (let i = 0; i < sales.length; i++) {
+            if (this.filter === 'nonProject' && !sales[i].projectId) {
+                copyOf.push(sales[i]);
+            } else if (this.filter === 'project' && sales[i].projectId) {
+                copyOf.push(sales[i]);
+            }
+        }
+
+        return copyOf;
     }
 
     protected createReportModel(sales: ISaleTransactions[]) {
@@ -81,6 +107,7 @@ export class SaleReportCustomerComponent implements OnInit {
         const report = new SaleReport(
             sale.noInvoice,
             sale.customerFirstName + ' ' + sale.customerLastName,
+            this.checkProjectName(sale.projectName),
             sale.totalPayment,
             sale.discount,
             sale.paid,
@@ -95,6 +122,13 @@ export class SaleReportCustomerComponent implements OnInit {
         this.totalTransaction += report.totalPayment;
 
         this.saleReports.push(report);
+    }
+
+    protected checkProjectName(projectName: string): string {
+        if (projectName) {
+            return projectName;
+        }
+        return '-';
     }
 
     exportToExcel(): void {

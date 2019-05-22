@@ -354,7 +354,7 @@
                         </span>
                     </span>
                 </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="report-menu">
                     <li>
                         <a
                             class="dropdown-item"
@@ -364,7 +364,7 @@
                             (click)="collapseNavbar()"
                         >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.saleReportDetail">Sale Report</span>
+                            <span jhiTranslate="global.menu.entities.saleReportDetail">Sale Report Detail</span>
                         </a>
                     </li>
                     <li>
@@ -376,7 +376,7 @@
                             (click)="collapseNavbar()"
                         >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.saleReportCustomer">Sale Report</span>
+                            <span jhiTranslate="global.menu.entities.saleReportCustomer">Sale Report Customer</span>
                         </a>
                     </li>
                     <li>
@@ -388,9 +388,45 @@
                             (click)="collapseNavbar()"
                         >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.saleReportProduct">Sale Report</span>
+                            <span jhiTranslate="global.menu.entities.saleReportProduct">Sale Report Product</span>
                         </a>
                     </li>
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            routerLink="report/payment"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.reportPayment">Report Payment</span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a
+                            class="dropdown-item"
+                            routerLink="sale-report/project"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.saleReportProject">Sale Report Project</span>
+                        </a>
+                    </li> -->
+                    <!-- <li>
+                        <a
+                            class="dropdown-item"
+                            routerLink="report/stock-order"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            (click)="collapseNavbar()"
+                        >
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.reportStockOrder">Report Stock Order</span>
+                        </a>
+                    </li> -->
                 </ul>
             </li>
             <!-- report -->
@@ -411,18 +447,6 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            routerLink="stock-order"
-                            routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }"
-                            (click)="collapseNavbar()"
-                        >
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.stockOrder">Stock Order</span>
-                        </a>
-                    </li>
                     <li>
                         <a
                             class="dropdown-item"

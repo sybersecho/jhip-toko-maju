@@ -11,6 +11,19 @@ public class ImportProductVM {
     private String unit;
     private String supplierName;
     private String supplierCode;
+    private Integer stock;
+
+    public void setSalePrice(BigDecimal salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
 
     public String getBarcode() {
         return barcode;
@@ -48,10 +61,6 @@ public class ImportProductVM {
         return salePrice;
     }
 
-    public void setsalePrice(BigDecimal salePrice) {
-        this.salePrice = salePrice;
-    }
-
     public String getUnit() {
         return unit;
     }
@@ -87,6 +96,7 @@ public class ImportProductVM {
             ", unit='" + unit + '\'' +
             ", supplierName='" + supplierName + '\'' +
             ", supplierCode='" + supplierCode + '\'' +
+            ", stock=" + stock +
             '}';
     }
 }

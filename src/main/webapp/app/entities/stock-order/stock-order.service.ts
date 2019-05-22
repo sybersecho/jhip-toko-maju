@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IStockOrder } from 'app/shared/model/stock-order.model';
+import { ReportStockOrder } from '../report';
 
 type EntityResponseType = HttpResponse<IStockOrder>;
 type EntityArrayResponseType = HttpResponse<IStockOrder[]>;

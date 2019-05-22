@@ -6,10 +6,41 @@
     <div class="row">
         <div class="col-md-4">
             <div class="input-group w-100 mt-3">
-                <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" required />
-                <input type="date" class="form-control ml-1" name="end" [(ngModel)]="endDate" required />
+                <input type="date" class="form-control col-form-label-sm" name="start" [(ngModel)]="fromDate" required />
+                <input type="date" class="form-control col-form-label-sm ml-1" name="end" [(ngModel)]="endDate" required />
                 <button class="input-group-append btn btn-info" (click)="search()">
                     <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4 offset-md-4">
+            <div class="btn-group  w-100 mt-3 flex-btn-group-container">
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-md ml-1"
+                    [ngClass]="{ 'btn-info': filter === 'all' }"
+                    (click)="filterBy('all')"
+                >
+                    <fa-icon [icon]="'eye'"></fa-icon>
+                    <span class="d-none d-md-inline"> Semua</span>
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-md  ml-1"
+                    [ngClass]="{ 'btn-info': filter === 'nonProject' }"
+                    (click)="filterBy('nonProject')"
+                >
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                    <span class="d-none d-md-inline"> No - Project</span>
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-md ml-1"
+                    [ngClass]="{ 'btn-info': filter === 'project' }"
+                    (click)="filterBy('project')"
+                >
+                    <fa-icon [icon]="'star'"></fa-icon>
+                    <span class="d-none d-md-inline"> Project</span>
                 </button>
             </div>
         </div>
@@ -19,10 +50,16 @@
             <thead>
                 <tr>
                     <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.saleDate">Sale Date</span>
+                    </th>
+                    <th>
                         <span jhiTranslate="jhiptokomajuApp.saleTransactions.noInvoice">No Invoice</span>
                     </th>
                     <th>
                         <span jhiTranslate="jhiptokomajuApp.saleTransactions.customer">Customer</span>
+                    </th>
+                    <th>
+                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.project">Project</span>
                     </th>
                     <th>
                         <span jhiTranslate="jhiptokomajuApp.saleTransactions.totalPayment">Total Payment</span>
@@ -35,25 +72,23 @@
                     <th>
                         <span jhiTranslate="jhiptokomajuApp.saleTransactions.remainingPayment">Remaining Payment</span>
                     </th>
-                    <th>
-                        <span jhiTranslate="jhiptokomajuApp.saleTransactions.saleDate">Sale Date</span>
-                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let report of saleReports; let i = index">
+                    <td>{{ report.createdDate }}</td>
                     <td>{{ report.noInvoice }}</td>
                     <td>{{ report.customerFullName }}</td>
+                    <td>{{ report.projectName }}</td>
                     <td>{{ report.totalPayment | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ report.discount | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ report.paid | currency: 'IDR':'Rp. ' }}</td>
                     <td>{{ report.remainingPayment | currency: 'IDR':'Rp. ' }}</td>
-                    <td>{{ report.createdDate }}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr *ngIf="saleReports.length > 0">
-                    <th colspan="2"></th>
+                    <th colspan="4"></th>
                     <th>
                         {{ totalTransaction | currency: 'IDR':'Rp. ' }}
                     </th>
@@ -66,9 +101,9 @@
                     <th>
                         {{ totalRemainingPayment | currency: 'IDR':'Rp. ' }}
                     </th>
-                    <th colspan="2">
-                        <!-- {{ totalTransaction | currency: 'IDR':'Rp. ' }} -->
-                    </th>
+                    <!-- <th colspan="2"> -->
+                    <!-- {{ totalTransaction | currency: 'IDR':'Rp. ' }} -->
+                    <!-- </th> -->
                 </tr>
             </tfoot>
         </table>

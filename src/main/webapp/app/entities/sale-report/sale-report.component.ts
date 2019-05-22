@@ -6,10 +6,17 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { ISaleReport } from 'app/shared/model/sale-report.model';
-import { AccountService } from 'app/core';
-
-import { ITEMS_PER_PAGE } from 'app/shared';
 import { DatePipe } from '@angular/common';
+import { ISaleReportDetail, SaleReportDetail } from 'app/shared/model/sale-report-detail.model';
+import { SaleTransactionsService } from '../sale-transactions';
+import { ExcelService } from 'app/shared/export/excel.service';
+import moment = require('moment');
+import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
+import { SaleReportService } from './sale-report.service';
+import * as FileSaver from 'file-saver';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
     selector: 'jhi-sale-report',
@@ -18,8 +25,8 @@ import { DatePipe } from '@angular/common';
 export class SaleReportComponent implements OnInit, OnDestroy {
     fromDate: string;
     endDate: string;
+    saleDetailReports: ISaleReportDetail[];
 
-    saleReports: ISaleReport[];
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -31,69 +38,52 @@ export class SaleReportComponent implements OnInit, OnDestroy {
     currentSearch: string;
 
     constructor(
-        protected jhiAlertService: JhiAlertService,
-        protected eventManager: JhiEventManager,
-        protected parseLinks: JhiParseLinks,
-        protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService,
-        protected datePipe: DatePipe
+        protected datePipe: DatePipe,
+        protected saleTransactionsService: SaleTransactionsService,
+        protected saleReportService: SaleReportService,
+        protected excelService: ExcelService,
+        protected jhiAlertService: JhiAlertService
     ) {
-        // this.saleReports = [];
-        // this.itemsPerPage = ITEMS_PER_PAGE;
-        // this.page = 0;
-        // this.links = {
-        //     last: 0
-        // };
-        // this.predicate = 'id';
-        // this.reverse = true;
-        // this.currentSearch =
-        //     this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-        //         ? this.activatedRoute.snapshot.params['search']
-        //         : '';
+        this.saleDetailReports = [];
     }
 
-    loadAll() {
-        // if (this.currentSearch) {
-        //     return;
-        // }
+    search() {
+        this.loadReport();
     }
 
-    reset() {
-        // this.page = 0;
-        // this.saleReports = [];
-        // this.loadAll();
+    exportToExcel() {
+        // const excelModel = new ExcelModel();
+        // excelModel.data = this.saleDetailReports;
+        // excelModel.fileName = 'Laporan Penjualan Detail';
+        // excelModel.header = ['Barcode', 'Product Name', 'Unit', 'Project', 'Stock'];
+        // excelModel.title = 'Stock Product';
+        // excelModel.workSheetName = 'Stock Product';
+
+        // this.excelService.generateExcel(excelModel);
+        this.saleReportService
+            .saleDetailReport({
+                from: moment(this.fromDate)
+                    .startOf('day')
+                    .toJSON(),
+                end: moment(this.endDate)
+                    .endOf('day')
+                    .toJSON()
+            })
+            .subscribe(
+                res => {
+                    this.saveAsExcelFile(res.body, 'Sale Report Details');
+                },
+                error => {
+                    console.error(error.message);
+                }
+            );
     }
 
-    loadPage(page) {
-        // this.page = page;
-        // this.loadAll();
-    }
-
-    clear() {
-        // this.saleReports = [];
-        // this.links = {
-        //     last: 0
-        // };
-        // this.page = 0;
-        // this.predicate = 'id';
-        // this.reverse = true;
-        // this.currentSearch = '';
-        // this.loadAll();
-    }
-
-    search(query) {
-        // if (!query) {
-        //     return this.clear();
-        // }
-        // this.saleReports = [];
-        // this.links = {
-        //     last: 0
-        // };
-        // this.page = 0;
-        // this.predicate = '_score';
-        // this.reverse = false;
-        // this.currentSearch = query;
-        // this.loadAll();
+    private saveAsExcelFile(buffer: any, fileName: string): void {
+        const data: Blob = new Blob([buffer], {
+            type: EXCEL_TYPE
+        });
+        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     }
 
     ngOnInit() {
@@ -103,7 +93,6 @@ export class SaleReportComponent implements OnInit, OnDestroy {
 
     protected currentMonth() {
         const dateFormat = 'yyyy-MM-dd';
-        // 'yyyy-MM-dd';
         const today = new Date();
         const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
         const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
@@ -112,38 +101,63 @@ export class SaleReportComponent implements OnInit, OnDestroy {
     }
 
     loadReport() {
-        // throw new Error("Method not implemented.");
+        this.saleDetailReports = [];
+        this.saleTransactionsService
+            .queryByDate({
+                from: moment(this.fromDate)
+                    .startOf('day')
+                    .toJSON(),
+                end: moment(this.endDate)
+                    .endOf('day')
+                    .toJSON()
+            })
+            .subscribe(
+                (res: HttpResponse<ISaleTransactions[]>) => this.paginateSaleTransaction(res.body, res.headers),
+                (res: HttpErrorResponse) => {
+                    this.onError(res.message);
+                }
+            );
+    }
+
+    protected onError(message: string) {
+        console.error(message);
+        this.jhiAlertService.error('error.somethingwrong', null, null);
+    }
+
+    protected paginateSaleTransaction(sales: ISaleTransactions[], headers: HttpHeaders): void {
+        // this.resetTotals();
+        // const copyOf = this.filterSale(sales);
+        this.createReportModel(sales);
+    }
+
+    protected createReportModel(sales: ISaleTransactions[]) {
+        sales.forEach(sale => this.addToList(sale));
+    }
+
+    protected addToList(sale: ISaleTransactions): void {
+        const detailReport = new SaleReportDetail();
+        detailReport.createFrom(sale);
+
+        // this.totalDiscount += report.discount;
+        // this.totalPaid += report.paid;
+        // this.totalRemainingPayment += report.remainingPayment;
+        // this.totalTransaction += report.totalPayment;
+
+        this.saleDetailReports.push(detailReport);
     }
 
     ngOnDestroy() {
         // this.eventManager.destroy(this.eventSubscriber);
     }
 
-    // trackId(index: number, item: ISaleReport) {
-    //     // return item.id;
-    // }
-
     registerChangeInSaleReports() {
-        this.eventSubscriber = this.eventManager.subscribe('saleReportListModification', response => this.reset());
+        // this.eventSubscriber = this.eventManager.subscribe('saleReportListModification', response => this.reset());
     }
-
-    // sort() {
-    //     const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-    //     if (this.predicate !== 'id') {
-    //         result.push('id');
-    //     }
-    //     return result;
-    // }
 
     protected paginateSaleReports(data: ISaleReport[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        for (let i = 0; i < data.length; i++) {
-            this.saleReports.push(data[i]);
-        }
-    }
-
-    protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        // this.links = this.parseLinks.parse(headers.get('link'));
+        // this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        // for (let i = 0; i < data.length; i++) {
+        //     this.saleDetailReports.push(data[i]);
     }
 }

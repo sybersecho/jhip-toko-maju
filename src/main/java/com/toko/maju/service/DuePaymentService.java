@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service Interface for managing DuePayment.
@@ -57,4 +58,6 @@ public interface DuePaymentService {
     Page<DuePaymentDTO> search(String query, Pageable pageable);
     
     List<DuePaymentDTO> saveDuePayment(List<DuePaymentDTO> duePaymentDTOs, List<SaleTransactionsDTO> saleTransactionsDTOs);
+
+    List<DuePaymentDTO> findBySaleIds(Set<Long> saleIds);
 }

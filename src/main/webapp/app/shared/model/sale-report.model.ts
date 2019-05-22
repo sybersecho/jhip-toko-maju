@@ -2,6 +2,7 @@ export interface ISaleReport {
     noInvoice?: String;
     creatorLogin?: string;
     customerFullName?: string;
+    projectName?: string;
     totalPayment?: number;
     discount?: number;
     paid?: number;
@@ -13,6 +14,7 @@ export class SaleReport implements ISaleReport {
     constructor(
         public noInvoice?: String,
         public customerFullName?: string,
+        public projectName?: string,
         public totalPayment?: number,
         public discount?: number,
         public paid?: number,

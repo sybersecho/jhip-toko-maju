@@ -28,12 +28,17 @@
                 "saleReportDetail": "Sale Report Detail",
                 "saleReportProduct": "Sale Report Product",
                 "saleReportCustomer": "Sale Report Customer",
+                "saleReportProject": "Sale Report Project",
                 "stockOrder": "Stock Order",
                 "stockOrderInput": "Input Stock Order",
                 "stockOrderProcess": "Process Stock Order",
                 "stockOrderReceive": "Receive Stock Order",
                 "purchase": "Purchase",
                 "purchaseList": "Purchase List",
+                "report": "Report",
+                "reportStockOrder": "Report Stock Order",
+                "reportStockReceive": "Report Stock Receive",
+                "reportPayment": "Report Payment",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -73,36 +73,10 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
 
     filterBy(key: any): void {
         this.filter = key;
-        console.log('filter is ', this.filter);
         this.loadAll();
     }
 
     loadAll() {
-        // if (this.currentSearch) {
-        //     this.duePaymentService
-        //         .search({
-        //             query: this.currentSearch,
-        //             page: this.page,
-        //             size: this.itemsPerPage,
-        //             sort: this.sort()
-        //         })
-        //         .subscribe(
-        //             (res: HttpResponse<IDuePayment[]>) => this.paginateDuePayments(res.body, res.headers),
-        //             (res: HttpErrorResponse) => this.onError(res.message)
-        //         );
-        //     return;
-        // }
-        // this.duePaymentService
-        //     .query({
-        //         page: this.page,
-        //         size: this.itemsPerPage,
-        //         sort: this.sort()
-        //     })
-        //     .subscribe(
-        //         (res: HttpResponse<IDuePayment[]>) => this.paginateDuePayments(res.body, res.headers),
-        //         (res: HttpErrorResponse) => this.onError(res.message)
-        //     );
-
         this.saleTransactionsService
             .queryDueTransaction({
                 from: moment(this.fromDate)
@@ -124,10 +98,7 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         const updateSale: ISaleTransactions[] = this.sales.filter(sale => {
             return tempDue.findIndex(due => due.saleId === sale.id) > -1;
         });
-        // console.log('temp: ');
-        // console.log(tempDue);
-        // console.log('sale: ');
-        // console.log(updateSale);
+
         this.duePaymentService.saveDuePayment(tempDue, updateSale).subscribe(
             res => {
                 console.log('success');
@@ -177,9 +148,6 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     }
 
     search() {
-        // if (!query) {
-        //     return this.clear();
-        // }
         this.duePayments = [];
         this.links = {
             last: 0
@@ -196,7 +164,6 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            // console.log(this.currentAccount);
         });
         this.registerChangeInDuePayments();
     }
@@ -254,13 +221,10 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
     calculateRemainingPayment(due: IDuePayment) {
         const left = due.saldo - due.paid;
         due.settled = false;
-        // due.remainingPayment = due.remainingPayment - due.paid;
         if (left === 0) {
             due.settled = true;
         }
         due.remainingPayment = left;
-        // console.log('saldo: ' + due.saldo);
-        // console.log('paid: ' + due.paid);
     }
 
     protected paginateDuePayments(data: ISaleTransactions[], headers: HttpHeaders) {
@@ -271,18 +235,18 @@ export class DuePaymentComponent implements OnInit, OnDestroy {
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
             if (this.filter === 'all') {
-                this.SaleAndDuePayment(data[i]);
+                this.saleAndDuePayment(data[i]);
             } else if (this.filter === 'nonProject' && !data[i].projectId) {
-                this.SaleAndDuePayment(data[i]);
+                this.saleAndDuePayment(data[i]);
             } else if (this.filter === 'project' && data[i].projectId) {
-                this.SaleAndDuePayment(data[i]);
+                this.saleAndDuePayment(data[i]);
             }
         }
     }
-    SaleAndDuePayment(sale: ISaleTransactions) {
+
+    saleAndDuePayment(sale: ISaleTransactions) {
         this.sales.push(sale);
         const duePayment: IDuePayment = this.createDuePayment(sale);
-        // console.log(duePayment);
         this.duePayments.push(duePayment);
     }
 

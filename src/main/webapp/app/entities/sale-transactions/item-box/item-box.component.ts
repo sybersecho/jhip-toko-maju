@@ -74,7 +74,7 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
         this.saleTransactions.saleDate = moment(new Date());
         this.saleTransactions.projectId = this.selectedProjectId > 0 ? this.selectedProjectId : null;
         this.saleTransactions.recalculate();
-        console.log('sale before save ', this.saleTransactions);
+
         this.subscribeToSaveResponse(this.saleService.create(this.saleTransactions));
     }
 
@@ -94,7 +94,7 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
         this.customer = this.defaultCustomer;
         this.saleTransactions.setCustomer(this.customer);
         this.selectedProjectId = 0;
-        console.log('sale when save, ', this.saleTransactions);
+
         this.projectChangedEvent.next(this.selectedProjectId);
         this.jhiEventManager.broadcast({
             name: 'onSaveSale',

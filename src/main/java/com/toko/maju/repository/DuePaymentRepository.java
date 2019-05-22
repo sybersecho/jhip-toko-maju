@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Spring Data  repository for the DuePayment entity.
@@ -16,4 +17,5 @@ public interface DuePaymentRepository extends JpaRepository<DuePayment, Long>, J
     @Query("select due_payment from DuePayment due_payment where due_payment.creator.login = ?#{principal.username}")
     List<DuePayment> findByCreatorIsCurrentUser();
 
+    List<DuePayment> findBySaleIdIn(Set<Long> saleIds);
 }

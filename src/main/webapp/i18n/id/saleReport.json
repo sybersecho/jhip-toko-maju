@@ -13,6 +13,9 @@
             "product": {
                 "title": "Laporan Penjualan Product"
             },
+            "project": {
+                "title": "Laporan Penjualan Project"
+            },
             "created": "Sale Report dengan id {{ param }} telah dibuat",
             "updated": "Sale Report dengan id {{ param }} telah diperbaharui",
             "deleted": "Sale Report dengan id {{ param }} telah dihapus",

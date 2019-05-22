@@ -137,7 +137,6 @@ export class SaleTransactions implements ISaleTransactions {
     recalculate(): void {
         this.settled = false;
         this.statusTransaction = StatusTransaction.DUE;
-        console.log('status: ', this.statusTransaction);
         if (this.paid >= this.totalPayment) {
             this.paid = this.totalPayment;
             this.settled = true;

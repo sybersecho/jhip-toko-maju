@@ -136,7 +136,7 @@ public class ProductServiceImpl implements ProductService {
 
             if (existingProduct == null) {
                 Product newProduct = new Product();
-                newProduct.setStock(0);
+                newProduct.setStock(p.getStock());
                 newProduct.setBarcode(p.getBarcode());
                 newProduct.setName(p.getProductName());
                 newProduct.setSellingPrice(p.getSalePrice());

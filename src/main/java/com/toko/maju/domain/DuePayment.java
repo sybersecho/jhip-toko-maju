@@ -38,7 +38,7 @@ public class DuePayment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "remaining_payment", precision = 10, scale = 2)
+	@Column(name = "remaining_payment", precision = 21, scale = 2)
 	private BigDecimal remainingPayment;
 
 	@NotNull
@@ -51,12 +51,12 @@ public class DuePayment implements Serializable {
 
 	@NotNull
 	@DecimalMin(value = "0")
-	@Column(name = "paid", precision = 10, scale = 2, nullable = false)
+	@Column(name = "paid", precision = 21, scale = 2, nullable = false)
 	private BigDecimal paid;
 
 	@NotNull
 	@DecimalMin(value = "0")
-	@Column(name = "total_payment", precision = 10, scale = 2, nullable = false)
+	@Column(name = "total_payment", precision = 21, scale = 2, nullable = false)
 	private BigDecimal totalPayment;
 
 	@ManyToOne(optional = false)

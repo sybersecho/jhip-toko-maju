@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ISaleReport, SaleReport } from 'app/shared/model/sale-report.model';
 import { DatePipe } from '@angular/common';
 import { SaleTransactionsService } from '../sale-transactions';
 import { ExcelService } from 'app/shared/export/excel.service';
