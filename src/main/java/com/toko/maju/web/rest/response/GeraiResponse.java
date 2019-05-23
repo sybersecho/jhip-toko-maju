@@ -4,9 +4,9 @@ public class GeraiResponse {
     private Integer status;
     private String desc;
 
-    private final static Integer SUCCESS_STATUS = 0;
-    private final static Integer FAIL_STATUS = 1;
-    private final static Integer ERROR_STATUS = 2;
+    public final static Integer SUCCESS_STATUS = 0;
+    public final static Integer FAIL_STATUS = 1;
+    public final static Integer ERROR_STATUS = 2;
 
     private final static String SUCCESS_RESP_DESC = "success";
     private final static String FAIL_RESP_DESC = "fail";

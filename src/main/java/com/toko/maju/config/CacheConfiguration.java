@@ -69,6 +69,7 @@ public class CacheConfiguration {
             cm.createCache(com.toko.maju.domain.Gerai.class.getName(), jcacheConfiguration);
             cm.createCache(com.toko.maju.domain.GeraiConfig.class.getName(), jcacheConfiguration);
             cm.createCache(com.toko.maju.domain.GeraiTransaction.class.getName(), jcacheConfiguration);
+            cm.createCache(com.toko.maju.domain.GeraiUpdateHistory.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

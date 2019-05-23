@@ -2,6 +2,7 @@ package com.toko.maju.web.rest;
 
 import com.toko.maju.domain.GeraiConfig;
 import com.toko.maju.domain.GeraiTransaction;
+import com.toko.maju.domain.GeraiUpdateHistory;
 import com.toko.maju.domain.SaleTransactions;
 import com.toko.maju.repository.search.GeraiConfigSearchRepository;
 import com.toko.maju.repository.search.SaleTransactionsSearchRepository;
@@ -11,6 +12,7 @@ import com.toko.maju.web.rest.errors.BadRequestAlertException;
 import com.toko.maju.web.rest.response.GeraiResponse;
 import com.toko.maju.web.rest.util.HeaderUtil;
 import com.toko.maju.web.rest.util.PaginationUtil;
+import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -59,6 +61,12 @@ public class GeraiTransactionResource {
 
     @Autowired
     private final ProductService productService = null;
+
+    @Autowired
+    private final GeraiUpdateHistoryQueryService geraiUpdateHistoryQueryService = null;
+
+    @Autowired
+    private final GeraiUpdateHistoryService geraiUpdateHistoryService = null;
 
     public GeraiTransactionResource(GeraiTransactionService geraiTransactionService, GeraiTransactionQueryService geraiTransactionQueryService) {
         this.geraiTransactionService = geraiTransactionService;
@@ -198,23 +206,34 @@ public class GeraiTransactionResource {
         }
     }
 
-    @Scheduled(cron = "*/60 * * * * ?")
+    @Scheduled(cron = "*/15 * * * * ?")
     public void sendStatus() {
         GeraiConfigDTO config = geraiConfigService.findOne(1L).get();
-        if(config != null && !config.isActivated()){
+        if (config != null && !config.isActivated()) {
             log.debug("not active");
             return;
         }
 
-        try{
-            //create criteria
-            LongFilter saleIdFilter = new LongFilter();
-            saleIdFilter.setGreaterOrEqualThan(1L);
+        try {
+            // get latest id
+            GeraiUpdateHistoryDTO latest = geraiUpdateHistoryService.findLatest();
+//            Long latestHistoryId = (latest != null && latest.getId() != null) ? latest.getId() : 1L;
+//            //create criteria
+//            LongFilter saleIdFilter = new LongFilter();
+//            saleIdFilter.setGreaterThan(latestHistoryId);
+//            SaleTransactionsCriteria criteria = new SaleTransactionsCriteria();
+//            criteria.setId(saleIdFilter);
+
+            Instant latestSaleDateHistory = (latest != null && latest.getSaleDate() != null) ? latest.getSaleDate() : Instant.EPOCH;
+            log.debug("latest date: {}", latestSaleDateHistory.toString());
+            InstantFilter saleDateFilter = new InstantFilter();
+            saleDateFilter.setGreaterThan(latestSaleDateHistory);
             SaleTransactionsCriteria criteria = new SaleTransactionsCriteria();
-            criteria.setId(saleIdFilter);
+            criteria.setSaleDate(saleDateFilter);
 
             List<SaleTransactionsDTO> sales = saleTransactionsQueryService.findByCriteria(criteria);
-            if(sales.isEmpty()){
+            if (sales.isEmpty()) {
+                log.debug("no transactions recently");
                 return;
             }
             //create transaction from sales
@@ -234,8 +253,17 @@ public class GeraiTransactionResource {
             // hit toko
             RestTemplate restTemplate = new RestTemplate();
             GeraiResponse response = restTemplate.postForObject(urlBuilder.toString(), dtos, GeraiResponse.class);
+            if (response.getStatus() == GeraiResponse.SUCCESS_STATUS) {
+                Long latestSaleId = sales.get(sales.size() - 1).getId();
+                Instant latestSaleDate = sales.get(sales.size() - 1).getSaleDate();
+                GeraiUpdateHistoryDTO updateStatus = new GeraiUpdateHistoryDTO();
+                updateStatus.setCreatedDate(Instant.now());
+                updateStatus.setLastSaleId(latestSaleId + 1);
+                updateStatus.setSaleDate(latestSaleDate);
+                geraiUpdateHistoryService.save(updateStatus);
+            }
             log.debug("response: {}", response);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
