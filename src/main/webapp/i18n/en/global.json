@@ -40,6 +40,7 @@
                 "reportStockReceive": "Report Stock Receive",
                 "reportPayment": "Report Payment",
                 "gerai": "Gerai",
+                "geraiOverview": "Gerai Overview",
                 "geraiConfig": "Gerai Config",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },

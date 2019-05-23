@@ -96,7 +96,7 @@
                             <span jhiTranslate="global.menu.entities.project">Project</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_SUPERUSER']">
                         <a
                             class="dropdown-item"
                             routerLink="unit"
@@ -403,18 +403,18 @@
                             <span jhiTranslate="global.menu.entities.reportPayment">Report Payment</span>
                         </a>
                     </li>
-                    <!-- <li>
+                    <li *jhiHasAnyAuthority="['ROLE_SUPERUSER']">
                         <a
                             class="dropdown-item"
-                            routerLink="sale-report/project"
+                            routerLink="gerai/overview"
                             routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }"
                             (click)="collapseNavbar()"
                         >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.saleReportProject">Sale Report Project</span>
+                            <span jhiTranslate="global.menu.entities.geraiOverview">Gerai Overview</span>
                         </a>
-                    </li> -->
+                    </li>
                     <!-- <li>
                         <a
                             class="dropdown-item"

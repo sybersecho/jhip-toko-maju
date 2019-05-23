@@ -11,6 +11,7 @@ import { JhiptokomajuReturnTransactionModule } from './return-transaction/return
 import { JhiptokomajuProductStockModule } from './product-stock/product-stock.module';
 import { JhiptokomajuSupplierStockModule } from './supplier-stock/supplier-stock.module';
 import { JhiptokomajuPurchaseModule } from './purchase/purchase.module';
+import { JhiptokomajuUnitModule } from './unit/unit.module';
 
 @NgModule({
     imports: [
@@ -25,11 +26,12 @@ import { JhiptokomajuPurchaseModule } from './purchase/purchase.module';
         JhiptokomajuProductStockModule,
         JhiptokomajuSupplierStockModule,
         JhiptokomajuPurchaseModule,
+        JhiptokomajuUnitModule,
         RouterModule.forChild([
-            {
-                path: 'unit',
-                loadChildren: './unit/unit.module#JhiptokomajuUnitModule'
-            },
+            // {
+            //     path: 'unit',
+            //     loadChildren: './unit/unit.module#JhiptokomajuUnitModule'
+            // },
             {
                 path: 'cancel-transaction',
                 loadChildren: './cancel-transaction/cancel-transaction.module#JhiptokomajuCancelTransactionModule'

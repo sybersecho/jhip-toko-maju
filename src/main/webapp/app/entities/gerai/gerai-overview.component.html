@@ -1,0 +1,46 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="jhiptokomajuApp.gerai.overview.title">Gerais</span>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <select class="form-control" id="field_gerai" name="gerai" [(ngModel)]="selectedGerai" (change)="onChangeGerai()">
+                    <option [ngValue]="gerai.id" *ngFor="let gerai of gerais">
+                        {{ gerai.name }}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <th>
+                    <span jhiTranslate="jhiptokomajuApp.product.barcode">Barcode</span>
+                </th>
+                <th>
+                    <span jhiTranslate="jhiptokomajuApp.product.name">Name</span>
+                </th>
+                <th>
+                    <span jhiTranslate="jhiptokomajuApp.saleTransactions.quantity">Quantity</span>
+                </th>
+                <th>
+                    <span jhiTranslate="jhiptokomajuApp.product.stock">Stock</span>
+                </th>
+            </thead>
+            <tbody>
+                <tr *ngIf="!geraiTransactions.length">
+                    <td colspan="4" class="text-center">no records found</td>
+                </tr>
+                <tr *ngFor="let transaction of geraiTransactions">
+                    <td>{{ transaction.barcode }}</td>
+                    <td>{{ transaction.name }}</td>
+                    <td>{{ transaction.quantity }}</td>
+                    <td>{{ transaction.currentStock }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

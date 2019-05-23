@@ -12,6 +12,7 @@ import { GeraiDetailComponent } from './gerai-detail.component';
 import { GeraiUpdateComponent } from './gerai-update.component';
 import { GeraiDeletePopupComponent } from './gerai-delete-dialog.component';
 import { IGerai } from 'app/shared/model/gerai.model';
+import { GeraiOverviewComponent } from './gerai-overview.component';
 
 @Injectable({ providedIn: 'root' })
 export class GeraiResolve implements Resolve<IGerai> {
@@ -39,6 +40,19 @@ export const geraiRoute: Routes = [
         data: {
             authorities: ['ROLE_SUPERUSER'],
             defaultSort: 'id,asc',
+            pageTitle: 'jhiptokomajuApp.gerai.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'overview',
+        component: GeraiOverviewComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_SUPERUSER'],
+            defaultSort: 'id,desc',
             pageTitle: 'jhiptokomajuApp.gerai.home.title'
         },
         canActivate: [UserRouteAccessService]

@@ -31,50 +31,50 @@ export class UnitResolve implements Resolve<IUnit> {
 
 export const unitRoute: Routes = [
     {
-        path: '',
+        path: 'unit',
         component: UnitComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
+            authorities: ['ROLE_SUPERUSER'],
             defaultSort: 'id,asc',
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/view',
+        path: 'unit/:id/view',
         component: UnitDetailComponent,
         resolve: {
             unit: UnitResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
+            authorities: ['ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'new',
+        path: 'unit/new',
         component: UnitUpdateComponent,
         resolve: {
             unit: UnitResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
+            authorities: ['ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/edit',
+        path: 'unit/:id/edit',
         component: UnitUpdateComponent,
         resolve: {
             unit: UnitResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
+            authorities: ['ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -83,13 +83,13 @@ export const unitRoute: Routes = [
 
 export const unitPopupRoute: Routes = [
     {
-        path: ':id/delete',
+        path: 'unit/:id/delete',
         component: UnitDeletePopupComponent,
         resolve: {
             unit: UnitResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SUPERUSER'],
+            authorities: ['ROLE_SUPERUSER'],
             pageTitle: 'jhiptokomajuApp.unit.home.title'
         },
         canActivate: [UserRouteAccessService],

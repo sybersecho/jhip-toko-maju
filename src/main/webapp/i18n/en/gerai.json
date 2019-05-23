@@ -7,6 +7,9 @@
                 "createOrEditLabel": "Create or edit a Gerai",
                 "search": "Search for Gerai"
             },
+            "overview": {
+                "title": "Gerai Transactions"
+            },
             "created": "A new Gerai is created with identifier {{ param }}",
             "updated": "A Gerai is updated with identifier {{ param }}",
             "deleted": "A Gerai is deleted with identifier {{ param }}",

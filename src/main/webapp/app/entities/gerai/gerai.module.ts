@@ -10,6 +10,7 @@ import {
     GeraiUpdateComponent,
     GeraiDeletePopupComponent,
     GeraiDeleteDialogComponent,
+    GeraiOverviewComponent,
     geraiRoute,
     geraiPopupRoute
 } from './';
@@ -18,8 +19,15 @@ const ENTITY_STATES = [...geraiRoute, ...geraiPopupRoute];
 
 @NgModule({
     imports: [JhiptokomajuSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [GeraiComponent, GeraiDetailComponent, GeraiUpdateComponent, GeraiDeleteDialogComponent, GeraiDeletePopupComponent],
-    entryComponents: [GeraiComponent, GeraiUpdateComponent, GeraiDeleteDialogComponent, GeraiDeletePopupComponent],
+    declarations: [
+        GeraiComponent,
+        GeraiDetailComponent,
+        GeraiUpdateComponent,
+        GeraiDeleteDialogComponent,
+        GeraiDeletePopupComponent,
+        GeraiOverviewComponent
+    ],
+    entryComponents: [GeraiComponent, GeraiUpdateComponent, GeraiDeleteDialogComponent, GeraiDeletePopupComponent, GeraiOverviewComponent],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
