@@ -129,6 +129,9 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
         this.eventSubscription = this.eventManager.subscribe('onSelectProductEvent', response => {
             this.foundProduct(response.data);
         });
+        this.eventSubscription = this.eventManager.subscribe('onSaveSale', () => {
+            this.barcodeField.nativeElement.focus();
+        });
     }
 
     protected loadCustomerProduct() {

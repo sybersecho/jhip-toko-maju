@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { IReportPaymentDetail } from './report-payment-detai.model';
+import { IReportPaymentDetail } from './report-payment-detail.model';
 
 export interface IReportPayment {
     noInvoice?: string;

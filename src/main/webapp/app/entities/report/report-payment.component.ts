@@ -5,6 +5,10 @@ import * as moment from 'moment';
 import { HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { IReportPayment } from 'app/shared/model/report-payment.model';
 import { JhiAlertService } from 'ng-jhipster';
+import * as FileSaver from 'file-saver';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
     selector: 'jhi-report-payment',
@@ -60,6 +64,36 @@ export class ReportPaymentComponent implements OnInit {
 
     protected paginateReportPayment(report: IReportPayment[], headers: HttpHeaders): void {
         this.reportPayments = report;
+    }
+
+    exportToExcel() {
+        console.log('extract excel');
+
+        this.reportService
+            .extractReportPayment({
+                from: moment(this.fromDate)
+                    .startOf('day')
+                    .toJSON(),
+                end: moment(this.endDate)
+                    .endOf('day')
+                    .toJSON()
+            })
+            .subscribe(
+                res => {
+                    this.saveAsExcelFile(res.body, 'Report Payment');
+                },
+                error => {
+                    // console.error(error.message);
+                    this.onError(error.message);
+                }
+            );
+    }
+
+    private saveAsExcelFile(buffer: any, fileName: string): void {
+        const data: Blob = new Blob([buffer], {
+            type: EXCEL_TYPE
+        });
+        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     }
 
     protected onError(message: string) {

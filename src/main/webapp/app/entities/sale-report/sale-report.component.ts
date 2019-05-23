@@ -74,7 +74,8 @@ export class SaleReportComponent implements OnInit, OnDestroy {
                     this.saveAsExcelFile(res.body, 'Sale Report Details');
                 },
                 error => {
-                    console.error(error.message);
+                    // console.error(error.message);
+                    this.onError(error.message);
                 }
             );
     }

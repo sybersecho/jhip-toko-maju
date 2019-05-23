@@ -3,6 +3,8 @@ package com.toko.maju.generator;
 import com.toko.maju.domain.SaleTransactions;
 import com.toko.maju.service.dto.SaleItemDTO;
 import com.toko.maju.service.dto.SaleTransactionsDTO;
+import com.toko.maju.web.rest.vm.ReportPaymentDetailVM;
+import com.toko.maju.web.rest.vm.ReportPaymentVM;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -129,6 +131,65 @@ public class ExcelGenerator {
             e.printStackTrace();
         }
 
+
+        return new ByteArrayInputStream(out.toByteArray());
+    }
+
+
+
+    public static ByteArrayInputStream reportPayment(List<ReportPaymentVM> payments) {
+        String[] COLUMNs = {"No", "Tangal Pembayaran", "Pembayaran", "Saldo"};
+        Workbook workbook = new XSSFWorkbook();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        try {
+//            Sheet sheet = createSheet("Sale Report");
+            Sheet sheet = workbook.createSheet("Report Payment");
+
+
+            int rowIdx = 0;
+            for (ReportPaymentVM report : payments) {
+                Row customerAndInvoiceInfo = sheet.createRow(rowIdx);
+                customerAndInvoiceInfo.createCell(0).setCellValue("Pelanggan");
+                customerAndInvoiceInfo.createCell(1).setCellValue(report.getCustomer());
+                customerAndInvoiceInfo.createCell(COLUMNs.length-2).setCellValue("No Fraktur");
+                customerAndInvoiceInfo.createCell(COLUMNs.length-1).setCellValue(report.getNoInvoice());
+
+                Row projectAndTotalInfo = sheet.createRow(++rowIdx);
+                projectAndTotalInfo.createCell(0).setCellValue("Project");
+                projectAndTotalInfo.createCell(1).setCellValue(report.getProject() != null ? report.getProject() : "-");
+                projectAndTotalInfo.createCell(COLUMNs.length-2).setCellValue("Total");
+                projectAndTotalInfo.createCell(COLUMNs.length-1).setCellValue(report.getTotalPayment().toPlainString());
+
+                // Row for Header
+                Row headerRow = sheet.createRow(++rowIdx);
+
+                // Header
+                for (int col = 0; col < COLUMNs.length; col++) {
+                    Cell cell = headerRow.createCell(col);
+                    cell.setCellValue(COLUMNs[col]);
+                    cell.setCellStyle(headerStyle(workbook));
+                }
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss")
+                    .withZone(ZoneId.of("Asia/Jakarta"));
+
+                List<ReportPaymentDetailVM> paymentDetails = report.getPaymentDetails();
+                for (int i = 0; i < paymentDetails.size(); i++) {
+                    Row row = sheet.createRow(++rowIdx);
+                    row.createCell(0).setCellValue(i+1);
+                    row.createCell(1).setCellValue(formatter.format(paymentDetails.get(i).getPaymentDate()));
+                    row.createCell(2).setCellValue(paymentDetails.get(i).getPaid().toPlainString());
+                    row.createCell(3).setCellValue(paymentDetails.get(i).getRemainingPayment().toPlainString());
+                }
+
+                rowIdx += 2;
+            }
+
+            workbook.write(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return new ByteArrayInputStream(out.toByteArray());
     }

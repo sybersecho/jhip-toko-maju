@@ -1,6 +1,7 @@
 package com.toko.maju.web.rest;
 
 
+import com.toko.maju.generator.ExcelGenerator;
 import com.toko.maju.service.DuePaymentService;
 import com.toko.maju.service.SaleTransactionsQueryService;
 import com.toko.maju.service.dto.DuePaymentDTO;
@@ -10,11 +11,14 @@ import com.toko.maju.web.rest.vm.ReportPaymentDetailVM;
 import com.toko.maju.web.rest.vm.ReportPaymentVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.ByteArrayInputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,18 +43,34 @@ public class ReportResource {
         List<SaleTransactionsDTO> sales = saleTransactionsQueryService.findByCriteria(criteria);
         Set<Long> saleIds = new HashSet<>();
         Set<String> saleInvoices = new HashSet<>();
-//        this.createSaleIds(sales, saleIds);
         this.createSaleInfo(sales, saleIds, saleInvoices);
-//        log.debug("saleID: {}", saleIds);
-//        log.debug("noInvoices: {}", saleInvoices);
         List<DuePaymentDTO> paymentDTOS = duePaymentService.findBySaleIds(saleIds);
-//        List<String>
         HashMap<String, List<DuePaymentDTO>> paymentMap = this.createPaymentMap(saleInvoices, paymentDTOS);
-//        log.debug("paymentDtos: {}", paymentDTOS);
+        List<ReportPaymentVM> payments = this.createReportPayment(sales, paymentMap);
+        return ResponseEntity.ok(payments);
+    }
+
+    @GetMapping("/report/extract-report-payment")
+    public ResponseEntity<InputStreamResource> extractReportPayment(SaleTransactionsCriteria criteria) {
+        log.debug("REST request to get Payment Report by criteria: {}", criteria);
+
+        List<SaleTransactionsDTO> sales = saleTransactionsQueryService.findByCriteria(criteria);
+        Set<Long> saleIds = new HashSet<>();
+        Set<String> saleInvoices = new HashSet<>();
+        this.createSaleInfo(sales, saleIds, saleInvoices);
+        List<DuePaymentDTO> paymentDTOS = duePaymentService.findBySaleIds(saleIds);
+        HashMap<String, List<DuePaymentDTO>> paymentMap = this.createPaymentMap(saleInvoices, paymentDTOS);
         List<ReportPaymentVM> payments = this.createReportPayment(sales, paymentMap);
 
-//        log.debug("report payments: {}", payments);
-        return ResponseEntity.ok(payments);
+        ByteArrayInputStream in = ExcelGenerator.reportPayment(payments);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=sale-report-detail.xlsx");
+
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .body(new InputStreamResource(in));
     }
 
     private void createSaleInfo(List<SaleTransactionsDTO> sales, Set<Long> saleIds, Set<String> saleInvoice) {
@@ -68,17 +88,13 @@ public class ReportResource {
 
 
     private List<DuePaymentDTO> getPaymentFrom(String noInvoice, List<DuePaymentDTO> paymentDTOS) {
-//        log.debug("payment dtos before: size: {}, values {}", paymentDTOS.size(), paymentDTOS);
         List<DuePaymentDTO> dtos = paymentDTOS.stream().filter(payment -> payment.getSaleNoInvoice() == noInvoice).collect(Collectors.toList());
-//        log.debug("payment dtos after: size: {}, values {}", paymentDTOS.size(), paymentDTOS);
-//        log.debug("dtos: size: {}, value: {}", dtos.size(), dtos);
         return dtos;
     }
 
     private List<ReportPaymentVM> createReportPayment(List<SaleTransactionsDTO> sales, HashMap<String, List<DuePaymentDTO>> paymentMap) {
         List<ReportPaymentVM> reports = new ArrayList<>();
         sales.forEach(sale -> reports.add(this.addReport(sale, paymentMap.get(sale.getNoInvoice()))));
-//        log.debug("reports: Size: {}; values: {}", reports.size(), reports);
         return reports;
     }
 
@@ -103,11 +119,6 @@ public class ReportResource {
 
             reportPaymentDetail.add(paymentDetail);
         });
-//        log.debug("Payment Detail: size: {}, values: {}", payments.size(), payments);
         return reportPaymentDetail;
     }
-
-//    private void createSaleIds(List<SaleTransactionsDTO> sales, Set<Long> saleIds) {
-//        sales.forEach(sale -> saleIds.add(sale.getId()));
-//    }
 }

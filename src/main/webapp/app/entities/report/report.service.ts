@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
@@ -8,7 +8,7 @@ import { IReport } from 'app/shared/model/report.model';
 import { ReportPayment, IReportPayment } from 'app/shared/model/report-payment.model';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { IReportPaymentDetail } from 'app/shared/model/report-payment-detai.model';
+import { IReportPaymentDetail } from 'app/shared/model/report-payment-detail.model';
 
 type EntityResponseType = HttpResponse<IReport>;
 type EntityArrayResponseType = HttpResponse<IReport[]>;
@@ -27,6 +27,21 @@ export class ReportService {
         return this.http
             .get<IReportPayment[]>(this.resourceUrl + '/payment', { params: options, observe: 'response' })
             .pipe(map((res: ArrayReportPaymentResponse) => this.convertDateArrayFromServer(res)));
+    }
+
+    extractReportPayment(req: { from: string; end: string }) {
+        const options = new HttpParams().set('saleDate.greaterOrEqualThan', req.from).set('saleDate.lessOrEqualThan', req.end);
+        const resHeader = new HttpHeaders({
+            'Content-Type': 'application/vnd.ms-excel',
+            Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+
+        return this.http.get(SERVER_API_URL + 'api/report/extract-report-payment', {
+            params: options,
+            observe: 'response',
+            headers: resHeader,
+            responseType: 'arraybuffer'
+        });
     }
 
     create(report: IReport): Observable<EntityResponseType> {
