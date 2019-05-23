@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "gerai": {
+            "home": {
+                "title": "Gerais",
+                "createLabel": "Buat Gerai baru",
+                "createOrEditLabel": "Buat atau edit Gerai",
+                "search": "Cari Gerai"
+            },
+            "created": "Gerai dengan id {{ param }} telah dibuat",
+            "updated": "Gerai dengan id {{ param }} telah diperbaharui",
+            "deleted": "Gerai dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Gerai {{ id }}?"
+            },
+            "detail": {
+                "title": "Gerai"
+            },
+            "code": "Code",
+            "name": "Name",
+            "location": "Location",
+            "password": "Password",
+            "createdDate": "Created Date",
+            "creator": "Creator"
+        }
+    }
+}

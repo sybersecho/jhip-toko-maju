@@ -1,0 +1,115 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-gerai-heading" jhiTranslate="jhiptokomajuApp.gerai.home.createOrEditLabel">Create or edit a Gerai</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="true">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" [(ngModel)]="gerai.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.gerai.code" for="field_code">Code</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="code"
+                        id="field_code"
+                        [(ngModel)]="gerai.code"
+                        required
+                        minlength="4"
+                        maxlength="10"
+                    />
+                    <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                        <small
+                            class="form-text text-danger"
+                            [hidden]="!editForm.controls.code?.errors?.required"
+                            jhiTranslate="entity.validation.required"
+                        >
+                            This field is required.
+                        </small>
+                        <small
+                            class="form-text text-danger"
+                            [hidden]="!editForm.controls.code?.errors?.minlength"
+                            jhiTranslate="entity.validation.minlength"
+                            [translateValues]="{ min: 4 }"
+                        >
+                            This field is required to be at least 4 characters.
+                        </small>
+                        <small
+                            class="form-text text-danger"
+                            [hidden]="!editForm.controls.code?.errors?.maxlength"
+                            jhiTranslate="entity.validation.maxlength"
+                            [translateValues]="{ max: 10 }"
+                        >
+                            This field cannot be longer than 10 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.gerai.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name" [(ngModel)]="gerai.name" required />
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small
+                            class="form-text text-danger"
+                            [hidden]="!editForm.controls.name?.errors?.required"
+                            jhiTranslate="entity.validation.required"
+                        >
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.gerai.location" for="field_location">Location</label>
+                    <input type="text" class="form-control" name="location" id="field_location" [(ngModel)]="gerai.location" required />
+                    <div [hidden]="!(editForm.controls.location?.dirty && editForm.controls.location?.invalid)">
+                        <small
+                            class="form-text text-danger"
+                            [hidden]="!editForm.controls.location?.errors?.required"
+                            jhiTranslate="entity.validation.required"
+                        >
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="jhiptokomajuApp.gerai.password" for="field_password">Password</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="password"
+                        id="field_password"
+                        [(ngModel)]="gerai.password"
+                        required
+                        minlength="5"
+                    />
+                    <div [hidden]="!(editForm.controls.password?.dirty && editForm.controls.password?.invalid)">
+                        <small
+                            class="form-text text-danger"
+                            [hidden]="!editForm.controls.password?.errors?.required"
+                            jhiTranslate="entity.validation.required"
+                        >
+                            This field is required.
+                        </small>
+                        <small
+                            class="form-text text-danger"
+                            [hidden]="!editForm.controls.password?.errors?.minlength"
+                            jhiTranslate="entity.validation.minlength"
+                            [translateValues]="{ min: 5 }"
+                        >
+                            This field is required to be at least 5 characters.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

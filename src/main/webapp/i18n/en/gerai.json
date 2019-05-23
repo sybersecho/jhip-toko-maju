@@ -1,0 +1,27 @@
+{
+    "jhiptokomajuApp": {
+        "gerai": {
+            "home": {
+                "title": "Gerais",
+                "createLabel": "Create a new Gerai",
+                "createOrEditLabel": "Create or edit a Gerai",
+                "search": "Search for Gerai"
+            },
+            "created": "A new Gerai is created with identifier {{ param }}",
+            "updated": "A Gerai is updated with identifier {{ param }}",
+            "deleted": "A Gerai is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Gerai {{ id }}?"
+            },
+            "detail": {
+                "title": "Gerai"
+            },
+            "code": "Code",
+            "name": "Name",
+            "location": "Location",
+            "password": "Password",
+            "createdDate": "Created Date",
+            "creator": "Creator"
+        }
+    }
+}

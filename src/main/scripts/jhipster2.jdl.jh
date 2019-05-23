@@ -123,6 +123,40 @@ entity StockOrderRequest {
   totalPrice BigDecimal,
   createdDate Instant
 }
+entity StockOrderProcess {
+  barcode String,
+  name String,
+  quantityRequest Integer,
+  stockInHand Integer,
+  quantityApprove Integer,
+  createdDate Instant
+}
+entity StockOrderReceive {
+  barcode String,
+  name String,
+  quantity Integer,
+  createdDate Instant
+}
+entity Purchase {
+  totalPayment BigDecimal required min(0),
+  createdDate Instant required,
+  note String
+}
+entity PurchaseList {
+  barcode String,
+  name String,
+  unit String,
+  unitPrice BigDecimal,
+  quantity Integer,
+  total BigDecimal
+}
+entity Gerai {
+  code String required unique minlength(4) maxlength(10),
+  name String required,
+  location String required,
+  password String required minlength(5),
+  createdDate Instant required
+}
 
 enum Gender {
   MALE,
@@ -155,7 +189,8 @@ relationship OneToMany {
   Project{product} to ProjectProduct{project(name) required},
   SaleTransactions{items} to SaleItem{sale(noInvoice) required},
   SaleTransactions{duePayment} to DuePayment{sale(noInvoice)},
-  ReturnTransaction{returnItem} to ReturnItem{returnTransaction required}
+  ReturnTransaction{returnItem} to ReturnItem{returnTransaction required},
+  Purchase{purchaseList} to PurchaseList{purchase required}
 }
 relationship ManyToOne {
   Product{unit(name) required} to Unit,
@@ -175,12 +210,17 @@ relationship ManyToOne {
   ReturnItem{product(barcode) required} to Product,
   StockOrder{creator(login)} to User,
   StockOrder{approval(login)} to User,
-  StockOrderRequest{stockOrder} to StockOrder
+  StockOrderRequest{stockOrder} to StockOrder,
+  StockOrderProcess{creator(login)} to User,
+  StockOrderReceive{creator(login)} to User,
+  Purchase{supplier(name) required} to Supplier,
+  Purchase{creator(login)} to User,
+  Gerai{creator(login) required} to User
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest with mapstruct
-paginate Customer, Product, Project, Supplier, Unit, BadStockProduct with pagination
-paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, StockOrder, StockOrderRequest with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai with mapstruct
+paginate Customer, Product, Project, Supplier, Unit, BadStockProduct, Purchase, Gerai with pagination
+paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, PurchaseList with infinite-scroll
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai

@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="gerai">
+            <h2><span jhiTranslate="jhiptokomajuApp.gerai.detail.title">Gerai</span> {{gerai.name}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="jhiptokomajuApp.gerai.code">Code</span></dt>
+                <dd>
+                    <span>{{gerai.code}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.gerai.name">Name</span></dt>
+                <dd>
+                    <span>{{gerai.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.gerai.location">Location</span></dt>
+                <dd>
+                    <span>{{gerai.location}}</span>
+                </dd>
+                <dt><span jhiTranslate="jhiptokomajuApp.gerai.password">Password</span></dt>
+                <dd>
+                    <span>{{gerai.password}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/gerai', gerai.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -39,6 +39,7 @@
                 "reportStockOrder": "Report Stock Order",
                 "reportStockReceive": "Report Stock Receive",
                 "reportPayment": "Report Payment",
+                "gerai": "Gerai",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
