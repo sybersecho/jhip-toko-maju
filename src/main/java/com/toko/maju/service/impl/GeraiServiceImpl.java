@@ -110,4 +110,9 @@ public class GeraiServiceImpl implements GeraiService {
         return geraiSearchRepository.search(queryStringQuery(query), pageable)
             .map(geraiMapper::toDto);
     }
+
+    @Override
+    public Optional<GeraiDTO> findByCode(String code) {
+        return geraiRepository.findByCode(code).map(geraiMapper::toDto);
+    }
 }

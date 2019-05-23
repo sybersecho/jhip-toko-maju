@@ -1,6 +1,7 @@
 package com.toko.maju.repository;
 
 import com.toko.maju.domain.GeraiConfig;
+import com.toko.maju.service.dto.GeraiConfigDTO;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

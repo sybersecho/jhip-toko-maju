@@ -53,4 +53,6 @@ public interface GeraiService {
      * @return the list of entities
      */
     Page<GeraiDTO> search(String query, Pageable pageable);
+
+    Optional<GeraiDTO> findByCode(String code);
 }

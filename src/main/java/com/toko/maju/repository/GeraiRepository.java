@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data  repository for the Gerai entity.
@@ -16,4 +17,5 @@ public interface GeraiRepository extends JpaRepository<Gerai, Long>, JpaSpecific
     @Query("select gerai from Gerai gerai where gerai.creator.login = ?#{principal.username}")
     List<Gerai> findByCreatorIsCurrentUser();
 
+    Optional<Gerai> findByCode(String code);
 }
