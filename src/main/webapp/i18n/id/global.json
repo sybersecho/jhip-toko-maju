@@ -40,6 +40,7 @@
                 "reportStockReceive": "Laporan Stock Receive",
                 "reportPayment": "Laporan Pembayaran",
                 "gerai": "Gerai",
+                "geraiConfig": "Konfigurasi Gerai",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

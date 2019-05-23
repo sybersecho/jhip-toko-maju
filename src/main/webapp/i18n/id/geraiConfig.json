@@ -1,0 +1,26 @@
+{
+    "jhiptokomajuApp": {
+        "geraiConfig": {
+            "home": {
+                "title": "Konfigurasi Gerai",
+                "createLabel": "Buat Gerai Config baru",
+                "createOrEditLabel": "Ubah Konfigurasi Gerai",
+                "search": "Cari Gerai Config"
+            },
+            "created": "Gerai Config dengan id {{ param }} telah dibuat",
+            "updated": "Konfigurasi Gerai telah diperbaharui",
+            "deleted": "Gerai Config dengan id {{ param }} telah dihapus",
+            "delete": {
+                "question": "Apakah anda yakin ingin menghapus Gerai Config {{ id }}?"
+            },
+            "detail": {
+                "title": "Gerai Config"
+            },
+            "codeGerai": "Kode Gerai",
+            "nameGerai": "Nama Gerai",
+            "password": "Password",
+            "urlToko": "Url Toko",
+            "activated": "Aktifkan"
+        }
+    }
+}

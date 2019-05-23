@@ -157,6 +157,13 @@ entity Gerai {
   password String required minlength(5),
   createdDate Instant required
 }
+entity GeraiConfig {
+  codeGerai String required unique minlength(4) maxlength(10),
+  nameGerai String required,
+  password String required minlength(5),
+  urlToko String required,
+  activated Boolean required
+}
 
 enum Gender {
   MALE,
@@ -218,9 +225,9 @@ relationship ManyToOne {
   Gerai{creator(login) required} to User
 }
 
-dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai with mapstruct
+dto Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai, GeraiConfig with mapstruct
 paginate Customer, Product, Project, Supplier, Unit, BadStockProduct, Purchase, Gerai with pagination
 paginate CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, Invoice, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, PurchaseList with infinite-scroll
-service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai with serviceImpl
-search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai with elasticsearch
-filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai
+service Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai, GeraiConfig with serviceImpl
+search Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, SequenceNumber, Invoice, DuePayment, Unit, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai, GeraiConfig with elasticsearch
+filter Customer, Product, Project, Supplier, CustomerProduct, ProjectProduct, SaleTransactions, SaleItem, DuePayment, CancelTransaction, ReturnTransaction, ReturnItem, BadStockProduct, StockOrder, StockOrderRequest, StockOrderProcess, StockOrderReceive, Purchase, PurchaseList, Gerai, GeraiConfig

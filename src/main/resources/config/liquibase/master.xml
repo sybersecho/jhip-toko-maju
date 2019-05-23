@@ -25,6 +25,7 @@
     <include file="config/liquibase/changelog/20190519005043_added_entity_Purchase.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190519005601_added_entity_PurchaseList.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190523114824_added_entity_Gerai.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190523123336_added_entity_GeraiConfig.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190301191147_added_entity_constraints_Product.xml" relativeToChangelogFile="false"/>
 

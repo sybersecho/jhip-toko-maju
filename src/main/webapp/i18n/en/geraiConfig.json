@@ -1,0 +1,26 @@
+{
+    "jhiptokomajuApp": {
+        "geraiConfig": {
+            "home": {
+                "title": "Gerai Configs",
+                "createLabel": "Create a new Gerai Config",
+                "createOrEditLabel": "Create or edit a Gerai Config",
+                "search": "Search for Gerai Config"
+            },
+            "created": "A new Gerai Config is created with identifier {{ param }}",
+            "updated": "A Gerai Config is updated with identifier {{ param }}",
+            "deleted": "A Gerai Config is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Gerai Config {{ id }}?"
+            },
+            "detail": {
+                "title": "Gerai Config"
+            },
+            "codeGerai": "Code Gerai",
+            "nameGerai": "Name Gerai",
+            "password": "Password",
+            "urlToko": "Url Toko",
+            "activated": "Activated"
+        }
+    }
+}

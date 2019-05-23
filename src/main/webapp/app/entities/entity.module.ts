@@ -65,6 +65,10 @@ import { JhiptokomajuPurchaseModule } from './purchase/purchase.module';
             {
                 path: 'gerai',
                 loadChildren: './gerai/gerai.module#JhiptokomajuGeraiModule'
+            },
+            {
+                path: 'gerai-config',
+                loadChildren: './gerai-config/gerai-config.module#JhiptokomajuGeraiConfigModule'
             }
             //     /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
