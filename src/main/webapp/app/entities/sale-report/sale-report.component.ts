@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
 import { ISaleReportDetail, SaleReportDetail } from 'app/shared/model/sale-report-detail.model';
 import { SaleTransactionsService } from '../sale-transactions';
 import { ExcelService } from 'app/shared/export/excel.service';
-import moment = require('moment');
+import * as moment from 'moment';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 import { SaleReportService } from './sale-report.service';
 import * as FileSaver from 'file-saver';

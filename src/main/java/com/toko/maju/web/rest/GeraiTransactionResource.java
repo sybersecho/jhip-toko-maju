@@ -206,7 +206,7 @@ public class GeraiTransactionResource {
         }
     }
 
-    @Scheduled(cron = "*/15 * * * * ?")
+    @Scheduled(cron = "*/60 * * * * ?")
     public void sendStatus() {
         GeraiConfigDTO config = geraiConfigService.findOne(1L).get();
         if (config != null && !config.isActivated()) {

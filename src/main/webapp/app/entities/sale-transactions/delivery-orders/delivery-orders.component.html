@@ -4,13 +4,17 @@
             <div class="row p-2">
                 <div class="col-sm-12 text-center">
                     <h1 class="font-weight-bold mb-1">Toko Maju</h1>
-                    <h3 class="font-weight-bold">Purworejo</h3>
+                    <h1 class="font-weight-bold">Purworejo</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12 clearfix">
-                    <div class="float-left"><strong class="font-weight-bold">Informasi Penjualan</strong></div>
-                    <div class="float-right"><strong class="font-weight-bold">Informasi Pelanggan</strong></div>
+                    <div class="float-left">
+                        <h1><strong class="font-weight-bold">Informasi Penjualan</strong></h1>
+                    </div>
+                    <div class="float-right">
+                        <h1><strong class="font-weight-bold">Informasi Pelanggan</strong></h1>
+                    </div>
                 </div>
                 <!-- <div class="col-sm-12 text-left">
                         <span>
@@ -25,26 +29,28 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 clearfix">
-                    <div class="float-left">
-                        <span>
-                            No Fraktur #<span class="font-weight-bold"> {{ saleTransaction.noInvoice }}</span
+                    <h1>
+                        <div class="float-left">
+                            <span>
+                                No Fraktur #<span class="font-weight-bold"> {{ saleTransaction.noInvoice }}</span
+                                ><br />
+                            </span>
+                            <span>
+                                Tanggal: <span class="font-weight-bold"> {{ saleTransaction.saleDate | date: 'medium' }}</span>
+                            </span>
+                            <span *ngIf="saleTransaction.projectId">
+                                Project: <span class="font-weight-bold"> {{ saleTransaction.projectName }}</span>
+                            </span>
+                        </div>
+                        <div class="float-right">
+                            <span class="font-weight-bold">
+                                {{ saleTransaction.customerFirstName }} {{ saleTransaction.customerLastName }} </span
                             ><br />
-                        </span>
-                        <span>
-                            Tanggal: <span class="font-weight-bold"> {{ saleTransaction.saleDate | date: 'medium' }}</span>
-                        </span>
-                        <span *ngIf="saleTransaction.projectId">
-                            Project: <span class="font-weight-bold"> {{ saleTransaction.projectName }}</span>
-                        </span>
-                    </div>
-                    <div class="float-right">
-                        <span class="font-weight-bold">
-                            {{ saleTransaction.customerFirstName }} {{ saleTransaction.customerLastName }} </span
-                        ><br />
-                        <span class="font-weight-light">
-                            {{ saleTransaction.customerAddress }}
-                        </span>
-                    </div>
+                            <span class="font-weight-light">
+                                {{ saleTransaction.customerAddress }}
+                            </span>
+                        </div>
+                    </h1>
                 </div>
                 <!-- <div class="col-sm-12 text-left">
 
@@ -53,6 +59,7 @@
                 <!-- <hr /> -->
             </div>
             <hr />
+            <h3>
             <div class="row">
                 <div class="col-sm-12">
                     <div *ngFor="let item of items; let i = index">
@@ -67,30 +74,30 @@
             <hr />
             <div class="row">
                 <div class="col-sm-12">
-                    <h5 class="font-weight-bold">
+                    <h3 class="font-weight-bold">
                         <div class="clearfix">
                             <span class="float-left">Total</span>
                             <span class="float-right">{{ saleTransaction.totalPayment | currency: 'IDR':'Rp. ' }}</span>
                         </div>
-                    </h5>
-                    <h5 class="font-weight-normal">
+                    </h3>
+                    <h3 class="font-weight-normal">
                         <div class="clearfix">
                             <span class="float-left">Discont</span>
                             <span class="float-right">{{ saleTransaction.discount | currency: 'IDR':'Rp. ' }}</span>
                         </div>
-                    </h5>
-                    <h5 class="font-weight-normal">
+                    </h3>
+                    <h3 class="font-weight-normal">
                         <div class="clearfix">
                             <span class="float-left">Dibayar</span>
                             <span class="float-right">{{ saleTransaction.paid | currency: 'IDR':'Rp. ' }}</span>
                         </div>
-                    </h5>
-                    <h5 class="font-weight-normal">
+                    </h3>
+                    <h3 class="font-weight-normal">
                         <div class="clearfix">
                             <span class="float-left">Sisa Pembayaran</span>
                             <span class="float-right">{{ saleTransaction.remainingPayment | currency: 'IDR':'Rp. ' }}</span>
                         </div>
-                    </h5>
+                    </h3>
                 </div>
             </div>
             <div class="row col-sm-12">
