@@ -110,11 +110,11 @@
     </div>
     <div class="justify-content-center" *ngIf="saleReports.length > 0">
         <div class="col-md-12">
-            <div class="clearfix">
-                <button type="button" class="btn btn-sm btn-success float-left">
+            <div class="text-right">
+                <!-- <button type="button" class="btn btn-sm btn-success float-left">
                     <fa-icon [icon]="'print'"></fa-icon>
                     <span jhiTranslate="entity.action.print">Print</span>
-                </button>
+                </button> -->
                 <button type="button" class="btn btn-sm btn-success float-right" (click)="exportToExcel()">
                     <fa-icon [icon]="'file-excel'"></fa-icon>
                     <span jhiTranslate="entity.action.extractToExcel">Extract To Excel</span>

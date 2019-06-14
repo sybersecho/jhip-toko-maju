@@ -32,11 +32,11 @@
                     "file.not.xls": "Shoul be excel extention file"
                 }
             },
-            "created": "A new Product is created with identifier {{ param }}",
-            "updated": "A Product is updated with identifier {{ param }}",
-            "deleted": "A Product is deleted with identifier {{ param }}",
+            "created": "A new Product is created",
+            "updated": "A Product is updated",
+            "deleted": "A Product is deleted",
             "delete": {
-                "question": "Are you sure you want to delete Product {{ id }}?"
+                "question": "Are you sure you want to delete Product?"
             },
             "detail": {
                 "title": "Product"

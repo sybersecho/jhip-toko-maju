@@ -2,8 +2,8 @@
     "jhiptokomajuApp": {
         "Gender": {
             "null": "",
-            "MALE": "MALE",
-            "FEMALE": "FEMALE"
+            "MALE": "Pria",
+            "FEMALE": "Wanita"
         }
     }
 }

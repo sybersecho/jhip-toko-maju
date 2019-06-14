@@ -7,9 +7,9 @@
                 "createOrEditLabel": "Create or edit a Sale Transactions",
                 "search": "Search for Sale Transactions"
             },
-            "created": "A new Sale Transactions is created with identifier {{ param }}",
-            "updated": "A Sale Transactions is updated with identifier {{ param }}",
-            "deleted": "A Sale Transactions is deleted with identifier {{ param }}",
+            "created": "A new Sale Transactions is created",
+            "updated": "A Sale Transactions is updated",
+            "deleted": "A Sale Transactions is deleted",
             "delete": {
                 "question": "Are you sure you want to delete Sale Transactions {{ id }}?"
             },

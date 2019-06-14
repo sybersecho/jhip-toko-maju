@@ -3,8 +3,8 @@
         <span jhiTranslate="jhiptokomajuApp.supplier.home.title">Suppliers</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supplier" [routerLink]="['/supplier/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down"  jhiTranslate="jhiptokomajuApp.supplier.home.createLabel">
-            Create new Supplier
+            <span class="hidden-sm-down" jhiTranslate="jhiptokomajuApp.supplier.home.createLabel">
+                Create new Supplier
             </span>
         </button>
     </h2>
@@ -13,7 +13,14 @@
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jhiptokomajuApp.supplier.home.search' | translate }}">
+                    <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="currentSearch"
+                        id="currentSearch"
+                        name="currentSearch"
+                        placeholder="{{ 'jhiptokomajuApp.supplier.home.search' | translate }}"
+                    />
                     <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
                         <fa-icon [icon]="'search'"></fa-icon>
                     </button>
@@ -24,55 +31,65 @@
             </form>
         </div>
     </div>
-    <br/>
+    <br />
     <div class="table-responsive" *ngIf="suppliers">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th jhiSortBy="name"><span jhiTranslate="jhiptokomajuApp.supplier.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="code"><span jhiTranslate="jhiptokomajuApp.supplier.code">Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="address"><span jhiTranslate="jhiptokomajuApp.supplier.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="noTelp"><span jhiTranslate="jhiptokomajuApp.supplier.noTelp">No Telp</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="bankAccount"><span jhiTranslate="jhiptokomajuApp.supplier.bankAccount">Bank Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="bankName"><span jhiTranslate="jhiptokomajuApp.supplier.bankName">Bank Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                    <!-- <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+                    <th jhiSortBy="name">
+                        <span jhiTranslate="jhiptokomajuApp.supplier.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="code">
+                        <span jhiTranslate="jhiptokomajuApp.supplier.code">Code</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="address">
+                        <span jhiTranslate="jhiptokomajuApp.supplier.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="noTelp">
+                        <span jhiTranslate="jhiptokomajuApp.supplier.noTelp">No Telp</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="bankAccount">
+                        <span jhiTranslate="jhiptokomajuApp.supplier.bankAccount">Bank Account</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="bankName">
+                        <span jhiTranslate="jhiptokomajuApp.supplier.bankName">Bank Name</span> <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let supplier of suppliers ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/supplier', supplier.id, 'view' ]">{{supplier.id}}</a></td> -->
-                <td>{{supplier.name}}</td>
-                <td>{{supplier.code}}</td>
-                <td>{{supplier.address}}</td>
-                <td>{{supplier.noTelp}}</td>
-                <td>{{supplier.bankAccount}}</td>
-                <td>{{supplier.bankName}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/supplier', supplier.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/supplier', supplier.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'supplier', { outlets: { popup: supplier.id + '/delete'} }]"
+                <tr *ngFor="let supplier of suppliers; trackBy: trackId">
+                    <!-- <td><a [routerLink]="['/supplier', supplier.id, 'view' ]">{{supplier.id}}</a></td> -->
+                    <td>{{ supplier.name }}</td>
+                    <td>{{ supplier.code }}</td>
+                    <td>{{ supplier.address }}</td>
+                    <td>{{ supplier.noTelp }}</td>
+                    <td>{{ supplier.bankAccount }}</td>
+                    <td>{{ supplier.bankName }}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit" [routerLink]="['/supplier', supplier.id, 'view']" class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+                            <button type="submit" [routerLink]="['/supplier', supplier.id, 'edit']" class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <button
+                                type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'supplier/' + supplier.id + '/delete' } }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                                class="btn btn-danger btn-sm"
+                            >
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -81,7 +98,15 @@
             <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            <ngb-pagination
+                [collectionSize]="totalItems"
+                [(page)]="page"
+                [pageSize]="itemsPerPage"
+                [maxSize]="5"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                (pageChange)="loadPage(page)"
+            ></ngb-pagination>
         </div>
     </div>
 </div>

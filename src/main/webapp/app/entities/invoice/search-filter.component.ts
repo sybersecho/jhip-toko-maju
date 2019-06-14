@@ -25,7 +25,8 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
     // customer: ICustomer;
     project: IProject;
     status: string;
-    eventSubcriptions: Subscription;
+    eventProjectSubcriptions: Subscription;
+    eventCustomerSubcriptions: Subscription;
 
     @Output() searchEvent = new EventEmitter();
     @Output() clearEvent = new EventEmitter();
@@ -49,17 +50,18 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
     }
 
     protected registerEvent() {
-        this.eventSubcriptions = this.eventManager.subscribe('onSearchSelectCustomerEvent', response => {
+        this.eventCustomerSubcriptions = this.eventManager.subscribe('onSearchSelectCustomerEvent', response => {
             this.searchCriteria.customer = response.data;
         });
 
-        this.eventSubcriptions = this.eventManager.subscribe('onSearchSelectProjectEvent', response => {
+        this.eventProjectSubcriptions = this.eventManager.subscribe('onSearchSelectProjectEvent', response => {
             this.searchCriteria.project = response.data;
         });
     }
 
     ngOnDestroy(): void {
-        this.eventManager.destroy(this.eventSubcriptions);
+        this.eventManager.destroy(this.eventCustomerSubcriptions);
+        this.eventManager.destroy(this.eventProjectSubcriptions);
     }
 
     search(): void {

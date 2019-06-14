@@ -29,10 +29,8 @@ export class SearchExtProductComponent implements OnInit {
 
     addToList() {
         if (this.bySupplier) {
-            console.log('add by supplier');
             this.addToListBySupplier();
         } else {
-            console.log('add by product');
             this.addToListByProduct();
         }
     }
@@ -45,7 +43,6 @@ export class SearchExtProductComponent implements OnInit {
 
         this.productService.extractProductBySupplier(this.product.supplierCode).subscribe(
             res => {
-                console.log('data', res.body);
                 if (!res.body) {
                     this.onError('error.search.not.found');
                 } else {
@@ -67,7 +64,7 @@ export class SearchExtProductComponent implements OnInit {
 
         this.productService.extractProductById(this.product.id).subscribe(
             res => {
-                this.eventManager.broadcast({ name: 'onExtractProductEvt', data: res.body });
+                this.eventManager.broadcast({ name: 'onEventProduct', data: res.body });
             },
             error => {
                 console.log(error.message);

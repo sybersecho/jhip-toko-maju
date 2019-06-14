@@ -14,28 +14,27 @@ import { ExcelModel } from 'app/shared/export/excel-model';
 export class ExtractProductComponent implements OnInit, OnDestroy {
     products: ExtractProductModel[];
     eventSubcriptions: Subscription;
+    productEventSubcriptions: Subscription;
     isExistInList = false;
 
     constructor(
         protected searchServiceDialog: SearcExtProductDialogService,
-        protected eventManager: JhiEventManager,
+        private eventManager: JhiEventManager,
         protected jhiAlertService: JhiAlertService,
         protected excelService: ExcelService
     ) {
         this.products = [];
+        this.isExistInList = false;
     }
 
     ngOnInit() {
         this.registerEvent();
+        this.products = [];
+        this.isExistInList = false;
     }
 
     registerEvent() {
-        this.eventSubcriptions = this.eventManager.subscribe('onExtractProductEvt', response => {
-            this.checkAndAdd(response.data);
-            this.notifyIfExist();
-
-            // this.products.push(;
-        });
+        this.productEventSubcriptions = this.eventManager.subscribe('onEventProduct', response => this.productEventAction(response.data));
         this.eventSubcriptions = this.eventManager.subscribe('onExtractProductBySupplierEvt', response => {
             const dataRes: ExtractProductModel[] = response.data;
             dataRes.forEach(d => {
@@ -45,11 +44,17 @@ export class ExtractProductComponent implements OnInit, OnDestroy {
         });
     }
 
+    productEventAction(data: ExtractProductModel) {
+        this.checkAndAdd(data);
+        this.notifyIfExist();
+    }
+
     private notifyIfExist() {
         if (this.isExistInList) {
             this.onError('jhiptokomajuApp.product.extract.messages.product.exist');
             this.isExistInList = false;
         }
+        this.isExistInList = false;
     }
 
     protected checkAndAdd(data: ExtractProductModel) {
@@ -83,7 +88,8 @@ export class ExtractProductComponent implements OnInit, OnDestroy {
         this.excelService.generateExcel(excelModel);
     }
 
-    ngOnDestroy(): void {
+    ngOnDestroy() {
         this.eventManager.destroy(this.eventSubcriptions);
+        this.eventManager.destroy(this.productEventSubcriptions);
     }
 }

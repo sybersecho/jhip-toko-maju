@@ -10,11 +10,11 @@
             "overview": {
                 "title": "Gerai Transactions"
             },
-            "created": "A new Gerai is created with identifier {{ param }}",
-            "updated": "A Gerai is updated with identifier {{ param }}",
-            "deleted": "A Gerai is deleted with identifier {{ param }}",
+            "created": "A new Gerai is created",
+            "updated": "A Gerai is updated",
+            "deleted": "A Gerai is deleted",
             "delete": {
-                "question": "Are you sure you want to delete Gerai {{ id }}?"
+                "question": "Are you sure you want to delete this Gerai?"
             },
             "detail": {
                 "title": "Gerai"

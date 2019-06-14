@@ -47,11 +47,11 @@ export class UnitDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.unit = unit;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate(['/unit', { outlets: { popup: null } }]);
+                        this.router.navigate([{ outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate(['/unit', { outlets: { popup: null } }]);
+                        this.router.navigate([{ outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

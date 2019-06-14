@@ -7,11 +7,11 @@
                 "createOrEditLabel": "Create or edit a Customer",
                 "search": "Search for Customer"
             },
-            "created": "A new Customer is created with identifier {{ param }}",
-            "updated": "A Customer is updated with identifier {{ param }}",
-            "deleted": "A Customer is deleted with identifier {{ param }}",
+            "created": "A new Customer is created",
+            "updated": "A Customer is updated",
+            "deleted": "A Customer is deleted",
             "delete": {
-                "question": "Are you sure you want to delete Customer {{ id }}?"
+                "question": "Are you sure you want to delete this Customer?"
             },
             "detail": {
                 "title": "Customer"

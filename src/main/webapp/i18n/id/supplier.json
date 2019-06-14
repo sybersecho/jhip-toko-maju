@@ -7,21 +7,21 @@
                 "createOrEditLabel": "Buat atau edit Supplier",
                 "search": "Cari Supplier"
             },
-            "created": "Supplier dengan id {{ param }} telah dibuat",
-            "updated": "Supplier dengan id {{ param }} telah diperbaharui",
-            "deleted": "Supplier dengan id {{ param }} telah dihapus",
+            "created": "Supplier baru berhasil dibuat",
+            "updated": "Supplier berhasil diperbaharui",
+            "deleted": "Supplier berhasil dihapus",
             "delete": {
-                "question": "Apakah anda yakin ingin menghapus Supplier {{ id }}?"
+                "question": "Apakah anda yakin ingin menghapus Supplier ini?"
             },
             "detail": {
                 "title": "Supplier"
             },
-            "name": "Name",
-            "code": "Code",
-            "address": "Address",
+            "name": "Nama",
+            "code": "Kode",
+            "address": "Alamat",
             "noTelp": "No Telp",
-            "bankAccount": "Bank Account",
-            "bankName": "Bank Name",
+            "bankAccount": "No Rekening",
+            "bankName": "Nama Bank",
             "product": "Product"
         }
     }

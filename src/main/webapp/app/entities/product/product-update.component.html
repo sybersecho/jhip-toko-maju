@@ -65,7 +65,7 @@
                         required
                         min="0"
                         jhiMin="0"
-                        [options]="{ align: 'left', prefix: '', thousands: '.', decimal: ',' }"
+                        [options]="{ align: 'left', prefix: '', thousands: '.', precision: 0}"
                         currencyMask
                     />
                     <div [hidden]="!(editForm.controls.warehousePrice?.dirty && editForm.controls.warehousePrice?.invalid)">
@@ -106,7 +106,7 @@
                         required
                         min="0"
                         jhiMin="0"
-                        [options]="{ align: 'left', prefix: '', thousands: '.', decimal: ',' }"
+                        [options]="{ align: 'left', prefix: '', thousands: '.', precision: 0}"
                         currencyMask
                     />
                     <div [hidden]="!(editForm.controls.unitPrice?.dirty && editForm.controls.unitPrice?.invalid)">
@@ -147,7 +147,7 @@
                         required
                         min="0"
                         jhiMin="0"
-                        [options]="{ align: 'left', prefix: '', thousands: '.', decimal: ',' }"
+                        [options]="{ align: 'left', prefix: '', thousands: '.', precision: 0}"
                         currencyMask
                     />
                     <div [hidden]="!(editForm.controls.sellingPrice?.dirty && editForm.controls.sellingPrice?.invalid)">

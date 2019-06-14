@@ -44,7 +44,9 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <loadData encoding="UTF-8" file="config/liquibase/gerai_config.csv" separator=";" tableName="gerai_config"/>
+        <loadData encoding="UTF-8" file="config/liquibase/gerai_config.csv" separator=";" tableName="gerai_config">
+            <column name="activated" type="boolean"/>
+        </loadData>
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

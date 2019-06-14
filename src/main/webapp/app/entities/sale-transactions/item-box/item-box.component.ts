@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, AfterViewInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, AfterViewInit, EventEmitter, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { ISaleTransactions, SaleTransactions } from 'app/shared/model/sale-transactions.model';
 import * as moment from 'moment';
 import { SaleTransactionsService } from '../sale-transactions.service';
@@ -24,6 +24,8 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line: no-input-rename
     @Input('project') selectedProjectId: number;
     defaultCustomer: ICustomer;
+    @ViewChild('discount') discountField: ElementRef;
+    @ViewChild('paid') paidField: ElementRef;
 
     constructor(
         protected saleService: SaleTransactionsService,
@@ -33,6 +35,23 @@ export class ItemBoxComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit() {}
+
+    @HostListener('window:keypress', ['$event'])
+    keyPressEvent(event: KeyboardEvent) {
+        // ctrl d
+        if (event.ctrlKey && event.keyCode === 4) {
+            this.discountField.nativeElement.focus();
+        } else if (event.ctrlKey && event.keyCode === 16 && !event.shiftKey) {
+            // ctrl p
+            this.paidField.nativeElement.focus();
+        } else if (event.ctrlKey && event.shiftKey && event.keyCode === 16 && this.saleTransactions.items.length > 0) {
+            // ctrl shift p
+            this.save();
+        } else if (event.ctrlKey && event.shiftKey && event.keyCode === 9 && this.saleTransactions.items.length > 0) {
+            // ctrl shift p
+            this.processAsOrders();
+        }
+    }
 
     ngAfterViewInit(): void {
         this.defaultCustomer = this.customer;

@@ -2,21 +2,21 @@
     "jhiptokomajuApp": {
         "unit": {
             "home": {
-                "title": "Units",
-                "createLabel": "Buat Unit baru",
-                "createOrEditLabel": "Buat atau edit Unit",
-                "search": "Cari Unit"
+                "title": "Satuan",
+                "createLabel": "Buat Satuan baru",
+                "createOrEditLabel": "Buat atau edit Satuan",
+                "search": "Cari Satuan"
             },
-            "created": "Unit dengan id {{ param }} telah dibuat",
-            "updated": "Unit dengan id {{ param }} telah diperbaharui",
-            "deleted": "Unit dengan id {{ param }} telah dihapus",
+            "created": "Satuan baru telah dibuat",
+            "updated": "Satuan telah diperbaharui",
+            "deleted": "Satuan berhasil dihapus",
             "delete": {
-                "question": "Apakah anda yakin ingin menghapus Unit {{ id }}?"
+                "question": "Apakah anda yakin ingin menghapus Satuan ini?"
             },
             "detail": {
-                "title": "Unit"
+                "title": "Satuan"
             },
-            "name": "Name"
+            "name": "Nama"
         }
     }
 }

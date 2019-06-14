@@ -7,21 +7,21 @@
                 "createOrEditLabel": "Buat atau edit Pelanggan",
                 "search": "Cari Pelanggan"
             },
-            "created": "Pelanggan dengan id {{ param }} telah dibuat",
-            "updated": "Pelanggan dengan id {{ param }} telah diperbaharui",
-            "deleted": "Pelanggan dengan id {{ param }} telah dihapus",
+            "created": "Pelanggan berhasil dibuat",
+            "updated": "Pelanggan berhasil diperbaharui",
+            "deleted": "Pelanggan berhasil telah dihapus",
             "delete": {
-                "question": "Apakah anda yakin ingin menghapus Pelanggan {{ id }}?"
+                "question": "Apakah anda yakin ingin menghapus Pelanggan ini?"
             },
             "detail": {
                 "title": "Pelanggan"
             },
-            "code": "Code",
-            "firstName": "First Name",
-            "lastName": "Last Name",
-            "gender": "Gender",
-            "phoneNumber": "Phone Number",
-            "address": "Address",
+            "code": "Kode",
+            "firstName": "Nama Pertama",
+            "lastName": "Nama Terakhir",
+            "gender": "Jenis Kelamin",
+            "phoneNumber": "No Telp",
+            "address": "Alamat",
             "product": "Product",
             "fullName": "Nama"
         }

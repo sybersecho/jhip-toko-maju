@@ -32,11 +32,11 @@
                     "file.not.xls": "Harus excel file"
                 }
             },
-            "created": "Product dengan id {{ param }} telah dibuat",
-            "updated": "Product dengan id {{ param }} telah diperbaharui",
-            "deleted": "Product dengan id {{ param }} telah dihapus",
+            "created": "Product baru telah dibuat",
+            "updated": "Product berhasil diperbaharui",
+            "deleted": "Product berhasil dihapus",
             "delete": {
-                "question": "Apakah anda yakin ingin menghapus Product {{ id }}?"
+                "question": "Apakah anda yakin ingin menghapus Product ini?"
             },
             "detail": {
                 "title": "Product"

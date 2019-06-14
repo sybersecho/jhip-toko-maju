@@ -13,8 +13,15 @@
                 <label class="form-control-label col-sm-3" jhiTranslate="jhiptokomajuApp.product.barcode" for="field_barcode"
                     >Barcode</label
                 >
-                <input type="text" class="form-control col-sm-7" name="barcode" id="field_barcode" [(ngModel)]="product.barcode" />
-                <button type="button" class="col-sm-1 btn btn-info" (click)="searchBarcode()" (keydown.enter)="searchBarcode()">
+                <input
+                    type="text"
+                    class="form-control col-sm-7"
+                    name="barcode"
+                    id="field_barcode"
+                    [(ngModel)]="product.barcode"
+                    (keydown.enter)="searchBarcode()"
+                />
+                <button type="button" class="col-sm-1 btn btn-info" (click)="searchBarcode()">
                     <fa-icon [icon]="'search'"></fa-icon>
                 </button>
             </div>
@@ -26,8 +33,15 @@
                 <label class="form-control-label col-sm-3" jhiTranslate="jhiptokomajuApp.product.extract.supCode" for="field_supCode"
                     >Supplier Code</label
                 >
-                <input type="text" class="form-control col-sm-7" name="supCode" id="field_supCode" [(ngModel)]="product.supplierCode" />
-                <button type="button" class="col-sm-1 btn btn-info" (click)="searchSupplier()" (keydown.enter)="searchSupplier()">
+                <input
+                    type="text"
+                    class="form-control col-sm-7"
+                    name="supCode"
+                    id="field_supCode"
+                    [(ngModel)]="product.supplierCode"
+                    (keydown.enter)="searchSupplier()"
+                />
+                <button type="button" class="col-sm-1 btn btn-info" (click)="searchSupplier()">
                     <fa-icon [icon]="'search'"></fa-icon>
                 </button>
             </div>
@@ -55,7 +69,7 @@
                     readonly
                     id="field_unitPrice"
                     [(ngModel)]="product.unitPrice"
-                    [options]="{ align: 'left', prefix: '', thousands: '.', decimal: ',' }"
+                    [options]="{ align: 'left', prefix: '', thousands: '.', precision: 0}"
                     currencyMask
                 />
             </div>
@@ -70,7 +84,7 @@
                     readonly
                     id="field_salePrice"
                     [(ngModel)]="product.sellingPrice"
-                    [options]="{ align: 'left', prefix: '', thousands: '.', decimal: ',' }"
+                    [options]="{ align: 'left', prefix: '', thousands: '.', precision: 0}"
                     currencyMask
                 />
             </div>

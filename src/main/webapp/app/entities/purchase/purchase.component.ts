@@ -25,7 +25,8 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     purchases: IPurchase[];
     error: any;
     success: any;
-    eventSubscriber: Subscription;
+    eventSupplierSubscriber: Subscription;
+    eventProductSubscriber: Subscription;
     currentSearch: string;
 
     modalRef: NgbModalRef;
@@ -87,7 +88,8 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
+        this.eventManager.destroy(this.eventSupplierSubscriber);
+        this.eventManager.destroy(this.eventProductSubscriber);
         this.modalRef = null;
     }
 
@@ -104,12 +106,12 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     }
 
     registerEvents() {
-        this.eventSubscriber = this.eventManager.subscribe('onSelectSupplierEvent', response => {
+        this.eventSupplierSubscriber = this.eventManager.subscribe('onSelectSupplierEvent', response => {
             this.supplier = response.data;
             this.purchase.purchaseLists = [];
         });
 
-        this.eventSubscriber = this.eventManager.subscribe('addProductEvent', response => {
+        this.eventProductSubscriber = this.eventManager.subscribe('addProductEvent', response => {
             const result = this.purchase.addProduct(response.content);
             if (!result) {
                 this.jhiAlertService.warning('warning.productExist', null, null);

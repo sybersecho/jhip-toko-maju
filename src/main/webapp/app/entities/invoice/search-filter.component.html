@@ -19,25 +19,6 @@
                             </button>
                         </div>
                         <!-- /invoice -->
-                        <!-- customer -->
-                        <div class="input-group mb-2">
-                            <input
-                                type="text"
-                                class="form-control"
-                                [ngModel]="customerFullName()"
-                                id="searchCustomer"
-                                name="searchCustomer"
-                                readonly
-                                placeholder="{{ 'jhiptokomajuApp.customer.home.search' | translate }}"
-                            />
-                            <button class="input-group-append btn btn-info" (click)="searchCustomer()">
-                                <fa-icon [icon]="'search'"></fa-icon>
-                            </button>
-                            <button class="input-group-append btn btn-danger" (click)="clearCustomer()" *ngIf="searchCriteria.customer">
-                                <fa-icon [icon]="'trash-alt'"></fa-icon>
-                            </button>
-                        </div>
-                        <!-- /customer -->
                         <!-- sale date -->
                         <div class="input-group mb-2">
                             <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" required />
@@ -65,8 +46,27 @@
                             </button>
                         </div>
                         <!-- /project -->
-                        <!-- status -->
+                        <!-- customer -->
                         <div class="input-group mb-2">
+                            <input
+                                type="text"
+                                class="form-control"
+                                [ngModel]="customerFullName()"
+                                id="searchCustomer"
+                                name="searchCustomer"
+                                readonly
+                                placeholder="{{ 'jhiptokomajuApp.customer.home.search' | translate }}"
+                            />
+                            <button class="input-group-append btn btn-info" (click)="searchCustomer()">
+                                <fa-icon [icon]="'search'"></fa-icon>
+                            </button>
+                            <button class="input-group-append btn btn-danger" (click)="clearCustomer()" *ngIf="searchCriteria.customer">
+                                <fa-icon [icon]="'trash-alt'"></fa-icon>
+                            </button>
+                        </div>
+                        <!-- /customer -->
+                        <!-- status -->
+                        <!-- <div class="input-group mb-2">
                             <input
                                 type="text"
                                 class="form-control"
@@ -81,7 +81,7 @@
                             <button class="input-group-append btn btn-danger" *ngIf="false">
                                 <fa-icon [icon]="'trash-alt'"></fa-icon>
                             </button>
-                        </div>
+                        </div> -->
                         <!-- /status -->
                         <!-- actions -->
                         <div class="text-right">

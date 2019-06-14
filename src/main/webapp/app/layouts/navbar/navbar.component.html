@@ -1,6 +1,7 @@
 <nav class="navbar navbar-dark navbar-expand-md bg-dark">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
         <!-- <span class="logo-img"></span> -->
+        <fa-icon icon="home"></fa-icon>
         <span jhiTranslate="global.title" class="navbar-title">Jhiptokomaju</span>
     </a>
     <a
@@ -17,14 +18,14 @@
     </a>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <!-- <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
                     <span>
                         <fa-icon icon="home"></fa-icon>
                         <span jhiTranslate="global.menu.home">Home</span>
                     </span>
                 </a>
-            </li>
+            </li> -->
             <!-- Manage -->
             <li
                 *ngSwitchCase="true"
@@ -128,9 +129,7 @@
                 >
                     <span>
                         <fa-icon icon="th-list"></fa-icon>
-                        <span>
-                            Transaction
-                        </span>
+                        <span jhiTranslate="global.menu.entities.transaction">Transaction</span>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="transaction-menu">
@@ -170,7 +169,7 @@
                             <span jhiTranslate="global.menu.entities.returnToko">Return Toko</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a
                             class="dropdown-item"
                             routerLink="return-supplier"
@@ -181,7 +180,7 @@
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.returnSupplier">Return Supplier</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a
                             class="dropdown-item"
@@ -349,9 +348,7 @@
                 >
                     <span>
                         <fa-icon icon="th-list"></fa-icon>
-                        <span>
-                            Report
-                        </span>
+                        <span jhiTranslate="global.menu.entities.report">Report</span>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="report-menu">
@@ -447,9 +444,7 @@
                 >
                     <span>
                         <fa-icon icon="th-list"></fa-icon>
-                        <span>
-                            Gerai
-                        </span>
+                        <span jhiTranslate="global.menu.entities.manageGerai">Manage Gerai</span>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="gerai-menu">
@@ -556,18 +551,18 @@
                             <span jhiTranslate="global.menu.admin.health">Health</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a class="dropdown-item" routerLink="admin/jhi-configuration" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="list" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
                         </a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <a class="dropdown-item" routerLink="admin/audits" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="bell" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.audits">Audits</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="tasks" fixedWidth="true"></fa-icon>
@@ -651,12 +646,12 @@
                             <span jhiTranslate="global.menu.account.login">Sign in</span>
                         </a>
                     </li>
-                    <li *ngSwitchCase="false">
+                    <!-- <li *ngSwitchCase="false">
                         <a class="dropdown-item" routerLink="register" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="user-plus" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.account.register">Register</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </li>
         </ul>

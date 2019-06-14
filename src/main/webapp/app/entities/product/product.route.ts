@@ -104,7 +104,7 @@ export const productRoute: Routes = [
 
 export const productPopupRoute: Routes = [
     {
-        path: ':id/delete',
+        path: 'product/:id/delete',
         component: ProductDeletePopupComponent,
         resolve: {
             product: ProductResolve

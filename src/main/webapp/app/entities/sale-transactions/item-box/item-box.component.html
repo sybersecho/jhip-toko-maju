@@ -61,6 +61,7 @@
                             (ngModelChange)="onPaid()"
                             [options]="{ prefix: '', thousands: '.', precision: 0 }"
                             currencyMask
+                            #discount
                         />
                     </th>
                 </tr>
@@ -80,6 +81,7 @@
                             min="1"
                             jhiMin="1"
                             (ngModelChange)="onPaid()"
+                            #paid
                         />
                     </th>
                 </tr>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { IProduct, Product } from 'app/shared/model/product.model';
 import { ProductService } from 'app/entities/product';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { ISaleTransactions } from 'app/shared/model/sale-transactions.model';
 import { CustomerService } from 'app/entities/customer';
 import { ICustomerProduct } from 'app/shared/model/customer-product.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-product-box',
@@ -22,7 +23,9 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     customerProducts: ICustomerProduct[];
     // tslint:disable-next-line: no-input-rename
     @Input('sale') saleTransactions: ISaleTransactions;
-    eventSubscription: Subscription;
+    eventCustomerSubscription: Subscription;
+    eventSaveSubscription: Subscription;
+    eventProductSubscription: Subscription;
     searchBarcode: string;
     @ViewChild('barcode') barcodeField: ElementRef;
     @ViewChild('quantity') quantityField: ElementRef;
@@ -31,7 +34,8 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
         private productService: ProductService,
         protected customerService: CustomerService,
         protected eventManager: JhiEventManager,
-        protected jhiAlertService: JhiAlertService
+        protected jhiAlertService: JhiAlertService,
+        protected router: Router
     ) {
         this.selectedItem.quantity = 1;
         this.customerProducts = [];
@@ -44,6 +48,30 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.loadCustomerProduct();
         this.barcodeField.nativeElement.focus();
+    }
+
+    @HostListener('window:keypress', ['$event'])
+    keyPressEvent(event: KeyboardEvent) {
+        // alt + p
+        if (event.altKey && event.keyCode === 960) {
+            setTimeout(() => {
+                this.router
+                    .navigate(['/', { outlets: { popup: 'sale/search-product' } }])
+                    .then(() => {
+                        this.barcodeField.nativeElement.value = '';
+                        this.searchBarcode = '';
+                    })
+                    .catch(() => {
+                        this.barcodeField.nativeElement.value = '';
+                        this.searchBarcode = '';
+                    });
+            }, 10);
+
+            this.searchBarcode = '';
+        } else if (event.ctrlKey && event.keyCode === 2) {
+            // ctrl + b
+            this.barcodeField.nativeElement.focus();
+        }
     }
 
     searchProduct() {
@@ -70,6 +98,7 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.updateToCustPrice(found);
         this.selectedItem.setProduct(found);
+        this.searchBarcode = found.barcode;
         this.quantityField.nativeElement.focus();
     }
 
@@ -91,7 +120,9 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscription);
+        this.eventManager.destroy(this.eventCustomerSubscription);
+        this.eventManager.destroy(this.eventSaveSubscription);
+        this.eventManager.destroy(this.eventProductSubscription);
     }
 
     checkStock(): boolean {
@@ -125,11 +156,11 @@ export class ProductBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     protected registerEvent() {
-        this.eventSubscription = this.eventManager.subscribe('onSelectCustomerEvent', response => this.loadCustomerProduct());
-        this.eventSubscription = this.eventManager.subscribe('onSelectProductEvent', response => {
+        this.eventCustomerSubscription = this.eventManager.subscribe('onSelectCustomerEvent', response => this.loadCustomerProduct());
+        this.eventProductSubscription = this.eventManager.subscribe('onSelectProductEvent', response => {
             this.foundProduct(response.data);
         });
-        this.eventSubscription = this.eventManager.subscribe('onSaveSale', () => {
+        this.eventSaveSubscription = this.eventManager.subscribe('onSaveSale', () => {
             this.barcodeField.nativeElement.focus();
         });
     }

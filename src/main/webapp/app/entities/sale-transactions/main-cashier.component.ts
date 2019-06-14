@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentChecked, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked, AfterViewInit, HostListener } from '@angular/core';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { JhiParseLinks, JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { AccountService } from 'app/core';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './main-cashier.component.html',
     styles: []
 })
-export class MainCashierComponent implements OnInit, OnDestroy {
+export class MainCashierComponent implements OnInit, OnDestroy, AfterViewInit {
     customer: ICustomer;
     defaultCustomer: ICustomer;
     saleTransactions: ISaleTransactions = new SaleTransactions();
@@ -41,6 +41,11 @@ export class MainCashierComponent implements OnInit, OnDestroy {
 
         // this.cartService.setSale(this.saleTransactions);
     }
+
+    @HostListener('window:keypress', ['$event'])
+    keyPressEvent(event: KeyboardEvent) {}
+
+    ngAfterViewInit(): void {}
 
     ngOnInit() {
         this.registerEvent();

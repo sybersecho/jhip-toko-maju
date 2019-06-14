@@ -2,7 +2,7 @@
     "jhiptokomajuApp": {
         "gerai": {
             "home": {
-                "title": "List Gerai",
+                "title": "Daftar Gerai",
                 "createLabel": "Buat Gerai baru",
                 "createOrEditLabel": "Buat atau edit Gerai",
                 "search": "Cari Gerai"
@@ -10,11 +10,11 @@
             "overview": {
                 "title": "Transaksi Gerai"
             },
-            "created": "Gerai baru telah dibuat",
-            "updated": "Gerai telah diperbaharui",
-            "deleted": "Gerai dengan id {{ param }} telah dihapus",
+            "created": "Gerai berhasildibuat",
+            "updated": "Gerai berhasil diperbaharui",
+            "deleted": "Gerai berhasil dihapus",
             "delete": {
-                "question": "Apakah anda yakin ingin menghapus Gerai {{ id }}?"
+                "question": "Apakah anda yakin ingin menghapus Gerai ini?"
             },
             "detail": {
                 "title": "Gerai"

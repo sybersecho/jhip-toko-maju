@@ -7,9 +7,9 @@
                 "createOrEditLabel": "Buat atau edit Sale Transactions",
                 "search": "Cari Sale Transactions"
             },
-            "created": "Sale Transactions dengan id {{ param }} telah dibuat",
-            "updated": "Sale Transactions dengan id {{ param }} telah diperbaharui",
-            "deleted": "Sale Transactions dengan id {{ param }} telah dihapus",
+            "created": "Sale Transactions telah dibuat",
+            "updated": "Sale Transactions telah diperbaharui",
+            "deleted": "Sale Transactions  telah dihapus",
             "delete": {
                 "question": "Apakah anda yakin ingin menghapus Sale Transactions {{ id }}?"
             },

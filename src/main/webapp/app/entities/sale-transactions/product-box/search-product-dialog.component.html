@@ -11,9 +11,10 @@
                         type="text"
                         class="form-control"
                         [(ngModel)]="searchKeyword"
-                        id="searchKeyword"
+                        id="field_searchKeyword"
                         name="searchKeyword"
                         placeholder="{{ 'jhiptokomajuApp.product.home.search' | translate }}"
+                        #searchKeywordF
                     />
                     <button class="input-group-append btn btn-info" (click)="search(searchKeyword)">
                         <fa-icon [icon]="'search'"></fa-icon>

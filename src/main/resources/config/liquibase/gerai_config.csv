@@ -1,2 +1,2 @@
-id;code_gerai;name_gerai;jhi_password;url_toko;activated
-1;GER001;Gerai 1;gerai01;http://localhost:8080;false
+id;code_gerai;name_gerai;jhi_password;activated;url_toko
+1;GER001;Gerai 1;gerai01;false;http://localhost:8080

@@ -47,11 +47,11 @@ export class SupplierDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.supplier = supplier;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate(['/supplier', { outlets: { popup: null } }]);
+                        this.router.navigate([{ outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate(['/supplier', { outlets: { popup: null } }]);
+                        this.router.navigate([{ outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

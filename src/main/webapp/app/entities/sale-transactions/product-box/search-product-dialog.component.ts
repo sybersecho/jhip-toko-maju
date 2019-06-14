@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { NgbModalRef, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
@@ -11,9 +11,10 @@ import { ProductService } from 'app/entities/product';
     templateUrl: './search-product-dialog.component.html',
     styles: []
 })
-export class SearchProductDialogComponent {
+export class SearchProductDialogComponent implements OnInit {
     products: IProduct[];
     searchKeyword: string;
+    @ViewChild('searchKeywordF') searchKeywordField: ElementRef;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -25,6 +26,10 @@ export class SearchProductDialogComponent {
 
     clear() {
         this.activeModal.dismiss('cancel');
+    }
+
+    ngOnInit(): void {
+        this.searchKeywordField.nativeElement.focus();
     }
 
     clearSearch() {
