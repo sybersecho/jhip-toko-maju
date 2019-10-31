@@ -33,7 +33,7 @@
         "ngx-loading": "^3.0.1",
         "ngx-webstorage": "^3.0.2",
         "rxjs": "6.3.3",
-        "swagger-ui": "2.2.10",
+        "swagger-ui": "3.23.11",
         "tslib": "1.9.3",
         "xlsx": "^0.14.3",
         "zone.js": "0.8.29"
